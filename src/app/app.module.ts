@@ -6,10 +6,12 @@ import { Component } from '@angular/core';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { Subject } from 'rxjs/Subject';
 import { AppComponent } from './app.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

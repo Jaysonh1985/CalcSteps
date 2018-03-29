@@ -12,6 +12,7 @@
 
 /* Centered text */
 .centered {
+  text-align: center !important;
   position: absolute;
   top: 35%;
   left: 47%;
@@ -21,6 +22,7 @@
 }
 
 .subheadercentered{
+  text-align: center !important;
   position: absolute;
   top: 45%;
   left: 47%;

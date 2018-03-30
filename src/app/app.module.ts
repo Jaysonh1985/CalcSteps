@@ -1,36 +1,31 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Router, Routes } from '@angular/router';
-import { AngularFireModule, } from 'angularfire2';
 import { Component } from '@angular/core';
+import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireAuthModule} from 'angularfire2/auth';
 import { Subject } from 'rxjs/Subject';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
-import {routes} from './app.router';
+import { routes } from './app.router';
+import { environment } from '../environments/environment';
+import { AuthService } from './services/auth.service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    LoginComponent
-  ],
+  declarations: [AppComponent, HomeComponent, LoginComponent],
   imports: [
     BrowserModule,
     RouterModule,
     routes,
     AngularFirestoreModule,
-    AngularFireModule.initializeApp({
-      apiKey: 'AIzaSyBM-ns8GzoibvP4ZOVaZ1MgpVLDnaNNw98',
-      authDomain: 'calc-steps.firebaseapp.com',
-      databaseURL: 'https://calc-steps.firebaseio.com',
-      projectId: 'calc-steps',
-      storageBucket: 'calc-steps.appspot.com',
-      messagingSenderId: '468301501954'
-    }),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

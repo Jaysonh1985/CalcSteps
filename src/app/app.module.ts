@@ -7,15 +7,19 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { Subject } from 'rxjs/Subject';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
+import {routes} from './app.router';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     RouterModule,
+    routes,
     AngularFirestoreModule,
     AngularFireModule.initializeApp({
       apiKey: 'AIzaSyBM-ns8GzoibvP4ZOVaZ1MgpVLDnaNNw98',

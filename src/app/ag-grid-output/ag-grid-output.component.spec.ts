@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { LoginComponent } from "./login.component";
+import { AgGridOutputComponent } from "./ag-grid-output.component";
 
-describe("LoginComponent", () => {
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
+describe("AgGridOutputComponent", () => {
+  let component: AgGridOutputComponent;
+  let fixture: ComponentFixture<AgGridOutputComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoginComponent ]
+      declarations: [ AgGridOutputComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoginComponent);
+    fixture = TestBed.createComponent(AgGridOutputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

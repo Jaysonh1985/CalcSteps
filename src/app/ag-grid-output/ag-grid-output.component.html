@@ -1,0 +1,6 @@
+<button type="button" class="btn btn-secondary btn-sm" (click)="onAddRow()">Add Output</button>
+<button type="button" class="btn btn-secondary btn-sm" (click)="onRemoveSelected()">Delete Outputs</button>
+<ag-grid-angular #outputGrid style="height:100vh; width: 100%;" class="ag-theme-balham" [gridOptions]="outputGridOptions"
+  [rowSelection]="rowSelection" [rowMultiSelectWithClick]="true" [rowDragManaged]="true" [animateRows]="true" [enableColResize]="true"
+  [singleClickEdit]="true" (gridReady)="onGridReady($event)">
+</ag-grid-angular>

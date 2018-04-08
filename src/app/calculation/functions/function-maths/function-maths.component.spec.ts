@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { FunctionMathsComponent } from './function-maths.component';
+import { FunctionMathsComponent } from "./function-maths.component";
 
-describe('FunctionMathsComponent', () => {
+describe("FunctionMathsComponent", () => {
   let component: FunctionMathsComponent;
   let fixture: ComponentFixture<FunctionMathsComponent>;
 
@@ -19,7 +19,7 @@ describe('FunctionMathsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

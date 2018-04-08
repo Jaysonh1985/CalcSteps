@@ -1,17 +1,75 @@
-<p>
-  function-maths works!
-</p>
-<div class="form-group">
-  <label for="exampleInputEmail1">Email address</label>
-  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-  <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-</div>
-<div class="form-group">
-  <label for="exampleInputPassword1">Password</label>
-  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-</div>
-<div class="form-check">
-  <input type="checkbox" class="form-check-input" id="exampleCheck1">
-  <label class="form-check-label" for="exampleCheck1">Check me out</label>
-</div>
-<button type="submit" class="btn btn-primary">Submit</button>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Input 1</th>
+      <th></th>
+      <th>Input 2</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>
+        <a>
+          <span class="center-block glyphicon glyphicon-plus"></span>
+        </a>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td width="10%">
+        <select class="form-control">
+          <option value=""></option>
+          <option value="(">(</option>
+        </select>
+      </td>
+
+      <td width="20%">
+        <span>
+          <input type="text" class="form-control" required>
+        </span>
+      </td>
+
+      <td width="10%">
+        <select ng:model="rows.LogicInd" class="form-control" required>
+          <option value=""></option>
+          <option value="add">+</option>
+          <option value="subtract">-</option>
+          <option value="multiply">x</option>
+          <option value="divide">></option>
+        </select>
+      </td>
+
+      <td width="20%">
+        <span >
+          <input type="text" ng:model="rows.Input2" class="form-control"  required>
+        </span>
+      </td>
+      <td width="10%">
+        <select ng:model="rows.Bracket2" class="form-control">
+          <option value=""></option>
+          <option value=")">)</option>
+        </select>
+      </td>
+      <td width="10%">
+        <select ng:model="rows.Operator" class="form-control">
+          <option value=""></option>
+          <option value="add">+</option>
+          <option value="subtract">-</option>
+          <option value="multiply">x</option>
+          <option value="divide">></option>
+        </select>
+
+      </td>
+      <td width="5%">
+        [
+        <a>X</a>]
+      </td>
+      <td width="5%">
+        <a>
+          <i class="center-block glyphicon glyphicon-plus"></i>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>

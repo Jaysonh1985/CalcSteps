@@ -4,11 +4,11 @@ import { Grid } from "ag-grid";
 import { tryParse } from "selenium-webdriver/http";
 
 @Component({
-  selector: "app-ag-grid-output",
-  templateUrl: "./ag-grid-output.component.html",
-  styleUrls: ["./ag-grid-output.component.css"]
+  selector: "app-calculation-output",
+  templateUrl: "./calculation-output.component.html",
+  styleUrls: ["./calculation-output.component.css"]
 })
-export class AgGridOutputComponent implements OnInit {
+export class CalculationOutputComponent implements OnInit {
   public gridOptions: GridOptions;
   public inputGridOptions: GridOptions;
   public outputGridOptions: GridOptions;

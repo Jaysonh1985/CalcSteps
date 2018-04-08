@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AngularFireModule,  } from 'angularfire2';
-import { Component } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
-import { Time } from '@angular/common';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { AngularFireModule,  } from "angularfire2";
+import { Component } from "@angular/core";
+import { AngularFirestore, AngularFirestoreCollection } from "angularfire2/firestore";
+import { Subject } from "rxjs/Subject";
+import { Observable } from "rxjs/Observable";
+import { Time } from "@angular/common";
 
 interface Configuration {
   function: boolean;
@@ -18,9 +18,9 @@ interface Configuration {
 }
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"]
 })
 
 export class AppComponent {
@@ -35,7 +35,7 @@ export class AppComponent {
 
   // tslint:disable-next-line:use-life-cycle-interface
   ngOnInit() {
-    this.configRef = this.afs.collection<Configuration>('Configuration');
+    this.configRef = this.afs.collection<Configuration>("Configuration");
     this.config$ = this.configRef.valueChanges();
   }
 }

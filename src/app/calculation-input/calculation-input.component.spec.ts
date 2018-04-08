@@ -1,20 +1,19 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { AgGridInputComponent } from "./ag-grid-input.component";
+import { CalculationInputComponent } from "./calculation-input.component";
 
 describe("AgGridInputComponent", () => {
-  let component: AgGridInputComponent;
-  let fixture: ComponentFixture<AgGridInputComponent>;
+  let component: CalculationInputComponent;
+  let fixture: ComponentFixture<CalculationInputComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AgGridInputComponent ]
-    })
-    .compileComponents();
+      declarations: [CalculationInputComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AgGridInputComponent);
+    fixture = TestBed.createComponent(CalculationInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -3,11 +3,11 @@ import { GridOptions } from "ag-grid";
 import { Grid } from "ag-grid";
 
 @Component({
-  selector: "app-ag-grid-configuration",
-  templateUrl: "./ag-grid-configuration.component.html",
-  styleUrls: ["./ag-grid-configuration.component.css"]
+  selector: "app-calculation-configuration",
+  templateUrl: "./calculation-configuration.component.html",
+  styleUrls: ["./calculation-configuration.component.css"]
 })
-export class AgGridConfigurationComponent implements OnInit {
+export class CalculationConfigurationComponent implements OnInit {
   public gridOptions: GridOptions;
   public rowSelection;
   private gridApi;

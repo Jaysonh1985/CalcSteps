@@ -14,28 +14,28 @@ import { environment } from "../environments/environment";
 import { AuthService } from "./services/auth.service";
 import { FormsModule } from "@angular/forms";
 import { AgGridModule } from "ag-grid-angular/main";
-import { AgGridComponent } from "./ag-grid/ag-grid.component";
-import { AgGridInputComponent } from "./ag-grid-input/ag-grid-input.component";
-import { AgGridOutputComponent } from "./ag-grid-output/ag-grid-output.component";
+import { CalculationComponent } from "./calculation/calculation.component";
+import { CalculationInputComponent } from "./calculation-input/calculation-input.component";
+import { CalculationOutputComponent } from "./calculation-output/calculation-output.component";
 import { FunctionMathsComponent } from "./function-maths/function-maths.component";
 import { FunctionDateAdjustmentComponent } from "./function-date-adjustment/function-date-adjustment.component";
 import { FunctionIfLogicComponent } from "./function-if-logic/function-if-logic.component";
 import { FunctionDateDurationComponent } from "./function-date-duration/function-date-duration.component";
-import { AgGridConfigurationComponent } from "./ag-grid-configuration/ag-grid-configuration.component";
+import { CalculationConfigurationComponent } from "./calculation-configuration/calculation-configuration.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    AgGridComponent,
-    AgGridInputComponent,
-    AgGridOutputComponent,
+    CalculationComponent,
+    CalculationInputComponent,
+    CalculationOutputComponent,
     FunctionMathsComponent,
     FunctionDateAdjustmentComponent,
     FunctionIfLogicComponent,
     FunctionDateDurationComponent,
-    AgGridConfigurationComponent
+    CalculationConfigurationComponent
   ],
   imports: [
     BrowserModule,

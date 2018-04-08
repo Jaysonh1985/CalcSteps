@@ -15,13 +15,13 @@ import { AuthService } from "./services/auth.service";
 import { FormsModule } from "@angular/forms";
 import { AgGridModule } from "ag-grid-angular/main";
 import { CalculationComponent } from "./calculation/calculation.component";
-import { CalculationInputComponent } from "./calculation-input/calculation-input.component";
-import { CalculationOutputComponent } from "./calculation-output/calculation-output.component";
-import { FunctionMathsComponent } from "./function-maths/function-maths.component";
-import { FunctionDateAdjustmentComponent } from "./function-date-adjustment/function-date-adjustment.component";
-import { FunctionIfLogicComponent } from "./function-if-logic/function-if-logic.component";
-import { FunctionDateDurationComponent } from "./function-date-duration/function-date-duration.component";
-import { CalculationConfigurationComponent } from "./calculation-configuration/calculation-configuration.component";
+import { CalculationInputComponent } from "./calculation/calculation-input/calculation-input.component";
+import { CalculationOutputComponent } from "./calculation/calculation-output/calculation-output.component";
+import { FunctionMathsComponent } from "./calculation/functions/function-maths/function-maths.component";
+import { FunctionDateAdjustmentComponent } from "./calculation/functions/function-date-adjustment/function-date-adjustment.component";
+import { FunctionIfLogicComponent } from "./calculation/functions/function-if-logic/function-if-logic.component";
+import { FunctionDateDurationComponent } from "./calculation/functions/function-date-duration/function-date-duration.component";
+import { CalculationConfigurationComponent } from "./calculation/calculation-configuration/calculation-configuration.component";
 
 @NgModule({
   declarations: [

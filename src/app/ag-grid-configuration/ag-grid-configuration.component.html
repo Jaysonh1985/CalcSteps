@@ -1,0 +1,18 @@
+<div>
+  <button type="button" class="btn btn-secondary btn-sm" (click)="onAddRow()">Add Configuration</button>
+  <button type="button" class="btn btn-secondary btn-sm" (click)="onRemoveSelected()">Delete Configuration</button>
+  <button type="button" class="btn btn-secondary btn-sm" (click)="onCalcConfiguration()">Calc Configuration</button>
+  <ag-grid-angular #agGrid style="height:50vh; width: 100%" class="ag-theme-balham" [gridOptions]="gridOptions" [rowSelection]="rowSelection"
+    [rowMultiSelectWithClick]="true" [rowDragManaged]="true" [animateRows]="true" [enableColResize]="true" [singleClickEdit]="true"
+    (selectionChanged)="onSelectionChanged($event)" [suppressMenuHide]="true" (gridReady)="onGridReady($event)">
+  </ag-grid-angular>
+</div>
+<div style="height: 45vh; overflow:visible;">
+  <form *ngFor="let row of selectedRows">
+    <p>{{row.function}} - {{row.name}}</p>
+    <app-function-maths *ngIf="row.function == 'Maths'"></app-function-maths>
+    <app-function-date-adjustment *ngIf="row.function == 'Date Adjustment'"></app-function-date-adjustment>
+    <app-function-date-duration *ngIf="row.function == 'Date Duration'"> </app-function-date-duration>
+    <app-function-if-logic *ngIf="row.function == 'If Logic'"></app-function-if-logic>
+  </form>
+</div>

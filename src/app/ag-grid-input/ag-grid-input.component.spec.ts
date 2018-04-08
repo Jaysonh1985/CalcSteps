@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { AgGridInputComponent } from './ag-grid-input.component';
+import { AgGridInputComponent } from "./ag-grid-input.component";
 
-describe('AgGridInputComponent', () => {
+describe("AgGridInputComponent", () => {
   let component: AgGridInputComponent;
   let fixture: ComponentFixture<AgGridInputComponent>;
 
@@ -19,7 +19,7 @@ describe('AgGridInputComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

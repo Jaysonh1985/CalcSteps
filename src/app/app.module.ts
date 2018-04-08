@@ -21,6 +21,7 @@ import { FunctionMathsComponent } from "./function-maths/function-maths.componen
 import { FunctionDateAdjustmentComponent } from "./function-date-adjustment/function-date-adjustment.component";
 import { FunctionIfLogicComponent } from "./function-if-logic/function-if-logic.component";
 import { FunctionDateDurationComponent } from "./function-date-duration/function-date-duration.component";
+import { AgGridConfigurationComponent } from "./ag-grid-configuration/ag-grid-configuration.component";
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { FunctionDateDurationComponent } from "./function-date-duration/function
     FunctionMathsComponent,
     FunctionDateAdjustmentComponent,
     FunctionIfLogicComponent,
-    FunctionDateDurationComponent
+    FunctionDateDurationComponent,
+    AgGridConfigurationComponent
   ],
   imports: [
     BrowserModule,

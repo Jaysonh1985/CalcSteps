@@ -10,7 +10,7 @@
 <div style="height: 45vh; overflow:visible;">
   <form *ngFor="let row of selectedRows">
     <p>{{row.function}} - {{row.name}}</p>
-    <app-function-maths *ngIf="row.function == 'Maths'"></app-function-maths>
+    <app-function-maths [selectedRow]="selectedRow" *ngIf="row.function == 'Maths'"></app-function-maths>
     <app-function-date-adjustment *ngIf="row.function == 'Date Adjustment'"></app-function-date-adjustment>
     <app-function-date-duration *ngIf="row.function == 'Date Duration'"> </app-function-date-duration>
     <app-function-if-logic *ngIf="row.function == 'If Logic'"></app-function-if-logic>

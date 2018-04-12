@@ -1,6 +1,17 @@
 import { Component, OnInit } from "@angular/core";
 import { GridOptions } from "ag-grid";
 import { Grid } from "ag-grid";
+import { Maths } from "../functions/function-maths/function-maths.component";
+
+export interface CalculationConfiguration {
+  id: Int16Array;
+  group: string;
+  function: string;
+  name: string;
+  data: string;
+  output: string;
+  maths: Array<Maths>;
+}
 
 @Component({
   selector: "app-calculation-configuration",
@@ -13,12 +24,15 @@ export class CalculationConfigurationComponent implements OnInit {
   private gridApi;
   private gridColumnApi;
   public selectedRows;
+  public selectedRow: CalculationConfiguration;
   constructor() {
     this.gridOptions = <GridOptions>{};
     this.gridOptions.columnDefs = [
       {
         headerName: "Configuration",
-        headerComponentParams: {   headerComponentParams: { menuIcon: "fa-external-link" }},
+        headerComponentParams: {
+          headerComponentParams: { menuIcon: "fa-external-link" }
+        },
         children: [
           {
             headerName: "",
@@ -63,25 +77,29 @@ export class CalculationConfigurationComponent implements OnInit {
         group: "Service",
         result: "pre 97",
         function: "Maths",
-        output: "100"
+        output: "100",
+        maths: null
       },
       {
         id: 2,
         group: "Service",
         result: "pre 97",
         function: "Maths",
-        output: "100"
+        output: "100",
+        maths: null
       },
       {
         id: 3,
         group: "Service",
         result: "pre 97",
         function: "Maths",
-        output: "100"
+        output: "100",
+        maths: null
       }
     ];
-    this.rowSelection = "multiple";
+    this.rowSelection = "single";
   }
+
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
@@ -99,8 +117,9 @@ export class CalculationConfigurationComponent implements OnInit {
     const selectedData = this.gridApi.getSelectedRows();
     const res = this.gridApi.updateRowData({ remove: selectedData });
   }
-  onSelectionChanged() {
+  onSelectionChanged(event, myRows: CalculationConfiguration) {
     this.selectedRows = this.gridApi.getSelectedRows();
+    this.selectedRow = this.gridApi.getSelectedRows();
   }
   onCalcConfiguration() {}
   createNewRowData() {

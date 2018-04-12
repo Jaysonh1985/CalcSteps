@@ -16,9 +16,9 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
+    <tr *ngFor="let row of selectedRow[0].maths">
       <td width="10%">
-        <select class="form-control">
+        <select [(ngModel)]="row.bracketOpen" class="form-control">
           <option value=""></option>
           <option value="(">(</option>
         </select>
@@ -26,12 +26,12 @@
 
       <td width="20%">
         <span>
-          <input type="text" class="form-control" required>
+          <input [(ngModel)]="row.input1" type="text" class="form-control" required>
         </span>
       </td>
 
       <td width="10%">
-        <select ng:model="rows.LogicInd" class="form-control" required>
+        <select [(ngModel)]="row.function" class="form-control" required>
           <option value=""></option>
           <option value="add">+</option>
           <option value="subtract">-</option>
@@ -42,17 +42,17 @@
 
       <td width="20%">
         <span >
-          <input type="text" ng:model="rows.Input2" class="form-control"  required>
+          <input type="text" [(ngModel)]="row.input2" class="form-control"  required>
         </span>
       </td>
       <td width="10%">
-        <select ng:model="rows.Bracket2" class="form-control">
+        <select [(ngModel)]="row.bracketClose" class="form-control">
           <option value=""></option>
           <option value=")">)</option>
         </select>
       </td>
       <td width="10%">
-        <select ng:model="rows.Operator" class="form-control">
+        <select [(ngModel)]="row.nextFunction" class="form-control">
           <option value=""></option>
           <option value="add">+</option>
           <option value="subtract">-</option>
@@ -73,3 +73,4 @@
     </tr>
   </tbody>
 </table>
+<input [(ngModel)]="selectedRow[0].name" placeholder="name" />

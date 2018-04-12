@@ -4,7 +4,7 @@ import { RouterModule, Router, Routes } from "@angular/router";
 import { Component } from "@angular/core";
 import { AngularFireModule } from "angularfire2";
 import { AngularFirestoreModule } from "angularfire2/firestore";
-import { AngularFireAuthModule} from "angularfire2/auth";
+import { AngularFireAuthModule } from "angularfire2/auth";
 import { Subject } from "rxjs/Subject";
 import { AppComponent } from "./app.component";
 import { HomeComponent } from "./home/home.component";
@@ -22,6 +22,8 @@ import { FunctionDateAdjustmentComponent } from "./calculation/functions/functio
 import { FunctionIfLogicComponent } from "./calculation/functions/function-if-logic/function-if-logic.component";
 import { FunctionDateDurationComponent } from "./calculation/functions/function-date-duration/function-date-duration.component";
 import { CalculationConfigurationComponent } from "./calculation/calculation-configuration/calculation-configuration.component";
+import { DashboardComponent } from "./dashboard/dashboard.component";
+import { AngularFireDatabaseModule } from "angularfire2/database";
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import { CalculationConfigurationComponent } from "./calculation/calculation-con
     FunctionDateAdjustmentComponent,
     FunctionIfLogicComponent,
     FunctionDateDurationComponent,
-    CalculationConfigurationComponent
+    CalculationConfigurationComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -43,6 +46,7 @@ import { CalculationConfigurationComponent } from "./calculation/calculation-con
     routes,
     AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule,
     AngularFireAuthModule,
     FormsModule,
     AgGridModule.withComponents([])

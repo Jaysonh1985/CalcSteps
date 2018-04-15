@@ -3,6 +3,13 @@ import { GridOptions } from "ag-grid";
 import { Grid } from "ag-grid";
 import { tryParse } from "selenium-webdriver/http";
 
+export interface CalculationInput {
+  id: string;
+  name: string;
+  data: string;
+  input: string;
+}
+
 @Component({
   selector: "app-calculation-input",
   templateUrl: "./calculation-input.component.html",

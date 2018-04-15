@@ -3,7 +3,10 @@ import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule, Router, Routes } from "@angular/router";
 import { Component } from "@angular/core";
 import { AngularFireModule } from "angularfire2";
-import { AngularFirestoreModule } from "angularfire2/firestore";
+import {
+  AngularFirestoreModule,
+  AngularFirestore
+} from "angularfire2/firestore";
 import { AngularFireAuthModule } from "angularfire2/auth";
 import { Subject } from "rxjs/Subject";
 import { AppComponent } from "./app.component";
@@ -23,7 +26,11 @@ import { FunctionIfLogicComponent } from "./calculation/functions/function-if-lo
 import { FunctionDateDurationComponent } from "./calculation/functions/function-date-duration/function-date-duration.component";
 import { CalculationConfigurationComponent } from "./calculation/calculation-configuration/calculation-configuration.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
-import { AngularFireDatabaseModule } from "angularfire2/database";
+import {
+  AngularFireDatabaseModule,
+  AngularFireList
+} from "angularfire2/database";
+import { CalculationService } from "./calculation/shared/calculation.service";
 
 @NgModule({
   declarations: [
@@ -51,7 +58,7 @@ import { AngularFireDatabaseModule } from "angularfire2/database";
     FormsModule,
     AgGridModule.withComponents([])
   ],
-  providers: [AuthService],
+  providers: [AuthService, AngularFirestore, CalculationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

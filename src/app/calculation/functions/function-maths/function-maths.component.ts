@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import * as mathJs from "mathjs";
-import { CalculationConfiguration } from "../../calculation-configuration/calculation-configuration.component";
+import { CalculationConfiguration } from "../../shared/models/calculation-configuration";
 export class Maths {
   bracketOpen: string;
   input1: string;

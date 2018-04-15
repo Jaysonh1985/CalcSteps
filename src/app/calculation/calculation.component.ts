@@ -7,10 +7,7 @@ import { tryParse } from "selenium-webdriver/http";
   styleUrls: ["./calculation.component.css"]
 })
 export class CalculationComponent implements OnInit {
-
-  constructor() {
-
-  }
+  constructor() {}
 
   ngOnInit() {}
 }

@@ -30,7 +30,7 @@ import {
   AngularFireDatabaseModule,
   AngularFireList
 } from "angularfire2/database";
-import { CalculationService } from "./calculation/shared/calculation.service";
+import { CalculationService } from "./calculation/shared/services/calculation.service";
 
 @NgModule({
   declarations: [

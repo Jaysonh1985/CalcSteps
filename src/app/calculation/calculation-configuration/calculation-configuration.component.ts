@@ -2,16 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { GridOptions } from "ag-grid";
 import { Grid } from "ag-grid";
 import { Maths } from "../functions/function-maths/function-maths.component";
-
-export interface CalculationConfiguration {
-  id: Int16Array;
-  group: string;
-  function: string;
-  name: string;
-  data: string;
-  output: string;
-  maths: Array<Maths>;
-}
+import { CalculationConfiguration } from "../shared/models/calculation-configuration";
 
 @Component({
   selector: "app-calculation-configuration",

@@ -1,4 +1,5 @@
 import { Component, OnInit, Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 import { Observable } from "rxjs/Observable";
 import { Calculation } from "../calculation/shared/models/calculation";
 import { CalculationService } from "../calculation/shared/services/calculation.service";
@@ -19,9 +20,11 @@ import { CalculationConfiguration } from "../calculation/shared/models/calculati
 export class DashboardComponent implements OnInit {
   calculations: any;
   calculation: Calculation = null;
-  customers: any;
   // public calcService: CalculationService;
-  constructor(private calcService: CalculationService) {}
+  constructor(
+    private calcService: CalculationService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     // Use snapshotChanges().map() to store the key
@@ -48,13 +51,16 @@ export class DashboardComponent implements OnInit {
     this.calculation.owner = "Jayson Herbert";
     this.calculation.regressionpass = false;
     this.calculation.username = "jaysonh1985@gmail.com";
-    this.calculation.calculationInput = new CalculationInput;
-    this.calculation.calculationOutput = new CalculationOutput;
-    this.calculation.calculationConfiguration = new CalculationConfiguration;
+    this.calculation.calculationInput = new CalculationInput();
+    this.calculation.calculationOutput = new CalculationOutput();
+    this.calculation.calculationConfiguration = new CalculationConfiguration();
     this.calcService.createCalculation(this.calculation);
     this.calculation = new Calculation();
   }
   deleteCalculations() {
     this.calcService.deleteAll();
+  }
+  editCalculation(calculation) {
+    this.router.navigate(["calculation", calculation.key]);
   }
 }

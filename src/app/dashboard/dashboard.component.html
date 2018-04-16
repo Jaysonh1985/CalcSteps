@@ -9,6 +9,7 @@
         <th scope="col">Owner</th>
         <th scope="col">Update Date</th>
         <th scope="col">Regression</th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
@@ -19,6 +20,9 @@
         <td>{{item.owner}}</td>
         <td>{{item.updatedate}}</td>
         <td>{{item.regressionpass}}</td>
+        <td>
+          <button (click)="editCalculation(item)">Edit</button>
+        </td>
       </tr>
     </tbody>
   </table>

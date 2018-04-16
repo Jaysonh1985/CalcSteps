@@ -1,12 +1,18 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 import { Calculation } from "../models/calculation";
-import { AngularFireDatabase, AngularFireList } from "angularfire2/database";
+import {
+  AngularFireDatabase,
+  AngularFireList,
+  AngularFireObject,
+  snapshotChanges
+} from "angularfire2/database";
+import { query } from "@angular/core/src/animation/dsl";
+import { nodeChildrenAsMap } from "@angular/router/src/utils/tree";
 
 @Injectable()
 export class CalculationService {
   private dbPath = "calculations";
-
   calculationsRef: AngularFireList<Calculation> = null;
 
   constructor(private db: AngularFireDatabase) {
@@ -29,6 +35,10 @@ export class CalculationService {
 
   getCalculationsList(): AngularFireList<Calculation> {
     return this.calculationsRef;
+  }
+
+  getCalculation(key): AngularFireList<Calculation> {
+    return this.db.list(this.dbPath, ref => ref.orderByKey().equalTo(key));
   }
 
   deleteAll(): void {

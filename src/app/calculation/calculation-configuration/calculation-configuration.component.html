@@ -7,7 +7,7 @@
     (selectionChanged)="onSelectionChanged($event)" [suppressMenuHide]="true" (gridReady)="onGridReady($event)">
   </ag-grid-angular>
 </div>
-<div style="height: 45vh; overflow:visible;">
+<div style="height: 40vh; overflow:visible;">
   <form *ngFor="let row of selectedRows">
     <p>{{row.function}} - {{row.name}}</p>
     <app-function-maths [selectedRow]="selectedRow" *ngIf="row.function == 'Maths'"></app-function-maths>

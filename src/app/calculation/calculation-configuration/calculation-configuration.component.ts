@@ -87,16 +87,34 @@ export class CalculationConfigurationComponent implements OnInit {
     this.selectedRows = this.gridApi.getSelectedRows();
     this.selectedRow = this.gridApi.getSelectedRows();
   }
+  getAllRows(): CalculationConfiguration[] {
+    const arr: Array<CalculationConfiguration> = [];
+    this.gridApi.forEachNode(function(node, index) {
+      const Row: CalculationConfiguration = {
+        id: node.data.id,
+        group: node.data.group,
+        name: node.data.name,
+        function: node.data.function,
+        maths: node.data.maths,
+        output: node.data.output,
+        data: node.data.data
+      };
+      arr.push(Row);
+    });
+    return arr;
+  }
   onCalcConfiguration() {}
   createNewRowData() {
-    const newData = {
-      id: 2,
-      group: "Service",
-      result: "pre 97",
-      function: "Maths",
-      output: "100.00"
+    const newRow: CalculationConfiguration = {
+      id: "",
+      group: "",
+      function: "",
+      maths: [],
+      name: "",
+      output: "",
+      data: ""
     };
-    return newData;
+    return newRow;
   }
   ngOnInit() {
     this.gridOptions.rowData = this.calculationConfiguration;

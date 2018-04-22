@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from "@angular/core";
 import { GridOptions } from "ag-grid";
 import { Grid } from "ag-grid";
 import { tryParse } from "selenium-webdriver/http";
+import { CalculationInput } from "../shared/models/calculation-input";
 
 @Component({
   selector: "app-calculation-input",
@@ -15,6 +16,7 @@ export class CalculationInputComponent implements OnInit {
   public rowSelection;
   private gridApi;
   private gridColumnApi;
+  public inputRows: object[];
   @Input() calculationInput: string[];
 
   constructor() {
@@ -44,6 +46,7 @@ export class CalculationInputComponent implements OnInit {
       }
     ];
     this.inputGridOptions.floatingFilter = true;
+    this.inputRows = [];
   }
   onGridReady(params) {
     this.gridApi = params.api;
@@ -62,13 +65,22 @@ export class CalculationInputComponent implements OnInit {
     const selectedData = this.gridApi.getSelectedRows();
     const res = this.gridApi.updateRowData({ remove: selectedData });
   }
-  createNewRowData() {
-    const newData = {
-      id: "1",
-      name: "This_is_a_Test",
-      output: "1000.00"
-    };
-    return newData;
+  createNewRowData(): CalculationInput {
+    const newRow: CalculationInput = { id: "", name: "", input: "", data: "" };
+    return newRow;
+  }
+  getAllRows(): CalculationInput[] {
+    const arr: Array<CalculationInput> = [];
+    this.gridApi.forEachNode(function(node, index) {
+      const Row: CalculationInput = {
+        id: node.data.id,
+        name: node.data.name,
+        input: node.data.input,
+        data: node.data.data
+      };
+      arr.push(Row);
+    });
+    return arr;
   }
   ngOnInit() {
     this.inputGridOptions.rowData = this.calculationInput;

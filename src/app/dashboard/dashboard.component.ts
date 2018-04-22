@@ -49,11 +49,11 @@ export class DashboardComponent implements OnInit {
     this.calculation.updateDate = new Date();
     this.calculation.calculationType = "calculation";
     this.calculation.owner = "Jayson Herbert";
-    this.calculation.regressionPass = false;
+    this.calculation.regression = false;
     this.calculation.username = "jaysonh1985@gmail.com";
-    this.calculation.calculationInput = new CalculationInput();
-    this.calculation.calculationOutput = new CalculationOutput();
-    this.calculation.calculationConfiguration = new CalculationConfiguration();
+    this.calculation.calculationInputs = new CalculationInput();
+    this.calculation.calculationOutputs = new CalculationOutput();
+    this.calculation.calculationConfigurations = new CalculationConfiguration();
     this.calcService.createCalculation(this.calculation);
     this.calculation = new Calculation();
   }

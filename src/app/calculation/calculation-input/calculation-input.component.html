@@ -1,5 +1,6 @@
 <button type="button" class="btn btn-secondary btn-sm" (click)="onAddRow()">Add Input</button>
 <button type="button" class="btn btn-secondary btn-sm" (click)="onRemoveSelected()">Delete Inputs</button>
+<button type="button" class="btn btn-secondary btn-sm" (click)="getAllRows()">Get Rows</button>
 <ag-grid-angular #agGrid class="ag-theme-balham" style="display:inline-block; height:100vh; width:100%" [gridOptions]="inputGridOptions"
   [rowSelection]="rowSelection" [rowMultiSelectWithClick]="true" [rowDragManaged]="true" [animateRows]="true" [enableColResize]="true"
   [singleClickEdit]="true" (gridReady)="onGridReady($event)">

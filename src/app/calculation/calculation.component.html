@@ -1,11 +1,13 @@
 <div class="container">
+  <button type="button" class="btn btn-secondary btn-sm" (click)="onSave()">Save</button>
+  <button> </button>
   <div id="left" *ngIf='calculationInput'>
     <app-calculation-input [calculationInput]="calculationInput"></app-calculation-input>
   </div>
-  <div id="middle"*ngIf='calculationConfiguration'>
+  <div id="middle" *ngIf='calculationConfiguration'>
     <app-calculation-configuration [calculationConfiguration]="calculationConfiguration"></app-calculation-configuration>
   </div>
-<div id="right" *ngIf='calculationOutput'>
+  <div id="right" *ngIf='calculationOutput'>
     <app-calculation-output [calculationOutput]="calculationOutput"></app-calculation-output>
   </div>
 </div>

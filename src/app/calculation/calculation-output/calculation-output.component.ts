@@ -3,6 +3,7 @@ import { GridOptions } from "ag-grid";
 import { Grid } from "ag-grid";
 import { tryParse } from "selenium-webdriver/http";
 import { runInThisContext } from "vm";
+import { CalculationOutput } from "../shared/models/calculation-output";
 
 @Component({
   selector: "app-calculation-output",
@@ -74,16 +75,29 @@ export class CalculationOutputComponent implements OnInit {
     const selectedData = this.gridApi.getSelectedRows();
     const res = this.gridApi.updateRowData({ remove: selectedData });
   }
+  getAllRows(): CalculationOutput[] {
+    const arr: Array<CalculationOutput> = [];
+    this.gridApi.forEachNode(function(node, index) {
+      const Row: CalculationOutput = {
+        id: node.data.id,
+        name: node.data.name,
+        output: node.data.output,
+        data: node.data.data
+      };
+      arr.push(Row);
+    });
+    return arr;
+  }
   createNewRowData() {
-    const newData = {
-      id: "1",
-      name: "This_is_a_Test",
-      output: "1000.00"
+    const newRow: CalculationOutput = {
+      id: "",
+      name: "",
+      output: "",
+      data: ""
     };
-    return newData;
+    return newRow;
   }
   ngOnInit() {
     this.outputGridOptions.rowData = this.calculationOutput;
-    console.log(this.calculationOutput);
   }
 }

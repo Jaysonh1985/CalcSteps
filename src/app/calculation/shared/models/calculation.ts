@@ -8,11 +8,11 @@ export class Calculation {
   group: string;
   name: string;
   owner: string;
-  regressionpass: boolean;
-  calculationtype: string;
-  updatedate: Date = new Date();
+  regression: boolean;
+  calculationType: string;
+  updateDate: Date = new Date();
   username: string;
-  calculationInput: CalculationInput;
-  calculationOutput: CalculationOutput;
-  calculationConfiguration: CalculationConfiguration;
+  calculationInputs: CalculationInput;
+  calculationOutputs: CalculationOutput;
+  calculationConfigurations: CalculationConfiguration;
 }

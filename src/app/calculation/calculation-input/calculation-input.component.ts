@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { GridOptions } from "ag-grid";
 import { Grid } from "ag-grid";
 import { tryParse } from "selenium-webdriver/http";
@@ -15,6 +15,7 @@ export class CalculationInputComponent implements OnInit {
   public rowSelection;
   private gridApi;
   private gridColumnApi;
+  @Input() calculationInput: string[];
 
   constructor() {
     this.inputGridOptions = <GridOptions>{};
@@ -43,23 +44,6 @@ export class CalculationInputComponent implements OnInit {
       }
     ];
     this.inputGridOptions.floatingFilter = true;
-    this.inputGridOptions.rowData = [
-      {
-        id: 1,
-        name: "Service",
-        output: "100"
-      },
-      {
-        id: 2,
-        name: "Service",
-        output: "100"
-      },
-      {
-        id: 3,
-        name: "Service",
-        output: "100"
-      }
-    ];
   }
   onGridReady(params) {
     this.gridApi = params.api;
@@ -86,5 +70,7 @@ export class CalculationInputComponent implements OnInit {
     };
     return newData;
   }
-  ngOnInit() {}
+  ngOnInit() {
+    this.inputGridOptions.rowData = this.calculationInput;
+  }
 }

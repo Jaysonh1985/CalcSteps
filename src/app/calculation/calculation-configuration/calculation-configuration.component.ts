@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { GridOptions } from "ag-grid";
 import { Grid } from "ag-grid";
 import { Maths } from "../functions/function-maths/function-maths.component";
@@ -16,6 +16,7 @@ export class CalculationConfigurationComponent implements OnInit {
   private gridColumnApi;
   public selectedRows;
   public selectedRow: CalculationConfiguration;
+  @Input() calculationConfiguration: string[];
   constructor() {
     this.gridOptions = <GridOptions>{};
     this.gridOptions.columnDefs = [
@@ -62,32 +63,6 @@ export class CalculationConfigurationComponent implements OnInit {
       }
     ];
     this.gridOptions.floatingFilter = true;
-    this.gridOptions.rowData = [
-      {
-        id: 1,
-        group: "Service",
-        result: "pre 97",
-        function: "Maths",
-        output: "100",
-        maths: null
-      },
-      {
-        id: 2,
-        group: "Service",
-        result: "pre 97",
-        function: "Maths",
-        output: "100",
-        maths: null
-      },
-      {
-        id: 3,
-        group: "Service",
-        result: "pre 97",
-        function: "Maths",
-        output: "100",
-        maths: null
-      }
-    ];
     this.rowSelection = "single";
   }
 
@@ -123,5 +98,7 @@ export class CalculationConfigurationComponent implements OnInit {
     };
     return newData;
   }
-  ngOnInit() {}
+  ngOnInit() {
+    this.gridOptions.rowData = this.calculationConfiguration;
+  }
 }

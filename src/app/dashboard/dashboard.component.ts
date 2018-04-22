@@ -46,10 +46,10 @@ export class DashboardComponent implements OnInit {
     this.calculation.group = "Test Group";
     this.calculation.name = "Test Name";
     this.calculation.function = "Test Function";
-    this.calculation.updatedate = new Date();
-    this.calculation.calculationtype = "calculation";
+    this.calculation.updateDate = new Date();
+    this.calculation.calculationType = "calculation";
     this.calculation.owner = "Jayson Herbert";
-    this.calculation.regressionpass = false;
+    this.calculation.regressionPass = false;
     this.calculation.username = "jaysonh1985@gmail.com";
     this.calculation.calculationInput = new CalculationInput();
     this.calculation.calculationOutput = new CalculationOutput();

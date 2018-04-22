@@ -5,6 +5,9 @@ import { CalculationService } from "./shared/services/calculation.service";
 import { Calculation } from "./shared/models/calculation";
 import { AngularFireList } from "angularfire2/database";
 import { Observable } from "rxjs/Observable";
+import { CalculationInput } from "./shared/models/calculation-input";
+import { CalculationOutput } from "./shared/models/calculation-output";
+import { CalculationConfiguration } from "./shared/models/calculation-configuration";
 
 @Component({
   selector: "app-calculation",
@@ -13,8 +16,10 @@ import { Observable } from "rxjs/Observable";
 })
 export class CalculationComponent implements OnInit {
   public key: string;
-  public calculations: any;
-  public calculation: Calculation;
+  public calculation: any;
+  public calculationConfiguration: CalculationConfiguration;
+  public calculationInput: CalculationInput;
+  public calculationOutput: CalculationOutput;
   constructor(
     private route: ActivatedRoute,
     private calcService: CalculationService
@@ -32,9 +37,11 @@ export class CalculationComponent implements OnInit {
           ...c.payload.val()
         }));
       })
-      .subscribe(customers => {
-        this.calculations = customers[0];
-        console.log(this.calculations);
+      .subscribe(calculations => {
+        this.calculation = calculations[0];
+        this.calculationInput = calculations[0].calculationInputs;
+        this.calculationConfiguration = calculations[0].calculationConfigurations;
+        this.calculationOutput = calculations[0].calculationOutputs;
       });
   }
 }

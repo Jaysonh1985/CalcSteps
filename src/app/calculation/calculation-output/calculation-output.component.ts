@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from "@angular/core";
 import { GridOptions } from "ag-grid";
 import { Grid } from "ag-grid";
 import { tryParse } from "selenium-webdriver/http";
-import { runInThisContext } from "vm";
 import { CalculationOutput } from "../shared/models/calculation-output";
 
 @Component({

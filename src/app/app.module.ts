@@ -1,8 +1,10 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule, Router, Routes } from "@angular/router";
 import { Component } from "@angular/core";
 import { AngularFireModule } from "angularfire2";
+import { MaterialModule } from "./material.module";
 import {
   AngularFirestoreModule,
   AngularFirestore
@@ -49,12 +51,14 @@ import { CalculationService } from "./calculation/shared/services/calculation.se
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     RouterModule,
     routes,
     AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    MaterialModule,
     FormsModule,
     AgGridModule.withComponents([])
   ],

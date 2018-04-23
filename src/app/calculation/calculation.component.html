@@ -1,13 +1,28 @@
-<div class="container">
-  <button type="button" class="btn btn-secondary btn-sm" (click)="onSave()">Save</button>
-  <button> </button>
-  <div id="left" *ngIf='calculationInput'>
-    <app-calculation-input [calculationInput]="calculationInput"></app-calculation-input>
-  </div>
-  <div id="middle" *ngIf='calculationConfiguration'>
-    <app-calculation-configuration [calculationConfiguration]="calculationConfiguration"></app-calculation-configuration>
-  </div>
-  <div id="right" *ngIf='calculationOutput'>
-    <app-calculation-output [calculationOutput]="calculationOutput"></app-calculation-output>
-  </div>
-</div>
+<mat-toolbar style="background: darkslateblue;
+    color: white;">
+  <button mat-icon-button (click)="sidenav.toggle()" style="background: darkslateblue; color: white;">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <h1>Jayson</h1>
+</mat-toolbar>
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #sidenav mode="side" [(opened)]="opened" style="background: black; color: white;">
+    <mat-nav-list>
+      <a mat-list-item href="..."> Home </a>
+      <a mat-list-item href="..."> Calculate </a>
+      <a mat-list-item (click)="onSave()"> Save </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div id="left" *ngIf='calculationInput'>
+      <app-calculation-input [calculationInput]="calculationInput"></app-calculation-input>
+    </div>
+    <div id="middle" *ngIf='calculationConfiguration'>
+      <app-calculation-configuration [calculationConfiguration]="calculationConfiguration"></app-calculation-configuration>
+    </div>
+    <div id="right" *ngIf='calculationOutput'>
+      <app-calculation-output [calculationOutput]="calculationOutput"></app-calculation-output>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -29,6 +29,8 @@ export class CalculationComponent implements OnInit {
   private CalculationOutputComponent: CalculationOutputComponent;
   @ViewChild(CalculationConfigurationComponent)
   private CalculationConfigurationComponent: CalculationConfigurationComponent;
+  events = [];
+  opened = true;
   constructor(
     private route: ActivatedRoute,
     private calcService: CalculationService

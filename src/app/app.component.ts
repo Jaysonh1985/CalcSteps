@@ -22,20 +22,14 @@ interface Configuration {
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"]
 })
-
 export class AppComponent {
 
-  config$: Observable<Configuration[]>;
-  configRef: AngularFirestoreCollection<Configuration>;
 
-  constructor(
-    private afs: AngularFirestore
-  ) { }
 
+  constructor() {}
 
   // tslint:disable-next-line:use-life-cycle-interface
   ngOnInit() {
-    this.configRef = this.afs.collection<Configuration>("Configuration");
-    this.config$ = this.configRef.valueChanges();
+
   }
 }

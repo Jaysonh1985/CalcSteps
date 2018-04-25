@@ -33,6 +33,7 @@ import {
   AngularFireList
 } from "angularfire2/database";
 import { CalculationService } from "./calculation/shared/services/calculation.service";
+import { SignupComponent } from "./signup/signup.component";
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { CalculationService } from "./calculation/shared/services/calculation.se
     FunctionIfLogicComponent,
     FunctionDateDurationComponent,
     CalculationConfigurationComponent,
-    DashboardComponent
+    DashboardComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,

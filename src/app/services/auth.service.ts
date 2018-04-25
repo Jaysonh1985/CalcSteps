@@ -19,13 +19,14 @@ export class AuthService {
       }
     });
   }
-  signup(email: string, password: string) { 
-    return this.firebaseAuth.auth
-      .createUserWithEmailAndPassword(email, password);
+  signup(email: string, password: string) {
+    return this.firebaseAuth.auth.createUserWithEmailAndPassword(
+      email,
+      password
+    );
   }
   login(email: string, password: string) {
-    return this.firebaseAuth.auth
-      .signInWithEmailAndPassword(email, password);
+    return this.firebaseAuth.auth.signInWithEmailAndPassword(email, password);
   }
   signInWithGoogle() {
     return this.firebaseAuth.auth.signInWithPopup(
@@ -41,5 +42,11 @@ export class AuthService {
   }
   logout() {
     this.firebaseAuth.auth.signOut().then(res => this.router.navigate(["/"]));
+  }
+  resetPassword(email: string) {
+    return this.firebaseAuth.auth
+      .sendPasswordResetEmail(email)
+      .then(() => console.log("email sent"))
+      .catch(error => console.log(error));
   }
 }

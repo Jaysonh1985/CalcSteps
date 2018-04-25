@@ -1,4 +1,5 @@
 <div class="container text-centre">
+  <h1>Log in </h1>
   <div class="form-group">
     <label for="exampleInputEmail1">Email address</label>
     <input type="email" class="form-control" [(ngModel)]="email" placeholder="Email" required>
@@ -7,10 +8,12 @@
     <label for="exampleInputPassword1">Password</label>
     <input type="password" class="form-control" [(ngModel)]="password" placeholder="Password" required>
   </div>
-  <button (click)="signup()" [disabled]="!email || !password">
-    Signup
-  </button>
-
+  <a mat-button routerLink="../signup">
+    Don't have an account?
+  </a>
+  <a mat-button (click)="resetPassword()">
+    Need a password reset?
+  </a>
   <button (click)="login()" [disabled]="!email || !password">
     Login
   </button>
@@ -20,5 +23,6 @@
   <button (click)="logout()" *ngIf="authService.user | async">
     Logout
   </button>
+  <p *ngIf="passReset">Reset requested. Check your email instructions.</p>
 </div>
 

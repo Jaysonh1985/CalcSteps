@@ -7,13 +7,15 @@ import { LoginComponent } from "./login/login.component";
 import { CalculationComponent } from "./calculation/calculation.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { AuthGuardService } from "./services/auth-guard.service";
+import { SignupComponent } from "./signup/signup.component";
 
 export const router: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
   { path: "home", component: HomeComponent },
   { path: "login", component: LoginComponent },
   { path: "calculation/:key", component: CalculationComponent },
-  { path: "dashboard", component: DashboardComponent }
+  { path: "dashboard", component: DashboardComponent },
+  { path: "signup", component: SignupComponent }
 ];
 
 export const routes: ModuleWithProviders = RouterModule.forRoot(router);

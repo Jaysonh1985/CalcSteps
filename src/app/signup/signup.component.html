@@ -1,0 +1,15 @@
+<div class="container text-centre">
+  <h1>Sign up</h1>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" class="form-control" [(ngModel)]="email" placeholder="Email" required>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" class="form-control" [(ngModel)]="password" placeholder="Password" required>
+  </div>
+  <button (click)="signup()" [disabled]="!email || !password">
+    Signup
+  </button>
+
+</div>

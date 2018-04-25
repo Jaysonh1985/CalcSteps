@@ -34,6 +34,7 @@ import {
 } from "angularfire2/database";
 import { CalculationService } from "./calculation/shared/services/calculation.service";
 import { SignupComponent } from "./signup/signup.component";
+import { AccountComponent } from './account/account.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { SignupComponent } from "./signup/signup.component";
     FunctionDateDurationComponent,
     CalculationConfigurationComponent,
     DashboardComponent,
-    SignupComponent
+    SignupComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,

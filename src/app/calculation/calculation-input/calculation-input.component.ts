@@ -24,26 +24,21 @@ export class CalculationInputComponent implements OnInit {
     this.rowSelection = "multiple";
     this.inputGridOptions.columnDefs = [
       {
-        headerName: "Input",
-        children: [
-          {
-            headerName: "Name",
-            field: "name",
-            editable: true,
-            rowDrag: true,
-            checkboxSelection: true
-          },
-          {
-            headerName: "Data Type",
-            field: "datatype",
-            width: 100,
-            editable: true,
-            cellEditor: "agSelectCellEditor",
-            cellEditorParams: { values: ["Date", "Number", "Text", "Logic"] }
-          },
-          { headerName: "Input", field: "input", width: 100, editable: true }
-        ]
-      }
+        headerName: "Name",
+        field: "name",
+        editable: true,
+        rowDrag: true,
+        checkboxSelection: true
+      },
+      {
+        headerName: "Data",
+        field: "datatype",
+        width: 100,
+        editable: true,
+        cellEditor: "agSelectCellEditor",
+        cellEditorParams: { values: ["Date", "Number", "Text", "Logic"] }
+      },
+      { headerName: "Input", field: "input", width: 100, editable: true }
     ];
     this.inputGridOptions.floatingFilter = true;
     this.inputRows = [];

@@ -6,11 +6,36 @@
   <h1>Jayson</h1>
 </mat-toolbar>
 <mat-sidenav-container class="example-container">
-  <mat-sidenav #sidenav mode="side" [(opened)]="opened" style="background: black; color: white;">
+  <mat-sidenav #sidenav mode="side" [(opened)]="opened" style="background: #353535; color: white;">
     <mat-nav-list>
-      <a mat-list-item href="..."> Home </a>
-      <a mat-list-item href="..."> Calculate </a>
-      <a mat-list-item (click)="onSave()"> Save </a>
+      <mat-list-item>
+        <mat-icon matListIcon>home</mat-icon>
+        <h3 matLine> Home</h3>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon matListIcon>apps</mat-icon>
+        <h3 matLine> Calculate</h3>
+      </mat-list-item>
+      <mat-list-item (click)="onSave()">
+        <mat-icon matListIcon>save</mat-icon>
+        <h3 matLine> Save </h3>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon matListIcon>done_all</mat-icon>
+        <h3 matLine> Regression </h3>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon matListIcon>history</mat-icon>
+        <h3 matLine> History </h3>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon matListIcon>description</mat-icon>
+        <h3 matLine> Specification </h3>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon matListIcon>exit_to_app</mat-icon>
+        <h3 matLine> Exit </h3>
+      </mat-list-item>
     </mat-nav-list>
   </mat-sidenav>
 

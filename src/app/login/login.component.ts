@@ -9,24 +9,26 @@ import { Router } from "@angular/router";
 export class LoginComponent implements OnInit {
   email: string;
   password: string;
-  constructor(public authService: AuthService, private router: Router) {}
+  constructor(public authService: AuthService, private router: Router) { }
 
   signInWithGoogle() {
     this.authService
       .signInWithGoogle()
       .then(res => {
-        this.router.navigate(["home"]);
+        this.router.navigate(["dashboard"]);
       })
       .catch(err => console.log(err));
   }
   signup() {
-    this.authService.signup(this.email, this.password);
-    this.email = this.password = "";
+    this.authService.signup(this.email, this.password)
+      .then(res => { this.router.navigate(["home"]) })
+      .catch(err => console.log(err));
   }
 
   login() {
-    this.authService.login(this.email, this.password);
-    this.email = this.password = "";
+    this.authService.login(this.email, this.password)
+      .then(res => { this.router.navigate(["dashboard"]) })
+      .catch(err => console.log(err));;
   }
 
   logout() {

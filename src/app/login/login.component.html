@@ -14,8 +14,7 @@
   <button (click)="login()" [disabled]="!email || !password">
     Login
   </button>
-  <button type="button" class="btn btn-block" (click)="signInWithGoogle()">
-    <i class="fa fa-google" aria-hidden="true"></i>
+  <button type="button" (click)="signInWithGoogle()" id="google">
     Login with Google
   </button>
   <button (click)="logout()" *ngIf="authService.user | async">

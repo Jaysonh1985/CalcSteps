@@ -1,6 +1,17 @@
-<button type="button" class="btn btn-secondary btn-sm" (click)="onAddRow()">Add Output</button>
-<button type="button" class="btn btn-secondary btn-sm" (click)="onRemoveSelected()">Delete Outputs</button>
-<ag-grid-angular #outputGrid style="height:100vh; width: 100%;" class="ag-theme-balham" [gridOptions]="outputGridOptions"
-  [rowSelection]="rowSelection" [rowMultiSelectWithClick]="true" [rowDragManaged]="true" [animateRows]="true" [enableColResize]="true"
-  [singleClickEdit]="true" (gridReady)="onGridReady($event)">
-</ag-grid-angular>
+<mat-card>
+	<mat-card-header>
+		<mat-card-title>
+			<h4>
+				Outputs
+			</h4>
+		</mat-card-title>
+		<button type="button" class="btn btn-secondary btn-sm" (click)="onAddRow()">Add Output</button>
+		<button type="button" class="btn btn-secondary btn-sm" (click)="onRemoveSelected()">Delete Outputs</button>
+	</mat-card-header>
+	<mat-card-content>
+		<ag-grid-angular #outputGrid style="height:80vh; width: 100%;" class="ag-theme-balham" [gridOptions]="outputGridOptions"
+		 [rowSelection]="rowSelection" [rowMultiSelectWithClick]="true" [rowDragManaged]="true" [animateRows]="true" [enableColResize]="true"
+		 [singleClickEdit]="true" (gridReady)="onGridReady($event)">
+		</ag-grid-angular>
+	</mat-card-content>
+</mat-card>

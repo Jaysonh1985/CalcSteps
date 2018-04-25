@@ -20,47 +20,34 @@ export class CalculationConfigurationComponent implements OnInit {
   constructor() {
     this.gridOptions = <GridOptions>{};
     this.gridOptions.columnDefs = [
+
+      { headerName: "Group", field: "group", editable: true, rowDrag:true, checkboxSelection: true },
       {
-        headerName: "Configuration",
-        headerComponentParams: {
-          headerComponentParams: { menuIcon: "fa-external-link" }
-        },
-        children: [
-          {
-            headerName: "",
-            checkboxSelection: true,
-            rowDrag: true,
-            suppressFilter: true
-          },
-          { headerName: "Group", field: "group", editable: true },
-          {
-            headerName: "Function",
-            field: "function",
-            width: 100,
-            filter: "agTextColumnFilter",
-            editable: true,
-            cellEditor: "agSelectCellEditor",
-            cellEditorParams: {
-              values: ["Maths", "Date Adjustment", "Date Duration", "If Logic"]
-            }
-          },
-          {
-            headerName: "Name",
-            field: "name",
-            width: 100,
-            filter: "agTextColumnFilter",
-            editable: true
-          },
-          {
-            headerName: "Data Type",
-            field: "data",
-            width: 100,
-            filter: "agTextColumnFilter",
-            editable: false
-          },
-          { headerName: "Output", field: "output", width: 100, editable: false }
-        ]
-      }
+        headerName: "Function",
+        field: "function",
+        width: 100,
+        filter: "agTextColumnFilter",
+        editable: true,
+        cellEditor: "agSelectCellEditor",
+        cellEditorParams: {
+          values: ["Maths", "Date Adjustment", "Date Duration", "If Logic"]
+        }
+      },
+      {
+        headerName: "Name",
+        field: "name",
+        width: 100,
+        filter: "agTextColumnFilter",
+        editable: true
+      },
+      {
+        headerName: "Data",
+        field: "data",
+        width: 100,
+        filter: "agTextColumnFilter",
+        editable: false
+      },
+      { headerName: "Output", field: "output", width: 100, editable: false }
     ];
     this.gridOptions.floatingFilter = true;
     this.rowSelection = "single";

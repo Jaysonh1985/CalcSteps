@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
         this.calculations = customers;
       });
   }
-  createCalculation() {
+  onAddCalculation() {
     this.calculation = new Calculation();
     this.calculation.group = "Test Group";
     this.calculation.name = "Test Name";

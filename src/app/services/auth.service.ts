@@ -19,25 +19,13 @@ export class AuthService {
       }
     });
   }
-  signup(email: string, password: string) {
-    this.firebaseAuth.auth
-      .createUserWithEmailAndPassword(email, password)
-      .then(value => {
-        console.log("Success!", value);
-      })
-      .catch(err => {
-        console.log("Something went wrong:", err.message);
-      });
+  signup(email: string, password: string) { 
+    return this.firebaseAuth.auth
+      .createUserWithEmailAndPassword(email, password);
   }
   login(email: string, password: string) {
-    this.firebaseAuth.auth
-      .signInWithEmailAndPassword(email, password)
-      .then(value => {
-        console.log("Nice, it worked!");
-      })
-      .catch(err => {
-        console.log("Something went wrong:", err.message);
-      });
+    return this.firebaseAuth.auth
+      .signInWithEmailAndPassword(email, password);
   }
   signInWithGoogle() {
     return this.firebaseAuth.auth.signInWithPopup(

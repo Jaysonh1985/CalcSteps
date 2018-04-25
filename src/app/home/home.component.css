@@ -29,6 +29,14 @@
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
+.subheadercentered1{
+  text-align: center !important;
+  position: absolute;
+  top: 55%;
+  left: 47%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
 
 .bg-primary{
   background-color: darkslateblue;

@@ -33,7 +33,7 @@ export class CalculationOutputComponent implements OnInit {
             checkboxSelection: true
           },
           {
-            headerName: "Data Type",
+            headerName: "Data",
             field: "datatype",
             width: 100,
             cellEditor: "agSelectCellEditor",
@@ -47,8 +47,8 @@ export class CalculationOutputComponent implements OnInit {
             editable: true
           },
           {
-            headerName: "Expected Result",
-            field: "expectedresult",
+            headerName: "Output",
+            field: "output",
             width: 100,
             editable: true
           }

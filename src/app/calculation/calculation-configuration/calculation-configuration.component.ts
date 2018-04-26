@@ -20,8 +20,12 @@ export class CalculationConfigurationComponent implements OnInit {
   constructor() {
     this.gridOptions = <GridOptions>{};
     this.gridOptions.columnDefs = [
-
-      { headerName: "Group", field: "group", editable: true, rowDrag:true, checkboxSelection: true },
+      {
+        headerName: "Group",
+        field: "group",
+        editable: true,
+        rowDrag: true
+      },
       {
         headerName: "Function",
         field: "function",
@@ -36,18 +40,25 @@ export class CalculationConfigurationComponent implements OnInit {
       {
         headerName: "Name",
         field: "name",
-        width: 100,
+        width: 200,
         filter: "agTextColumnFilter",
         editable: true
       },
       {
         headerName: "Data",
         field: "data",
-        width: 100,
+        width: 75,
         filter: "agTextColumnFilter",
-        editable: false
+        editable: false,
+        suppressFilter: true
       },
-      { headerName: "Output", field: "output", width: 100, editable: false }
+      {
+        headerName: "Output",
+        field: "output",
+        width: 125,
+        editable: false,
+        suppressFilter: true
+      },
     ];
     this.gridOptions.floatingFilter = true;
     this.rowSelection = "single";
@@ -60,7 +71,7 @@ export class CalculationConfigurationComponent implements OnInit {
     this.gridColumnApi.getAllColumns().forEach(function(column) {
       allColumnIds.push(column.colId);
     });
-    this.gridColumnApi.autoSizeColumns(allColumnIds);
+    // this.gridColumnApi.autoSizeColumns(allColumnIds);
   }
   onAddRow() {
     const newItem = this.createNewRowData();
@@ -75,25 +86,18 @@ export class CalculationConfigurationComponent implements OnInit {
     this.selectedRow = this.gridApi.getSelectedRows();
   }
   getAllRows(): CalculationConfiguration[] {
-    const arr: Array<CalculationConfiguration> = [];
+    const arr: Array<any> = [];
     this.gridApi.forEachNode(function(node, index) {
-      const Row: CalculationConfiguration = {
-        id: node.data.id,
-        group: node.data.group,
-        name: node.data.name,
-        function: node.data.function,
-        maths: node.data.maths,
-        output: node.data.output,
-        data: node.data.data
-      };
-      arr.push(Row);
+      arr.push(node);
     });
     return arr;
+  }
+  setOuput(id) {
+    const row = this.gridApi.getRowNode(id);
   }
   onCalcConfiguration() {}
   createNewRowData() {
     const newRow: CalculationConfiguration = {
-      id: "",
       group: "",
       function: "",
       maths: [],

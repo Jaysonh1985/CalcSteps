@@ -2,7 +2,6 @@ import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { AngularFireModule,  } from "angularfire2";
 import { Component } from "@angular/core";
-import { AngularFirestore, AngularFirestoreCollection } from "angularfire2/firestore";
 import { Subject } from "rxjs/Subject";
 import { Observable } from "rxjs/Observable";
 import { Time } from "@angular/common";

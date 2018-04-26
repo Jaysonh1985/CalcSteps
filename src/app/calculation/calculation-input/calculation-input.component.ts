@@ -21,24 +21,31 @@ export class CalculationInputComponent implements OnInit {
 
   constructor() {
     this.inputGridOptions = <GridOptions>{};
-    this.rowSelection = "multiple";
+    this.rowSelection = "single";
     this.inputGridOptions.columnDefs = [
       {
         headerName: "Name",
+        rowDrag: true,
         field: "name",
         editable: true,
-        rowDrag: true,
-        checkboxSelection: true
+        width: 200
       },
       {
         headerName: "Data",
         field: "datatype",
-        width: 100,
         editable: true,
+        width: 75,
         cellEditor: "agSelectCellEditor",
-        cellEditorParams: { values: ["Date", "Number", "Text", "Logic"] }
+        cellEditorParams: { values: ["Date", "Number", "Text", "Logic"] },
+        suppressFilter: true
       },
-      { headerName: "Input", field: "input", width: 100, editable: true }
+      { 
+        headerName: "Input", 
+        field: "input", 
+        width: 135, 
+        editable: true,
+        suppressFilter: true
+      }
     ];
     this.inputGridOptions.floatingFilter = true;
     this.inputRows = [];
@@ -47,10 +54,10 @@ export class CalculationInputComponent implements OnInit {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     const allColumnIds = [];
-    this.gridColumnApi.getAllColumns().forEach(function(column) {
+    this.gridColumnApi.getAllColumns().forEach(function (column) {
       allColumnIds.push(column.colId);
     });
-    this.gridColumnApi.autoSizeColumns(allColumnIds);
+    // this.gridColumnApi.autoSizeColumns(allColumnIds);
   }
   onAddRow() {
     const newItem = this.createNewRowData();
@@ -66,7 +73,7 @@ export class CalculationInputComponent implements OnInit {
   }
   getAllRows(): CalculationInput[] {
     const arr: Array<CalculationInput> = [];
-    this.gridApi.forEachNode(function(node, index) {
+    this.gridApi.forEachNode(function (node, index) {
       const Row: CalculationInput = {
         id: node.data.id,
         name: node.data.name,

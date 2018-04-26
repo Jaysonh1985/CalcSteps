@@ -11,7 +11,8 @@ import { CalculationConfiguration } from "./shared/models/calculation-configurat
 import { CalculationInputComponent } from "./calculation-input/calculation-input.component";
 import { CalculationOutputComponent } from "./calculation-output/calculation-output.component";
 import { CalculationConfigurationComponent } from "./calculation-configuration/calculation-configuration.component";
-
+import { Router } from "@angular/router";
+import { FunctionMathsComponent } from "./functions/function-maths/function-maths.component";
 @Component({
   selector: "app-calculation",
   templateUrl: "./calculation.component.html",
@@ -29,11 +30,13 @@ export class CalculationComponent implements OnInit {
   private CalculationOutputComponent: CalculationOutputComponent;
   @ViewChild(CalculationConfigurationComponent)
   private CalculationConfigurationComponent: CalculationConfigurationComponent;
+  private FunctionMaths: FunctionMathsComponent;
   events = [];
   opened = true;
   constructor(
     private route: ActivatedRoute,
-    private calcService: CalculationService
+    private calcService: CalculationService,
+    private router: Router
   ) {}
   onSave() {
     this.calculation.calculationInputs = this.CalculationInputComponent.getAllRows();
@@ -43,6 +46,16 @@ export class CalculationComponent implements OnInit {
       this.calculation.key,
       JSON.parse(JSON.stringify(this.calculation))
     );
+  }
+  onExit() {
+    this.router.navigate(["dashboard"]);
+  }
+  onCalc() {
+    this.CalculationConfigurationComponent.getAllRows().forEach(function(
+      column
+    ) {
+      console.log(column);
+    });
   }
   ngOnInit() {
     const key = this.route.snapshot.params["key"];

@@ -12,7 +12,7 @@
         <mat-icon matListIcon>home</mat-icon>
         <h3 matLine> Home</h3>
       </mat-list-item>
-      <mat-list-item>
+      <mat-list-item (click)="onCalc()">
         <mat-icon matListIcon>apps</mat-icon>
         <h3 matLine> Calculate</h3>
       </mat-list-item>
@@ -32,7 +32,7 @@
         <mat-icon matListIcon>description</mat-icon>
         <h3 matLine> Specification </h3>
       </mat-list-item>
-      <mat-list-item>
+      <mat-list-item (click)="onExit()">
         <mat-icon matListIcon>exit_to_app</mat-icon>
         <h3 matLine> Exit </h3>
       </mat-list-item>

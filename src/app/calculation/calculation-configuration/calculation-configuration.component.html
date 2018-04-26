@@ -1,30 +1,25 @@
+<div>
+  <div class="button-row">
+    <h4>
+      Configuration
+    </h4>
+    <button mat-icon-button style="background-color:white" (click)="onAddRow()">
+      <mat-icon aria-label="add config">add</mat-icon>
+    </button>
+    <button mat-icon-button style="background-color:white" (click)="onRemoveSelected()">
+      <mat-icon aria-label="delete config">delete</mat-icon>
+    </button>
+  </div>
+	<ag-grid-angular #agGrid style="height:40vh; width: 99.5%" class="ag-theme-balham" [gridOptions]="gridOptions" [rowSelection]="rowSelection"
+	 [rowMultiSelectWithClick]="true" [rowDragManaged]="true" [animateRows]="true" [enableColResize]="true" (selectionChanged)="onSelectionChanged($event)"
+	 (gridReady)="onGridReady($event)">
+	</ag-grid-angular>
+</div>
 <mat-card>
-	<mat-card-header>
-		<mat-card-title>
-			<h4>
-				Configuration
-			</h4>
-		</mat-card-title>
-		<button type="button" class="btn btn-secondary btn-sm" (click)="onAddRow()">Add Configuration</button>
-		<button type="button" class="btn btn-secondary btn-sm" (click)="onRemoveSelected()">Delete Configuration</button>
-	</mat-card-header>
 	<mat-card-content>
-		<ag-grid-angular #agGrid style="height:40vh; width: 99.5%" class="ag-theme-balham" [gridOptions]="gridOptions" [rowSelection]="rowSelection"
-		 [rowMultiSelectWithClick]="true" [rowDragManaged]="true" [animateRows]="true" [enableColResize]="true" [singleClickEdit]="true"
-		 (selectionChanged)="onSelectionChanged($event)" [suppressMenuHide]="true" (gridReady)="onGridReady($event)">
-		</ag-grid-angular>
-	</mat-card-content>
-</mat-card>
-<mat-card>
-	<mat-card-title>
-		<h4>
-			Function
-		</h4>
-	</mat-card-title>
-	<mat-card-content>
-		<div style="height: 30vh; overflow:visible;">
+		<div style="height: 40vh; overflow:visible;">
 			<form *ngFor="let row of selectedRows">
-				<p>{{row.function}} - {{row.name}}</p>
+				<h4>{{row.function}}</h4>
 				<app-function-maths [selectedRow]="selectedRow" *ngIf="row.function == 'Maths'"></app-function-maths>
 				<app-function-date-adjustment *ngIf="row.function == 'Date Adjustment'"></app-function-date-adjustment>
 				<app-function-date-duration *ngIf="row.function == 'Date Duration'"> </app-function-date-duration>

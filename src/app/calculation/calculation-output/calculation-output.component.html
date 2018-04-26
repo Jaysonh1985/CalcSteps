@@ -1,17 +1,16 @@
-<mat-card>
-	<mat-card-header>
-		<mat-card-title>
-			<h4>
-				Outputs
-			</h4>
-		</mat-card-title>
-		<button type="button" class="btn btn-secondary btn-sm" (click)="onAddRow()">Add Output</button>
-		<button type="button" class="btn btn-secondary btn-sm" (click)="onRemoveSelected()">Delete Outputs</button>
-	</mat-card-header>
-	<mat-card-content>
-		<ag-grid-angular #outputGrid style="height:80vh; width: 100%;" class="ag-theme-balham" [gridOptions]="outputGridOptions"
-		 [rowSelection]="rowSelection" [rowMultiSelectWithClick]="true" [rowDragManaged]="true" [animateRows]="true" [enableColResize]="true"
-		 [singleClickEdit]="true" (gridReady)="onGridReady($event)">
-		</ag-grid-angular>
-	</mat-card-content>
-</mat-card>
+<div>
+    <div class="button-row">
+    <h4>
+      Output
+    </h4>
+    <button mat-icon-button style="background-color:white" (click)="onAddRow()">
+      <mat-icon aria-label="add config">add</mat-icon>
+    </button>
+    <button mat-icon-button style="background-color:white" (click)="onRemoveSelected()">
+      <mat-icon aria-label="delete config">delete</mat-icon>
+    </button>
+  </div>
+	<ag-grid-angular #outputGrid style="height:85vh; width: 100%;" class="ag-theme-balham" [gridOptions]="outputGridOptions"
+	 [rowSelection]="rowSelection" [rowDragManaged]="true" [animateRows]="true" [enableColResize]="true" (gridReady)="onGridReady($event)">
+	</ag-grid-angular>
+</div>

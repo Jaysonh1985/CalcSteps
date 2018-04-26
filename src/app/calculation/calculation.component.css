@@ -2,5 +2,5 @@
 #container {height: 100%; width:100%; font-size:0;}
 #left, #middle, #right {display: inline-block; *display: inline; zoom: 1; vertical-align: top; font-size: 12px;}
 #left {width: 25%;padding:0.5% }
-#middle {width: 38%;padding:0.5%}
-#right {width: 34%; padding:0.5%}
+#middle {width: 42%;padding:0.5%}
+#right {width: 30%; padding:0.5%}

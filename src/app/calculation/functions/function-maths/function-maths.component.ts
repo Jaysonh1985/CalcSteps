@@ -33,4 +33,7 @@ export class FunctionMathsComponent implements OnInit {
       this.selectedRow[0].maths = [this.maths];
     }
   }
+  public calculate(): any {
+    return mathJs.eval("1+1");
+  }
 }

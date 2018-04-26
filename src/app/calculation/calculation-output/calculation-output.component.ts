@@ -22,37 +22,34 @@ export class CalculationOutputComponent implements OnInit {
     this.rowSelection = "multiple";
     this.outputGridOptions.columnDefs = [
       {
+        headerName: "Name",
+        field: "name",
+        width: 200,
+        editable: true,
+        rowDrag: true
+      },
+      {
+        headerName: "Data",
+        field: "datatype",
+        width: 70,
+        cellEditor: "agSelectCellEditor",
+        cellEditorParams: { values: ["Date", "Number", "Text", "Logic"] },
+        editable: true,
+        suppressFilter: true
+      },
+      {
+        headerName: "Variable",
+        field: "output",
+        width: 110,
+        editable: true,
+        suppressFilter: true
+      },
+      {
         headerName: "Output",
-        children: [
-          {
-            headerName: "Name",
-            field: "name",
-            width: 100,
-            editable: true,
-            rowDrag: true,
-            checkboxSelection: true
-          },
-          {
-            headerName: "Data",
-            field: "datatype",
-            width: 100,
-            cellEditor: "agSelectCellEditor",
-            cellEditorParams: { values: ["Date", "Number", "Text", "Logic"] },
-            editable: true
-          },
-          {
-            headerName: "Variable to Use",
-            field: "output",
-            width: 100,
-            editable: true
-          },
-          {
-            headerName: "Output",
-            field: "output",
-            width: 100,
-            editable: true
-          }
-        ]
+        field: "output",
+        width: 110,
+        editable: true,
+        suppressFilter: true
       }
     ];
     this.outputGridOptions.floatingFilter = true;
@@ -64,7 +61,6 @@ export class CalculationOutputComponent implements OnInit {
     this.gridColumnApi.getAllColumns().forEach(function(column) {
       allColumnIds.push(column.colId);
     });
-    this.gridColumnApi.autoSizeColumns(allColumnIds);
   }
   onAddRow() {
     const newItem = this.createNewRowData();

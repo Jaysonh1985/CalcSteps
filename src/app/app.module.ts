@@ -5,10 +5,6 @@ import { RouterModule, Router, Routes } from "@angular/router";
 import { Component } from "@angular/core";
 import { AngularFireModule } from "angularfire2";
 import { MaterialModule } from "./material.module";
-import {
-  AngularFirestoreModule,
-  AngularFirestore
-} from "angularfire2/firestore";
 import { AngularFireAuthModule } from "angularfire2/auth";
 import { Subject } from "rxjs/Subject";
 import { AppComponent } from "./app.component";
@@ -58,7 +54,6 @@ import { AccountComponent } from './account/account.component';
     BrowserAnimationsModule,
     RouterModule,
     routes,
-    AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
@@ -66,7 +61,7 @@ import { AccountComponent } from './account/account.component';
     FormsModule,
     AgGridModule.withComponents([])
   ],
-  providers: [AuthService, AngularFirestore, CalculationService],
+  providers: [AuthService, CalculationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -33,6 +33,7 @@ export class CalculationComponent implements OnInit {
   private FunctionMaths: FunctionMathsComponent;
   events = [];
   opened = true;
+  public calculationName: string;
   constructor(
     private route: ActivatedRoute,
     private calcService: CalculationService,
@@ -51,10 +52,29 @@ export class CalculationComponent implements OnInit {
     this.router.navigate(["dashboard"]);
   }
   onCalc() {
-    this.CalculationConfigurationComponent.getAllRows().forEach(function(
-      column
-    ) {
-      console.log(column);
+    this.CalculationConfigurationComponent.getAllRowsNodes().forEach(
+      configuration => {
+        if ((configuration.data.function = "Maths")) {
+          const math = new FunctionMathsComponent();
+          const result = math.calculate(configuration.data.maths);
+          this.CalculationConfigurationComponent.setRowOuput(
+            configuration.id,
+            result,
+            "Number"
+          );
+        }
+      }
+    );
+    this.CalculationOutputComponent.getAllRowsNodes().forEach(output => {
+      this.CalculationOutputComponent.setRowOuput(output.id, "");
+      let arr: Array<any> = [];
+      arr = this.CalculationConfigurationComponent.getFinalRowNodes(
+        output.data.variable
+      );
+      this.CalculationOutputComponent.setRowOuput(
+        output.id,
+        arr["data"].output
+      );
     });
   }
   ngOnInit() {
@@ -75,6 +95,7 @@ export class CalculationComponent implements OnInit {
         this.calculationConfiguration =
           calculations[0].calculationConfigurations;
         this.calculationOutput = calculations[0].calculationOutputs;
+        this.calculationName = calculations[0].name;
       });
   }
 }

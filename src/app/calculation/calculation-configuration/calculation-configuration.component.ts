@@ -22,13 +22,14 @@ export class CalculationConfigurationComponent implements OnInit {
     this.gridOptions.columnDefs = [
       {
         headerName: "Group",
+        width: 100,
         field: "group",
         editable: true,
         rowDrag: true
       },
       {
         headerName: "Function",
-        field: "function",
+        field: "functionType",
         width: 100,
         filter: "agTextColumnFilter",
         editable: true,
@@ -58,7 +59,7 @@ export class CalculationConfigurationComponent implements OnInit {
         width: 125,
         editable: false,
         suppressFilter: true
-      },
+      }
     ];
     this.gridOptions.floatingFilter = true;
     this.rowSelection = "single";
@@ -86,20 +87,48 @@ export class CalculationConfigurationComponent implements OnInit {
     this.selectedRow = this.gridApi.getSelectedRows();
   }
   getAllRows(): CalculationConfiguration[] {
+    const arr: Array<CalculationConfiguration> = [];
+    this.gridApi.forEachNode(function(node, index) {
+      const row: CalculationConfiguration = {
+        group: node.data.group,
+        functionType: node.data.functionType,
+        name: node.data.name,
+        data: node.data.data,
+        output: node.data.output,
+        maths: node.data.maths
+      };
+      arr.push(row);
+    });
+    return arr;
+  }
+  getAllRowsNodes(): any[] {
     const arr: Array<any> = [];
     this.gridApi.forEachNode(function(node, index) {
       arr.push(node);
     });
     return arr;
   }
-  setOuput(id) {
-    const row = this.gridApi.getRowNode(id);
+  getFinalRowNodes(name): any[] {
+    const arr: Array<any> = [];
+    this.gridApi.forEachNode(function(node, index) {
+      if (node.data.name === name) {
+        arr.push(node);
+      }
+    });
+    return arr[arr.length - 1];
+  }
+  public setRowOuput(id, value, datatype) {
+    const rowNode = this.gridApi.getRowNode(id);
+    const data = rowNode.data;
+    data.output = value;
+    data.data = datatype;
+    rowNode.setData(data);
   }
   onCalcConfiguration() {}
   createNewRowData() {
     const newRow: CalculationConfiguration = {
       group: "",
-      function: "",
+      functionType: "",
       maths: [],
       name: "",
       output: "",

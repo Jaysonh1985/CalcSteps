@@ -7,13 +7,7 @@ import * as moment from "moment";
   styleUrls: ["./function-date-adjustment.component.css"]
 })
 export class FunctionDateAdjustmentComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-    const c = moment([2007, 0, 29]);
-    const d = moment([2006, 0, 28]);
-    c.diff(d, "days");
-  }
-
+  ngOnInit() {}
 }

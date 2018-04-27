@@ -1,6 +1,6 @@
 export class CalculationOutput {
-  id: string;
   name: string;
   data: string;
+  variable: string;
   output: string;
 }

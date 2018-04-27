@@ -28,21 +28,21 @@ export class CalculationInputComponent implements OnInit {
         rowDrag: true,
         field: "name",
         editable: true,
-        width: 200
+        width: 190
       },
       {
         headerName: "Data",
-        field: "datatype",
+        field: "data",
         editable: true,
         width: 75,
         cellEditor: "agSelectCellEditor",
         cellEditorParams: { values: ["Date", "Number", "Text", "Logic"] },
         suppressFilter: true
       },
-      { 
-        headerName: "Input", 
-        field: "input", 
-        width: 135, 
+      {
+        headerName: "Input",
+        field: "input",
+        width: 135,
         editable: true,
         suppressFilter: true
       }
@@ -54,7 +54,7 @@ export class CalculationInputComponent implements OnInit {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     const allColumnIds = [];
-    this.gridColumnApi.getAllColumns().forEach(function (column) {
+    this.gridColumnApi.getAllColumns().forEach(function(column) {
       allColumnIds.push(column.colId);
     });
     // this.gridColumnApi.autoSizeColumns(allColumnIds);
@@ -73,7 +73,7 @@ export class CalculationInputComponent implements OnInit {
   }
   getAllRows(): CalculationInput[] {
     const arr: Array<CalculationInput> = [];
-    this.gridApi.forEachNode(function (node, index) {
+    this.gridApi.forEachNode(function(node, index) {
       const Row: CalculationInput = {
         id: node.data.id,
         name: node.data.name,

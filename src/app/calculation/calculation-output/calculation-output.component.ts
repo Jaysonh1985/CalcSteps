@@ -24,13 +24,13 @@ export class CalculationOutputComponent implements OnInit {
       {
         headerName: "Name",
         field: "name",
-        width: 200,
+        width: 180,
         editable: true,
         rowDrag: true
       },
       {
         headerName: "Data",
-        field: "datatype",
+        field: "data",
         width: 70,
         cellEditor: "agSelectCellEditor",
         cellEditorParams: { values: ["Date", "Number", "Text", "Logic"] },
@@ -39,7 +39,7 @@ export class CalculationOutputComponent implements OnInit {
       },
       {
         headerName: "Variable",
-        field: "output",
+        field: "variable",
         width: 110,
         editable: true,
         suppressFilter: true
@@ -74,8 +74,8 @@ export class CalculationOutputComponent implements OnInit {
     const arr: Array<CalculationOutput> = [];
     this.gridApi.forEachNode(function(node, index) {
       const Row: CalculationOutput = {
-        id: node.data.id,
         name: node.data.name,
+        variable: node.data.variable,
         output: node.data.output,
         data: node.data.data
       };
@@ -83,11 +83,24 @@ export class CalculationOutputComponent implements OnInit {
     });
     return arr;
   }
+  getAllRowsNodes(): any[] {
+    const arr: Array<any> = [];
+    this.gridApi.forEachNode(function(node, index) {
+      arr.push(node);
+    });
+    return arr;
+  }
+  public setRowOuput(id, value) {
+    const rowNode = this.gridApi.getRowNode(id);
+    const data = rowNode.data;
+    data.output = value;
+    rowNode.setData(data);
+  }
   createNewRowData() {
     const newRow: CalculationOutput = {
-      id: "",
       name: "",
       output: "",
+      variable: "",
       data: ""
     };
     return newRow;

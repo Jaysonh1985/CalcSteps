@@ -34,6 +34,7 @@ export class CalculationComponent implements OnInit {
   events = [];
   opened = true;
   public calculationName: string;
+  public calculationGroup: string;
   constructor(
     private route: ActivatedRoute,
     private calcService: CalculationService,
@@ -100,6 +101,7 @@ export class CalculationComponent implements OnInit {
           calculations[0].calculationConfigurations;
         this.calculationOutput = calculations[0].calculationOutputs;
         this.calculationName = calculations[0].name;
+        this.calculationGroup = calculations[0].group;
       });
   }
 }

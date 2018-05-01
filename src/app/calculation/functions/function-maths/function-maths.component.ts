@@ -1,6 +1,8 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import * as mathJs from "mathjs";
 import { CalculationConfiguration } from "../../shared/models/calculation-configuration";
+import { CalculationInputComponent } from "../../calculation-input/calculation-input.component";
+import { CalculationOutputComponent } from "../../calculation-output/calculation-output.component";
 export class Maths {
   bracketOpen: string;
   input1: string;
@@ -18,7 +20,10 @@ export class Maths {
 export class FunctionMathsComponent implements OnInit {
   @Input() selectedRow: CalculationConfiguration;
   public maths: Maths;
-
+  @ViewChild(CalculationInputComponent)
+  private CalculationInputComponent: CalculationInputComponent;
+  @ViewChild(CalculationOutputComponent)
+  private CalculationOutputComponent: CalculationOutputComponent;
   constructor() {
     this.maths = new Maths();
     this.maths.bracketOpen = "";
@@ -39,36 +44,43 @@ export class FunctionMathsComponent implements OnInit {
       this.selectedRow[0].maths = [this.maths];
     }
   }
-  convertFunctionType(functionType): any {}
-  public calculate(maths): any {
+  private getAutoCompleteOutput(InputValue, array): any {
+    const InputCheck = mathJs.typeof(InputValue);
+    let input = 0;
+    if (InputCheck === "string") {
+      input = InputValue;
+      array.forEach(value => {
+        if (value.data.name === InputValue) {
+          input = value.data.output;
+        }
+      });
+    } else {
+      input = InputValue;
+    }
+    return input;
+  }
+  private getFunctionType(functionType): any {
+    if (functionType === "add") {
+      return "+";
+    } else if (functionType === "subtract") {
+      return "-";
+    } else if (functionType === "multiply") {
+      return "*";
+    } else if (functionType === "divide") {
+      return "/";
+    } else if (functionType === "") {
+      return "";
+    }
+  }
+  public calculate(maths, autoComplete): any {
     let mathString = "";
-    maths.forEach(function(column) {
+    maths.forEach(column => {
+      const input1 = this.getAutoCompleteOutput(column.input1, autoComplete);
       const bracketOpen = column.bracketOpen;
-      const input1 = column.input1;
-      let functionType = column.function;
-      if ((functionType = "add")) {
-        functionType = "+";
-      } else if ((functionType = "subtract")) {
-        functionType = "-";
-      } else if ((functionType = "multiply")) {
-        functionType = "*";
-      } else if ((functionType = "divide")) {
-        functionType = "/";
-      }
-      const input2 = column.input2;
+      const functionType = this.getFunctionType(column.functionType);
+      const input2 = this.getAutoCompleteOutput(column.input2, autoComplete);
       const bracketClose = column.bracketClose;
-      let nextFunction = column.nextFunction;
-      if (nextFunction === "add") {
-        nextFunction = "+";
-      } else if (nextFunction === "subtract") {
-        nextFunction = "-";
-      } else if (nextFunction === "multiply") {
-        nextFunction = "*";
-      } else if (nextFunction === "divide") {
-        nextFunction = "/";
-      } else if (nextFunction === "") {
-        nextFunction = "";
-      }
+      const nextFunction = this.getFunctionType(column.nextFunction);
       mathString =
         mathString +
         bracketOpen +

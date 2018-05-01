@@ -41,7 +41,7 @@ export class CalculationInputComponent implements OnInit {
       },
       {
         headerName: "Input",
-        field: "input",
+        field: "output",
         width: 135,
         editable: true,
         suppressFilter: true
@@ -68,7 +68,7 @@ export class CalculationInputComponent implements OnInit {
     const res = this.gridApi.updateRowData({ remove: selectedData });
   }
   createNewRowData(): CalculationInput {
-    const newRow: CalculationInput = { id: "", name: "", input: "", data: "" };
+    const newRow: CalculationInput = { id: "", name: "", output: "", data: "" };
     return newRow;
   }
   getAllRows(): CalculationInput[] {
@@ -77,10 +77,28 @@ export class CalculationInputComponent implements OnInit {
       const Row: CalculationInput = {
         id: node.data.id,
         name: node.data.name,
-        input: node.data.input,
+        output: node.data.output,
         data: node.data.data
       };
       arr.push(Row);
+    });
+    return arr;
+  }
+  getFinalRowNodesName(name): any[] {
+    const arr: Array<any> = [];
+    this.gridApi.forEachNode(function(node, index) {
+      if (node.data.name === name) {
+        arr.push(node);
+      }
+    });
+    return arr[arr.length - 1];
+  }
+  getAllRowNodesbyData(data): any[] {
+    const arr: Array<any> = [];
+    this.gridApi.forEachNode(function(node, index) {
+      if (node.data.data === data) {
+        arr.push(node);
+      }
     });
     return arr;
   }

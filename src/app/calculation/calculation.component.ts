@@ -61,7 +61,11 @@ export class CalculationComponent implements OnInit {
       configuration => {
         if ((configuration.data.function = "Maths")) {
           const math = new FunctionMathsComponent();
-          const result = math.calculate(configuration.data.maths);
+          let autoComplete = [];
+          autoComplete = this.CalculationInputComponent.getAllRowNodesbyData(
+            "Number"
+          );
+          const result = math.calculate(configuration.data.maths, autoComplete);
           this.CalculationConfigurationComponent.setRowOuput(
             configuration.id,
             result,

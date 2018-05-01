@@ -8,7 +8,7 @@
       <th></th>
       <th></th>
       <th></th>
-      <th>
+      <th (click)="onAddRow()">
         <a>
           <span class="center-block glyphicon glyphicon-plus"></span>
         </a>
@@ -16,7 +16,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let row of selectedRow[0].maths">
+    <tr *ngFor="let row of selectedRow[0].maths; let i = index">
       <td width="10%">
         <select [(ngModel)]="row.bracketOpen" class="form-control">
           <option value=""></option>
@@ -31,7 +31,7 @@
       </td>
 
       <td width="10%">
-        <select [(ngModel)]="row.function" class="form-control" required>
+        <select [(ngModel)]="row.functionType" class="form-control" required>
           <option value=""></option>
           <option value="add">+</option>
           <option value="subtract">-</option>
@@ -41,8 +41,8 @@
       </td>
 
       <td width="20%">
-        <span >
-          <input type="text" [(ngModel)]="row.input2" class="form-control"  required>
+        <span>
+          <input type="text" [(ngModel)]="row.input2" class="form-control" required>
         </span>
       </td>
       <td width="10%">
@@ -61,12 +61,12 @@
         </select>
 
       </td>
-      <td width="5%">
+      <td width="5%" (click)="onDeleteRow(i)">
         [
         <a>X</a>]
       </td>
       <td width="5%">
-        <a>
+        <a (click)="onAddRow()">
           <i class="center-block glyphicon glyphicon-plus"></i>
         </a>
       </td>

@@ -48,6 +48,10 @@ export class CalculationComponent implements OnInit {
       JSON.parse(JSON.stringify(this.calculation))
     );
   }
+  onDelete() {
+    this.calcService.deleteCalculation(this.calculation.key);
+    this.router.navigate(["dashboard"]);
+  }
   onExit() {
     this.router.navigate(["dashboard"]);
   }

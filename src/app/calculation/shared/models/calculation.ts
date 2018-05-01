@@ -12,7 +12,7 @@ export class Calculation {
   calculationType: string;
   updateDate: Date = new Date();
   username: string;
-  calculationInputs: CalculationInput;
-  calculationOutputs: CalculationOutput;
-  calculationConfigurations: CalculationConfiguration;
+  calculationInputs: CalculationInput[];
+  calculationOutputs: CalculationOutput[];
+  calculationConfigurations: CalculationConfiguration[];
 }

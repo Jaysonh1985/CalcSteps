@@ -11,6 +11,9 @@ import {
 import { CalculationInput } from "../calculation/shared/models/calculation-input";
 import { CalculationOutput } from "../calculation/shared/models/calculation-output";
 import { CalculationConfiguration } from "../calculation/shared/models/calculation-configuration";
+import { CalculationInputComponent } from "../calculation/calculation-input/calculation-input.component";
+import { CalculationOutputComponent } from "../calculation/calculation-output/calculation-output.component";
+import { CalculationConfigurationComponent } from "../calculation/calculation-configuration/calculation-configuration.component";
 
 @Component({
   selector: "app-dashboard",
@@ -51,9 +54,15 @@ export class DashboardComponent implements OnInit {
     this.calculation.owner = "Jayson Herbert";
     this.calculation.regression = false;
     this.calculation.username = "jaysonh1985@gmail.com";
-    this.calculation.calculationInputs = new CalculationInput();
-    this.calculation.calculationOutputs = new CalculationOutput();
-    this.calculation.calculationConfigurations = new CalculationConfiguration();
+    const Input = new CalculationInputComponent();
+    this.calculation.calculationInputs = [];
+    this.calculation.calculationInputs.push(Input.createNewRowData());
+    const Output = new CalculationOutputComponent();
+    this.calculation.calculationOutputs = [];
+    this.calculation.calculationOutputs.push(Output.createNewRowData());
+    const Config = new CalculationConfigurationComponent();
+    this.calculation.calculationConfigurations = [];
+    this.calculation.calculationConfigurations.push(Config.createNewRowData());
     this.calcService.createCalculation(this.calculation);
     this.calculation = new Calculation();
   }

@@ -56,24 +56,46 @@ export class CalculationComponent implements OnInit {
   onExit() {
     this.router.navigate(["dashboard"]);
   }
+  getCalculationConfigurationAutoComplete(data, inputs, rowIndex): any[] {
+    let autoCompleteConfig = [];
+    autoCompleteConfig = this.CalculationConfigurationComponent.getFinalRowNodesbyDataIndex(data, rowIndex);
+    if (autoCompleteConfig === undefined) {
+      return inputs;
+    } else {
+      return inputs.concat(autoCompleteConfig);
+    }
+  }
   onCalc() {
+    let autoComplete = [];
+    autoComplete = this.CalculationInputComponent.getAllRowNodesbyData(
+      "Number"
+    );
     this.CalculationConfigurationComponent.getAllRowsNodes().forEach(
       configuration => {
         if ((configuration.data.function = "Maths")) {
-          const math = new FunctionMathsComponent();
-          let autoComplete = [];
-          autoComplete = this.CalculationInputComponent.getAllRowNodesbyData(
-            "Number"
-          );
-          const result = math.calculate(configuration.data.maths, autoComplete);
-          this.CalculationConfigurationComponent.setRowOuput(
-            configuration.id,
-            result,
-            "Number"
-          );
+          this.calcMaths(configuration, autoComplete);
         }
       }
     );
+    this.calcOutput();
+  }
+  calcMaths(configuration, autoComplete) {
+    const math = new FunctionMathsComponent();
+    const result = math.calculate(
+      configuration.data.maths,
+      this.getCalculationConfigurationAutoComplete(
+        "Number",
+        autoComplete,
+        configuration.rowIndex
+      )
+    );
+    this.CalculationConfigurationComponent.setRowOuput(
+      configuration.id,
+      result,
+      "Number"
+    );
+  }
+  calcOutput() {
     this.CalculationOutputComponent.getAllRowsNodes().forEach(output => {
       this.CalculationOutputComponent.setRowOuput(output.id, "");
       let arr: Array<any> = [];

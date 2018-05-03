@@ -3,6 +3,7 @@ import * as mathJs from "mathjs";
 import { CalculationConfiguration } from "../../shared/models/calculation-configuration";
 import { CalculationInputComponent } from "../../calculation-input/calculation-input.component";
 import { CalculationOutputComponent } from "../../calculation-output/calculation-output.component";
+import { parse } from "querystring";
 export class Maths {
   bracketOpen: string;
   input1: string;
@@ -45,9 +46,8 @@ export class FunctionMathsComponent implements OnInit {
     }
   }
   private getAutoCompleteOutput(InputValue, array): any {
-    const InputCheck = mathJs.typeof(InputValue);
     let input = 0;
-    if (InputCheck === "string") {
+    if (isNaN(Number(InputValue))) {
       input = InputValue;
       array.forEach(value => {
         if (value.data.name === InputValue) {

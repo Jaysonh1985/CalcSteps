@@ -117,6 +117,38 @@ export class CalculationConfigurationComponent implements OnInit {
     });
     return arr[arr.length - 1];
   }
+  getFinalRowNodesbyNameIndex(name, index): any[] {
+    const arr: Array<any> = [];
+    this.gridApi.forEachNode(function(node) {
+      if (node.data.name === name && node.rowIndex < index) {
+        arr.push(node);
+      }
+      if (node.rowIndex === index) {
+        if ((arr.length = 0)) {
+          return null;
+        } else {
+          return arr[arr.length - 1];
+        }
+      }
+    });
+    return arr[arr.length - 1];
+  }
+  getFinalRowNodesbyDataIndex(data, index): any[] {
+    const arr: Array<any> = [];
+    this.gridApi.forEachNode(function(node) {
+      if (node.data.data === data && node.rowIndex < index) {
+        arr.push(node);
+      }
+      if (node.rowIndex === index) {
+        if (arr.length > 0) {
+           return arr[arr.length - 1];
+        } else {
+          return null;
+        }
+      }
+    });
+    return arr[arr.length - 1];
+  }
   public setRowOuput(id, value, datatype) {
     const rowNode = this.gridApi.getRowNode(id);
     const data = rowNode.data;

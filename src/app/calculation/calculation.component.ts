@@ -58,7 +58,10 @@ export class CalculationComponent implements OnInit {
   }
   getCalculationConfigurationAutoComplete(data, inputs, rowIndex): any[] {
     let autoCompleteConfig = [];
-    autoCompleteConfig = this.CalculationConfigurationComponent.getFinalRowNodesbyDataIndex(data, rowIndex);
+    autoCompleteConfig = this.CalculationConfigurationComponent.getFinalRowNodesbyDataIndex(
+      data,
+      rowIndex
+    );
     if (autoCompleteConfig === undefined) {
       return inputs;
     } else {

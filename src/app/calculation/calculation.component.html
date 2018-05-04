@@ -61,7 +61,9 @@
       <app-calculation-input [calculationInput]="calculationInput"></app-calculation-input>
     </div>
     <div id="middle" *ngIf='calculationConfiguration'>
-      <app-calculation-configuration [calculationConfiguration]="calculationConfiguration"></app-calculation-configuration>
+<app-calculation-configuration [calculationConfiguration]="calculationConfiguration" [calculationInput]="calculationInputNodes"
+(messageEvent)="receiveCalculationInput()"></app-calculation-configuration>
+
     </div>
     <div id="right" *ngIf='calculationOutput'>
       <app-calculation-output [calculationOutput]="calculationOutput"></app-calculation-output>

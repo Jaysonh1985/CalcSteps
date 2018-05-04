@@ -1,4 +1,5 @@
 import { Maths } from "../../functions/function-maths/function-maths.component";
+import { CalculationError } from "./calculation-error";
 
 export class CalculationConfiguration {
   group: string;
@@ -7,4 +8,5 @@ export class CalculationConfiguration {
   data: string;
   output: string;
   maths: Maths[];
+  errors: CalculationError[];
 }

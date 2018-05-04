@@ -56,11 +56,13 @@ export class FunctionMathsComponent implements OnInit {
     if (this.selectedRow[0].maths == null) {
       this.selectedRow[0].maths = [this.maths];
     }
+    this.autoCompleteOptions = [];
     this.autoCompleteArray.forEach(element => {
       if (element.data.data === "Number") {
-        const autoCompleteText = element.data.name;
-        this.autoCompleteOptions = [];
-        this.autoCompleteOptions.push(autoCompleteText);
+        if (element.data.name !== "") {
+          const autoCompleteText = element.data.name;
+          this.autoCompleteOptions.push(autoCompleteText);
+        }
       }
     });
   }

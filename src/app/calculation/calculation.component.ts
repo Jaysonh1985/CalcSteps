@@ -22,7 +22,8 @@ export class CalculationComponent implements OnInit {
   public key: any[];
   public calculation: any;
   public calculationConfiguration: CalculationConfiguration;
-  public calculationInput: CalculationInput;
+  public calculationInput: CalculationInput[];
+  public calculationInputNodes: any[];
   public calculationOutput: CalculationOutput;
   @ViewChild(CalculationInputComponent)
   private CalculationInputComponent: CalculationInputComponent;
@@ -58,18 +59,10 @@ export class CalculationComponent implements OnInit {
   onExit() {
     this.router.navigate(["dashboard"]);
   }
-  getCalculationConfigurationAutoComplete(data, inputs, rowIndex): any[] {
-    let autoCompleteConfig = [];
-    autoCompleteConfig = this.CalculationConfigurationComponent.getFinalRowNodesbyDataIndex(
-      data,
-      rowIndex
-    );
-    if (autoCompleteConfig === undefined) {
-      return inputs;
-    } else {
-      return inputs.concat(autoCompleteConfig);
-    }
-  }
+  // public getCalculationInputs(): any[] {
+
+  //   return [];
+  // }
   onCalc() {
     let autoComplete = [];
     autoComplete = this.CalculationInputComponent.getAllRowNodesbyData(
@@ -100,6 +93,18 @@ export class CalculationComponent implements OnInit {
       "Number"
     );
   }
+  getCalculationConfigurationAutoComplete(data, inputs, rowIndex): any[] {
+    let autoCompleteConfig = [];
+    autoCompleteConfig = this.CalculationConfigurationComponent.getFinalRowNodesbyDataIndex(
+      data,
+      rowIndex
+    );
+    if (autoCompleteConfig === undefined) {
+      return inputs;
+    } else {
+      return inputs.concat(autoCompleteConfig);
+    }
+  }
   calcOutput() {
     this.CalculationOutputComponent.getAllRowsNodes().forEach(output => {
       this.CalculationOutputComponent.setRowOuput(output.id, "");
@@ -112,6 +117,9 @@ export class CalculationComponent implements OnInit {
         arr["data"].output
       );
     });
+  }
+  receiveCalculationInput() {
+    this.calculationInputNodes = this.CalculationInputComponent.getAllRowsNodes();
   }
   ngOnInit() {
     const key = this.route.snapshot.params["key"];

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { GridOptions } from "ag-grid";
 import { Grid } from "ag-grid";
 import { tryParse } from "selenium-webdriver/http";
@@ -18,7 +18,7 @@ export class CalculationInputComponent implements OnInit {
   private gridColumnApi;
   public inputRows: object[];
   @Input() calculationInput: string[];
-
+  @Output() messageEvent = new EventEmitter();
   constructor() {
     this.inputGridOptions = <GridOptions>{};
     this.rowSelection = "single";
@@ -68,7 +68,7 @@ export class CalculationInputComponent implements OnInit {
     const res = this.gridApi.updateRowData({ remove: selectedData });
   }
   createNewRowData(): CalculationInput {
-    const newRow: CalculationInput = { id: "", name: "", output: "", data: "" };
+    const newRow: CalculationInput = { id: "", name: "", output: "", data: "", errors: [] };
     return newRow;
   }
   getAllRows(): CalculationInput[] {
@@ -78,9 +78,17 @@ export class CalculationInputComponent implements OnInit {
         id: node.data.id,
         name: node.data.name,
         output: node.data.output,
-        data: node.data.data
+        data: node.data.data,
+        errors: node.data.errors
       };
       arr.push(Row);
+    });
+    return arr;
+  }
+  getAllRowsNodes(): any[] {
+    const arr: Array<any> = [];
+    this.gridApi.forEachNode(function (node, index) {
+      arr.push(node);
     });
     return arr;
   }

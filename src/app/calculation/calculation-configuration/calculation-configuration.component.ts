@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, ViewChild } from "@angular/core";
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from "@angular/core";
 import { GridOptions } from "ag-grid";
 import { Grid } from "ag-grid";
 import { Maths } from "../functions/function-maths/function-maths.component";
 import { CalculationConfiguration } from "../shared/models/calculation-configuration";
 import { CalculationInputComponent } from "../calculation-input/calculation-input.component";
-
+import { CalculationService } from "../shared/services/calculation.service";
+import { concat } from "rxjs/operators";
 @Component({
   selector: "app-calculation-configuration",
   templateUrl: "./calculation-configuration.component.html",
@@ -21,6 +22,8 @@ export class CalculationConfigurationComponent implements OnInit {
   @ViewChild(CalculationInputComponent)
   private CalculationInputComponent: CalculationInputComponent;
   @Input() calculationConfiguration: string[];
+  @Input() calculationInput: any [];
+  @Output() messageEvent = new EventEmitter();
   constructor() {
     this.gridOptions = <GridOptions>{};
     this.gridOptions.columnDefs = [
@@ -87,6 +90,7 @@ export class CalculationConfigurationComponent implements OnInit {
     const res = this.gridApi.updateRowData({ remove: selectedData });
   }
   onSelectionChanged(event, myRows: CalculationConfiguration) {
+    this.messageEvent.emit("Add Input");
     this.selectedRow = this.gridApi.getSelectedNodes();
     if (this.selectedRow.length > 0) {
       this.selectedRows = [];
@@ -95,6 +99,9 @@ export class CalculationConfigurationComponent implements OnInit {
       this.autoCompleteArray = this.getAllRowsNodesbyIndex(
         this.selectedRow[0].rowIndex
       );
+      if (this.calculationInput !== undefined) {
+        this.autoCompleteArray = this.calculationInput.concat(this.autoCompleteArray);
+      }
     }
   }
   getAllRows(): CalculationConfiguration[] {
@@ -106,7 +113,8 @@ export class CalculationConfigurationComponent implements OnInit {
         name: node.data.name,
         data: node.data.data,
         output: node.data.output,
-        maths: node.data.maths
+        maths: node.data.maths,
+        errors: node.data.errors
       };
       arr.push(row);
     });
@@ -207,7 +215,8 @@ export class CalculationConfigurationComponent implements OnInit {
       maths: [],
       name: "",
       output: "",
-      data: ""
+      data: "",
+      errors: []
     };
     return newRow;
   }

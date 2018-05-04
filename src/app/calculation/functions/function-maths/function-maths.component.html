@@ -1,75 +1,43 @@
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Input 1</th>
-      <th></th>
-      <th>Input 2</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th (click)="onAddRow()">
-        <a>
-          <span class="center-block glyphicon glyphicon-plus"></span>
-        </a>
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let row of selectedRow[0].maths; let i = index">
-      <td width="10%">
-        <select [(ngModel)]="row.bracketOpen" class="form-control">
-          <option value=""></option>
-          <option value="(">(</option>
-        </select>
-      </td>
-
-      <td width="20%">
-        <span>
-          <input [(ngModel)]="row.input1" type="text" class="form-control" required>
-        </span>
-      </td>
-
-      <td width="10%">
-        <select [(ngModel)]="row.functionType" class="form-control" required>
-          <option value=""></option>
-          <option value="add">+</option>
-          <option value="subtract">-</option>
-          <option value="multiply">x</option>
-          <option value="divide">></option>
-        </select>
-      </td>
-
-      <td width="20%">
-        <span>
-          <input type="text" [(ngModel)]="row.input2" class="form-control" required>
-        </span>
-      </td>
-      <td width="10%">
-        <select [(ngModel)]="row.bracketClose" class="form-control">
-          <option value=""></option>
-          <option value=")">)</option>
-        </select>
-      </td>
-      <td width="10%">
-        <select [(ngModel)]="row.nextFunction" class="form-control">
-          <option value=""></option>
-          <option value="add">+</option>
-          <option value="subtract">-</option>
-          <option value="multiply">x</option>
-          <option value="divide">></option>
-        </select>
-
-      </td>
-      <td width="5%" (click)="onDeleteRow(i)">
-        [
-        <a>X</a>]
-      </td>
-      <td width="5%">
-        <a (click)="onAddRow()">
-          <i class="center-block glyphicon glyphicon-plus"></i>
-        </a>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="row" *ngFor="let row of selectedRow[0].maths; let i = index"  style="border: 1px solid #CCC; background: white; padding-left: 3%;
+    padding-top: 1%;">
+  <mat-form-field style="width: 30px">
+    <mat-select [(ngModel)]="row.bracketOpen">
+      <mat-option [value]=""></mat-option>
+      <mat-option [value]="'('">(</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field style="width: 130px">
+    <input matInput placeholder="Input 1" [(ngModel)]="row.input1" style="font-size: small">
+  </mat-form-field>
+  <mat-form-field style="width: 40px">
+    <mat-select [(ngModel)]="row.functionType">
+      <mat-option [value]=""></mat-option>
+      <mat-option [value]="'add'">+</mat-option>
+      <mat-option [value]="'subract'">-</mat-option>
+      <mat-option [value]="'multiply'">x</mat-option>
+      <mat-option [value]="'divide'">/</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field style="width: 130px">
+    <input matInput placeholder="Input 2" [(ngModel)]="row.input2" style="font-size: small">
+  </mat-form-field>
+  <mat-form-field style="width: 30px">
+    <mat-select [(ngModel)]="row.bracketClose">
+      <mat-option [value]=""></mat-option>
+      <mat-option [value]="')'">)</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field style="width: 40px">
+    <mat-select [(ngModel)]="row.nextFunction">
+      <mat-option [value]=""></mat-option>
+      <mat-option [value]="'add'">+</mat-option>
+      <mat-option [value]="'subract'">-</mat-option>
+      <mat-option [value]="'multiply'">x</mat-option>
+      <mat-option [value]="'divide'">/</mat-option>
+    </mat-select>
+  </mat-form-field>
+ <button mat-icon-button style="font-size: small">
+    <mat-icon matListIcon (click)="onDeleteRow(i)" style="font-size: small; color: red">remove</mat-icon>
+  </button>
+</div>
+<button mat-button (click)="onAddRow()">Add Row</button>

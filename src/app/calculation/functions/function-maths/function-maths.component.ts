@@ -4,6 +4,7 @@ import { CalculationConfiguration } from "../../shared/models/calculation-config
 import { CalculationInputComponent } from "../../calculation-input/calculation-input.component";
 import { CalculationOutputComponent } from "../../calculation-output/calculation-output.component";
 import { parse } from "querystring";
+import { MatSelect } from "@angular/material";
 export class Maths {
   bracketOpen: string;
   input1: string;
@@ -35,6 +36,13 @@ export class FunctionMathsComponent implements OnInit {
     this.maths.nextFunction = "";
   }
   onAddRow() {
+    this.maths = new Maths();
+    this.maths.bracketOpen = "";
+    this.maths.input1 = "";
+    this.maths.functionType = "";
+    this.maths.input2 = "";
+    this.maths.bracketClose = "";
+    this.maths.nextFunction = "";
     this.selectedRow[0].maths.push(this.maths);
   }
   onDeleteRow(index) {

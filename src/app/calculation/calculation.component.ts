@@ -44,6 +44,8 @@ export class CalculationComponent implements OnInit {
     this.calculation.calculationInputs = this.CalculationInputComponent.getAllRows();
     this.calculation.calculationOutputs = this.CalculationOutputComponent.getAllRows();
     this.calculation.calculationConfigurations = this.CalculationConfigurationComponent.getAllRows();
+    this.calculation.group = this.calculationGroup;
+    this.calculation.name = this.calculationName;
     this.calcService.updateCalculation(
       this.calculation.key,
       JSON.parse(JSON.stringify(this.calculation))

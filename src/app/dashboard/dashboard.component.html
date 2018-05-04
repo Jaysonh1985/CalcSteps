@@ -9,7 +9,6 @@
 	<table class="table table-hover">
 		<thead>
 			<tr>
-				<th scope="col">#</th>
 				<th scope="col">Group</th>
 				<th scope="col">Name</th>
 				<th scope="col">Owner</th>
@@ -20,18 +19,16 @@
 		</thead>
 		<tbody>
 			<tr *ngFor="let item of calculations">
-				<td scope="row">{{item.key}}</td>
 				<td>{{item.group}}</td>
 				<td>{{item.name}}</td>
 				<td>{{item.owner}}</td>
 				<td>{{item.updatedate}}</td>
 				<td>{{item.regressionpass}}</td>
 				<td>
-					<button (click)="editCalculation(item)">Edit</button>
+					<button mat-raised-button (click)="editCalculation(item)">Edit</button>
 				</td>
 			</tr>
 		</tbody>
 	</table>
-	<button (click)="onAddCalculation()">Add</button>
-	<button (click)="deleteCalculations()">Delete All</button>
+	<button mat-raised-button (click)="onAddCalculation()">Add</button>
 </div>

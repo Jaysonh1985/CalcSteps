@@ -13,7 +13,7 @@ import { LoginComponent } from "./login/login.component";
 import { routes } from "./app.router";
 import { environment } from "../environments/environment";
 import { AuthService } from "./services/auth.service";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AgGridModule } from "ag-grid-angular/main";
 import { CalculationComponent } from "./calculation/calculation.component";
 import { CalculationInputComponent } from "./calculation/calculation-input/calculation-input.component";

@@ -8,45 +8,45 @@
 <mat-sidenav-container class="example-container">
   <mat-sidenav #sidenav mode="side" [(opened)]="opened" style="background: #353535; color: white;">
     <mat-nav-list>
-      <mat-list-item>
+      <mat-list-item style="color: white">
         <mat-icon matListIcon>home</mat-icon>
         <h3 matLine> Home</h3>
       </mat-list-item>
-      <mat-list-item (click)="onCalc()">
+      <mat-list-item (click)="onCalc()" style="color: white">
         <mat-icon matListIcon>apps</mat-icon>
         <h3 matLine> Calculate</h3>
       </mat-list-item>
-      <mat-list-item (click)="onSave()">
+      <mat-list-item (click)="onSave()" style="color: white">
         <mat-icon matListIcon>save</mat-icon>
         <h3 matLine> Save </h3>
       </mat-list-item>
-      <mat-list-item>
+      <mat-list-item style="color: white">
         <mat-icon matListIcon>done_all</mat-icon>
         <h3 matLine> Regression </h3>
       </mat-list-item>
-      <mat-list-item>
+      <mat-list-item style="color: white">
         <mat-icon matListIcon>history</mat-icon>
         <h3 matLine> History </h3>
       </mat-list-item>
-      <mat-list-item>
+      <mat-list-item style="color: white">
         <mat-icon matListIcon>description</mat-icon>
         <h3 matLine> Specification </h3>
       </mat-list-item>
-      <mat-list-item (click)="onDelete()">
+      <mat-list-item (click)="onDelete()"style="color: white">
         <mat-icon matListIcon>delete</mat-icon>
         <h3 matLine> Delete </h3>
       </mat-list-item>
-      <mat-list-item (click)="onExit()">
+      <mat-list-item (click)="onExit()" style="color: white">
         <mat-icon matListIcon>exit_to_app</mat-icon>
         <h3 matLine> Exit </h3>
       </mat-list-item>
-      <mat-list-item>
+      <mat-list-item style="color: white">
         <mat-form-field>
           <input matInput [(ngModel)]="calculationGroup">
           <mat-icon matSuffix>mode_edit</mat-icon>
         </mat-form-field>
       </mat-list-item>
-      <mat-list-item>
+      <mat-list-item style="color: white">
         <mat-form-field>
           <input matInput [(ngModel)]="calculationName">
           <mat-icon matSuffix>mode_edit</mat-icon>

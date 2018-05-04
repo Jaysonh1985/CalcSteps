@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { GridOptions } from "ag-grid";
 import { Grid } from "ag-grid";
 import { Maths } from "../functions/function-maths/function-maths.component";
 import { CalculationConfiguration } from "../shared/models/calculation-configuration";
+import { CalculationInputComponent } from "../calculation-input/calculation-input.component";
 
 @Component({
   selector: "app-calculation-configuration",
@@ -15,7 +16,10 @@ export class CalculationConfigurationComponent implements OnInit {
   private gridApi;
   private gridColumnApi;
   public selectedRows;
-  public selectedRow: CalculationConfiguration;
+  public autoCompleteArray;
+  public selectedRow: any[];
+  @ViewChild(CalculationInputComponent)
+  private CalculationInputComponent: CalculationInputComponent;
   @Input() calculationConfiguration: string[];
   constructor() {
     this.gridOptions = <GridOptions>{};
@@ -83,8 +87,15 @@ export class CalculationConfigurationComponent implements OnInit {
     const res = this.gridApi.updateRowData({ remove: selectedData });
   }
   onSelectionChanged(event, myRows: CalculationConfiguration) {
-    this.selectedRows = this.gridApi.getSelectedRows();
-    this.selectedRow = this.gridApi.getSelectedRows();
+    this.selectedRow = this.gridApi.getSelectedNodes();
+    if (this.selectedRow.length > 0) {
+      this.selectedRows = [];
+      this.selectedRows.push(this.selectedRow[0].data);
+      this.autoCompleteArray = [];
+      this.autoCompleteArray = this.getAllRowsNodesbyIndex(
+        this.selectedRow[0].rowIndex
+      );
+    }
   }
   getAllRows(): CalculationConfiguration[] {
     const arr: Array<CalculationConfiguration> = [];
@@ -105,6 +116,38 @@ export class CalculationConfigurationComponent implements OnInit {
     const arr: Array<any> = [];
     this.gridApi.forEachNode(function(node, index) {
       arr.push(node);
+    });
+    return arr;
+  }
+  getAllRowsNodesbyDataIndex(data, index): any[] {
+    const arr: Array<any> = [];
+    this.gridApi.forEachNode(function(node) {
+      if (node.data.data === data && node.rowIndex < index) {
+        arr.push(node);
+      }
+      if (node.rowIndex === index) {
+        if (arr.length > 0) {
+          return arr[arr.length - 1];
+        } else {
+          return null;
+        }
+      }
+    });
+    return arr;
+  }
+  getAllRowsNodesbyIndex(index): any[] {
+    const arr: Array<any> = [];
+    this.gridApi.forEachNode(function(node) {
+      if (node.rowIndex < index) {
+        arr.push(node);
+      }
+      if (node.rowIndex === index) {
+        if (arr.length > 0) {
+          return arr[arr.length - 1];
+        } else {
+          return null;
+        }
+      }
     });
     return arr;
   }
@@ -141,7 +184,7 @@ export class CalculationConfigurationComponent implements OnInit {
       }
       if (node.rowIndex === index) {
         if (arr.length > 0) {
-           return arr[arr.length - 1];
+          return arr[arr.length - 1];
         } else {
           return null;
         }

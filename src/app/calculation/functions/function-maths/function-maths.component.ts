@@ -5,6 +5,7 @@ import { CalculationInputComponent } from "../../calculation-input/calculation-i
 import { CalculationOutputComponent } from "../../calculation-output/calculation-output.component";
 import { parse } from "querystring";
 import { MatSelect } from "@angular/material";
+import { map, startWith, concat } from "rxjs/operators";
 export class Maths {
   bracketOpen: string;
   input1: string;
@@ -20,12 +21,15 @@ export class Maths {
   styleUrls: ["./function-maths.component.css"]
 })
 export class FunctionMathsComponent implements OnInit {
-  @Input() selectedRow: CalculationConfiguration;
+  @Input() selectedRow: any[];
+  @Input() autoCompleteArray: any[];
   public maths: Maths;
   @ViewChild(CalculationInputComponent)
   private CalculationInputComponent: CalculationInputComponent;
   @ViewChild(CalculationOutputComponent)
   private CalculationOutputComponent: CalculationOutputComponent;
+  public autoCompleteOptions: any[];
+  options = ["One", "Two", "Three"];
   constructor() {
     this.maths = new Maths();
     this.maths.bracketOpen = "";
@@ -52,6 +56,13 @@ export class FunctionMathsComponent implements OnInit {
     if (this.selectedRow[0].maths == null) {
       this.selectedRow[0].maths = [this.maths];
     }
+    this.autoCompleteArray.forEach(element => {
+      if (element.data.data === "Number") {
+        const autoCompleteText = element.data.name;
+        this.autoCompleteOptions = [];
+        this.autoCompleteOptions.push(autoCompleteText);
+      }
+    });
   }
   private getAutoCompleteOutput(InputValue, array): any {
     let input = 0;
@@ -76,6 +87,8 @@ export class FunctionMathsComponent implements OnInit {
       return "*";
     } else if (functionType === "divide") {
       return "/";
+    } else if (functionType === "na") {
+      return "";
     } else if (functionType === "") {
       return "";
     }

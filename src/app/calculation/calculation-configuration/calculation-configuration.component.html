@@ -18,12 +18,12 @@
 <mat-card style="height: 40vh; overflow:auto;">
   <div *ngFor="let row of selectedRows">
     <mat-card-header>
-        <mat-card-title>{{row.functionType}}</mat-card-title>
+      <mat-card-title>{{row.functionType}}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <div >
+      <div>
         <form>
-          <app-function-maths [selectedRow]="selectedRow" *ngIf="row.functionType == 'Maths'"></app-function-maths>
+          <app-function-maths [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'Maths'"></app-function-maths>
           <app-function-date-adjustment *ngIf="row.functionType == 'Date Adjustment'"></app-function-date-adjustment>
           <app-function-date-duration *ngIf="row.functionType == 'Date Duration'"> </app-function-date-duration>
           <app-function-if-logic *ngIf="row.functionType == 'If Logic'"></app-function-if-logic>

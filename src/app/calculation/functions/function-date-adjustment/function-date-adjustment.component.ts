@@ -22,7 +22,17 @@ export class FunctionDateAdjustmentComponent implements OnInit {
   @Input() autoCompleteArray: any[];
   public dateAdjustment: DateAdjustment;
   public autoCompleteOptions: any[];
-  constructor() {}
+  constructor() {
+    const dateAdjustment = new DateAdjustment();
+    dateAdjustment.adjustment = "";
+    dateAdjustment.type = "";
+    dateAdjustment.date1 = "";
+    dateAdjustment.date2 = "";
+    dateAdjustment.day = "";
+    dateAdjustment.month = "";
+    dateAdjustment.period = "";
+    dateAdjustment.periodType = "";
+  }
 
   ngOnInit() {
     if (this.selectedRow[0].dateAdjustment == null) {

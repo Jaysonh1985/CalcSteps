@@ -216,27 +216,12 @@ export class CalculationConfigurationComponent implements OnInit {
   }
   onCalcConfiguration() {}
   createNewRowData() {
-    const dateAdjustment = new DateAdjustment();
-    dateAdjustment.adjustment = "";
-    dateAdjustment.type = "";
-    dateAdjustment.date1 = "";
-    dateAdjustment.date2 = "";
-    dateAdjustment.day = "";
-    dateAdjustment.month = "";
-    dateAdjustment.period = "";
-    dateAdjustment.periodType = "";
-    const dateDuration = new DateDuration();
-    dateDuration.type = "";
-    dateDuration.date1 = "";
-    dateDuration.date2 = "";
-    dateDuration.inclusive = "";
-    dateDuration.daysinyear = "";
     const newRow: CalculationConfiguration = {
       group: "",
       functionType: "",
       maths: [],
-      dateAdjustment: dateAdjustment,
-      dateDuration: dateDuration,
+      dateAdjustment: new DateAdjustment(),
+      dateDuration: new DateDuration(),
       ifLogic: [],
       name: "",
       output: "",

@@ -17,7 +17,14 @@ export class FunctionDateDurationComponent implements OnInit {
   @Input() autoCompleteArray: any[];
   public dateDuration: DateDuration;
   public autoCompleteOptions: any[];
-  constructor() {}
+  constructor() {
+    const dateDuration = new DateDuration();
+    dateDuration.type = "";
+    dateDuration.date1 = "";
+    dateDuration.date2 = "";
+    dateDuration.inclusive = "";
+    dateDuration.daysinyear = "";
+  }
 
   ngOnInit() {
     if (this.selectedRow[0].dateDuration == null) {

@@ -32,7 +32,7 @@
         <mat-icon matListIcon>description</mat-icon>
         <h3 matLine> Specification </h3>
       </mat-list-item>
-      <mat-list-item (click)="onDelete()"style="color: white">
+      <mat-list-item (click)="onDelete()" style="color: white">
         <mat-icon matListIcon>delete</mat-icon>
         <h3 matLine> Delete </h3>
       </mat-list-item>
@@ -58,11 +58,11 @@
 
   <mat-sidenav-content>
     <div id="left" *ngIf='calculationInput'>
-      <app-calculation-input [calculationInput]="calculationInput"></app-calculation-input>
+      <app-calculation-input [calculationInput]="calculationInput" (messageEvent)="receiveCalculationInput()"></app-calculation-input>
     </div>
     <div id="middle" *ngIf='calculationConfiguration'>
-<app-calculation-configuration [calculationConfiguration]="calculationConfiguration" [calculationInput]="calculationInputNodes"
-(messageEvent)="receiveCalculationInput()"></app-calculation-configuration>
+      <app-calculation-configuration [calculationConfiguration]="calculationConfiguration" [calculationInput]="calculationInputNodes"
+        (messageEvent)="receiveCalculationInput()"></app-calculation-configuration>
 
     </div>
     <div id="right" *ngIf='calculationOutput'>

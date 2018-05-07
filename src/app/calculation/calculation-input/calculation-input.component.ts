@@ -67,8 +67,17 @@ export class CalculationInputComponent implements OnInit {
     const selectedData = this.gridApi.getSelectedRows();
     const res = this.gridApi.updateRowData({ remove: selectedData });
   }
+  onSelectionChanged(event, myRows: CalculationInput) {
+    this.messageEvent.emit("Add Input");
+  }
   createNewRowData(): CalculationInput {
-    const newRow: CalculationInput = { id: "", name: "", output: "", data: "", errors: [] };
+    const newRow: CalculationInput = {
+      id: "",
+      name: "",
+      output: "",
+      data: "",
+      errors: []
+    };
     return newRow;
   }
   getAllRows(): CalculationInput[] {
@@ -87,7 +96,7 @@ export class CalculationInputComponent implements OnInit {
   }
   getAllRowsNodes(): any[] {
     const arr: Array<any> = [];
-    this.gridApi.forEachNode(function (node, index) {
+    this.gridApi.forEachNode(function(node, index) {
       arr.push(node);
     });
     return arr;

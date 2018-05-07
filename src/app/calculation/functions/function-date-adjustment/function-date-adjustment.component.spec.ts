@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { FunctionDateAdjustmentComponent } from './function-date-adjustment.component';
+import { FunctionDateAdjustmentComponent } from "./function-date-adjustment.component";
 
-describe('FunctionDateAdjustmentComponent', () => {
+describe("FunctionDateAdjustmentComponent", () => {
   let component: FunctionDateAdjustmentComponent;
   let fixture: ComponentFixture<FunctionDateAdjustmentComponent>;
 
@@ -19,7 +19,7 @@ describe('FunctionDateAdjustmentComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

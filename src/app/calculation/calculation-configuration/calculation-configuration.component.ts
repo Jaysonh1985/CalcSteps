@@ -6,6 +6,10 @@ import { CalculationConfiguration } from "../shared/models/calculation-configura
 import { CalculationInputComponent } from "../calculation-input/calculation-input.component";
 import { CalculationService } from "../shared/services/calculation.service";
 import { concat } from "rxjs/operators";
+import { DateAdapter } from "@angular/material";
+import { DateAdjustment } from "../functions/function-date-adjustment/function-date-adjustment.component";
+import { DateDuration } from "../functions/function-date-duration/function-date-duration.component";
+import { IfLogic } from "../functions/function-if-logic/function-if-logic.component";
 @Component({
   selector: "app-calculation-configuration",
   templateUrl: "./calculation-configuration.component.html",
@@ -90,7 +94,7 @@ export class CalculationConfigurationComponent implements OnInit {
     const res = this.gridApi.updateRowData({ remove: selectedData });
   }
   onSelectionChanged(event, myRows: CalculationConfiguration) {
-    this.messageEvent.emit("Add Input");
+      this.messageEvent.emit("Add Input");
     this.selectedRow = this.gridApi.getSelectedNodes();
     if (this.selectedRow.length > 0) {
       this.selectedRows = [];
@@ -114,6 +118,9 @@ export class CalculationConfigurationComponent implements OnInit {
         data: node.data.data,
         output: node.data.output,
         maths: node.data.maths,
+        dateAdjustment: node.data.dateAdjustment,
+        dateDuration: node.data.dateDuration,
+        ifLogic: node.data.ifLogic,
         errors: node.data.errors
       };
       arr.push(row);
@@ -209,10 +216,28 @@ export class CalculationConfigurationComponent implements OnInit {
   }
   onCalcConfiguration() {}
   createNewRowData() {
+    const dateAdjustment = new DateAdjustment();
+    dateAdjustment.adjustment = "";
+    dateAdjustment.type = "";
+    dateAdjustment.date1 = "";
+    dateAdjustment.date2 = "";
+    dateAdjustment.day = "";
+    dateAdjustment.month = "";
+    dateAdjustment.period = "";
+    dateAdjustment.periodType = "";
+    const dateDuration = new DateDuration();
+    dateDuration.type = "";
+    dateDuration.date1 = "";
+    dateDuration.date2 = "";
+    dateDuration.inclusive = "";
+    dateDuration.daysinyear = "";
     const newRow: CalculationConfiguration = {
       group: "",
       functionType: "",
       maths: [],
+      dateAdjustment: dateAdjustment,
+      dateDuration: dateDuration,
+      ifLogic: [],
       name: "",
       output: "",
       data: "",

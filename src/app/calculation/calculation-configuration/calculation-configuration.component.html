@@ -12,7 +12,7 @@
   </div>
   <ag-grid-angular #agGrid style="height:40vh; width: 99.5%" class="ag-theme-balham" [gridOptions]="gridOptions" [rowSelection]="rowSelection"
     [rowMultiSelectWithClick]="true" [rowDragManaged]="true" [animateRows]="true" [enableColResize]="true" (selectionChanged)="onSelectionChanged($event)"
-    (gridReady)="onGridReady($event)">
+    (gridReady)="onGridReady($event)" [stopEditingWhenGridLosesFocus]="true">
   </ag-grid-angular>
 </div>
 <mat-card style="height: 40vh; overflow:auto;">
@@ -24,9 +24,9 @@
       <div>
         <form>
           <app-function-maths [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'Maths'"></app-function-maths>
-          <app-function-date-adjustment *ngIf="row.functionType == 'Date Adjustment'"></app-function-date-adjustment>
-          <app-function-date-duration *ngIf="row.functionType == 'Date Duration'"> </app-function-date-duration>
-          <app-function-if-logic *ngIf="row.functionType == 'If Logic'"></app-function-if-logic>
+          <app-function-date-adjustment [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'Date Adjustment'"></app-function-date-adjustment>
+          <app-function-date-duration [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'Date Duration'"> </app-function-date-duration>
+          <app-function-if-logic  [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'If Logic'"></app-function-if-logic>
         </form>
       </div>
     </mat-card-content>

@@ -1,3 +1,35 @@
-<p>
-  function-date-duration works!
-</p>
+<mat-form-field>
+  <mat-select [(ngModel)]="selectedRow[0].dateDuration.Type" placeholder="Type">
+    <mat-option value="YearsDays">Years Days</mat-option>
+    <mat-option value="YearsMonths">Years Months</mat-option>
+    <mat-option value="YearsDaysDecimal">Years Days (Decimal 6dp)</mat-option>
+    <mat-option value="YearsMonthsDecimal">Years Months (Decimal 6dp)</mat-option>
+    <mat-option value="Years">Years</mat-option>
+    <mat-option value="Months">Months</mat-option>
+    <mat-option value="Days">Days</mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field>
+  <input matInput placeholder="Date 1" [(ngModel)]="selectedRow[0].dateDuration.Date1" style="font-size: small" [matAutocomplete]="auto">
+</mat-form-field>
+<mat-form-field>
+  <input matInput placeholder="Date 2" [(ngModel)]="selectedRow[0].dateDuration.Date2" style="font-size: small" [matAutocomplete]="auto">
+</mat-form-field>
+<mat-form-field>
+  <mat-select [(ngModel)]="selectedRow[0].dateDuration.Inclusive" placeholder="Inclusive day">
+    <mat-option value="True">True</mat-option>
+    <mat-option value="False">False</mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field>
+  <mat-select [(ngModel)]="selectedRow[0].dateDuration.DaysinYear" placeholder="No Days in Year">
+    <mat-option value="365">365</mat-option>
+    <mat-option value="365.25">365.25</mat-option>
+    <mat-option value="366">366</mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-autocomplete #auto="matAutocomplete">
+  <mat-option *ngFor="let option of autoCompleteOptions" [value]="option">
+    {{ option }}
+  </mat-option>
+</mat-autocomplete>

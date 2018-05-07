@@ -1,5 +1,5 @@
 <div>
-    <div class="button-row">
+  <div class="button-row">
     <h4>
       Input
     </h4>
@@ -10,8 +10,9 @@
       <mat-icon aria-label="delete config">delete</mat-icon>
     </button>
   </div>
-	<ag-grid-angular #agGrid class="ag-theme-balham" style="display:inline-block; height:85vh; width:100%" [gridOptions]="inputGridOptions"
-		 [rowSelection]="rowSelection" [rowMultiSelectWithClick]="true" [rowDragManaged]="true" [animateRows]="true" [enableColResize]="true"
-		 (gridReady)="onGridReady($event)">
-	</ag-grid-angular>
+  <ag-grid-angular #agGrid class="ag-theme-balham" style="display:inline-block; height:85vh; width:100%" [gridOptions]="inputGridOptions"
+    [rowSelection]="rowSelection" [rowMultiSelectWithClick]="true" [stopEditingWhenGridLosesFocus]="true" [rowDragManaged]="true"
+    [animateRows]="true" [enableColResize]="true" (gridReady)="onGridReady($event)" (selectionChanged)="onSelectionChanged($event)">
+
+  </ag-grid-angular>
 </div>

@@ -1,3 +1,52 @@
-<p>
-  function-date-adjustment works!
-</p>
+<mat-form-field>
+  <mat-select [(ngModel)]="selectedRow[0].dateAdjustment.Type" placeholder="Type">
+    <mat-option value="Add">Add</mat-option>
+    <mat-option value="Adjust">Adjust Day & Month</mat-option>
+    <mat-option value="AdjustDay">Adjust Day</mat-option>
+    <mat-option value="Earlier">Earlier</mat-option>
+    <mat-option value="Later">Later</mat-option>
+    <mat-option value="Subtract">Subtract</mat-option>
+    <mat-option value="DatesBetween">Dates Between Two Dates</mat-option>
+    <mat-option value="MonthsBetween">Months Between Two Dates</mat-option>
+    <mat-option value="LastDayMonth">Last Day of the Current Month</mat-option>
+    <mat-option value="Today">Today</mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field>
+  <input matInput placeholder="Date 1" [(ngModel)]="selectedRow[0].dateAdjustment.Date1" style="font-size: small" [matAutocomplete]="auto">
+</mat-form-field>
+<mat-form-field>
+  <input matInput placeholder="Date 2" [(ngModel)]="selectedRow[0].dateAdjustment.Date2" style="font-size: small" [matAutocomplete]="auto">
+</mat-form-field>
+<mat-form-field>
+  <mat-select [(ngModel)]="selectedRow[0].dateAdjustment.PeriodType">
+    <mat-option value="YearsDays">Years Days</mat-option>
+    <mat-option value="YearsMonths">Years Months</mat-option>
+    <mat-option value="Years">Years</mat-option>
+    <mat-option value="Months">Months</mat-option>
+    <mat-option value="Days">Days</mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field>
+  <input matInput placeholder="Period" [(ngModel)]="selectedRow[0].dateAdjustment.Period" style="font-size: small" [matAutocomplete]="auto">
+</mat-form-field>
+<mat-form-field>
+  <mat-select [(ngModel)]="selectedRow[0].dateAdjustment.Adjustment">
+    <mat-option value="Less">Before</mat-option>
+    <mat-option value="LessEqual">On or Before</mat-option>
+    <mat-option value="Greater">After</mat-option>
+    <mat-option value="GreaterEqual">On or After</mat-option>
+    <mat-option value="Equal">Same Year</mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field>
+  <input matInput placeholder="Day" [(ngModel)]="selectedRow[0].dateAdjustment.Day" style="font-size: small" [matAutocomplete]="auto">
+</mat-form-field>
+<mat-form-field>
+  <input matInput placeholder="month" [(ngModel)]="selectedRow[0].dateAdjustment.Month" style="font-size: small" [matAutocomplete]="auto">
+</mat-form-field>
+<mat-autocomplete #auto="matAutocomplete">
+  <mat-option *ngFor="let option of autoCompleteOptions" [value]="option">
+    {{ option }}
+  </mat-option>
+</mat-autocomplete>

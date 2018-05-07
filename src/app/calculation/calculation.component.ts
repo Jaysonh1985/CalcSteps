@@ -141,6 +141,7 @@ export class CalculationComponent implements OnInit {
         this.calculationOutput = calculations[0].calculationOutputs;
         this.calculationName = calculations[0].name;
         this.calculationGroup = calculations[0].group;
+        this.calculationInputNodes = calculations[0].calculationInputs;
       });
   }
 }

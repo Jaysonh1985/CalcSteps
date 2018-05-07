@@ -1,19 +1,36 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import * as moment from "moment";
-
+export class DateDuration {
+  type: string;
+  date1: string;
+  date2: string;
+  inclusive: string;
+  daysinyear: string;
+}
 @Component({
   selector: "app-function-date-duration",
   templateUrl: "./function-date-duration.component.html",
   styleUrls: ["./function-date-duration.component.css"]
 })
 export class FunctionDateDurationComponent implements OnInit {
-
-  constructor() { }
+  @Input() selectedRow: any[];
+  @Input() autoCompleteArray: any[];
+  public dateDuration: DateDuration;
+  public autoCompleteOptions: any[];
+  constructor() {}
 
   ngOnInit() {
-    const c = moment([2007, 0, 29]);
-    const d = moment([2006, 0, 28]);
-    c.diff(d, "days");
+    if (this.selectedRow[0].dateDuration == null) {
+      this.selectedRow[0].dateDuration = this.dateDuration;
+    }
+    this.autoCompleteOptions = [];
+    this.autoCompleteArray.forEach(element => {
+      if (element.data.data === "Date") {
+        if (element.data.name !== "") {
+          const autoCompleteText = element.data.name;
+          this.autoCompleteOptions.push(autoCompleteText);
+        }
+      }
+    });
   }
-
 }

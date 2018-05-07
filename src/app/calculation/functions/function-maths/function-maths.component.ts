@@ -24,12 +24,7 @@ export class FunctionMathsComponent implements OnInit {
   @Input() selectedRow: any[];
   @Input() autoCompleteArray: any[];
   public maths: Maths;
-  @ViewChild(CalculationInputComponent)
-  private CalculationInputComponent: CalculationInputComponent;
-  @ViewChild(CalculationOutputComponent)
-  private CalculationOutputComponent: CalculationOutputComponent;
   public autoCompleteOptions: any[];
-  options = ["One", "Two", "Three"];
   constructor() {
     this.maths = new Maths();
     this.maths.bracketOpen = "";

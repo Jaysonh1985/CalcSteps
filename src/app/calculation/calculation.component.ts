@@ -13,6 +13,8 @@ import { CalculationOutputComponent } from "./calculation-output/calculation-out
 import { CalculationConfigurationComponent } from "./calculation-configuration/calculation-configuration.component";
 import { Router } from "@angular/router";
 import { FunctionMathsComponent } from "./functions/function-maths/function-maths.component";
+import { FunctionDateAdjustmentComponent } from "./functions/function-date-adjustment/function-date-adjustment.component";
+import { FunctionDateDurationComponent } from "./functions/function-date-duration/function-date-duration.component";
 @Component({
   selector: "app-calculation",
   templateUrl: "./calculation.component.html",
@@ -65,17 +67,47 @@ export class CalculationComponent implements OnInit {
   // }
   onCalc() {
     let autoComplete = [];
-    autoComplete = this.CalculationInputComponent.getAllRowNodesbyData(
-      "Number"
-    );
+    autoComplete = this.CalculationInputComponent.getAllRowsNodes();
     this.CalculationConfigurationComponent.getAllRowsNodes().forEach(
       configuration => {
-        if ((configuration.data.function = "Maths")) {
+        if (configuration.data.functionType === "Maths") {
           this.calcMaths(configuration, autoComplete);
+        } else if (configuration.data.functionType === "Date Adjustment") {
+          this.calcDateAdjustment(configuration, autoComplete);
         }
       }
     );
     this.calcOutput();
+  }
+  calcDateAdjustment(configuration, autoComplete) {
+    const dateAdjustment = new FunctionDateAdjustmentComponent();
+    const result = dateAdjustment.calculate(
+      configuration.data.dateAdjustment,
+      this.getCalculationConfigurationAutoComplete(
+        "Date",
+        autoComplete,
+        configuration.rowIndex
+      )
+    );
+    this.CalculationConfigurationComponent.setRowOuput(
+      configuration.id,
+      result
+    );
+  }
+  calcDateDuration(configuration, autoComplete) {
+    const dateDuration = new FunctionDateDurationComponent();
+    const result = dateDuration.calculate(
+      configuration.data.dateDuration,
+      this.getCalculationConfigurationAutoComplete(
+        "Date",
+        autoComplete,
+        configuration.rowIndex
+      )
+    );
+    this.CalculationConfigurationComponent.setRowOuput(
+      configuration.id,
+      result
+    );
   }
   calcMaths(configuration, autoComplete) {
     const math = new FunctionMathsComponent();
@@ -89,8 +121,7 @@ export class CalculationComponent implements OnInit {
     );
     this.CalculationConfigurationComponent.setRowOuput(
       configuration.id,
-      result,
-      "Number"
+      result
     );
   }
   getCalculationConfigurationAutoComplete(data, inputs, rowIndex): any[] {
@@ -123,7 +154,6 @@ export class CalculationComponent implements OnInit {
   }
   ngOnInit() {
     const key = this.route.snapshot.params["key"];
-    console.log(key);
     this.calcService
       .getCalculation(key)
       .snapshotChanges()

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import * as moment from "moment";
+import "moment/locale/pt-br";
 export class DateDuration {
   type: string;
   date1: string;
@@ -39,5 +40,9 @@ export class FunctionDateDurationComponent implements OnInit {
         }
       }
     });
+  }
+  calculate(dateDuration, autoComplete): any {
+    moment.locale("en-GB");
+    return "";
   }
 }

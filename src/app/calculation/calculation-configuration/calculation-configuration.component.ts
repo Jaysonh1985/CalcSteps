@@ -218,11 +218,10 @@ export class CalculationConfigurationComponent implements OnInit {
     });
     return arr[arr.length - 1];
   }
-  public setRowOuput(id, value, datatype) {
+  public setRowOuput(id, value) {
     const rowNode = this.gridApi.getRowNode(id);
     const data = rowNode.data;
     data.output = value;
-    data.data = datatype;
     rowNode.setData(data);
   }
   onCalcConfiguration() {}

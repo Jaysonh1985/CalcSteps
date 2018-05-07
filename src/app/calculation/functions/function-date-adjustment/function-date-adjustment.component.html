@@ -1,34 +1,33 @@
 <mat-form-field>
-  <mat-select [(ngModel)]="selectedRow[0].dateAdjustment.Type" placeholder="Type">
+  <mat-select [(ngModel)]="selectedRow[0].dateAdjustment.type" placeholder="Type">
     <mat-option value="Add">Add</mat-option>
-    <mat-option value="Adjust">Adjust Day & Month</mat-option>
-    <mat-option value="AdjustDay">Adjust Day</mat-option>
+    <!-- <mat-option value="Adjust">Adjust Day & Month</mat-option>
+    <mat-option value="AdjustDay">Adjust Day</mat-option> -->
     <mat-option value="Earlier">Earlier</mat-option>
     <mat-option value="Later">Later</mat-option>
     <mat-option value="Subtract">Subtract</mat-option>
-    <mat-option value="DatesBetween">Dates Between Two Dates</mat-option>
-    <mat-option value="MonthsBetween">Months Between Two Dates</mat-option>
-    <mat-option value="LastDayMonth">Last Day of the Current Month</mat-option>
+    <mat-option value="FirstDayMonth">First Day of the Month</mat-option>
+    <mat-option value="LastDayMonth">Last Day of the Month</mat-option>
     <mat-option value="Today">Today</mat-option>
   </mat-select>
 </mat-form-field>
 <table class="example-full-width" cellspacing="0">
   <tr>
     <td>
-      <mat-form-field *ngIf="selectedRow[0].dateAdjustment.Type != 'Today'">
-        <input matInput placeholder="Date 1" [(ngModel)]="selectedRow[0].dateAdjustment.Date1" style="font-size: small" [matAutocomplete]="auto">
+      <mat-form-field *ngIf="selectedRow[0].dateAdjustment.type != 'Today'">
+        <input matInput placeholder="Date 1" [(ngModel)]="selectedRow[0].dateAdjustment.date1" style="font-size: small" [matAutocomplete]="auto">
       </mat-form-field>
 
     </td>
     <td>
-      <mat-form-field *ngIf="selectedRow[0].dateAdjustment.Type == 'Earlier' || selectedRow[0].dateAdjustment.Type == 'Later' || selectedRow[0].dateAdjustment.Type == 'DatesBetween' || selectedRow[0].dateAdjustment.Type== 'MonthsBetween'">
-        <input matInput placeholder="Date 2" [(ngModel)]="selectedRow[0].dateAdjustment.Date2" style="font-size: small" [matAutocomplete]="auto">
+      <mat-form-field *ngIf="selectedRow[0].dateAdjustment.type == 'Earlier' || selectedRow[0].dateAdjustment.type == 'Later' || selectedRow[0].dateAdjustment.type == 'DatesBetween' || selectedRow[0].dateAdjustment.type== 'MonthsBetween'">
+        <input matInput placeholder="Date 2" [(ngModel)]="selectedRow[0].dateAdjustment.date2" style="font-size: small" [matAutocomplete]="auto">
       </mat-form-field>
     </td>
   </tr>
 </table>
-<mat-form-field *ngIf="selectedRow[0].dateAdjustment.Type == 'Add'|| selectedRow[0].dateAdjustment.Type =='Subtract'">
-  <mat-select [(ngModel)]="selectedRow[0].dateAdjustment.PeriodType" placeholder="Period Type">
+<mat-form-field *ngIf="selectedRow[0].dateAdjustment.type == 'Add'|| selectedRow[0].dateAdjustment.type =='Subtract'">
+  <mat-select [(ngModel)]="selectedRow[0].dateAdjustment.periodType" placeholder="Period Type">
     <mat-option value="YearsDays">Years Days</mat-option>
     <mat-option value="YearsMonths">Years Months</mat-option>
     <mat-option value="Years">Years</mat-option>
@@ -36,11 +35,11 @@
     <mat-option value="Days">Days</mat-option>
   </mat-select>
 </mat-form-field>
-<mat-form-field *ngIf="selectedRow[0].dateAdjustment.Type == 'Add'|| selectedRow[0].dateAdjustment.Type =='Subtract'">
-  <input matInput placeholder="Period" [(ngModel)]="selectedRow[0].dateAdjustment.Period" style="font-size: small" [matAutocomplete]="auto">
+<mat-form-field *ngIf="selectedRow[0].dateAdjustment.type == 'Add'|| selectedRow[0].dateAdjustment.type =='Subtract'">
+  <input matInput placeholder="Period" [(ngModel)]="selectedRow[0].dateAdjustment.period" style="font-size: small" [matAutocomplete]="auto">
 </mat-form-field>
-<mat-form-field *ngIf="selectedRow[0].dateAdjustment.Type == 'Adjust'|| selectedRow[0].dateAdjustment.Type =='AdjustDay'">
-  <mat-select [(ngModel)]="selectedRow[0].dateAdjustment.Adjustment" placeholder="Adjustment Type">
+<mat-form-field *ngIf="selectedRow[0].dateAdjustment.type == 'Adjust'|| selectedRow[0].dateAdjustment.type =='AdjustDay'">
+  <mat-select [(ngModel)]="selectedRow[0].dateAdjustment.adjustment" placeholder="Adjustment Type">
     <mat-option value="Less">Before</mat-option>
     <mat-option value="LessEqual">On or Before</mat-option>
     <mat-option value="Greater">After</mat-option>
@@ -48,11 +47,11 @@
     <mat-option value="Equal">Same Year</mat-option>
   </mat-select>
 </mat-form-field>
-<mat-form-field *ngIf="selectedRow[0].dateAdjustment.Type == 'Adjust'|| selectedRow[0].dateAdjustment.Type =='AdjustDay' || selectedRow[0].dateAdjustment.Type =='DatesBetween' || selectedRow[0].dateAdjustment.Type =='MonthsBetween'">
-  <input matInput placeholder="Day" [(ngModel)]="selectedRow[0].dateAdjustment.Day" style="font-size: small" [matAutocomplete]="auto">
+<mat-form-field *ngIf="selectedRow[0].dateAdjustment.type == 'Adjust'|| selectedRow[0].dateAdjustment.type =='AdjustDay' || selectedRow[0].dateAdjustment.type =='DatesBetween' || selectedRow[0].dateAdjustment.type =='MonthsBetween'">
+  <input matInput placeholder="Day" [(ngModel)]="selectedRow[0].dateAdjustment.day" style="font-size: small" [matAutocomplete]="auto">
 </mat-form-field>
-<mat-form-field *ngIf="selectedRow[0].dateAdjustment.Type == 'Adjust'|| selectedRow[0].dateAdjustment.Type =='DatesBetween'">
-  <input matInput placeholder="Month" [(ngModel)]="selectedRow[0].dateAdjustment.Month" style="font-size: small" [matAutocomplete]="auto">
+<mat-form-field *ngIf="selectedRow[0].dateAdjustment.type == 'Adjust'|| selectedRow[0].dateAdjustment.type =='DatesBetween'">
+  <input matInput placeholder="Month" [(ngModel)]="selectedRow[0].dateAdjustment.month" style="font-size: small" [matAutocomplete]="auto">
 </mat-form-field>
 <mat-autocomplete #auto="matAutocomplete">
   <mat-option *ngFor="let option of autoCompleteOptions" [value]="option">

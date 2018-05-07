@@ -9,14 +9,22 @@
     <mat-option value="Days">Days</mat-option>
   </mat-select>
 </mat-form-field>
+<table class="example-full-width" cellspacing="0">
+  <tr>
+    <td>
+      <mat-form-field>
+        <input matInput placeholder="Date 1" [(ngModel)]="selectedRow[0].dateDuration.Date1" style="font-size: small" [matAutocomplete]="auto">
+      </mat-form-field>
+    </td>
+    <td>
+      <mat-form-field>
+        <input matInput placeholder="Date 2" [(ngModel)]="selectedRow[0].dateDuration.Date2" style="font-size: small" [matAutocomplete]="auto">
+      </mat-form-field>
+    </td>
+  </tr>
+</table>
 <mat-form-field>
-  <input matInput placeholder="Date 1" [(ngModel)]="selectedRow[0].dateDuration.Date1" style="font-size: small" [matAutocomplete]="auto">
-</mat-form-field>
-<mat-form-field>
-  <input matInput placeholder="Date 2" [(ngModel)]="selectedRow[0].dateDuration.Date2" style="font-size: small" [matAutocomplete]="auto">
-</mat-form-field>
-<mat-form-field>
-  <mat-select [(ngModel)]="selectedRow[0].dateDuration.Inclusive" placeholder="Inclusive day">
+  <mat-select [(ngModel)]="selectedRow[0].dateDuration.Inclusive" placeholder="Include Final Day?">
     <mat-option value="True">True</mat-option>
     <mat-option value="False">False</mat-option>
   </mat-select>

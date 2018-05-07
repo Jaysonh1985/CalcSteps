@@ -62,7 +62,18 @@ export class CalculationConfigurationComponent implements OnInit {
         width: 75,
         filter: "agTextColumnFilter",
         editable: false,
-        suppressFilter: true
+        suppressFilter: true,
+        valueGetter: function aPlusBValueGetter(params) {
+          if (params.data.functionType === "Maths") {
+            return "Number";
+          } else if (params.data.functionType === "Date Adjustment") {
+            return "Date";
+          } else if (params.data.functionType === "Date Duration") {
+            return "Number";
+          } else if (params.data.functionType === "If Logic") {
+            return "Logic";
+          }
+        }
       },
       {
         headerName: "Output",

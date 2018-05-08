@@ -74,6 +74,8 @@ export class CalculationComponent implements OnInit {
           this.calcMaths(configuration, autoComplete);
         } else if (configuration.data.functionType === "Date Adjustment") {
           this.calcDateAdjustment(configuration, autoComplete);
+        } else if (configuration.data.functionType === "Date Duration") {
+          this.calcDateDuration(configuration, autoComplete);
         }
       }
     );

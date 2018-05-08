@@ -41,8 +41,36 @@ export class FunctionDateDurationComponent implements OnInit {
       }
     });
   }
+  private getAutoCompleteOutput(InputValue, array): any {
+    let input = 0;
+    const date = moment(InputValue, "DD/MM/YYYY");
+    if (date.isValid() === false) {
+      input = InputValue;
+      array.forEach(value => {
+        if (value.data.name === InputValue) {
+          input = value.data.output;
+        }
+      });
+    } else {
+      input = InputValue;
+    }
+    return input;
+  }
   calculate(dateDuration, autoComplete): any {
     moment.locale("en-GB");
+    const Date1 = this.getAutoCompleteOutput(dateDuration.date1, autoComplete);
+    const Date2 = this.getAutoCompleteOutput(dateDuration.date2, autoComplete);
+    const a = moment(Date1, "DD/MM/YYYY");
+    const b = moment(Date2, "DD/MM/YYYY");
+    if (dateDuration.type === "Years") {
+      return b.diff(a, "years");
+    } else if (dateDuration.type === "YearsFrac") {
+      return b.diff(a, "years", true);
+    } else if (dateDuration.type === "Months") {
+      return b.diff(a, "months");
+    } else if (dateDuration.type === "Days") {
+      return b.diff(a, "days");
+    }
     return "";
   }
 }

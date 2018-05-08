@@ -15,6 +15,7 @@ import { Router } from "@angular/router";
 import { FunctionMathsComponent } from "./functions/function-maths/function-maths.component";
 import { FunctionDateAdjustmentComponent } from "./functions/function-date-adjustment/function-date-adjustment.component";
 import { FunctionDateDurationComponent } from "./functions/function-date-duration/function-date-duration.component";
+import { FunctionIfLogicComponent } from "./functions/function-if-logic/function-if-logic.component";
 @Component({
   selector: "app-calculation",
   templateUrl: "./calculation.component.html",
@@ -76,6 +77,8 @@ export class CalculationComponent implements OnInit {
           this.calcDateAdjustment(configuration, autoComplete);
         } else if (configuration.data.functionType === "Date Duration") {
           this.calcDateDuration(configuration, autoComplete);
+        } else if (configuration.data.functionType === "If Logic") {
+          this.calcIfLogic(configuration, autoComplete);
         }
       }
     );
@@ -115,6 +118,21 @@ export class CalculationComponent implements OnInit {
     const math = new FunctionMathsComponent();
     const result = math.calculate(
       configuration.data.maths,
+      this.getCalculationConfigurationAutoComplete(
+        "Number",
+        autoComplete,
+        configuration.rowIndex
+      )
+    );
+    this.CalculationConfigurationComponent.setRowOuput(
+      configuration.id,
+      result
+    );
+  }
+  calcIfLogic(configuration, autoComplete) {
+    const ifLogic = new FunctionIfLogicComponent();
+    const result = ifLogic.calculate(
+      configuration.data.ifLogic,
       this.getCalculationConfigurationAutoComplete(
         "Number",
         autoComplete,

@@ -15,4 +15,6 @@ export class CalculationConfiguration {
   dateDuration: DateDuration;
   ifLogic: IfLogic[];
   errors: CalculationError[];
+  condition: string;
+  conditionResult: boolean;
 }

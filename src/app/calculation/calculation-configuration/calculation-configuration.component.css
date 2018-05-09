@@ -3,3 +3,11 @@
   align-items: center;
   justify-content: space-around;
 }
+.ag-theme-balham .conditionFalse {
+
+  background-color: sandybrown !important;
+}
+.conditionFalse {
+  background-color: sandybrown !important;
+}
+

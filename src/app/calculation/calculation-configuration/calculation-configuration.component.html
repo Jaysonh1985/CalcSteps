@@ -12,11 +12,15 @@
   </div>
   <ag-grid-angular #agGrid style="height:40vh; width: 99.5%" class="ag-theme-balham" [gridOptions]="gridOptions" [rowSelection]="rowSelection"
     [rowMultiSelectWithClick]="true" [rowDragManaged]="true" [animateRows]="true" [enableColResize]="true" (selectionChanged)="onSelectionChanged($event)"
-    (gridReady)="onGridReady($event)" [stopEditingWhenGridLosesFocus]="true">
+ (gridReady)="onGridReady($event)" [stopEditingWhenGridLosesFocus]="true" [rowClassRules]="rowClassRules">
+
   </ag-grid-angular>
 </div>
 <mat-card style="height: 40vh; overflow:auto;">
   <div *ngFor="let row of selectedRows">
+  <mat-form-field>
+    <input matInput placeholder="Condition" [(ngModel)]="row.condition" style="font-size: small" [matAutocomplete]="auto">
+  </mat-form-field>
     <mat-card-header>
       <mat-card-title>{{row.functionType}}</mat-card-title>
     </mat-card-header>
@@ -30,5 +34,10 @@
         </form>
       </div>
     </mat-card-content>
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let option of autoCompleteOptions" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
   </div>
 </mat-card>

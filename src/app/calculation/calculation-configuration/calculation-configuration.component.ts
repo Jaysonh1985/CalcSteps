@@ -23,11 +23,13 @@ export class CalculationConfigurationComponent implements OnInit {
   public selectedRows;
   public autoCompleteArray;
   public selectedRow: any[];
+  public rowClassRules;
   @ViewChild(CalculationInputComponent)
   private CalculationInputComponent: CalculationInputComponent;
   @Input() calculationConfiguration: string[];
   @Input() calculationInput: any [];
   @Output() messageEvent = new EventEmitter();
+  public autoCompleteOptions: any[];
   constructor() {
     this.gridOptions = <GridOptions>{};
     this.gridOptions.columnDefs = [
@@ -46,7 +48,7 @@ export class CalculationConfigurationComponent implements OnInit {
         editable: true,
         cellEditor: "agSelectCellEditor",
         cellEditorParams: {
-          values: ["Maths", "Date Adjustment", "Date Duration", "If Logic"]
+          values: ["Maths", "Date Adjustment", "Date Duration", "Condition"]
         }
       },
       {
@@ -71,6 +73,7 @@ export class CalculationConfigurationComponent implements OnInit {
           } else if (params.data.functionType === "Date Duration") {
             return "Number";
           } else if (params.data.functionType === "If Logic") {
+            params.data.data = "Logic";
             return "Logic";
           }
         }
@@ -85,6 +88,11 @@ export class CalculationConfigurationComponent implements OnInit {
     ];
     this.gridOptions.floatingFilter = true;
     this.rowSelection = "single";
+    this.gridOptions.getRowStyle = function (params) {
+      if (params.data.conditionResult === false) {
+        return { background: "lightcoral" };
+      }
+    };
   }
 
   onGridReady(params) {
@@ -118,6 +126,24 @@ export class CalculationConfigurationComponent implements OnInit {
         this.autoCompleteArray = this.calculationInput.concat(this.autoCompleteArray);
       }
     }
+    this.autoCompleteOptions = [];
+    console.log(this.gridApi.getSelectedNodes());
+    this.autoCompleteArray.forEach(element => {
+      if (element.data.data === "Logic") {
+        if (element.data.name !== "") {
+          const autoCompleteText = element.data.name;
+          this.autoCompleteOptions.push(autoCompleteText);
+        }
+      }
+    });
+  }
+  onDeleteAllOutputs() {
+    this.gridApi.forEachNode(function (node, index) {
+      const rowNode = node;
+      const data = rowNode.data;
+      data.output = "";
+      rowNode.setData(data);
+    });
   }
   getAllRows(): CalculationConfiguration[] {
     const arr: Array<CalculationConfiguration> = [];
@@ -132,7 +158,9 @@ export class CalculationConfigurationComponent implements OnInit {
         dateAdjustment: node.data.dateAdjustment,
         dateDuration: node.data.dateDuration,
         ifLogic: node.data.ifLogic,
-        errors: node.data.errors
+        errors: node.data.errors,
+        condition: node.data.condition,
+        conditionResult: node.data.conditionResult
       };
       arr.push(row);
     });
@@ -218,10 +246,10 @@ export class CalculationConfigurationComponent implements OnInit {
     });
     return arr[arr.length - 1];
   }
-  public setRowOuput(id, value) {
+  public setRowOuput(id, rowData) {
     const rowNode = this.gridApi.getRowNode(id);
-    const data = rowNode.data;
-    data.output = value;
+    let data = rowNode.data;
+    data = rowData;
     rowNode.setData(data);
   }
   onCalcConfiguration() {}
@@ -236,7 +264,9 @@ export class CalculationConfigurationComponent implements OnInit {
       name: "",
       output: "",
       data: "",
-      errors: []
+      errors: [],
+      condition: "",
+      conditionResult: true,
     };
     return newRow;
   }

@@ -62,31 +62,85 @@ export class CalculationComponent implements OnInit {
   onExit() {
     this.router.navigate(["dashboard"]);
   }
-  // public getCalculationInputs(): any[] {
-
-  //   return [];
-  // }
   onCalc() {
     let autoComplete = [];
     autoComplete = this.CalculationInputComponent.getAllRowsNodes();
     this.CalculationConfigurationComponent.getAllRowsNodes().forEach(
       configuration => {
-        if (configuration.data.functionType === "Maths") {
-          this.calcMaths(configuration, autoComplete);
-        } else if (configuration.data.functionType === "Date Adjustment") {
-          this.calcDateAdjustment(configuration, autoComplete);
-        } else if (configuration.data.functionType === "Date Duration") {
-          this.calcDateDuration(configuration, autoComplete);
-        } else if (configuration.data.functionType === "If Logic") {
-          this.calcIfLogic(configuration, autoComplete);
+        this.calcCondition(configuration, autoComplete);
+        if (configuration.data.conditionResult === true) {
+          if (configuration.data.functionType === "Maths") {
+            this.calcMaths(configuration, autoComplete);
+          } else if (configuration.data.functionType === "Date Adjustment") {
+            this.calcDateAdjustment(configuration, autoComplete);
+          } else if (configuration.data.functionType === "Date Duration") {
+            this.calcDateDuration(configuration, autoComplete);
+          } else if (configuration.data.functionType === "If Logic") {
+            this.calcIfLogic(configuration, autoComplete);
+          }
         }
       }
     );
     this.calcOutput();
   }
+  private getAutoCompleteOutputLogic(InputValue, array): any {
+    let input = 0;
+    if (InputValue !== "true" && InputValue !== "false") {
+      input = InputValue;
+      array.forEach(value => {
+        if (value.data.name === InputValue) {
+          input = value.data.output;
+        }
+      });
+    } else {
+      input = InputValue;
+    }
+    return input;
+  }
+  calcCondition(configuration,  autoComplete) {
+    let autoCompleteLogic = [];
+    autoCompleteLogic = autoComplete.concat(
+      this.CalculationConfigurationComponent.getAllRowsNodesbyIndex(
+        configuration.rowIndex
+      )
+    );
+    if (configuration.data.condition === undefined) {
+      configuration.data.condition = "";
+    }
+    if (configuration.data.condition === "") {
+      configuration.data.conditionResult = true;
+    } else if (
+      configuration.data.condition === "true" ||
+      configuration.data.condition === "True" ||
+      configuration.data.condition === "TRUE"
+    ) {
+      configuration.data.conditionResult = true;
+    } else if (
+      configuration.data.condition === "false" ||
+      configuration.data.condition === "False" ||
+      configuration.data.condition === "FALSE"
+    ) {
+      configuration.data.conditionResult = false;
+    } else {
+      if (
+        this.getAutoCompleteOutputLogic(
+          configuration.data.condition,
+          autoCompleteLogic
+        ) === "true"
+      ) {
+        configuration.data.conditionResult = true;
+      } else {
+        configuration.data.conditionResult = false;
+      }
+    }
+    this.CalculationConfigurationComponent.setRowOuput(
+      configuration.id,
+      configuration.data
+    );
+  }
   calcDateAdjustment(configuration, autoComplete) {
     const dateAdjustment = new FunctionDateAdjustmentComponent();
-    const result = dateAdjustment.calculate(
+    configuration.data.output = dateAdjustment.calculate(
       configuration.data.dateAdjustment,
       this.getCalculationConfigurationAutoComplete(
         "Date",
@@ -96,12 +150,12 @@ export class CalculationComponent implements OnInit {
     );
     this.CalculationConfigurationComponent.setRowOuput(
       configuration.id,
-      result
+      configuration.data
     );
   }
   calcDateDuration(configuration, autoComplete) {
     const dateDuration = new FunctionDateDurationComponent();
-    const result = dateDuration.calculate(
+    configuration.data.output = dateDuration.calculate(
       configuration.data.dateDuration,
       this.getCalculationConfigurationAutoComplete(
         "Date",
@@ -111,12 +165,12 @@ export class CalculationComponent implements OnInit {
     );
     this.CalculationConfigurationComponent.setRowOuput(
       configuration.id,
-      result
+      configuration.data
     );
   }
   calcMaths(configuration, autoComplete) {
     const math = new FunctionMathsComponent();
-    const result = math.calculate(
+    configuration.data.output = math.calculate(
       configuration.data.maths,
       this.getCalculationConfigurationAutoComplete(
         "Number",
@@ -126,12 +180,12 @@ export class CalculationComponent implements OnInit {
     );
     this.CalculationConfigurationComponent.setRowOuput(
       configuration.id,
-      result
+      configuration.data
     );
   }
   calcIfLogic(configuration, autoComplete) {
     const ifLogic = new FunctionIfLogicComponent();
-    const result = ifLogic.calculate(
+    configuration.data.output = ifLogic.calculate(
       configuration.data.ifLogic,
       this.getCalculationConfigurationAutoComplete(
         "Number",
@@ -141,7 +195,7 @@ export class CalculationComponent implements OnInit {
     );
     this.CalculationConfigurationComponent.setRowOuput(
       configuration.id,
-      result
+      configuration.data
     );
   }
   getCalculationConfigurationAutoComplete(data, inputs, rowIndex): any[] {

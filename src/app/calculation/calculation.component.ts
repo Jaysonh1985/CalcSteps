@@ -39,6 +39,10 @@ export class CalculationComponent implements OnInit {
   opened = true;
   public calculationName: string;
   public calculationGroup: string;
+  public configOutputsNumber: string[];
+  public configOutputsDate: string[];
+  public configOutputsText: string[];
+  public configOutputsLogic: string[];
   constructor(
     private route: ActivatedRoute,
     private calcService: CalculationService,
@@ -97,7 +101,7 @@ export class CalculationComponent implements OnInit {
     }
     return input;
   }
-  calcCondition(configuration,  autoComplete) {
+  calcCondition(configuration, autoComplete) {
     let autoCompleteLogic = [];
     autoCompleteLogic = autoComplete.concat(
       this.CalculationConfigurationComponent.getAllRowsNodesbyIndex(
@@ -223,8 +227,34 @@ export class CalculationComponent implements OnInit {
       );
     });
   }
+  getConfigOutputLists() {
+    const arrNumber: Array<any> = [];
+    const arrDate: Array<any> = [];
+    const arrLogic: Array<any> = [];
+    const arrText: Array<any> = [];
+    this.CalculationConfigurationComponent.getAllRowsNodes().forEach(output => {
+      if (output.data.data === "Number") {
+        arrNumber.push(output.data.name);
+      } else if (output.data.data === "Date") {
+        arrDate.push(output.data.name);
+      } else if (output.data.data === "Logic") {
+        arrLogic.push(output.data.name);
+      } else if (output.data.data === "Text") {
+        arrText.push(output.data.name);
+      }
+    });
+    this.configOutputsNumber = [];
+    this.configOutputsDate = [];
+    this.configOutputsLogic = [];
+    this.configOutputsText = [];
+    this.configOutputsNumber = arrNumber;
+    this.configOutputsDate = arrDate;
+    this.configOutputsLogic = arrLogic;
+    this.configOutputsText = arrText;
+  }
   receiveCalculationInput() {
     this.calculationInputNodes = this.CalculationInputComponent.getAllRowsNodes();
+    this.getConfigOutputLists();
   }
   ngOnInit() {
     const key = this.route.snapshot.params["key"];

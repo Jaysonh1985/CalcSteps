@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  Output,
+  EventEmitter
+} from "@angular/core";
 import { GridOptions } from "ag-grid";
 import { Grid } from "ag-grid";
 import { Maths } from "../functions/function-maths/function-maths.component";
@@ -27,7 +34,7 @@ export class CalculationConfigurationComponent implements OnInit {
   @ViewChild(CalculationInputComponent)
   private CalculationInputComponent: CalculationInputComponent;
   @Input() calculationConfiguration: string[];
-  @Input() calculationInput: any [];
+  @Input() calculationInput: any[];
   @Output() messageEvent = new EventEmitter();
   public autoCompleteOptions: any[];
   constructor() {
@@ -67,10 +74,13 @@ export class CalculationConfigurationComponent implements OnInit {
         suppressFilter: true,
         valueGetter: function aPlusBValueGetter(params) {
           if (params.data.functionType === "Maths") {
+            params.data.data = "Number";
             return "Number";
           } else if (params.data.functionType === "Date Adjustment") {
+            params.data.data = "Date";
             return "Date";
           } else if (params.data.functionType === "Date Duration") {
+            params.data.data = "Number";
             return "Number";
           } else if (params.data.functionType === "If Logic") {
             params.data.data = "Logic";
@@ -88,7 +98,7 @@ export class CalculationConfigurationComponent implements OnInit {
     ];
     this.gridOptions.floatingFilter = true;
     this.rowSelection = "single";
-    this.gridOptions.getRowStyle = function (params) {
+    this.gridOptions.getRowStyle = function(params) {
       if (params.data.conditionResult === false) {
         return { background: "lightcoral" };
       }
@@ -113,7 +123,7 @@ export class CalculationConfigurationComponent implements OnInit {
     const res = this.gridApi.updateRowData({ remove: selectedData });
   }
   onSelectionChanged(event, myRows: CalculationConfiguration) {
-      this.messageEvent.emit("Add Input");
+    this.messageEvent.emit("Add Input");
     this.selectedRow = this.gridApi.getSelectedNodes();
     if (this.selectedRow.length > 0) {
       this.selectedRows = [];
@@ -123,7 +133,9 @@ export class CalculationConfigurationComponent implements OnInit {
         this.selectedRow[0].rowIndex
       );
       if (this.calculationInput !== undefined) {
-        this.autoCompleteArray = this.calculationInput.concat(this.autoCompleteArray);
+        this.autoCompleteArray = this.calculationInput.concat(
+          this.autoCompleteArray
+        );
       }
     }
     this.autoCompleteOptions = [];
@@ -138,7 +150,7 @@ export class CalculationConfigurationComponent implements OnInit {
     });
   }
   onDeleteAllOutputs() {
-    this.gridApi.forEachNode(function (node, index) {
+    this.gridApi.forEachNode(function(node, index) {
       const rowNode = node;
       const data = rowNode.data;
       data.output = "";
@@ -266,7 +278,7 @@ export class CalculationConfigurationComponent implements OnInit {
       data: "",
       errors: [],
       condition: "",
-      conditionResult: true,
+      conditionResult: true
     };
     return newRow;
   }

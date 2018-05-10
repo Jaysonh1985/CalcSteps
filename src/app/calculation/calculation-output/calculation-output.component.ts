@@ -17,6 +17,10 @@ export class CalculationOutputComponent implements OnInit {
   private gridApi;
   private gridColumnApi;
   @Input() calculationOutput: string[];
+  @Input() configOutputsNumber: string[];
+  @Input() configOutputsDate: string[];
+  @Input() configOutputsLogic: string[];
+  @Input() configOutputsText: string[];
   constructor() {
     this.outputGridOptions = <GridOptions>{};
     this.rowSelection = "multiple";
@@ -25,6 +29,7 @@ export class CalculationOutputComponent implements OnInit {
         headerName: "Name",
         field: "name",
         width: 180,
+        cellEditor: "agPopupTextCellEditor",
         editable: true,
         rowDrag: true
       },
@@ -41,6 +46,18 @@ export class CalculationOutputComponent implements OnInit {
         headerName: "Variable",
         field: "variable",
         width: 110,
+        cellEditor: "agSelectCellEditor",
+        cellEditorParams: config => {
+          if (config.data.data === "Number") {
+            return { values: this.configOutputsNumber };
+          } else if (config.data.data === "Date") {
+            return { values: this.configOutputsDate };
+          } else if (config.data.data === "Logic") {
+            return { values: this.configOutputsLogic };
+          } else if (config.data.data === "Text") {
+            return { values: this.configOutputsText };
+          }
+        },
         editable: true,
         suppressFilter: true
       },
@@ -48,7 +65,7 @@ export class CalculationOutputComponent implements OnInit {
         headerName: "Output",
         field: "output",
         width: 110,
-        editable: true,
+        editable: false,
         suppressFilter: true
       }
     ];
@@ -103,6 +120,7 @@ export class CalculationOutputComponent implements OnInit {
       variable: "",
       data: ""
     };
+    console.log(this);
     return newRow;
   }
   ngOnInit() {

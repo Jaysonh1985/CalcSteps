@@ -6,4 +6,6 @@ export class CalculationInput {
   data: string;
   output: string;
   errors: CalculationError[];
+  dropDownList: string;
+  required: string;
 }

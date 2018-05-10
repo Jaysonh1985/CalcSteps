@@ -43,6 +43,30 @@ export class CalculationInputComponent implements OnInit {
         headerName: "Input",
         field: "output",
         width: 135,
+        cellEditorSelector: function (params) {
+          if (params.data.dropDownList !== "") { return {
+            component: "agSelectCellEditor",
+            params: { values: params.data.dropDownList.split(",") }
+          };
+          }
+          return null;
+        },
+        editable: true,
+        suppressFilter: true
+      },
+      {
+        headerName: "Drop Down",
+        field: "dropDownList",
+        width: 135,
+        editable: true,
+        suppressFilter: true
+      },
+      {
+        headerName: "Required",
+        field: "required",
+        width: 135,
+        cellEditor: "agSelectCellEditor",
+        cellEditorParams: { values: ["True", "False"] },
         editable: true,
         suppressFilter: true
       }
@@ -76,7 +100,9 @@ export class CalculationInputComponent implements OnInit {
       name: "",
       output: "",
       data: "",
-      errors: []
+      errors: [],
+      dropDownList: "",
+      required: "False"
     };
     return newRow;
   }
@@ -88,7 +114,9 @@ export class CalculationInputComponent implements OnInit {
         name: node.data.name,
         output: node.data.output,
         data: node.data.data,
-        errors: node.data.errors
+        errors: node.data.errors,
+        dropDownList: node.data.dropDownList,
+        required: node.data.required
       };
       arr.push(Row);
     });

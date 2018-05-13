@@ -100,7 +100,15 @@ export class CalculationConfigurationComponent implements OnInit {
     this.rowSelection = "single";
     this.gridOptions.getRowStyle = function(params) {
       if (params.data.conditionResult === false) {
-        return { background: "lightcoral" };
+        return { background: "lightgrey" };
+      }
+      if (params.data.errors !== undefined) {
+        if (params.data.errors.length > 0) {
+          return { background: "lightcoral" };
+        }
+        if (params.data.errors.length === 0) {
+          return { background: "" };
+        }
       }
     };
   }

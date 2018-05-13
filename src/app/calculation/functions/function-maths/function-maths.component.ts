@@ -6,6 +6,7 @@ import { CalculationOutputComponent } from "../../calculation-output/calculation
 import { parse } from "querystring";
 import { MatSelect } from "@angular/material";
 import { map, startWith, concat } from "rxjs/operators";
+import { CalculationError } from "../../shared/models/calculation-error";
 export class Maths {
   bracketOpen: string;
   input1: string;
@@ -21,6 +22,7 @@ export class Maths {
   styleUrls: ["./function-maths.component.css"]
 })
 export class FunctionMathsComponent implements OnInit {
+  errorArray: any[];
   @Input() selectedRow: any[];
   @Input() autoCompleteArray: any[];
   public maths: Maths;
@@ -109,5 +111,65 @@ export class FunctionMathsComponent implements OnInit {
         nextFunction;
     });
     return mathJs.eval(mathString);
+  }
+  errorCheck(maths, autoComplete): CalculationError[] {
+    this.errorArray = [];
+    let paramCounter = 0;
+    let LBcounter = 0;
+    let RBcounter = 0;
+    const mathsLength = maths.length - 1;
+    maths.forEach(column => {
+      if (!column.input1) {
+        this.errorArray.push(
+          this.createError(maths, "Input 1 is missing and is a required field")
+        );
+      }
+      if (!column.input2) {
+        this.errorArray.push(
+          this.createError(maths, "Input 2 is missing and is a required field")
+        );
+      }
+      if (!column.functionType) {
+        this.errorArray.push(
+          this.createError(maths, "Function is missing and is a required field")
+        );
+      }
+      if (column.bracketOpen === "(") {
+        LBcounter = LBcounter + 1;
+      }
+      if (column.bracketClose === ")") {
+        RBcounter = RBcounter + 1;
+      }
+      if (
+        paramCounter === mathsLength &&
+        column.nextFunction !== "" &&
+        column.nextFunction !== "na"
+      ) {
+        this.errorArray.push(
+          this.createError(maths, "Next row logic on row with no next row")
+        );
+      }
+      if (paramCounter < mathsLength && maths[paramCounter + 1]) {
+        if (column.nextFunction === "" || column.nextFunction === "na") {
+          this.errorArray.push(
+            this.createError(maths, "Next row logic missing")
+          );
+        }
+      }
+      paramCounter = paramCounter + 1;
+    });
+    if (LBcounter > RBcounter) {
+      this.errorArray.push(this.createError(maths, "Brackets not closed"));
+    } else if (LBcounter < RBcounter) {
+      this.errorArray.push(this.createError(maths, "Brackets not open"));
+    }
+    return this.errorArray;
+  }
+  createError(dateDuration, errorText): CalculationError {
+    const error = new CalculationError();
+    error.errorText = errorText;
+    error.index = dateDuration.rowIndex;
+    error.type = "Error";
+    return error;
   }
 }

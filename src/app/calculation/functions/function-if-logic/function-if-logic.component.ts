@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import * as mathJs from "mathjs";
+import { CalculationError } from "../../shared/models/calculation-error";
 export class IfLogic {
   bracketOpen: string;
   input1: string;
@@ -14,6 +15,7 @@ export class IfLogic {
   styleUrls: ["./function-if-logic.component.css"]
 })
 export class FunctionIfLogicComponent implements OnInit {
+  errorArray: any[];
   @Input() selectedRow: any[];
   @Input() autoCompleteArray: any[];
   public ifLogic: IfLogic;
@@ -100,5 +102,65 @@ export class FunctionIfLogicComponent implements OnInit {
         nextFunction;
     });
     return mathJs.eval(ifLogicString);
+  }
+  errorCheck(ifLogic, autoComplete): CalculationError[] {
+    this.errorArray = [];
+    let paramCounter = 0;
+    let LBcounter = 0;
+    let RBcounter = 0;
+    const mathsLength = ifLogic.length - 1;
+    ifLogic.forEach(column => {
+      if (!column.input1) {
+        this.errorArray.push(
+          this.createError(ifLogic, "Input 1 is missing and is a required field")
+        );
+      }
+      if (!column.input2) {
+        this.errorArray.push(
+          this.createError(ifLogic, "Input 2 is missing and is a required field")
+        );
+      }
+      if (!column.functionType) {
+        this.errorArray.push(
+          this.createError(ifLogic, "Function is missing and is a required field")
+        );
+      }
+      if (column.bracketOpen === "(") {
+        LBcounter = LBcounter + 1;
+      }
+      if (column.bracketClose === ")") {
+        RBcounter = RBcounter + 1;
+      }
+      if (
+        paramCounter === mathsLength &&
+        column.nextFunction !== "" &&
+        column.nextFunction !== "na"
+      ) {
+        this.errorArray.push(
+          this.createError(ifLogic, "Next row logic on row with no next row")
+        );
+      }
+      if (paramCounter < mathsLength && ifLogic[paramCounter + 1]) {
+        if (column.nextFunction === "" || column.nextFunction === "na") {
+          this.errorArray.push(
+            this.createError(ifLogic, "Next row logic missing")
+          );
+        }
+      }
+      paramCounter = paramCounter + 1;
+    });
+    if (LBcounter > RBcounter) {
+      this.errorArray.push(this.createError(ifLogic, "Brackets not closed"));
+    } else if (LBcounter < RBcounter) {
+      this.errorArray.push(this.createError(ifLogic, "Brackets not open"));
+    }
+    return this.errorArray;
+  }
+  createError(dateDuration, errorText): CalculationError {
+    const error = new CalculationError();
+    error.errorText = errorText;
+    error.index = dateDuration.rowIndex;
+    error.type = "Error";
+    return error;
   }
 }

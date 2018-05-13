@@ -21,6 +21,9 @@
   <mat-form-field>
     <input matInput placeholder="Condition" [(ngModel)]="row.condition" style="font-size: small" [matAutocomplete]="auto">
   </mat-form-field>
+    <ol>
+      <li *ngFor="let error of row.errors">{{error.errorText}}</li>
+    </ol>
     <mat-card-header>
       <mat-card-title>{{row.functionType}}</mat-card-title>
     </mat-card-header>

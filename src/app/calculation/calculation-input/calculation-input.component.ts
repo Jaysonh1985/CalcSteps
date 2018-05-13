@@ -3,6 +3,9 @@ import { GridOptions } from "ag-grid";
 import { Grid } from "ag-grid";
 import { tryParse } from "selenium-webdriver/http";
 import { CalculationInput } from "../shared/models/calculation-input";
+import { CalculationError } from "../shared/models/calculation-error";
+import * as moment from "moment";
+import "moment/locale/pt-br";
 
 @Component({
   selector: "app-calculation-input",
@@ -19,6 +22,7 @@ export class CalculationInputComponent implements OnInit {
   public inputRows: object[];
   @Input() calculationInput: string[];
   @Output() messageEvent = new EventEmitter();
+  public errorArray: CalculationError[];
   constructor() {
     this.inputGridOptions = <GridOptions>{};
     this.rowSelection = "single";
@@ -43,11 +47,12 @@ export class CalculationInputComponent implements OnInit {
         headerName: "Input",
         field: "output",
         width: 135,
-        cellEditorSelector: function (params) {
-          if (params.data.dropDownList !== "") { return {
-            component: "agSelectCellEditor",
-            params: { values: params.data.dropDownList.split(",") }
-          };
+        cellEditorSelector: function(params) {
+          if (params.data.dropDownList !== "") {
+            return {
+              component: "agSelectCellEditor",
+              params: { values: params.data.dropDownList.split(",") }
+            };
           }
           return null;
         },
@@ -73,6 +78,16 @@ export class CalculationInputComponent implements OnInit {
     ];
     this.inputGridOptions.floatingFilter = true;
     this.inputRows = [];
+    this.inputGridOptions.getRowStyle = function(params) {
+      if (params.data.errors !== undefined) {
+        if (params.data.errors.length > 0) {
+          return { background: "lightcoral" };
+        }
+        if (params.data.errors.length === 0) {
+          return { background: "" };
+        }
+      }
+    };
   }
   onGridReady(params) {
     this.gridApi = params.api;
@@ -93,6 +108,14 @@ export class CalculationInputComponent implements OnInit {
   }
   onSelectionChanged(event, myRows: CalculationInput) {
     this.messageEvent.emit("Add Input");
+  }
+  onDeleteAllInputs() {
+    this.gridApi.forEachNode(function(node, index) {
+      const rowNode = node;
+      const data = rowNode.data;
+      data.output = "";
+      rowNode.setData(data);
+    });
   }
   createNewRowData(): CalculationInput {
     const newRow: CalculationInput = {
@@ -146,6 +169,38 @@ export class CalculationInputComponent implements OnInit {
       }
     });
     return arr;
+  }
+  public setRowOuput(id, rowData) {
+    const rowNode = this.gridApi.getRowNode(id);
+    let data = rowNode.data;
+    data = rowData;
+    rowNode.setData(data);
+  }
+  errorCheck(input): CalculationError[] {
+    this.errorArray = [];
+    if (input.data.required === "True" && (!input.data.output || input.data.output === "")) {
+      this.errorArray.push(this.createError(input, "Input is Required Field"));
+    }
+    if (input.data.data === "Date") {
+      moment.locale("en-GB");
+      const a = moment(input.data.output, "DD/MM/YYYY", true);
+      if (a.isValid() === false) {
+        this.errorArray.push(this.createError(input, "Date is not a valid date value"));
+      }
+    }
+    if (input.data.data === "Number") {
+      if (isNaN(Number(input.data.output))) {
+        this.errorArray.push(this.createError(input, "Number is not a valid numeric value"));
+      }
+    }
+    return this.errorArray;
+  }
+  createError(input, errorText): CalculationError {
+    const error = new CalculationError();
+    error.errorText = errorText;
+    error.index = input.rowIndex;
+    error.type = "Error";
+    return error;
   }
   ngOnInit() {
     this.inputGridOptions.rowData = this.calculationInput;

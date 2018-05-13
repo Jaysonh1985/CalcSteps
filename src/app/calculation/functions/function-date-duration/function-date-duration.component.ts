@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from "@angular/core";
 import * as moment from "moment";
 import "moment/locale/pt-br";
+import { CalculationError } from "../../shared/models/calculation-error";
+import { DateFilter } from "ag-grid";
 export class DateDuration {
   type: string;
   date1: string;
@@ -18,6 +20,8 @@ export class FunctionDateDurationComponent implements OnInit {
   @Input() autoCompleteArray: any[];
   public dateDuration: DateDuration;
   public autoCompleteOptions: any[];
+  public errorArray: CalculationError[];
+  public error: CalculationError;
   constructor() {
     const dateDuration = new DateDuration();
     dateDuration.type = "";
@@ -72,5 +76,61 @@ export class FunctionDateDurationComponent implements OnInit {
       return b.diff(a, "days");
     }
     return "";
+  }
+  errorCheck(dateDuration, autoComplete): CalculationError[] {
+    this.errorArray = [];
+    if (!dateDuration.date1) {
+      this.errorArray.push(
+        this.createError(
+          dateDuration,
+          "Date 1 is missing and is a required field"
+        )
+      );
+    }
+    if (!dateDuration.date2) {
+      this.errorArray.push(
+        this.createError(
+          dateDuration,
+          "Date 2 is missing and is a required field"
+        )
+      );
+    }
+    if (!dateDuration.type) {
+      this.errorArray.push(
+        this.createError(
+          dateDuration,
+          "Type is missing and is a required field"
+        )
+      );
+    }
+    moment.locale("en-GB");
+    const Date1 = this.getAutoCompleteOutput(dateDuration.date1, autoComplete);
+    const Date2 = this.getAutoCompleteOutput(dateDuration.date2, autoComplete);
+    const a = moment(Date1, "DD/MM/YYYY");
+    const b = moment(Date2, "DD/MM/YYYY");
+    if (a.isValid() === false) {
+      this.errorArray.push(
+        this.createError(
+          dateDuration,
+          "Date 1 - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
+        )
+      );
+    }
+    if (b.isValid() === false) {
+      this.errorArray.push(
+        this.createError(
+          dateDuration,
+          "Date 2 - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
+        )
+      );
+    }
+    return this.errorArray;
+  }
+  createError(dateDuration, errorText): CalculationError {
+    const error = new CalculationError();
+    error.errorText = errorText;
+    error.index = dateDuration.rowIndex;
+    error.type = "Error";
+    return error;
   }
 }

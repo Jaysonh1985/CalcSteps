@@ -199,7 +199,7 @@ export class FunctionDateAdjustmentComponent implements OnInit {
         dateAdjustment.date1,
         autoComplete
       );
-      const a = moment(Date1, "DD/MM/YYYY");
+      const a = moment(Date1, "DD/MM/YYYY", true);
       if (a.isValid() === false) {
         this.errorArray.push(
           this.createError(
@@ -216,7 +216,7 @@ export class FunctionDateAdjustmentComponent implements OnInit {
         dateAdjustment.date2,
         autoComplete
       );
-      const b = moment(Date2, "DD/MM/YYYY");
+      const b = moment(Date2, "DD/MM/YYYY", true);
       if (b.isValid() === false) {
         this.errorArray.push(
           this.createError(

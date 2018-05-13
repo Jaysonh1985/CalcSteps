@@ -106,8 +106,8 @@ export class FunctionDateDurationComponent implements OnInit {
     moment.locale("en-GB");
     const Date1 = this.getAutoCompleteOutput(dateDuration.date1, autoComplete);
     const Date2 = this.getAutoCompleteOutput(dateDuration.date2, autoComplete);
-    const a = moment(Date1, "DD/MM/YYYY");
-    const b = moment(Date2, "DD/MM/YYYY");
+    const a = moment(Date1, "DD/MM/YYYY", true);
+    const b = moment(Date2, "DD/MM/YYYY", true);
     if (a.isValid() === false) {
       this.errorArray.push(
         this.createError(

@@ -1,0 +1,47 @@
+<mat-toolbar style="background: darkslateblue;
+    color: white;">
+  <h1>Release Management</h1>
+  <a mat-button routerLink="../account">
+    My Account
+  </a>
+</mat-toolbar>
+<br>
+<div class="container">
+<button mat-raised-button (click)="routerCalculation()">Back to Calculation</button>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Key</th>
+        <th scope="col">Group</th>
+        <th scope="col">Name</th>
+        <th scope="col">Update Date</th>
+        <th scope="col">Current Version</th>
+        <th scope="col">Comment</th>
+        <th scope="col">Available</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of releases">
+        <td>{{item.key}}</td>
+        <td>{{item.group}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.updatedate}}</td>
+        <td>{{item.currentVersion}}</td>
+        <td>{{item.comment}}</td>
+        <td>{{item.isAvailable}}</td>
+        <td>
+            <button *ngIf="item.isAvailable === true && item.currentVersion !== true"  mat-raised-button (click)="onRevertVersion(item)">Rollback</button>
+        </td>
+        <td>
+          <button *ngIf="item.isAvailable === true  && item.currentVersion !== true" mat-raised-button (click)="onDeleteVersion(item)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button mat-raised-button (click)="onRelease()">Add</button>
+
+</div>
+
+

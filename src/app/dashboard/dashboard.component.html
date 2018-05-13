@@ -14,7 +14,8 @@
 				<th scope="col">Owner</th>
 				<th scope="col">Update Date</th>
 				<th scope="col">Regression</th>
-				<th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -26,6 +27,9 @@
 				<td>{{item.regressionpass}}</td>
 				<td>
 					<button mat-raised-button (click)="editCalculation(item)">Edit</button>
+        </td>
+        <td>
+					<button mat-raised-button (click)="viewCalculation(item)">View</button>
 				</td>
 			</tr>
 		</tbody>

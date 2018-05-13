@@ -24,17 +24,21 @@
         <mat-icon matListIcon>done_all</mat-icon>
         <h3 matLine> Regression </h3>
       </mat-list-item>
-      <mat-list-item style="color: white">
+      <mat-list-item style="color: white" (click)=routerReleaseManagement()>
+        <mat-icon matListIcon>history</mat-icon>
+        <h3 matLine> Release-Management </h3>
+      </mat-list-item>
+      <!-- <mat-list-item style="color: white">
         <mat-icon matListIcon>history</mat-icon>
         <h3 matLine> History </h3>
-      </mat-list-item>
-      <mat-list-item style="color: white">
+      </mat-list-item> -->
+      <!-- <mat-list-item style="color: white">
         <mat-icon matListIcon>description</mat-icon>
         <h3 matLine> Specification </h3>
-      </mat-list-item>
+      </mat-list-item> -->
       <mat-list-item (click)="onDelete()" style="color: white">
         <mat-icon matListIcon>delete</mat-icon>
-        <h3 matLine> Delete </h3>
+        <h3 matLine> Delete Calculation </h3>
       </mat-list-item>
       <mat-list-item (click)="onExit()" style="color: white">
         <mat-icon matListIcon>exit_to_app</mat-icon>

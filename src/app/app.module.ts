@@ -31,6 +31,9 @@ import {
 import { CalculationService } from "./calculation/shared/services/calculation.service";
 import { SignupComponent } from "./signup/signup.component";
 import { AccountComponent } from "./account/account.component";
+import { ReleaseComponent } from "./calculation/release/release.component";
+import { ReleaseManagementComponent } from "./calculation/release-management/release-management.component";
+import { ReleaseService } from "./calculation/shared/services/release.service";
 
 @NgModule({
   declarations: [
@@ -47,7 +50,9 @@ import { AccountComponent } from "./account/account.component";
     CalculationConfigurationComponent,
     DashboardComponent,
     SignupComponent,
-    AccountComponent
+    AccountComponent,
+    ReleaseComponent,
+    ReleaseManagementComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +66,7 @@ import { AccountComponent } from "./account/account.component";
     FormsModule,
     AgGridModule.withComponents([])
   ],
-  providers: [AuthService, CalculationService],
+  providers: [AuthService, CalculationService, ReleaseService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

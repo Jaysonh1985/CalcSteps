@@ -360,6 +360,9 @@ export class CalculationComponent implements OnInit {
     this.calculationInputNodes = this.CalculationInputComponent.getAllRowsNodes();
     this.getConfigOutputLists();
   }
+  routerReleaseManagement() {
+    this.router.navigate(["release-management", this.calculation.key]);
+  }
   ngOnInit() {
     const key = this.route.snapshot.params["key"];
     this.calcService

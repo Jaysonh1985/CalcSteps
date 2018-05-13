@@ -14,6 +14,7 @@ import { CalculationConfiguration } from "../calculation/shared/models/calculati
 import { CalculationInputComponent } from "../calculation/calculation-input/calculation-input.component";
 import { CalculationOutputComponent } from "../calculation/calculation-output/calculation-output.component";
 import { CalculationConfigurationComponent } from "../calculation/calculation-configuration/calculation-configuration.component";
+import { ReleaseService } from "../calculation/shared/services/release.service";
 
 @Component({
   selector: "app-dashboard",
@@ -26,7 +27,8 @@ export class DashboardComponent implements OnInit {
   // public calcService: CalculationService;
   constructor(
     private calcService: CalculationService,
-    private router: Router
+    private router: Router,
+    public releaseService: ReleaseService,
   ) {}
 
   ngOnInit() {
@@ -71,5 +73,27 @@ export class DashboardComponent implements OnInit {
   }
   editCalculation(calculation) {
     this.router.navigate(["calculation", calculation.key]);
+  }
+  viewCalculation(calculation) {
+    this.releaseService
+      .getReleaseListbycalculationKey(calculation.key)
+      .snapshotChanges()
+      .map(changes => {
+        return changes.map(c => ({
+          key: c.payload.key,
+          ...c.payload.val()
+        }));
+      })
+      .subscribe(customers => {
+        let releaseRef = null;
+        customers.forEach(customer => {
+          if (customer.currentVersion === true) {
+            releaseRef = customer.key;
+          }
+        });
+        if (releaseRef !== null) {
+          this.router.navigate(["release", releaseRef]);
+        }
+      });
   }
 }

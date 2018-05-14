@@ -21,6 +21,7 @@ export class CalculationInputComponent implements OnInit {
   private gridColumnApi;
   public inputRows: object[];
   @Input() calculationInput: string[];
+  @Input() release: boolean;
   @Output() messageEvent = new EventEmitter();
   public errorArray: CalculationError[];
   constructor() {
@@ -31,13 +32,25 @@ export class CalculationInputComponent implements OnInit {
         headerName: "Name",
         rowDrag: true,
         field: "name",
-        editable: true,
+        editable: params => {
+          if (this.release === true) {
+            return false;
+          } else {
+            return true;
+          }
+        },
         width: 190
       },
       {
         headerName: "Data",
         field: "data",
-        editable: true,
+        editable: params => {
+          if (this.release === true) {
+            return false;
+          } else {
+            return true;
+          }
+        },
         width: 75,
         cellEditor: "agSelectCellEditor",
         cellEditorParams: { values: ["Date", "Number", "Text", "Logic"] },
@@ -73,7 +86,7 @@ export class CalculationInputComponent implements OnInit {
         cellEditor: "agSelectCellEditor",
         cellEditorParams: { values: ["True", "False"] },
         editable: true,
-        suppressFilter: true
+        suppressFilter: true,
       }
     ];
     this.inputGridOptions.floatingFilter = true;
@@ -91,9 +104,12 @@ export class CalculationInputComponent implements OnInit {
   }
   onGridReady(params) {
     this.gridApi = params.api;
+    if (this.release === true) {
+      this.inputGridOptions.columnApi.setColumnsVisible(["required", "dropDownList"], false, "api");
+    }
     this.gridColumnApi = params.columnApi;
     const allColumnIds = [];
-    this.gridColumnApi.getAllColumns().forEach(function(column) {
+    this.gridColumnApi.getAllColumns().forEach(column => {
       allColumnIds.push(column.colId);
     });
     // this.gridColumnApi.autoSizeColumns(allColumnIds);

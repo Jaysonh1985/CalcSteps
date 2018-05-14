@@ -108,6 +108,11 @@ export class CalculationComponent implements OnInit {
 
     this.calcOutput();
   }
+  onCalcRelease(input, configuration, output) {
+    input().forEach(inputs => {
+      this.errorInput(inputs);
+    });
+  }
   private getAutoCompleteOutputLogic(InputValue, array): any {
     let input = 0;
     if (InputValue !== "true" && InputValue !== "false") {

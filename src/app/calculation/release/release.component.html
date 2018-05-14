@@ -1,3 +1,12 @@
-<p>
-  release works!
-</p>
+<div id="left" *ngIf='calculationInput'>
+ <button mat-raised-button (click)="onCalc()">Calculate</button>
+  <app-calculation-input [calculationInput]="calculationInput" [release]=true></app-calculation-input>
+</div>
+<div [hidden]="true" id="middle" *ngIf="false">
+  <app-calculation-configuration [calculationConfiguration]="calculationConfiguration" [calculationInput]="calculationInputNodes">
+  </app-calculation-configuration>
+</div>
+<div id="right" *ngIf='calculationOutput'>
+  <app-calculation-output [calculationOutput]="calculationOutput" [release]=true></app-calculation-output>
+
+</div>

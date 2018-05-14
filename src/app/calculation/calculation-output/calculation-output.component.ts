@@ -21,6 +21,7 @@ export class CalculationOutputComponent implements OnInit {
   @Input() configOutputsDate: string[];
   @Input() configOutputsLogic: string[];
   @Input() configOutputsText: string[];
+  @Input() release: boolean;
   constructor() {
     this.outputGridOptions = <GridOptions>{};
     this.rowSelection = "multiple";
@@ -30,7 +31,13 @@ export class CalculationOutputComponent implements OnInit {
         field: "name",
         width: 180,
         cellEditor: "agPopupTextCellEditor",
-        editable: true,
+        editable: params => {
+          if (this.release === true) {
+            return false;
+          } else {
+            return true;
+          }
+        },
         rowDrag: true
       },
       {
@@ -39,7 +46,13 @@ export class CalculationOutputComponent implements OnInit {
         width: 70,
         cellEditor: "agSelectCellEditor",
         cellEditorParams: { values: ["Date", "Number", "Text", "Logic"] },
-        editable: true,
+        editable: params => {
+          if (this.release === true) {
+            return false;
+          } else {
+            return true;
+          }
+        },
         suppressFilter: true
       },
       {
@@ -74,6 +87,9 @@ export class CalculationOutputComponent implements OnInit {
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
+    if (this.release === true) {
+      this.outputGridOptions.columnApi.setColumnsVisible(["variable"], false, "api");
+    }
     const allColumnIds = [];
     this.gridColumnApi.getAllColumns().forEach(function(column) {
       allColumnIds.push(column.colId);

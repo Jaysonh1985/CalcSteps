@@ -16,6 +16,7 @@ import { FunctionMathsComponent } from "./functions/function-maths/function-math
 import { FunctionDateAdjustmentComponent } from "./functions/function-date-adjustment/function-date-adjustment.component";
 import { FunctionDateDurationComponent } from "./functions/function-date-duration/function-date-duration.component";
 import { FunctionIfLogicComponent } from "./functions/function-if-logic/function-if-logic.component";
+import { CalculationError } from "./shared/models/calculation-error";
 @Component({
   selector: "app-calculation",
   templateUrl: "./calculation.component.html",
@@ -70,42 +71,55 @@ export class CalculationComponent implements OnInit {
   onCalc() {
     this.isErrors = false;
     this.CalculationInputComponent.getAllRowsNodes().forEach(input => {
-      this.errorInput(input);
+      input.data.errors = this.errorInput(input);
+      this.CalculationInputComponent.setRowOuput(input.id, input.data);
     });
     let autoComplete = [];
     autoComplete = this.CalculationInputComponent.getAllRowsNodes();
     this.CalculationConfigurationComponent.getAllRowsNodes().forEach(
       configuration => {
         if (configuration.data.functionType === "Maths") {
-          this.errorMaths(configuration, autoComplete);
+          configuration.data.errors = this.errorMaths(configuration, autoComplete);
         } else if (configuration.data.functionType === "Date Adjustment") {
+          configuration.data.errors = this.errorDateAdjustment(configuration, autoComplete);
         } else if (configuration.data.functionType === "Date Duration") {
-          this.errorDateDuration(configuration, autoComplete);
+          configuration.data.errors = this.errorDateDuration(configuration, autoComplete);
         } else if (configuration.data.functionType === "If Logic") {
-          this.errorIfLogic(configuration, autoComplete);
+          configuration.data.errors = this.errorIfLogic(configuration, autoComplete);
         }
+        this.CalculationConfigurationComponent.setRowOuput(
+          configuration.id,
+          configuration.data
+        );
       }
     );
 
     if (this.isErrors === false) {
       this.CalculationConfigurationComponent.getAllRowsNodes().forEach(
         configuration => {
-          this.calcCondition(configuration, autoComplete);
+          configuration.data.conditionResult = this.calcCondition(configuration, autoComplete);
+          this.CalculationConfigurationComponent.setRowOuput(
+            configuration.id,
+            configuration.data
+          );
           if (configuration.data.conditionResult === true) {
             if (configuration.data.functionType === "Maths") {
-              this.calcMaths(configuration, autoComplete);
+              configuration.data.output = this.calcMaths(configuration, autoComplete);
             } else if (configuration.data.functionType === "Date Adjustment") {
-              this.calcDateAdjustment(configuration, autoComplete);
+              configuration.data.output = this.calcDateAdjustment(configuration, autoComplete);
             } else if (configuration.data.functionType === "Date Duration") {
-              this.calcDateDuration(configuration, autoComplete);
+              configuration.data.output = this.calcDateDuration(configuration, autoComplete);
             } else if (configuration.data.functionType === "If Logic") {
-              this.calcIfLogic(configuration, autoComplete);
+              configuration.data.output = this.calcIfLogic(configuration, autoComplete);
             }
+            this.CalculationConfigurationComponent.setRowOuput(
+              configuration.id,
+              configuration.data
+            );
           }
         }
       );
     }
-
     this.calcOutput();
   }
   onCalcRelease(input, configuration, output) {
@@ -138,19 +152,19 @@ export class CalculationComponent implements OnInit {
       configuration.data.condition = "";
     }
     if (configuration.data.condition === "") {
-      configuration.data.conditionResult = true;
+      return true;
     } else if (
       configuration.data.condition === "true" ||
       configuration.data.condition === "True" ||
       configuration.data.condition === "TRUE"
     ) {
-      configuration.data.conditionResult = true;
+      return true;
     } else if (
       configuration.data.condition === "false" ||
       configuration.data.condition === "False" ||
       configuration.data.condition === "FALSE"
     ) {
-      configuration.data.conditionResult = false;
+      return false;
     } else {
       if (
         this.getAutoCompleteOutputLogic(
@@ -158,19 +172,15 @@ export class CalculationComponent implements OnInit {
           autoCompleteLogic
         ) === "true"
       ) {
-        configuration.data.conditionResult = true;
+        return true;
       } else {
-        configuration.data.conditionResult = false;
+        return false;
       }
     }
-    this.CalculationConfigurationComponent.setRowOuput(
-      configuration.id,
-      configuration.data
-    );
   }
   calcDateAdjustment(configuration, autoComplete) {
     const dateAdjustment = new FunctionDateAdjustmentComponent();
-    configuration.data.output = dateAdjustment.calculate(
+    return dateAdjustment.calculate(
       configuration.data.dateAdjustment,
       this.getCalculationConfigurationAutoComplete(
         "Date",
@@ -178,44 +188,32 @@ export class CalculationComponent implements OnInit {
         configuration.rowIndex
       )
     );
-    this.CalculationConfigurationComponent.setRowOuput(
-      configuration.id,
-      configuration.data
-    );
   }
   calcDateDuration(configuration, autoComplete) {
     const dateDuration = new FunctionDateDurationComponent();
-    configuration.data.output = dateDuration.calculate(
+    return dateDuration.calculate(
       configuration.data.dateDuration,
       this.getCalculationConfigurationAutoComplete(
         "Date",
         autoComplete,
         configuration.rowIndex
       )
-    );
-    this.CalculationConfigurationComponent.setRowOuput(
-      configuration.id,
-      configuration.data
     );
   }
   calcMaths(configuration, autoComplete) {
     const math = new FunctionMathsComponent();
-    configuration.data.output = math.calculate(
+    return math.calculate(
       configuration.data.maths,
       this.getCalculationConfigurationAutoComplete(
         "Number",
         autoComplete,
         configuration.rowIndex
       )
-    );
-    this.CalculationConfigurationComponent.setRowOuput(
-      configuration.id,
-      configuration.data
     );
   }
   calcIfLogic(configuration, autoComplete) {
     const ifLogic = new FunctionIfLogicComponent();
-    configuration.data.output = ifLogic.calculate(
+    return ifLogic.calculate(
       configuration.data.ifLogic,
       this.getCalculationConfigurationAutoComplete(
         "Number",
@@ -223,43 +221,36 @@ export class CalculationComponent implements OnInit {
         configuration.rowIndex
       )
     );
-    this.CalculationConfigurationComponent.setRowOuput(
-      configuration.id,
-      configuration.data
-    );
   }
   errorInput(input) {
     const inputs = new CalculationInputComponent();
-    input.data.errors =   inputs.errorCheck(input);
-    if (input.data.errors.length > 0) {
+    let errorCheck: CalculationError[];
+    errorCheck = inputs.errorCheck(input);
+    if (errorCheck.length > 0) {
       this.isErrors = true;
     }
-    this.CalculationInputComponent.setRowOuput(
-      input.id,
-      input.data
-    );
+    return errorCheck;
   }
   errorDateAdjustment(configuration, autoComplete) {
-    const dateDuration = new FunctionDateAdjustmentComponent();
-    configuration.data.errors = dateDuration.errorCheck(
-      configuration.data.dateDuration,
+    const dateAdjustment = new FunctionDateAdjustmentComponent();
+    let errorCheck: CalculationError[];
+    errorCheck = dateAdjustment.errorCheck(
+      configuration.data.dateAdjustment,
       this.getCalculationConfigurationAutoComplete(
         "Date",
         autoComplete,
         configuration.rowIndex
       )
     );
-    if (configuration.data.errors.length > 0) {
+    if (errorCheck.length > 0) {
       this.isErrors = true;
     }
-    this.CalculationConfigurationComponent.setRowOuput(
-      configuration.id,
-      configuration.data
-    );
+    return errorCheck;
   }
   errorDateDuration(configuration, autoComplete) {
     const dateDuration = new FunctionDateDurationComponent();
-    configuration.data.errors = dateDuration.errorCheck(
+    let errorCheck: CalculationError[];
+    errorCheck = dateDuration.errorCheck(
       configuration.data.dateDuration,
       this.getCalculationConfigurationAutoComplete(
         "Date",
@@ -267,17 +258,15 @@ export class CalculationComponent implements OnInit {
         configuration.rowIndex
       )
     );
-    if (configuration.data.errors.length > 0) {
+    if (errorCheck.length > 0) {
       this.isErrors = true;
     }
-    this.CalculationConfigurationComponent.setRowOuput(
-      configuration.id,
-      configuration.data
-    );
+    return errorCheck;
   }
   errorMaths(configuration, autoComplete) {
     const math = new FunctionMathsComponent();
-    configuration.data.errors = math.errorCheck(
+    let errorCheck: CalculationError[];
+    errorCheck = math.errorCheck(
       configuration.data.maths,
       this.getCalculationConfigurationAutoComplete(
         "Number",
@@ -285,17 +274,15 @@ export class CalculationComponent implements OnInit {
         configuration.rowIndex
       )
     );
-    if (configuration.data.errors.length > 0) {
+    if (errorCheck.length > 0) {
       this.isErrors = true;
     }
-    this.CalculationConfigurationComponent.setRowOuput(
-      configuration.id,
-      configuration.data
-    );
+    return errorCheck;
   }
   errorIfLogic(configuration, autoComplete) {
     const ifLogic = new FunctionIfLogicComponent();
-    configuration.data.errors = ifLogic.errorCheck(
+    let errorCheck: CalculationError[];
+    errorCheck = ifLogic.errorCheck(
       configuration.data.ifLogic,
       this.getCalculationConfigurationAutoComplete(
         "Number",
@@ -303,13 +290,10 @@ export class CalculationComponent implements OnInit {
         configuration.rowIndex
       )
     );
-    if (configuration.data.errors.length > 0) {
+    if (errorCheck.length > 0) {
       this.isErrors = true;
     }
-    this.CalculationConfigurationComponent.setRowOuput(
-      configuration.id,
-      configuration.data
-    );
+    return errorCheck;
   }
   getCalculationConfigurationAutoComplete(data, inputs, rowIndex): any[] {
     let autoCompleteConfig = [];

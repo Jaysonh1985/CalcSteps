@@ -1,11 +1,17 @@
-<div id="left" *ngIf='calculationInput'>
-  <button mat-raised-button (click)="onCalc()">Calculate</button>
-  <app-calculation-input [calculationInput]="calculationInput" [release]=true></app-calculation-input>
+<div class="form-container">
+<div [style.display]="getCalcStyle()" id="left" *ngIf='calculationInput'>
+    <button mat-raised-button (click)="onCalc()">Calculate</button>
+    <button mat-raised-button (click)="onReset()">Reset</button>
+
+    <app-calculation-input [calculationInput]="calculationInput" [release]=true></app-calculation-input>
+  </div>
+  <div style="display: none" *ngIf="calculationConfiguration" id="middle">
+    <app-calculation-configuration [calculationConfiguration]="calculationConfiguration" [calculationInput]="calculationInputNodes">
+    </app-calculation-configuration>
+  </div>
+  <div [style.display]="getResultStyle()" id="right" *ngIf='calculationOutput'>
+    <button mat-raised-button (click)="routeInput()">Go Back</button>
+    <app-calculation-output [calculationOutput]="calculationOutput" [release]=true></app-calculation-output>
+  </div>
 </div>
-<div style="display: none" *ngIf="calculationConfiguration" id="middle">
-  <app-calculation-configuration [calculationConfiguration]="calculationConfiguration" [calculationInput]="calculationInputNodes">
-  </app-calculation-configuration>
-</div>
-<div id="right" *ngIf='calculationOutput'>
-  <app-calculation-output [calculationOutput]="calculationOutput" [release]=true></app-calculation-output>
-</div>
+

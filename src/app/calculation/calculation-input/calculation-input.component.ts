@@ -114,11 +114,7 @@ export class CalculationInputComponent implements OnInit {
   onGridReady(params) {
     this.gridApi = params.api;
     if (this.release === true) {
-      this.inputGridOptions.columnApi.setColumnsVisible(
-        ["required", "dropDownList"],
-        false,
-        "api"
-      );
+      this.inputGridOptions.columnApi.setColumnsVisible(["required", "dropDownList", "dropDownValues"], false, "api");
     }
     this.gridColumnApi = params.columnApi;
     const allColumnIds = [];

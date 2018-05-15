@@ -123,6 +123,14 @@ export class CalculationOutputComponent implements OnInit {
     });
     return arr;
   }
+  onDeleteAllOutputs() {
+    this.gridApi.forEachNode(function (node, index) {
+      const rowNode = node;
+      const data = rowNode.data;
+      data.output = "";
+      rowNode.setData(data);
+    });
+  }
   public setRowOuput(id, value) {
     const rowNode = this.gridApi.getRowNode(id);
     const data = rowNode.data;

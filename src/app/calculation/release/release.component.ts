@@ -18,6 +18,7 @@ import { CalculationError } from "../shared/models/calculation-error";
 })
 export class ReleaseComponent implements OnInit {
   isErrors: boolean;
+  isInput: boolean;
   public calculation: any;
   public calculationConfiguration: CalculationConfiguration;
   public calculationInput: CalculationInput[];
@@ -40,6 +41,7 @@ export class ReleaseComponent implements OnInit {
 
   ngOnInit() {
     const key = this.route.snapshot.params["key"];
+    this.isInput = true;
     this.releaseService
       .getRelease(key)
       .snapshotChanges()
@@ -59,6 +61,10 @@ export class ReleaseComponent implements OnInit {
         this.calculationGroup = calculations[0].group;
         this.calculationInputNodes = calculations[0].calculationInputs;
       });
+  }
+  onReset() {
+    this.CalculationInputComponent.onDeleteAllInputs();
+    this.CalculationOutputComponent.onDeleteAllOutputs();
   }
   onCalc() {
     this.isErrors = false;
@@ -184,5 +190,23 @@ export class ReleaseComponent implements OnInit {
         arr["data"].output
       );
     });
+    this.isInput = false;
+  }
+  routeInput() {
+    this.isInput = true;
+  }
+  getCalcStyle() {
+    if (this.isInput) {
+      return "";
+    } else {
+      return "None";
+    }
+  }
+  getResultStyle() {
+    if (!this.isInput) {
+      return "";
+    } else {
+      return "None";
+    }
   }
 }

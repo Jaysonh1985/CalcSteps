@@ -166,8 +166,8 @@ export class ReleaseComponent implements OnInit {
           }
         }
       );
+      this.calcOutput();
     }
-    this.calcOutput();
   }
   errorInput(input) {
     const inputs = new CalculationInputComponent();

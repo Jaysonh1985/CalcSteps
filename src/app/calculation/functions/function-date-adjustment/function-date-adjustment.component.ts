@@ -52,11 +52,11 @@ export class FunctionDateAdjustmentComponent implements OnInit {
   }
   private getAutoCompleteOutput(InputValue, array): any {
     let input = 0;
-    const date = moment(InputValue, "DD/MM/YYYY");
+    const date = moment(InputValue, "DD/MM/YYYY", true);
     if (date.isValid() === false) {
       input = InputValue;
       array.forEach(value => {
-        if (value.data.name === InputValue) {
+        if (value.data.name === InputValue && value.data.data === "Date") {
           input = value.data.output;
         }
       });
@@ -209,9 +209,11 @@ export class FunctionDateAdjustmentComponent implements OnInit {
         );
       }
     }
-    if (dateAdjustment.type === "Earlier" ||
+    if (
+      dateAdjustment.type === "Earlier" ||
       dateAdjustment.type === "Later" ||
-      dateAdjustment.type === "DatesBetween") {
+      dateAdjustment.type === "DatesBetween"
+    ) {
       const Date2 = this.getAutoCompleteOutput(
         dateAdjustment.date2,
         autoComplete

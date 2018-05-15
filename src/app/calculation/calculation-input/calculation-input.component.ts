@@ -61,10 +61,10 @@ export class CalculationInputComponent implements OnInit {
         field: "output",
         width: 135,
         cellEditorSelector: function(params) {
-          if (params.data.dropDownList !== "") {
+          if (params.data.dropDownList === "True") {
             return {
               component: "agSelectCellEditor",
-              params: { values: params.data.dropDownList.split(",") }
+              params: { values: params.data.dropDownValues.split(",") }
             };
           }
           return null;
@@ -73,10 +73,19 @@ export class CalculationInputComponent implements OnInit {
         suppressFilter: true
       },
       {
-        headerName: "Drop Down",
+        headerName: "Drop Down List?",
         field: "dropDownList",
         width: 135,
         editable: true,
+        suppressFilter: true,
+        cellEditor: "agSelectCellEditor",
+        cellEditorParams: { values: ["True", "False"] }
+      },
+      {
+        headerName: "Drop Down Values",
+        field: "dropDownValues",
+        width: 135,
+        editable: params => params.data.dropDownList === "True",
         suppressFilter: true
       },
       {
@@ -86,7 +95,7 @@ export class CalculationInputComponent implements OnInit {
         cellEditor: "agSelectCellEditor",
         cellEditorParams: { values: ["True", "False"] },
         editable: true,
-        suppressFilter: true,
+        suppressFilter: true
       }
     ];
     this.inputGridOptions.floatingFilter = true;
@@ -105,7 +114,11 @@ export class CalculationInputComponent implements OnInit {
   onGridReady(params) {
     this.gridApi = params.api;
     if (this.release === true) {
-      this.inputGridOptions.columnApi.setColumnsVisible(["required", "dropDownList"], false, "api");
+      this.inputGridOptions.columnApi.setColumnsVisible(
+        ["required", "dropDownList"],
+        false,
+        "api"
+      );
     }
     this.gridColumnApi = params.columnApi;
     const allColumnIds = [];
@@ -194,19 +207,26 @@ export class CalculationInputComponent implements OnInit {
   }
   errorCheck(input): CalculationError[] {
     this.errorArray = [];
-    if (input.data.required === "True" && (!input.data.output || input.data.output === "")) {
+    if (
+      input.data.required === "True" &&
+      (!input.data.output || input.data.output === "")
+    ) {
       this.errorArray.push(this.createError(input, "Input is Required Field"));
     }
     if (input.data.data === "Date") {
       moment.locale("en-GB");
       const a = moment(input.data.output, "DD/MM/YYYY", true);
       if (a.isValid() === false) {
-        this.errorArray.push(this.createError(input, "Date is not a valid date value"));
+        this.errorArray.push(
+          this.createError(input, "Date is not a valid date value")
+        );
       }
     }
     if (input.data.data === "Number") {
       if (isNaN(Number(input.data.output))) {
-        this.errorArray.push(this.createError(input, "Number is not a valid numeric value"));
+        this.errorArray.push(
+          this.createError(input, "Number is not a valid numeric value")
+        );
       }
     }
     return this.errorArray;

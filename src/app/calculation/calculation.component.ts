@@ -74,18 +74,36 @@ export class CalculationComponent implements OnInit {
       input.data.errors = this.errorInput(input);
       this.CalculationInputComponent.setRowOuput(input.id, input.data);
     });
-    let autoComplete = [];
-    autoComplete = this.CalculationInputComponent.getAllRowsNodes();
+    let autoCompleteInputs = [];
+    autoCompleteInputs = this.CalculationInputComponent.getAllRowsNodes();
     this.CalculationConfigurationComponent.getAllRowsNodes().forEach(
       configuration => {
+        let autoCompleteConfig = [];
+        let autoCompleteAll = [];
+        autoCompleteConfig = this.CalculationConfigurationComponent.getAllRowsNodesbyIndex(
+          configuration.rowIndex
+        );
+        autoCompleteAll = autoCompleteInputs.concat(autoCompleteConfig);
         if (configuration.data.functionType === "Maths") {
-          configuration.data.errors = this.errorMaths(configuration, autoComplete);
+          configuration.data.errors = this.errorMaths(
+            configuration,
+            autoCompleteAll
+          );
         } else if (configuration.data.functionType === "Date Adjustment") {
-          configuration.data.errors = this.errorDateAdjustment(configuration, autoComplete);
+          configuration.data.errors = this.errorDateAdjustment(
+            configuration,
+            autoCompleteAll
+          );
         } else if (configuration.data.functionType === "Date Duration") {
-          configuration.data.errors = this.errorDateDuration(configuration, autoComplete);
+          configuration.data.errors = this.errorDateDuration(
+            configuration,
+            autoCompleteAll
+          );
         } else if (configuration.data.functionType === "If Logic") {
-          configuration.data.errors = this.errorIfLogic(configuration, autoComplete);
+          configuration.data.errors = this.errorIfLogic(
+            configuration,
+            autoCompleteAll
+          );
         }
         this.CalculationConfigurationComponent.setRowOuput(
           configuration.id,
@@ -97,20 +115,41 @@ export class CalculationComponent implements OnInit {
     if (this.isErrors === false) {
       this.CalculationConfigurationComponent.getAllRowsNodes().forEach(
         configuration => {
-          configuration.data.conditionResult = this.calcCondition(configuration, autoComplete);
+          let autoCompleteConfig = [];
+          let autoCompleteAll = [];
+          autoCompleteConfig = this.CalculationConfigurationComponent.getAllRowsNodesbyIndex(
+            configuration.rowIndex
+          );
+          autoCompleteAll = autoCompleteInputs.concat(autoCompleteConfig);
+          configuration.data.conditionResult = this.calcCondition(
+            configuration,
+            autoCompleteAll
+          );
           this.CalculationConfigurationComponent.setRowOuput(
             configuration.id,
             configuration.data
           );
           if (configuration.data.conditionResult === true) {
             if (configuration.data.functionType === "Maths") {
-              configuration.data.output = this.calcMaths(configuration, autoComplete);
+              configuration.data.output = this.calcMaths(
+                configuration,
+                autoCompleteAll
+              );
             } else if (configuration.data.functionType === "Date Adjustment") {
-              configuration.data.output = this.calcDateAdjustment(configuration, autoComplete);
+              configuration.data.output = this.calcDateAdjustment(
+                configuration,
+                autoCompleteAll
+              );
             } else if (configuration.data.functionType === "Date Duration") {
-              configuration.data.output = this.calcDateDuration(configuration, autoComplete);
+              configuration.data.output = this.calcDateDuration(
+                configuration,
+                autoCompleteAll
+              );
             } else if (configuration.data.functionType === "If Logic") {
-              configuration.data.output = this.calcIfLogic(configuration, autoComplete);
+              configuration.data.output = this.calcIfLogic(
+                configuration,
+                autoCompleteAll
+              );
             }
             this.CalculationConfigurationComponent.setRowOuput(
               configuration.id,
@@ -122,32 +161,14 @@ export class CalculationComponent implements OnInit {
     }
     this.calcOutput();
   }
-  onCalcRelease(input, configuration, output) {
-    input().forEach(inputs => {
-      this.errorInput(inputs);
-    });
-  }
-  private getAutoCompleteOutputLogic(InputValue, array): any {
-    let input = 0;
-    if (InputValue !== "true" && InputValue !== "false") {
-      input = InputValue;
-      array.forEach(value => {
-        if (value.data.name === InputValue) {
-          input = value.data.output;
-        }
-      });
-    } else {
-      input = InputValue;
-    }
-    return input;
-  }
   calcCondition(configuration, autoComplete) {
-    let autoCompleteLogic = [];
-    autoCompleteLogic = autoComplete.concat(
-      this.CalculationConfigurationComponent.getAllRowsNodesbyIndex(
-        configuration.rowIndex
-      )
-    );
+    let input: string;
+    input = configuration.data.condition;
+    autoComplete.forEach(value => {
+      if (value.data.name === configuration.data.condition) {
+        input = value.data.output;
+      }
+    });
     if (configuration.data.condition === undefined) {
       configuration.data.condition = "";
     }
@@ -166,12 +187,7 @@ export class CalculationComponent implements OnInit {
     ) {
       return false;
     } else {
-      if (
-        this.getAutoCompleteOutputLogic(
-          configuration.data.condition,
-          autoCompleteLogic
-        ) === "true"
-      ) {
+      if (input === "true") {
         return true;
       } else {
         return false;
@@ -182,45 +198,23 @@ export class CalculationComponent implements OnInit {
     const dateAdjustment = new FunctionDateAdjustmentComponent();
     return dateAdjustment.calculate(
       configuration.data.dateAdjustment,
-      this.getCalculationConfigurationAutoComplete(
-        "Date",
-        autoComplete,
-        configuration.rowIndex
-      )
+      autoComplete
     );
   }
   calcDateDuration(configuration, autoComplete) {
     const dateDuration = new FunctionDateDurationComponent();
     return dateDuration.calculate(
       configuration.data.dateDuration,
-      this.getCalculationConfigurationAutoComplete(
-        "Date",
-        autoComplete,
-        configuration.rowIndex
-      )
+      autoComplete
     );
   }
   calcMaths(configuration, autoComplete) {
     const math = new FunctionMathsComponent();
-    return math.calculate(
-      configuration.data.maths,
-      this.getCalculationConfigurationAutoComplete(
-        "Number",
-        autoComplete,
-        configuration.rowIndex
-      )
-    );
+    return math.calculate(configuration.data.maths, autoComplete);
   }
   calcIfLogic(configuration, autoComplete) {
     const ifLogic = new FunctionIfLogicComponent();
-    return ifLogic.calculate(
-      configuration.data.ifLogic,
-      this.getCalculationConfigurationAutoComplete(
-        "Number",
-        autoComplete,
-        configuration.rowIndex
-      )
-    );
+    return ifLogic.calculate(configuration.data.ifLogic, autoComplete);
   }
   errorInput(input) {
     const inputs = new CalculationInputComponent();
@@ -236,11 +230,7 @@ export class CalculationComponent implements OnInit {
     let errorCheck: CalculationError[];
     errorCheck = dateAdjustment.errorCheck(
       configuration.data.dateAdjustment,
-      this.getCalculationConfigurationAutoComplete(
-        "Date",
-        autoComplete,
-        configuration.rowIndex
-      )
+      autoComplete
     );
     if (errorCheck.length > 0) {
       this.isErrors = true;
@@ -252,11 +242,7 @@ export class CalculationComponent implements OnInit {
     let errorCheck: CalculationError[];
     errorCheck = dateDuration.errorCheck(
       configuration.data.dateDuration,
-      this.getCalculationConfigurationAutoComplete(
-        "Date",
-        autoComplete,
-        configuration.rowIndex
-      )
+      autoComplete
     );
     if (errorCheck.length > 0) {
       this.isErrors = true;
@@ -266,14 +252,7 @@ export class CalculationComponent implements OnInit {
   errorMaths(configuration, autoComplete) {
     const math = new FunctionMathsComponent();
     let errorCheck: CalculationError[];
-    errorCheck = math.errorCheck(
-      configuration.data.maths,
-      this.getCalculationConfigurationAutoComplete(
-        "Number",
-        autoComplete,
-        configuration.rowIndex
-      )
-    );
+    errorCheck = math.errorCheck(configuration.data.maths, autoComplete);
     if (errorCheck.length > 0) {
       this.isErrors = true;
     }
@@ -282,14 +261,7 @@ export class CalculationComponent implements OnInit {
   errorIfLogic(configuration, autoComplete) {
     const ifLogic = new FunctionIfLogicComponent();
     let errorCheck: CalculationError[];
-    errorCheck = ifLogic.errorCheck(
-      configuration.data.ifLogic,
-      this.getCalculationConfigurationAutoComplete(
-        "Number",
-        autoComplete,
-        configuration.rowIndex
-      )
-    );
+    errorCheck = ifLogic.errorCheck(configuration.data.ifLogic, autoComplete);
     if (errorCheck.length > 0) {
       this.isErrors = true;
     }

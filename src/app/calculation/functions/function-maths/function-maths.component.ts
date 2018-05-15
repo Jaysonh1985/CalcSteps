@@ -68,7 +68,7 @@ export class FunctionMathsComponent implements OnInit {
     if (isNaN(Number(InputValue))) {
       input = InputValue;
       array.forEach(value => {
-        if (value.data.name === InputValue) {
+        if (value.data.name === InputValue && value.data.data === "Number") {
           input = value.data.output;
         }
       });

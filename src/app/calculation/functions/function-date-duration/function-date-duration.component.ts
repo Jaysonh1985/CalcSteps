@@ -45,13 +45,13 @@ export class FunctionDateDurationComponent implements OnInit {
       }
     });
   }
-  private getAutoCompleteOutput(InputValue, array): any {
+  private getAutoCompleteOutputDate(InputValue, array): any {
     let input = 0;
     const date = moment(InputValue, "DD/MM/YYYY");
     if (date.isValid() === false) {
       input = InputValue;
       array.forEach(value => {
-        if (value.data.name === InputValue) {
+        if (value.data.name === InputValue && value.data.data === "Date") {
           input = value.data.output;
         }
       });
@@ -62,8 +62,14 @@ export class FunctionDateDurationComponent implements OnInit {
   }
   calculate(dateDuration, autoComplete): any {
     moment.locale("en-GB");
-    const Date1 = this.getAutoCompleteOutput(dateDuration.date1, autoComplete);
-    const Date2 = this.getAutoCompleteOutput(dateDuration.date2, autoComplete);
+    const Date1 = this.getAutoCompleteOutputDate(
+      dateDuration.date1,
+      autoComplete
+    );
+    const Date2 = this.getAutoCompleteOutputDate(
+      dateDuration.date2,
+      autoComplete
+    );
     const a = moment(Date1, "DD/MM/YYYY");
     const b = moment(Date2, "DD/MM/YYYY");
     if (dateDuration.type === "Years") {
@@ -104,8 +110,14 @@ export class FunctionDateDurationComponent implements OnInit {
       );
     }
     moment.locale("en-GB");
-    const Date1 = this.getAutoCompleteOutput(dateDuration.date1, autoComplete);
-    const Date2 = this.getAutoCompleteOutput(dateDuration.date2, autoComplete);
+    const Date1 = this.getAutoCompleteOutputDate(
+      dateDuration.date1,
+      autoComplete
+    );
+    const Date2 = this.getAutoCompleteOutputDate(
+      dateDuration.date2,
+      autoComplete
+    );
     const a = moment(Date1, "DD/MM/YYYY", true);
     const b = moment(Date2, "DD/MM/YYYY", true);
     if (a.isValid() === false) {

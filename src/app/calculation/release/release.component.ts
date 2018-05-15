@@ -10,15 +10,17 @@ import { CalculationConfigurationComponent } from "../calculation-configuration/
 import { CalculationComponent } from "../calculation.component";
 import { CalculationService } from "../shared/services/calculation.service";
 import { CalculationError } from "../shared/models/calculation-error";
-
+import { moveIn, fallIn, moveInLeft } from "../../router.animations";
 @Component({
   selector: "app-release",
   templateUrl: "./release.component.html",
-  styleUrls: ["./release.component.css"]
+  styleUrls: ["./release.component.css"],
+  animations: [moveIn(), fallIn(), moveInLeft()]
 })
 export class ReleaseComponent implements OnInit {
   isErrors: boolean;
   isInput: boolean;
+  errors: string[];
   public calculation: any;
   public calculationConfiguration: CalculationConfiguration;
   public calculationInput: CalculationInput[];
@@ -65,6 +67,9 @@ export class ReleaseComponent implements OnInit {
   onReset() {
     this.CalculationInputComponent.onDeleteAllInputs();
     this.CalculationOutputComponent.onDeleteAllOutputs();
+  }
+  onExit() {
+    this.router.navigate(["dashboard"]);
   }
   onCalc() {
     this.isErrors = false;
@@ -114,6 +119,16 @@ export class ReleaseComponent implements OnInit {
         );
       }
     );
+    this.errors = [];
+    if (this.isErrors) {
+      this.CalculationInputComponent.getAllRowsNodes().forEach(input => {
+        if (input.data.errors.length > 0) {
+          input.data.errors.forEach(element => {
+            this.errors.push(element.errorText);
+          });
+        }
+      });
+    }
 
     if (this.isErrors === false) {
       this.CalculationConfigurationComponent.getAllRowsNodes().forEach(
@@ -207,6 +222,13 @@ export class ReleaseComponent implements OnInit {
       return "";
     } else {
       return "None";
+    }
+  }
+  getResultTransition() {
+    if (!this.isInput) {
+      return "void";
+    } else {
+      return "*";
     }
   }
 }

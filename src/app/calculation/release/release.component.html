@@ -1,7 +1,16 @@
 <div class="form-container">
-<div [style.display]="getCalcStyle()" id="left" *ngIf='calculationInput'>
+<div [style.display]="getCalcStyle()" [@moveIn]="getResultTransition()" id="left" *ngIf='calculationInput'>
+
     <button mat-raised-button (click)="onCalc()">Calculate</button>
     <button mat-raised-button (click)="onReset()">Reset</button>
+    <button mat-raised-button (click)="onExit()">Exit</button>
+    <span class="error" *ngIf="errors">
+    <h3>Errors</h3>
+
+      <ul *ngFor="let item of errors">
+        <li>{{item}}</li>
+      </ul>
+    </span>
 
     <app-calculation-input [calculationInput]="calculationInput" [release]=true></app-calculation-input>
   </div>
@@ -9,7 +18,9 @@
     <app-calculation-configuration [calculationConfiguration]="calculationConfiguration" [calculationInput]="calculationInputNodes">
     </app-calculation-configuration>
   </div>
-  <div [style.display]="getResultStyle()" id="right" *ngIf='calculationOutput'>
+<div [style.display]="getResultStyle()" [@moveIn]="getResultTransition()" id="right" *ngIf='calculationOutput'>
+
+
     <button mat-raised-button (click)="routeInput()">Go Back</button>
     <app-calculation-output [calculationOutput]="calculationOutput" [release]=true></app-calculation-output>
   </div>

@@ -207,22 +207,20 @@ export class CalculationInputComponent implements OnInit {
       input.data.required === "True" &&
       (!input.data.output || input.data.output === "")
     ) {
-      this.errorArray.push(this.createError(input, "Input is Required Field"));
+      this.errorArray.push(this.createError(input, input.data.name + " - Input is Required Field"));
     }
     if (input.data.data === "Date") {
       moment.locale("en-GB");
       const a = moment(input.data.output, "DD/MM/YYYY", true);
       if (a.isValid() === false) {
         this.errorArray.push(
-          this.createError(input, "Date is not a valid date value")
+          this.createError(input, input.data.name + " - Date is not a valid date value")
         );
       }
     }
     if (input.data.data === "Number") {
       if (isNaN(Number(input.data.output))) {
-        this.errorArray.push(
-          this.createError(input, "Number is not a valid numeric value")
-        );
+        this.errorArray.push(this.createError(input, input.data.name + " - Number is not a valid numeric value"));
       }
     }
     return this.errorArray;

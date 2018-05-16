@@ -88,7 +88,11 @@ export class CalculationOutputComponent implements OnInit {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     if (this.release === true) {
-      this.outputGridOptions.columnApi.setColumnsVisible(["variable"], false, "api");
+      this.outputGridOptions.columnApi.setColumnsVisible(
+        ["variable"],
+        false,
+        "api"
+      );
     }
     const allColumnIds = [];
     this.gridColumnApi.getAllColumns().forEach(function(column) {
@@ -124,7 +128,7 @@ export class CalculationOutputComponent implements OnInit {
     return arr;
   }
   onDeleteAllOutputs() {
-    this.gridApi.forEachNode(function (node, index) {
+    this.gridApi.forEachNode(function(node, index) {
       const rowNode = node;
       const data = rowNode.data;
       data.output = "";
@@ -136,6 +140,7 @@ export class CalculationOutputComponent implements OnInit {
     const data = rowNode.data;
     data.output = value;
     rowNode.setData(data);
+    this.gridApi.flashCells({ rowNodes: [rowNode], columns: ["output"] });
   }
   createNewRowData() {
     const newRow: CalculationOutput = {

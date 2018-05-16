@@ -11,6 +11,8 @@ import { CalculationComponent } from "../calculation.component";
 import { CalculationService } from "../shared/services/calculation.service";
 import { CalculationError } from "../shared/models/calculation-error";
 import { moveIn, fallIn, moveInLeft } from "../../router.animations";
+import { MatSnackBar } from "@angular/material";
+
 @Component({
   selector: "app-release",
   templateUrl: "./release.component.html",
@@ -38,8 +40,11 @@ export class ReleaseComponent implements OnInit {
     private route: ActivatedRoute,
     private releaseService: ReleaseService,
     private router: Router,
-    private calcService: CalculationService
-  ) {}
+    private calcService: CalculationService,
+    public snackBar: MatSnackBar
+  ) {
+    this.errors = [];
+  }
 
   ngOnInit() {
     const key = this.route.snapshot.params["key"];
@@ -84,7 +89,8 @@ export class ReleaseComponent implements OnInit {
         const calc = new CalculationComponent(
           this.route,
           this.calcService,
-          this.router
+          this.router,
+          this.snackBar
         );
         let autoCompleteConfig = [];
         let autoCompleteAll = [];
@@ -115,7 +121,8 @@ export class ReleaseComponent implements OnInit {
         }
         this.CalculationConfigurationComponent.setRowOuput(
           configuration.id,
-          configuration.data
+          configuration.data,
+          false
         );
       }
     );
@@ -131,12 +138,14 @@ export class ReleaseComponent implements OnInit {
     }
 
     if (this.isErrors === false) {
+      this.errors = [];
       this.CalculationConfigurationComponent.getAllRowsNodes().forEach(
         configuration => {
           const calc = new CalculationComponent(
             this.route,
             this.calcService,
-            this.router
+            this.router,
+            this.snackBar
           );
           let autoCompleteConfig = [];
           let autoCompleteAll = [];
@@ -150,7 +159,8 @@ export class ReleaseComponent implements OnInit {
           );
           this.CalculationConfigurationComponent.setRowOuput(
             configuration.id,
-            configuration.data
+            configuration.data,
+            false
           );
           if (configuration.data.conditionResult === true) {
             if (configuration.data.functionType === "Maths") {
@@ -176,7 +186,8 @@ export class ReleaseComponent implements OnInit {
             }
             this.CalculationConfigurationComponent.setRowOuput(
               configuration.id,
-              configuration.data
+              configuration.data,
+              false
             );
           }
         }

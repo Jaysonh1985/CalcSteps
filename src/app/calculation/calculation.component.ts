@@ -17,6 +17,7 @@ import { FunctionDateAdjustmentComponent } from "./functions/function-date-adjus
 import { FunctionDateDurationComponent } from "./functions/function-date-duration/function-date-duration.component";
 import { FunctionIfLogicComponent } from "./functions/function-if-logic/function-if-logic.component";
 import { CalculationError } from "./shared/models/calculation-error";
+import { MatSnackBar } from "@angular/material";
 @Component({
   selector: "app-calculation",
   templateUrl: "./calculation.component.html",
@@ -48,7 +49,8 @@ export class CalculationComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private calcService: CalculationService,
-    private router: Router
+    private router: Router,
+    public snackBar: MatSnackBar
   ) {}
   onSave() {
     this.calculation.calculationInputs = this.CalculationInputComponent.getAllRows();
@@ -60,6 +62,9 @@ export class CalculationComponent implements OnInit {
       this.calculation.key,
       JSON.parse(JSON.stringify(this.calculation))
     );
+    this.snackBar.open("Calculation Saved", "Saved", {
+      duration: 2000
+    });
   }
   onDelete() {
     this.calcService.deleteCalculation(this.calculation.key);
@@ -107,11 +112,16 @@ export class CalculationComponent implements OnInit {
         }
         this.CalculationConfigurationComponent.setRowOuput(
           configuration.id,
-          configuration.data
+          configuration.data,
+          false
         );
       }
     );
-
+    if (this.isErrors) {
+      this.snackBar.open("Calculation Failed", "Failed", {
+        duration: 2000
+      });
+    }
     if (this.isErrors === false) {
       this.CalculationConfigurationComponent.getAllRowsNodes().forEach(
         configuration => {
@@ -127,9 +137,11 @@ export class CalculationComponent implements OnInit {
           );
           this.CalculationConfigurationComponent.setRowOuput(
             configuration.id,
-            configuration.data
+            configuration.data,
+            false
           );
           if (configuration.data.conditionResult === true) {
+            const oldOutput = configuration.data.output;
             if (configuration.data.functionType === "Maths") {
               configuration.data.output = this.calcMaths(
                 configuration,
@@ -151,15 +163,21 @@ export class CalculationComponent implements OnInit {
                 autoCompleteAll
               );
             }
-            this.CalculationConfigurationComponent.setRowOuput(
-              configuration.id,
-              configuration.data
-            );
+            if (oldOutput !== configuration.data.output) {
+              this.CalculationConfigurationComponent.setRowOuput(
+                configuration.id,
+                configuration.data,
+                true
+              );
+            }
           }
         }
       );
+      this.snackBar.open("Calculated Successfully", "Success", {
+        duration: 2000
+      });
+      this.calcOutput();
     }
-    this.calcOutput();
   }
   calcCondition(configuration, autoComplete) {
     let input: string;
@@ -281,15 +299,17 @@ export class CalculationComponent implements OnInit {
   }
   calcOutput() {
     this.CalculationOutputComponent.getAllRowsNodes().forEach(output => {
-      this.CalculationOutputComponent.setRowOuput(output.id, "");
+      const oldOutput = output.data.output;
       let arr: Array<any> = [];
       arr = this.CalculationConfigurationComponent.getFinalRowNodes(
         output.data.variable
       );
-      this.CalculationOutputComponent.setRowOuput(
-        output.id,
-        arr["data"].output
-      );
+      if (oldOutput !== arr["data"].output) {
+        this.CalculationOutputComponent.setRowOuput(
+          output.id,
+          arr["data"].output
+        );
+      }
     });
   }
   getConfigOutputLists() {

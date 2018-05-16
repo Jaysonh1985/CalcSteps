@@ -37,8 +37,13 @@ export class CalculationConfigurationComponent implements OnInit {
   @Input() calculationInput: any[];
   @Output() messageEvent = new EventEmitter();
   public autoCompleteOptions: any[];
+  public defaultColDef;
   constructor() {
     this.gridOptions = <GridOptions>{};
+    this.defaultColDef = {
+      cellClass: "align-right",
+      enableCellChangeFlash: true
+    };
     this.gridOptions.columnDefs = [
       {
         headerName: "Group",
@@ -93,7 +98,8 @@ export class CalculationConfigurationComponent implements OnInit {
         field: "output",
         width: 125,
         editable: false,
-        suppressFilter: true
+        suppressFilter: true,
+        enableCellChangeFlash: true
       }
     ];
     this.gridOptions.floatingFilter = true;
@@ -266,11 +272,15 @@ export class CalculationConfigurationComponent implements OnInit {
     });
     return arr[arr.length - 1];
   }
-  public setRowOuput(id, rowData) {
+  public setRowOuput(id, rowData, flash) {
     const rowNode = this.gridApi.getRowNode(id);
+    const oldData = rowNode.data;
     let data = rowNode.data;
     data = rowData;
     rowNode.setData(data);
+    if (flash === true) {
+      this.gridApi.flashCells({ rowNodes: [rowNode], columns: ["output"] });
+    }
   }
   onCalcConfiguration() {}
   createNewRowData() {

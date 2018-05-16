@@ -7,9 +7,8 @@
   <mat-form-field>
     <input placeholder="Name" matInput [(ngModel)]="data.name" required>
   </mat-form-field>
-
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>OK</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial [disabled]="!data.group || !data.name">OK</button>
 </div>

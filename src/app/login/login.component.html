@@ -1,28 +1,25 @@
 <div class="container text-centre">
   <h1>Log in </h1>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" [(ngModel)]="email" placeholder="Email" required>
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" [(ngModel)]="password" placeholder="Password" required>
-  </div>
+  <mat-form-field>
+    <input type="email" matInput [(ngModel)]="email" placeholder="Email" required>
+  </mat-form-field>
+  <mat-form-field>
+    <input type="password" matInput [(ngModel)]="password" placeholder="Password" required>
+  </mat-form-field>
   <a mat-button routerLink="../signup">
     Don't have an account?
   </a>
   <a mat-button (click)="resetPassword()">
     Need a password reset?
   </a>
-  <button (click)="login()" [disabled]="!email || !password">
+  <button mat-button (click)="login()" [disabled]="!email || !password">
     Login
   </button>
-  <button type="button" (click)="signInWithGoogle()" id="google">
+  <button mat-button type="button" (click)="signInWithGoogle()" id="google">
     Login with Google
   </button>
-  <button (click)="logout()" *ngIf="authService.user | async">
+  <button mat-button (click)="logout()" *ngIf="authService.user | async">
     Logout
   </button>
   <p *ngIf="passReset">Reset requested. Check your email instructions.</p>
 </div>
-

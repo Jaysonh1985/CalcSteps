@@ -134,6 +134,31 @@ export class FunctionMathsComponent implements OnInit {
           this.createError(maths, "Function is missing and is a required field")
         );
       }
+      if (column.input1) {
+        const Number1 = this.getAutoCompleteOutput(column.input1, autoComplete);
+        if (isNaN(Number(Number1))) {
+          this.errorArray.push(
+            this.createError(
+              maths,
+              Number1 +
+                " - Number 1 - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
+            )
+          );
+        }
+      }
+      if (column.input2) {
+        const Number2 = this.getAutoCompleteOutput(column.input2, autoComplete);
+        if (isNaN(Number(Number2))) {
+          this.errorArray.push(
+            this.createError(
+              maths,
+              Number2 +
+                " - Number 2 - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
+            )
+          );
+        }
+      }
+
       if (column.bracketOpen === "(") {
         LBcounter = LBcounter + 1;
       }

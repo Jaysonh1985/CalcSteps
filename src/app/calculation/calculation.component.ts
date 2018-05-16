@@ -17,7 +17,8 @@ import { FunctionDateAdjustmentComponent } from "./functions/function-date-adjus
 import { FunctionDateDurationComponent } from "./functions/function-date-duration/function-date-duration.component";
 import { FunctionIfLogicComponent } from "./functions/function-if-logic/function-if-logic.component";
 import { CalculationError } from "./shared/models/calculation-error";
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar, MatDialog } from "@angular/material";
+import { ConfirmationDialogComponent } from "../shared/confirmation-dialog/confirmation-dialog.component";
 @Component({
   selector: "app-calculation",
   templateUrl: "./calculation.component.html",
@@ -50,7 +51,8 @@ export class CalculationComponent implements OnInit {
     private route: ActivatedRoute,
     private calcService: CalculationService,
     private router: Router,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
+    public dialog: MatDialog
   ) {}
   onSave() {
     this.calculation.calculationInputs = this.CalculationInputComponent.getAllRows();
@@ -67,11 +69,27 @@ export class CalculationComponent implements OnInit {
     });
   }
   onDelete() {
-    this.calcService.deleteCalculation(this.calculation.key);
-    this.router.navigate(["dashboard"]);
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: "400px",
+      data: { description: "Do you wish to delete this calculation?" }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.calcService.deleteCalculation(this.calculation.key);
+        this.router.navigate(["dashboard"]);
+      }
+    });
   }
   onExit() {
-    this.router.navigate(["dashboard"]);
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: "400px",
+      data: { description: "Do you wish to exit?" }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.router.navigate(["dashboard"]);
+      }
+    });
   }
   onCalc() {
     this.isErrors = false;

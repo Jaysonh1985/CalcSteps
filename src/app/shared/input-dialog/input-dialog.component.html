@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Add Calculation</h1>
+<div mat-dialog-content>
+  <p>Please name your new calculation?</p>
+  <mat-form-field>
+    <input placeholder="Group" matInput [(ngModel)]="data.group" required>
+  </mat-form-field>
+  <mat-form-field>
+    <input placeholder="Name" matInput [(ngModel)]="data.name" required>
+  </mat-form-field>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>OK</button>
+</div>

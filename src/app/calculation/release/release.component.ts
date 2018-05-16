@@ -11,7 +11,7 @@ import { CalculationComponent } from "../calculation.component";
 import { CalculationService } from "../shared/services/calculation.service";
 import { CalculationError } from "../shared/models/calculation-error";
 import { moveIn, fallIn, moveInLeft } from "../../router.animations";
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar, MatDialog } from "@angular/material";
 
 @Component({
   selector: "app-release",
@@ -41,7 +41,8 @@ export class ReleaseComponent implements OnInit {
     private releaseService: ReleaseService,
     private router: Router,
     private calcService: CalculationService,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
+    public dialog: MatDialog
   ) {
     this.errors = [];
   }
@@ -90,7 +91,8 @@ export class ReleaseComponent implements OnInit {
           this.route,
           this.calcService,
           this.router,
-          this.snackBar
+          this.snackBar,
+          this.dialog
         );
         let autoCompleteConfig = [];
         let autoCompleteAll = [];
@@ -145,7 +147,8 @@ export class ReleaseComponent implements OnInit {
             this.route,
             this.calcService,
             this.router,
-            this.snackBar
+            this.snackBar,
+            this.dialog
           );
           let autoCompleteConfig = [];
           let autoCompleteAll = [];

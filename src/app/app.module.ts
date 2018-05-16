@@ -34,6 +34,8 @@ import { AccountComponent } from "./account/account.component";
 import { ReleaseComponent } from "./calculation/release/release.component";
 import { ReleaseManagementComponent } from "./calculation/release-management/release-management.component";
 import { ReleaseService } from "./calculation/shared/services/release.service";
+import { InputDialogComponent } from "./shared/input-dialog/input-dialog.component";
+import { ConfirmationDialogComponent } from "./shared/confirmation-dialog/confirmation-dialog.component";
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { ReleaseService } from "./calculation/shared/services/release.service";
     SignupComponent,
     AccountComponent,
     ReleaseComponent,
-    ReleaseManagementComponent
+    ReleaseManagementComponent,
+    InputDialogComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -66,6 +70,7 @@ import { ReleaseService } from "./calculation/shared/services/release.service";
     FormsModule,
     AgGridModule.withComponents([])
   ],
+  entryComponents: [InputDialogComponent, ConfirmationDialogComponent],
   providers: [AuthService, CalculationService, ReleaseService],
   bootstrap: [AppComponent]
 })

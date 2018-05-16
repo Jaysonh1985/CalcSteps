@@ -15,6 +15,8 @@ import { CalculationInputComponent } from "../calculation/calculation-input/calc
 import { CalculationOutputComponent } from "../calculation/calculation-output/calculation-output.component";
 import { CalculationConfigurationComponent } from "../calculation/calculation-configuration/calculation-configuration.component";
 import { ReleaseService } from "../calculation/shared/services/release.service";
+import { MatDialog } from "@angular/material";
+import { InputDialogComponent } from "../shared/input-dialog/input-dialog.component";
 
 @Component({
   selector: "app-dashboard",
@@ -29,6 +31,7 @@ export class DashboardComponent implements OnInit {
     private calcService: CalculationService,
     private router: Router,
     public releaseService: ReleaseService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -47,26 +50,37 @@ export class DashboardComponent implements OnInit {
       });
   }
   onAddCalculation() {
-    this.calculation = new Calculation();
-    this.calculation.group = "Test Group";
-    this.calculation.name = "Test Name";
-    this.calculation.function = "Test Function";
-    this.calculation.updateDate = new Date();
-    this.calculation.calculationType = "calculation";
-    this.calculation.owner = "Jayson Herbert";
-    this.calculation.regression = false;
-    this.calculation.username = "jaysonh1985@gmail.com";
-    const Input = new CalculationInputComponent();
-    this.calculation.calculationInputs = [];
-    this.calculation.calculationInputs.push(Input.createNewRowData());
-    const Output = new CalculationOutputComponent();
-    this.calculation.calculationOutputs = [];
-    this.calculation.calculationOutputs.push(Output.createNewRowData());
-    const Config = new CalculationConfigurationComponent();
-    this.calculation.calculationConfigurations = [];
-    this.calculation.calculationConfigurations.push(Config.createNewRowData());
-    this.calcService.createCalculation(this.calculation);
-    this.calculation = new Calculation();
+    const dialogRef = this.dialog.open(InputDialogComponent, {
+      width: "400px",
+      data: { group: "", name: "" }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.calculation = new Calculation();
+        this.calculation.group = result.group;
+        this.calculation.name = result.name;
+        this.calculation.function = "";
+        this.calculation.updateDate = new Date();
+        this.calculation.calculationType = "calculation";
+        this.calculation.owner = "Jayson Herbert";
+        this.calculation.regression = false;
+        this.calculation.username = "jaysonh1985@gmail.com";
+        const Input = new CalculationInputComponent();
+        this.calculation.calculationInputs = [];
+        this.calculation.calculationInputs.push(Input.createNewRowData());
+        const Output = new CalculationOutputComponent();
+        this.calculation.calculationOutputs = [];
+        this.calculation.calculationOutputs.push(Output.createNewRowData());
+        const Config = new CalculationConfigurationComponent();
+        this.calculation.calculationConfigurations = [];
+        this.calculation.calculationConfigurations.push(
+          Config.createNewRowData()
+        );
+        this.calcService.createCalculation(this.calculation);
+        this.calculation = new Calculation();
+      }
+    });
   }
   deleteCalculations() {
     this.calcService.deleteAll();

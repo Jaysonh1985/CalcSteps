@@ -12,6 +12,7 @@ export class Calculation {
   calculationType: string;
   updateDate: Date = new Date();
   username: string;
+  userid: string;
   calculationInputs: CalculationInput[];
   calculationOutputs: CalculationOutput[];
   calculationConfigurations: CalculationConfiguration[];

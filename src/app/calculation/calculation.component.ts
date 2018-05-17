@@ -67,6 +67,7 @@ export class CalculationComponent implements OnInit {
     this.snackBar.open("Calculation Saved", "Saved", {
       duration: 2000
     });
+    this.opened = false;
   }
   onDelete() {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {

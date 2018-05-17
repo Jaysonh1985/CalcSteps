@@ -17,6 +17,7 @@ import { CalculationConfigurationComponent } from "../calculation/calculation-co
 import { ReleaseService } from "../calculation/shared/services/release.service";
 import { MatDialog } from "@angular/material";
 import { InputDialogComponent } from "../shared/input-dialog/input-dialog.component";
+import { AuthService } from "../services/auth.service";
 
 @Component({
   selector: "app-dashboard",
@@ -31,23 +32,27 @@ export class DashboardComponent implements OnInit {
     private calcService: CalculationService,
     private router: Router,
     public releaseService: ReleaseService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
-    // Use snapshotChanges().map() to store the key
-    this.calcService
-      .getCalculationsList()
-      .snapshotChanges()
-      .map(changes => {
-        return changes.map(c => ({
-          key: c.payload.key,
-          ...c.payload.val()
-        }));
-      })
-      .subscribe(customers => {
-        this.calculations = customers;
-      });
+    this.authService.user.subscribe(auth => {
+      if (auth) {
+        this.calcService
+          .getCalculationListbyuid(auth.uid)
+          .snapshotChanges()
+          .map(changes => {
+            return changes.map(c => ({
+              key: c.payload.key,
+              ...c.payload.val()
+            }));
+          })
+          .subscribe(customers => {
+            this.calculations = customers;
+          });
+      }
+    });
   }
   onAddCalculation() {
     const dialogRef = this.dialog.open(InputDialogComponent, {
@@ -57,28 +62,33 @@ export class DashboardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.calculation = new Calculation();
-        this.calculation.group = result.group;
-        this.calculation.name = result.name;
-        this.calculation.function = "";
-        this.calculation.updateDate = new Date();
-        this.calculation.calculationType = "calculation";
-        this.calculation.owner = "Jayson Herbert";
-        this.calculation.regression = false;
-        this.calculation.username = "jaysonh1985@gmail.com";
-        const Input = new CalculationInputComponent();
-        this.calculation.calculationInputs = [];
-        this.calculation.calculationInputs.push(Input.createNewRowData());
-        const Output = new CalculationOutputComponent();
-        this.calculation.calculationOutputs = [];
-        this.calculation.calculationOutputs.push(Output.createNewRowData());
-        const Config = new CalculationConfigurationComponent();
-        this.calculation.calculationConfigurations = [];
-        this.calculation.calculationConfigurations.push(
-          Config.createNewRowData()
-        );
-        this.calcService.createCalculation(this.calculation);
-        this.calculation = new Calculation();
+        this.authService.user.subscribe(auth => {
+          if (auth) {
+            this.calculation = new Calculation();
+            this.calculation.group = result.group;
+            this.calculation.name = result.name;
+            this.calculation.function = "";
+            this.calculation.updateDate = new Date();
+            this.calculation.calculationType = "calculation";
+            this.calculation.owner = auth.displayName;
+            this.calculation.regression = false;
+            this.calculation.username = auth.email;
+            this.calculation.userid = auth.uid;
+            const Input = new CalculationInputComponent();
+            this.calculation.calculationInputs = [];
+            this.calculation.calculationInputs.push(Input.createNewRowData());
+            const Output = new CalculationOutputComponent();
+            this.calculation.calculationOutputs = [];
+            this.calculation.calculationOutputs.push(Output.createNewRowData());
+            const Config = new CalculationConfigurationComponent();
+            this.calculation.calculationConfigurations = [];
+            this.calculation.calculationConfigurations.push(
+              Config.createNewRowData()
+            );
+            this.calcService.createCalculation(this.calculation);
+            this.calculation = new Calculation();
+          }
+        });
       }
     });
   }

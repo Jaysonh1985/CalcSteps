@@ -40,6 +40,11 @@ export class CalculationService {
   getCalculation(key): AngularFireList<Calculation> {
     return this.db.list(this.dbPath, ref => ref.orderByKey().equalTo(key));
   }
+  getCalculationListbyuid(uid): AngularFireList<Calculation> {
+    return this.db.list(this.dbPath, ref =>
+      ref.orderByChild("userid").equalTo(uid)
+    );
+  }
 
   deleteAll(): void {
     this.calculationsRef.remove().catch(error => this.handleError(error));

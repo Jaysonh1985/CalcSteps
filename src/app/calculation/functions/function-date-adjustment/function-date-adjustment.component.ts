@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from "@angular/core";
 import * as moment from "moment";
 import "moment/locale/pt-br";
 import { CalculationError } from "../../shared/models/calculation-error";
+import { Observable } from "rxjs/Observable";
 export class DateAdjustment {
   type: string;
   date1: string;
@@ -35,7 +36,7 @@ export class FunctionDateAdjustmentComponent implements OnInit {
     dateAdjustment.period = "";
     dateAdjustment.periodType = "";
   }
-
+  filteredOptions: Observable<string[]>;
   ngOnInit() {
     if (this.selectedRow[0].dateAdjustment == null) {
       this.selectedRow[0].dateAdjustment = this.dateAdjustment;
@@ -49,6 +50,16 @@ export class FunctionDateAdjustmentComponent implements OnInit {
         }
       }
     });
+  }
+  filterAutoComplete(val: string) {
+    if (val) {
+      const filterValue = val.toLowerCase();
+      const filteredResults = this.autoCompleteOptions.filter(state =>
+        state.toLowerCase().startsWith(filterValue)
+      );
+      return filteredResults;
+    }
+    return this.autoCompleteOptions;
   }
   private getAutoCompleteOutput(InputValue, array): any {
     let input = 0;

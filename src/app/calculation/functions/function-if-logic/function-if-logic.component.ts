@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import * as mathJs from "mathjs";
 import { CalculationError } from "../../shared/models/calculation-error";
+import { Observable } from "rxjs/Observable";
 export class IfLogic {
   bracketOpen: string;
   input1: string;
@@ -20,6 +21,7 @@ export class FunctionIfLogicComponent implements OnInit {
   @Input() autoCompleteArray: any[];
   public ifLogic: IfLogic;
   public autoCompleteOptions: any[];
+  filteredOptions: Observable<string[]>;
   constructor() {
     this.ifLogic = new IfLogic();
     this.ifLogic.bracketOpen = "";
@@ -42,6 +44,7 @@ export class FunctionIfLogicComponent implements OnInit {
   onDeleteRow(index) {
     this.selectedRow[0].maths.splice(index, 1);
   }
+
   ngOnInit() {
     if (this.selectedRow[0].ifLogic == null) {
       this.selectedRow[0].ifLogic = [this.ifLogic];
@@ -53,6 +56,16 @@ export class FunctionIfLogicComponent implements OnInit {
           this.autoCompleteOptions.push(autoCompleteText);
       }
     });
+  }
+  filterAutoComplete(val: string) {
+    if (val) {
+      const filterValue = val.toLowerCase();
+      const filteredResults = this.autoCompleteOptions.filter(state =>
+        state.toLowerCase().startsWith(filterValue)
+      );
+      return filteredResults;
+    }
+    return this.autoCompleteOptions;
   }
   private getAutoCompleteOutput(InputValue, array): any {
     let input = 0;

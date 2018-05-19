@@ -7,6 +7,7 @@ import { parse } from "querystring";
 import { MatSelect } from "@angular/material";
 import { map, startWith, concat } from "rxjs/operators";
 import { CalculationError } from "../../shared/models/calculation-error";
+import { Observable } from "rxjs/Observable";
 export class Maths {
   bracketOpen: string;
   input1: string;
@@ -27,6 +28,7 @@ export class FunctionMathsComponent implements OnInit {
   @Input() autoCompleteArray: any[];
   public maths: Maths;
   public autoCompleteOptions: any[];
+  filteredOptions: Observable<string[]>;
   constructor() {
     this.maths = new Maths();
     this.maths.bracketOpen = "";
@@ -62,6 +64,16 @@ export class FunctionMathsComponent implements OnInit {
         }
       }
     });
+  }
+  filterAutoComplete(val: string) {
+    if (val) {
+      const filterValue = val.toLowerCase();
+      const filteredResults = this.autoCompleteOptions.filter(state =>
+        state.toLowerCase().startsWith(filterValue)
+      );
+      return filteredResults;
+    }
+    return this.autoCompleteOptions;
   }
   private getAutoCompleteOutput(InputValue, array): any {
     let input = 0;

@@ -68,6 +68,7 @@ import { ConfirmationDialogComponent } from "./shared/confirmation-dialog/confir
     AngularFireAuthModule,
     MaterialModule,
     FormsModule,
+    ReactiveFormsModule,
     AgGridModule.withComponents([])
   ],
   entryComponents: [InputDialogComponent, ConfirmationDialogComponent],

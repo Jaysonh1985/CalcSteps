@@ -7,7 +7,8 @@
     </mat-select>
   </mat-form-field>
   <mat-form-field style="width: 130px">
-    <input matInput placeholder="Input 1" [(ngModel)]="row.input1" style="font-size: small" [matAutocomplete]="auto">
+<input matInput placeholder="Input 1" [(ngModel)]="row.input1" style="font-size: small" [matAutocomplete]="auto" (ngModelChange)="filteredOptions = filterAutoComplete(row.input1)">
+
   </mat-form-field>
   <mat-form-field style="width: 40px">
     <mat-select [(ngModel)]="row.functionType">
@@ -19,7 +20,8 @@
     </mat-select>
   </mat-form-field>
   <mat-form-field style="width: 130px">
-    <input matInput placeholder="Input 2" [(ngModel)]="row.input2" style="font-size: small" [matAutocomplete]="auto">
+<input matInput placeholder="Input 2" [(ngModel)]="row.input2" style="font-size: small" [matAutocomplete]="auto" (ngModelChange)="filteredOptions = filterAutoComplete(row.input2)">
+
   </mat-form-field>
   <mat-form-field style="width: 30px">
     <mat-select [(ngModel)]="row.bracketClose">
@@ -37,11 +39,11 @@
     </mat-select>
   </mat-form-field>
   <mat-autocomplete #auto="matAutocomplete">
-    <mat-option *ngFor="let option of autoCompleteOptions" [value]="option">
+    <mat-option *ngFor="let option of filteredOptions" [value]="option">
       {{ option }}
     </mat-option>
   </mat-autocomplete>
-  <button mat-icon-button style="font-size: small">
+  <button mat-icon-button autoActiveFirstOption style="font-size: small">
     <mat-icon matListIcon (click)="onDeleteRow(i)" style="font-size: small; color: red">remove</mat-icon>
   </button>
 </div>

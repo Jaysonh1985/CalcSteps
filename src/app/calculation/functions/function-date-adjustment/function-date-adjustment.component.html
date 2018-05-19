@@ -15,13 +15,12 @@
   <tr>
     <td>
       <mat-form-field *ngIf="selectedRow[0].dateAdjustment.type != 'Today'">
-        <input matInput placeholder="Date 1" [(ngModel)]="selectedRow[0].dateAdjustment.date1" style="font-size: small" [matAutocomplete]="auto">
+        <input matInput placeholder="Date 1" [(ngModel)]="selectedRow[0].dateAdjustment.date1" style="font-size: small" [matAutocomplete]="auto" (ngModelChange)="filteredOptions = filterAutoComplete(selectedRow[0].dateAdjustment.date1)">
       </mat-form-field>
-
     </td>
     <td>
       <mat-form-field *ngIf="selectedRow[0].dateAdjustment.type == 'Earlier' || selectedRow[0].dateAdjustment.type == 'Later' || selectedRow[0].dateAdjustment.type == 'DatesBetween' || selectedRow[0].dateAdjustment.type== 'MonthsBetween'">
-        <input matInput placeholder="Date 2" [(ngModel)]="selectedRow[0].dateAdjustment.date2" style="font-size: small" [matAutocomplete]="auto">
+        <input matInput placeholder="Date 2" [(ngModel)]="selectedRow[0].dateAdjustment.date2" style="font-size: small" [matAutocomplete]="auto" (ngModelChange)="filteredOptions = filterAutoComplete(selectedRow[0].dateAdjustment.date2)">
       </mat-form-field>
     </td>
   </tr>
@@ -53,8 +52,8 @@
 <mat-form-field *ngIf="selectedRow[0].dateAdjustment.type == 'Adjust'|| selectedRow[0].dateAdjustment.type =='DatesBetween'">
   <input matInput placeholder="Month" [(ngModel)]="selectedRow[0].dateAdjustment.month" style="font-size: small" [matAutocomplete]="auto">
 </mat-form-field>
-<mat-autocomplete #auto="matAutocomplete">
-  <mat-option *ngFor="let option of autoCompleteOptions" [value]="option">
+<mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+  <mat-option *ngFor="let option of filteredOptions" [value]="option">
     {{ option }}
   </mat-option>
 </mat-autocomplete>

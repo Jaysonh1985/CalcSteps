@@ -3,6 +3,9 @@ import * as moment from "moment";
 import "moment/locale/pt-br";
 import { CalculationError } from "../../shared/models/calculation-error";
 import { DateFilter } from "ag-grid";
+import { FormControl } from "@angular/forms";
+import { Observable } from "rxjs/observable";
+import { map, startWith } from "rxjs/operators";
 export class DateDuration {
   type: string;
   date1: string;
@@ -22,6 +25,8 @@ export class FunctionDateDurationComponent implements OnInit {
   public autoCompleteOptions: any[];
   public errorArray: CalculationError[];
   public error: CalculationError;
+
+  filteredOptions: Observable<string[]>;
   constructor() {
     const dateDuration = new DateDuration();
     dateDuration.type = "";
@@ -29,6 +34,14 @@ export class FunctionDateDurationComponent implements OnInit {
     dateDuration.date2 = "";
     dateDuration.inclusive = "";
     dateDuration.daysinyear = "";
+
+  }
+  filterAutoComplete(val: string) {
+    if (val) {
+      const filterValue = val.toLowerCase();
+      return this.autoCompleteOptions.filter(state => state.toLowerCase().startsWith(filterValue));
+    }
+    return this.autoCompleteOptions;
   }
 
   ngOnInit() {

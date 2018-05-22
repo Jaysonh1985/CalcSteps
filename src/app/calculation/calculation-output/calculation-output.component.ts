@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { GridOptions } from "ag-grid";
 import { Grid } from "ag-grid";
 import { tryParse } from "selenium-webdriver/http";
@@ -16,6 +16,7 @@ export class CalculationOutputComponent implements OnInit {
   public rowSelection;
   private gridApi;
   private gridColumnApi;
+  @Output() messageEvent = new EventEmitter();
   @Input() calculationOutput: string[];
   @Input() configOutputsNumber: string[];
   @Input() configOutputsDate: string[];
@@ -24,7 +25,7 @@ export class CalculationOutputComponent implements OnInit {
   @Input() release: boolean;
   constructor() {
     this.outputGridOptions = <GridOptions>{};
-    this.rowSelection = "multiple";
+    this.rowSelection = "single";
     this.outputGridOptions.columnDefs = [
       {
         headerName: "Name",
@@ -106,6 +107,9 @@ export class CalculationOutputComponent implements OnInit {
   onRemoveSelected() {
     const selectedData = this.gridApi.getSelectedRows();
     const res = this.gridApi.updateRowData({ remove: selectedData });
+  }
+  onSelectionChanged(event) {
+    this.messageEvent.emit("Add Input");
   }
   getAllRows(): CalculationOutput[] {
     const arr: Array<CalculationOutput> = [];

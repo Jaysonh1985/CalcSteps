@@ -18,6 +18,8 @@ import { ReleaseService } from "../calculation/shared/services/release.service";
 import { MatDialog } from "@angular/material";
 import { InputDialogComponent } from "../shared/input-dialog/input-dialog.component";
 import { AuthService } from "../services/auth.service";
+import { DateAdjustment } from "../calculation/functions/function-date-adjustment/function-date-adjustment.component";
+import { DateDuration } from "../calculation/functions/function-date-duration/function-date-duration.component";
 
 @Component({
   selector: "app-dashboard",
@@ -27,7 +29,6 @@ import { AuthService } from "../services/auth.service";
 export class DashboardComponent implements OnInit {
   calculations: any;
   calculation: Calculation = null;
-  // public calcService: CalculationService;
   constructor(
     private calcService: CalculationService,
     private router: Router,
@@ -74,16 +75,30 @@ export class DashboardComponent implements OnInit {
             this.calculation.regression = false;
             this.calculation.username = auth.email;
             this.calculation.userid = auth.uid;
-            const Input = new CalculationInputComponent();
             this.calculation.calculationInputs = [];
-            this.calculation.calculationInputs.push(Input.createNewRowData());
-            const Output = new CalculationOutputComponent();
+            this.calculation.calculationInputs.push(
+              new CalculationInput("", "", "", "", [], "", false)
+            );
             this.calculation.calculationOutputs = [];
-            this.calculation.calculationOutputs.push(Output.createNewRowData());
-            const Config = new CalculationConfigurationComponent();
+            this.calculation.calculationOutputs.push(
+              new CalculationOutput("", "", "", "")
+            );
             this.calculation.calculationConfigurations = [];
             this.calculation.calculationConfigurations.push(
-              Config.createNewRowData()
+              new CalculationConfiguration(
+                "",
+                "",
+                "",
+                "",
+                "",
+                [],
+                new DateAdjustment("", "", "", "", "", "", "", ""),
+                new DateDuration("", "", "", "", ""),
+                [],
+                [],
+                "",
+                true
+              )
             );
             this.calcService.createCalculation(this.calculation);
             this.calculation = new Calculation();

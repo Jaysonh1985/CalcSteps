@@ -100,7 +100,7 @@ export class CalculationOutputComponent implements OnInit {
     });
   }
   onAddRow() {
-    const newItem = this.createNewRowData();
+    const newItem = new CalculationOutput("", "", "", "");
     const res = this.gridApi.updateRowData({ add: [newItem] });
   }
   onRemoveSelected() {
@@ -141,16 +141,6 @@ export class CalculationOutputComponent implements OnInit {
     data.output = value;
     rowNode.setData(data);
     this.gridApi.flashCells({ rowNodes: [rowNode], columns: ["output"] });
-  }
-  createNewRowData() {
-    const newRow: CalculationOutput = {
-      name: "",
-      output: "",
-      variable: "",
-      data: ""
-    };
-    console.log(this);
-    return newRow;
   }
   ngOnInit() {
     this.outputGridOptions.rowData = this.calculationOutput;

@@ -3,6 +3,7 @@ import * as moment from "moment";
 import "moment/locale/pt-br";
 import { CalculationError } from "../../shared/models/calculation-error";
 import { Observable } from "rxjs/Observable";
+
 export class DateAdjustment {
   type: string;
   date1: string;
@@ -12,6 +13,16 @@ export class DateAdjustment {
   adjustment: string;
   day: string;
   month: string;
+  constructor(adjustment, type, date1, date2, day, month, period, periodType) {
+    this.adjustment = "";
+    this.type = "";
+    this.date1 = "";
+    this.date2 = "";
+    this.day = "";
+    this.month = "";
+    this.period = "";
+    this.periodType = "";
+  }
 }
 
 @Component({
@@ -25,17 +36,7 @@ export class FunctionDateAdjustmentComponent implements OnInit {
   public dateAdjustment: DateAdjustment;
   public autoCompleteOptions: any[];
   public errorArray: CalculationError[];
-  constructor() {
-    const dateAdjustment = new DateAdjustment();
-    dateAdjustment.adjustment = "";
-    dateAdjustment.type = "";
-    dateAdjustment.date1 = "";
-    dateAdjustment.date2 = "";
-    dateAdjustment.day = "";
-    dateAdjustment.month = "";
-    dateAdjustment.period = "";
-    dateAdjustment.periodType = "";
-  }
+  constructor() {}
   filteredOptions: Observable<string[]>;
   ngOnInit() {
     if (this.selectedRow[0].dateAdjustment == null) {
@@ -139,8 +140,9 @@ export class FunctionDateAdjustmentComponent implements OnInit {
     this.errorArray = [];
     if (!dateAdjustment.date1 && dateAdjustment.type !== "Today") {
       this.errorArray.push(
-        this.createError(
-          dateAdjustment,
+        new CalculationError(
+          dateAdjustment.rowIndex,
+          "Error",
           "Date 1 is missing and is a required field"
         )
       );
@@ -152,16 +154,18 @@ export class FunctionDateAdjustmentComponent implements OnInit {
         dateAdjustment.type === "DatesBetween")
     ) {
       this.errorArray.push(
-        this.createError(
-          dateAdjustment,
+        new CalculationError(
+          dateAdjustment.rowIndex,
+          "Error",
           "Date 2 is missing and is a required field"
         )
       );
     }
     if (!dateAdjustment.type) {
       this.errorArray.push(
-        this.createError(
-          dateAdjustment,
+        new CalculationError(
+          dateAdjustment.rowIndex,
+          "Error",
           "Type is missing and is a required field"
         )
       );
@@ -171,8 +175,9 @@ export class FunctionDateAdjustmentComponent implements OnInit {
       !dateAdjustment.periodType
     ) {
       this.errorArray.push(
-        this.createError(
-          dateAdjustment,
+        new CalculationError(
+          dateAdjustment.rowIndex,
+          "Error",
           "Period Type is missing and is a required field"
         )
       );
@@ -180,31 +185,33 @@ export class FunctionDateAdjustmentComponent implements OnInit {
     if (dateAdjustment.type === "Adjust") {
       if (!dateAdjustment.adjustment) {
         this.errorArray.push(
-          this.createError(
-            dateAdjustment,
+          new CalculationError(
+            dateAdjustment.rowIndex,
+            "Error",
             "Adjustment Type is missing and is a required field"
           )
         );
       }
       if (!dateAdjustment.day) {
         this.errorArray.push(
-          this.createError(
-            dateAdjustment,
+          new CalculationError(
+            dateAdjustment.rowIndex,
+            "Error",
             "Day is missing and is a required field"
           )
         );
       }
       if (!dateAdjustment.month) {
         this.errorArray.push(
-          this.createError(
-            dateAdjustment,
+          new CalculationError(
+            dateAdjustment.rowIndex,
+            "Error",
             "Month is missing and is a required field"
           )
         );
       }
     }
     moment.locale("en-GB");
-
     if (dateAdjustment.type !== "Today") {
       const Date1 = this.getAutoCompleteOutput(
         dateAdjustment.date1,
@@ -213,8 +220,9 @@ export class FunctionDateAdjustmentComponent implements OnInit {
       const a = moment(Date1, "DD/MM/YYYY", true);
       if (a.isValid() === false) {
         this.errorArray.push(
-          this.createError(
-            dateAdjustment,
+          new CalculationError(
+            dateAdjustment.rowIndex,
+            "Error",
             "Date 1 - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
           )
         );
@@ -232,21 +240,14 @@ export class FunctionDateAdjustmentComponent implements OnInit {
       const b = moment(Date2, "DD/MM/YYYY", true);
       if (b.isValid() === false) {
         this.errorArray.push(
-          this.createError(
-            dateAdjustment,
+          new CalculationError(
+            dateAdjustment.rowIndex,
+            "Error",
             "Date 2 - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
           )
         );
       }
     }
-
     return this.errorArray;
-  }
-  createError(dateDuration, errorText): CalculationError {
-    const error = new CalculationError();
-    error.errorText = errorText;
-    error.index = dateDuration.rowIndex;
-    error.type = "Error";
-    return error;
   }
 }

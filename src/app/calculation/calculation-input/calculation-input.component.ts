@@ -6,7 +6,7 @@ import { CalculationInput } from "../shared/models/calculation-input";
 import { CalculationError } from "../shared/models/calculation-error";
 import * as moment from "moment";
 import "moment/locale/pt-br";
-
+import { AutoCompleteService } from "../shared/services/auto-complete.service";
 @Component({
   selector: "app-calculation-input",
   templateUrl: "./calculation-input.component.html",
@@ -24,7 +24,7 @@ export class CalculationInputComponent implements OnInit {
   @Input() release: boolean;
   @Output() messageEvent = new EventEmitter();
   public errorArray: CalculationError[];
-  constructor() {
+  constructor(private autocompleteService: AutoCompleteService) {
     this.inputGridOptions = <GridOptions>{};
     this.rowSelection = "single";
     this.inputGridOptions.columnDefs = [
@@ -111,28 +111,34 @@ export class CalculationInputComponent implements OnInit {
       }
     };
   }
+  ngOnInit() {
+    this.inputGridOptions.rowData = this.calculationInput;
+  }
   onGridReady(params) {
     this.gridApi = params.api;
     if (this.release === true) {
-      this.inputGridOptions.columnApi.setColumnsVisible(["required", "dropDownList", "dropDownValues"], false, "api");
+      this.inputGridOptions.columnApi.setColumnsVisible(
+        ["required", "dropDownList", "dropDownValues"],
+        false,
+        "api"
+      );
     }
     this.gridColumnApi = params.columnApi;
     const allColumnIds = [];
     this.gridColumnApi.getAllColumns().forEach(column => {
       allColumnIds.push(column.colId);
     });
-    // this.gridColumnApi.autoSizeColumns(allColumnIds);
+    this.autocompleteService.editAutocomplete(this.getAllRowsNodes());
   }
   onAddRow() {
-    const newItem = this.createNewRowData();
+    const newItem = new CalculationInput("", "", "", "", [], "", false);
     const res = this.gridApi.updateRowData({ add: [newItem] });
+    this.autocompleteService.editAutocomplete(this.getAllRowsNodes());
   }
   onRemoveSelected() {
     const selectedData = this.gridApi.getSelectedRows();
     const res = this.gridApi.updateRowData({ remove: selectedData });
-  }
-  onSelectionChanged(event, myRows: CalculationInput) {
-    this.messageEvent.emit("Add Input");
+    this.autocompleteService.editAutocomplete(this.getAllRowsNodes());
   }
   onDeleteAllInputs() {
     this.gridApi.forEachNode(function(node, index) {
@@ -141,18 +147,7 @@ export class CalculationInputComponent implements OnInit {
       data.output = "";
       rowNode.setData(data);
     });
-  }
-  createNewRowData(): CalculationInput {
-    const newRow: CalculationInput = {
-      id: "",
-      name: "",
-      output: "",
-      data: "",
-      errors: [],
-      dropDownList: "",
-      required: "False"
-    };
-    return newRow;
+    this.autocompleteService.editAutocomplete(this.getAllRowsNodes());
   }
   getAllRows(): CalculationInput[] {
     const arr: Array<CalculationInput> = [];
@@ -200,6 +195,7 @@ export class CalculationInputComponent implements OnInit {
     let data = rowNode.data;
     data = rowData;
     rowNode.setData(data);
+    this.autocompleteService.addAutoComplete(this.getAllRowsNodes());
   }
   errorCheck(input): CalculationError[] {
     this.errorArray = [];
@@ -207,32 +203,38 @@ export class CalculationInputComponent implements OnInit {
       input.data.required === "True" &&
       (!input.data.output || input.data.output === "")
     ) {
-      this.errorArray.push(this.createError(input, input.data.name + " - Input is Required Field"));
+      this.errorArray.push(
+        new CalculationError(
+          input.rowIndex,
+          "Error",
+          input.data.name + " - Input is Required Field"
+        )
+      );
     }
     if (input.data.data === "Date") {
       moment.locale("en-GB");
       const a = moment(input.data.output, "DD/MM/YYYY", true);
       if (a.isValid() === false) {
         this.errorArray.push(
-          this.createError(input, input.data.name + " - Date is not a valid date value")
+          new CalculationError(
+            input.rowIndex,
+            "Error",
+            input.data.name + " - Date is not a valid date value"
+          )
         );
       }
     }
     if (input.data.data === "Number") {
       if (isNaN(Number(input.data.output))) {
-        this.errorArray.push(this.createError(input, input.data.name + " - Number is not a valid numeric value"));
+        this.errorArray.push(
+          new CalculationError(
+            input.rowIndex,
+            "Error",
+            input.data.name + " - Number is not a valid numeric value"
+          )
+        );
       }
     }
     return this.errorArray;
-  }
-  createError(input, errorText): CalculationError {
-    const error = new CalculationError();
-    error.errorText = errorText;
-    error.index = input.rowIndex;
-    error.type = "Error";
-    return error;
-  }
-  ngOnInit() {
-    this.inputGridOptions.rowData = this.calculationInput;
   }
 }

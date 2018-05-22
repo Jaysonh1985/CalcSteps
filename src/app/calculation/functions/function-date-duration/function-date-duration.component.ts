@@ -6,13 +6,22 @@ import { DateFilter } from "ag-grid";
 import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs/observable";
 import { map, startWith } from "rxjs/operators";
+
 export class DateDuration {
   type: string;
   date1: string;
   date2: string;
   inclusive: string;
   daysinyear: string;
+  constructor(type, date1, date2, inclusive, daysinyear) {
+    this.type = "";
+    this.date1 = "";
+    this.date2 = "";
+    this.inclusive = "";
+    this.daysinyear = "";
+  }
 }
+
 @Component({
   selector: "app-function-date-duration",
   templateUrl: "./function-date-duration.component.html",
@@ -25,25 +34,9 @@ export class FunctionDateDurationComponent implements OnInit {
   public autoCompleteOptions: any[];
   public errorArray: CalculationError[];
   public error: CalculationError;
-
   filteredOptions: Observable<string[]>;
-  constructor() {
-    const dateDuration = new DateDuration();
-    dateDuration.type = "";
-    dateDuration.date1 = "";
-    dateDuration.date2 = "";
-    dateDuration.inclusive = "";
-    dateDuration.daysinyear = "";
 
-  }
-  filterAutoComplete(val: string) {
-    if (val) {
-      const filterValue = val.toLowerCase();
-      return this.autoCompleteOptions.filter(state => state.toLowerCase().startsWith(filterValue));
-    }
-    return this.autoCompleteOptions;
-  }
-
+  constructor() {}
   ngOnInit() {
     if (this.selectedRow[0].dateDuration == null) {
       this.selectedRow[0].dateDuration = this.dateDuration;
@@ -73,6 +66,16 @@ export class FunctionDateDurationComponent implements OnInit {
     }
     return input;
   }
+  filterAutoComplete(val: string) {
+    if (val) {
+      const filterValue = val.toLowerCase();
+      return this.autoCompleteOptions.filter(state =>
+        state.toLowerCase().startsWith(filterValue)
+      );
+    }
+    return this.autoCompleteOptions;
+  }
+
   calculate(dateDuration, autoComplete): any {
     moment.locale("en-GB");
     const Date1 = this.getAutoCompleteOutputDate(
@@ -100,24 +103,27 @@ export class FunctionDateDurationComponent implements OnInit {
     this.errorArray = [];
     if (!dateDuration.date1) {
       this.errorArray.push(
-        this.createError(
-          dateDuration,
+        new CalculationError(
+          dateDuration.rowIndex,
+          "Error",
           "Date 1 is missing and is a required field"
         )
       );
     }
     if (!dateDuration.date2) {
       this.errorArray.push(
-        this.createError(
-          dateDuration,
+        new CalculationError(
+          dateDuration.rowIndex,
+          "Error",
           "Date 2 is missing and is a required field"
         )
       );
     }
     if (!dateDuration.type) {
       this.errorArray.push(
-        this.createError(
-          dateDuration,
+        new CalculationError(
+          dateDuration.rowIndex,
+          "Error",
           "Type is missing and is a required field"
         )
       );
@@ -135,27 +141,22 @@ export class FunctionDateDurationComponent implements OnInit {
     const b = moment(Date2, "DD/MM/YYYY", true);
     if (a.isValid() === false) {
       this.errorArray.push(
-        this.createError(
-          dateDuration,
+        new CalculationError(
+          dateDuration.rowIndex,
+          "Error",
           "Date 1 - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
         )
       );
     }
     if (b.isValid() === false) {
       this.errorArray.push(
-        this.createError(
-          dateDuration,
+        new CalculationError(
+          dateDuration.rowIndex,
+          "Error",
           "Date 2 - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
         )
       );
     }
     return this.errorArray;
-  }
-  createError(dateDuration, errorText): CalculationError {
-    const error = new CalculationError();
-    error.errorText = errorText;
-    error.index = dateDuration.rowIndex;
-    error.type = "Error";
-    return error;
   }
 }

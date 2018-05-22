@@ -17,6 +17,8 @@ import { DateAdapter } from "@angular/material";
 import { DateAdjustment } from "../functions/function-date-adjustment/function-date-adjustment.component";
 import { DateDuration } from "../functions/function-date-duration/function-date-duration.component";
 import { IfLogic } from "../functions/function-if-logic/function-if-logic.component";
+import { AutoCompleteService } from "../shared/services/auto-complete.service";
+
 @Component({
   selector: "app-calculation-configuration",
   templateUrl: "./calculation-configuration.component.html",
@@ -34,11 +36,9 @@ export class CalculationConfigurationComponent implements OnInit {
   @ViewChild(CalculationInputComponent)
   private CalculationInputComponent: CalculationInputComponent;
   @Input() calculationConfiguration: string[];
-  @Input() calculationInput: any[];
-  @Output() messageEvent = new EventEmitter();
   public autoCompleteOptions: any[];
   public defaultColDef;
-  constructor() {
+  constructor(private autocompleteService: AutoCompleteService) {
     this.gridOptions = <GridOptions>{};
     this.defaultColDef = {
       cellClass: "align-right",
@@ -129,7 +129,20 @@ export class CalculationConfigurationComponent implements OnInit {
     // this.gridColumnApi.autoSizeColumns(allColumnIds);
   }
   onAddRow() {
-    const newItem = this.createNewRowData();
+    const newItem = new CalculationConfiguration(
+      "",
+      "",
+      "",
+      "",
+      "",
+      [],
+      new DateAdjustment("", "", "", "", "", "", "", ""),
+      new DateDuration("", "", "", "", ""),
+      [],
+      [],
+      "",
+      true
+    );
     const res = this.gridApi.updateRowData({ add: [newItem] });
   }
   onRemoveSelected() {
@@ -137,7 +150,6 @@ export class CalculationConfigurationComponent implements OnInit {
     const res = this.gridApi.updateRowData({ remove: selectedData });
   }
   onSelectionChanged(event, myRows: CalculationConfiguration) {
-    this.messageEvent.emit("Add Input");
     this.selectedRow = this.gridApi.getSelectedNodes();
     if (this.selectedRow.length > 0) {
       this.selectedRows = [];
@@ -146,22 +158,11 @@ export class CalculationConfigurationComponent implements OnInit {
       this.autoCompleteArray = this.getAllRowsNodesbyIndex(
         this.selectedRow[0].rowIndex
       );
-      if (this.calculationInput !== undefined) {
-        this.autoCompleteArray = this.calculationInput.concat(
-          this.autoCompleteArray
-        );
-      }
+      this.autocompleteService.cast.subscribe(autocomplete => {
+        this.autoCompleteArray = autocomplete.concat(this.autoCompleteArray);
+      });
+      this.getLogicArray();
     }
-    this.autoCompleteOptions = [];
-    console.log(this.gridApi.getSelectedNodes());
-    this.autoCompleteArray.forEach(element => {
-      if (element.data.data === "Logic") {
-        if (element.data.name !== "") {
-          const autoCompleteText = element.data.name;
-          this.autoCompleteOptions.push(autoCompleteText);
-        }
-      }
-    });
   }
   onDeleteAllOutputs() {
     this.gridApi.forEachNode(function(node, index) {
@@ -169,6 +170,17 @@ export class CalculationConfigurationComponent implements OnInit {
       const data = rowNode.data;
       data.output = "";
       rowNode.setData(data);
+    });
+  }
+  getLogicArray() {
+    this.autoCompleteOptions = [];
+    this.autoCompleteArray.forEach(element => {
+      if (element.data.data === "Logic") {
+        if (element.data.name !== "") {
+          const autoCompleteText = element.data.name;
+          this.autoCompleteOptions.push(autoCompleteText);
+        }
+      }
     });
   }
   getAllRows(): CalculationConfiguration[] {
@@ -281,39 +293,6 @@ export class CalculationConfigurationComponent implements OnInit {
     if (flash === true) {
       this.gridApi.flashCells({ rowNodes: [rowNode], columns: ["output"] });
     }
-  }
-  onCalcConfiguration() {}
-  createNewRowData() {
-    const dateAdjustment = new DateAdjustment();
-    dateAdjustment.adjustment = "";
-    dateAdjustment.date1 = "";
-    dateAdjustment.date2 = "";
-    dateAdjustment.day = "";
-    dateAdjustment.month = "";
-    dateAdjustment.period = "";
-    dateAdjustment.periodType = "";
-    dateAdjustment.type = "";
-    const dateDuration = new DateDuration();
-    dateDuration.date1 = "";
-    dateDuration.date2 = "";
-    dateDuration.daysinyear = "";
-    dateDuration.inclusive = "";
-    dateDuration.type = "";
-    const newRow: CalculationConfiguration = {
-      group: "",
-      functionType: "",
-      maths: [],
-      dateAdjustment: dateAdjustment,
-      dateDuration: dateDuration,
-      ifLogic: [],
-      name: "",
-      output: "",
-      data: "",
-      errors: [],
-      condition: "",
-      conditionResult: true
-    };
-    return newRow;
   }
   ngOnInit() {
     this.gridOptions.rowData = this.calculationConfiguration;

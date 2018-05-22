@@ -68,22 +68,17 @@
         </mat-form-field>
       </mat-list-item>
     </mat-nav-list>
-
   </mat-sidenav>
-
   <mat-sidenav-content>
     <div id="left" *ngIf='calculationInput'>
-      <app-calculation-input [calculationInput]="calculationInput" (messageEvent)="receiveCalculationInput()"></app-calculation-input>
+      <app-calculation-input [calculationInput]="calculationInput"></app-calculation-input>
     </div>
     <div id="middle" *ngIf='calculationConfiguration'>
-      <app-calculation-configuration [calculationConfiguration]="calculationConfiguration" [calculationInput]="calculationInputNodes"
-        (messageEvent)="receiveCalculationInput()"></app-calculation-configuration>
-
+      <app-calculation-configuration [calculationConfiguration]="calculationConfiguration"></app-calculation-configuration>
     </div>
     <div id="right" *ngIf='calculationOutput'>
       <app-calculation-output [configOutputsNumber]=configOutputsNumber [configOutputsDate]=configOutputsDate [configOutputsLogic]=configOutputsLogic
         [configOutputsText]=configOutputsText [calculationOutput]="calculationOutput"></app-calculation-output>
-
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

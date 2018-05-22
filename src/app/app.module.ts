@@ -36,6 +36,7 @@ import { ReleaseManagementComponent } from "./calculation/release-management/rel
 import { ReleaseService } from "./calculation/shared/services/release.service";
 import { InputDialogComponent } from "./shared/input-dialog/input-dialog.component";
 import { ConfirmationDialogComponent } from "./shared/confirmation-dialog/confirmation-dialog.component";
+import { AutoCompleteService } from "./calculation/shared/services/auto-complete.service";
 
 @NgModule({
   declarations: [
@@ -72,7 +73,12 @@ import { ConfirmationDialogComponent } from "./shared/confirmation-dialog/confir
     AgGridModule.withComponents([])
   ],
   entryComponents: [InputDialogComponent, ConfirmationDialogComponent],
-  providers: [AuthService, CalculationService, ReleaseService],
+  providers: [
+    AuthService,
+    CalculationService,
+    ReleaseService,
+    AutoCompleteService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

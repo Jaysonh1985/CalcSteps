@@ -17,4 +17,31 @@ export class CalculationConfiguration {
   errors: CalculationError[];
   condition: string;
   conditionResult: boolean;
+  constructor(
+    group,
+    functionType,
+    name,
+    data,
+    output,
+    maths,
+    dateAdjustment,
+    dateDuration,
+    ifLogic,
+    errors,
+    condition,
+    conditionResult
+  ) {
+    this.group = group;
+    this.functionType = functionType;
+    this.name = name;
+    this.data = data;
+    this.output = output;
+    this.maths = maths;
+    this.dateAdjustment = dateAdjustment;
+    this.dateDuration = dateDuration;
+    this.ifLogic = ifLogic;
+    this.errors = errors;
+    this.condition = condition;
+    this.conditionResult = conditionResult;
+  }
 }

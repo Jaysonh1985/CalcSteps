@@ -15,6 +15,21 @@ export class Maths {
   input2: string;
   bracketClose: string;
   nextFunction: string;
+  constructor(
+    bracketOpen,
+    input1,
+    functionType,
+    input2,
+    bracketClose,
+    nextFunction
+  ) {
+    this.bracketOpen = "";
+    this.input1 = "";
+    this.functionType = "";
+    this.input2 = "";
+    this.bracketClose = "";
+    this.nextFunction = "";
+  }
 }
 
 @Component({
@@ -29,24 +44,9 @@ export class FunctionMathsComponent implements OnInit {
   public maths: Maths;
   public autoCompleteOptions: any[];
   filteredOptions: Observable<string[]>;
-  constructor() {
-    this.maths = new Maths();
-    this.maths.bracketOpen = "";
-    this.maths.input1 = "";
-    this.maths.functionType = "";
-    this.maths.input2 = "";
-    this.maths.bracketClose = "";
-    this.maths.nextFunction = "";
-  }
+  constructor() {}
   onAddRow() {
-    this.maths = new Maths();
-    this.maths.bracketOpen = "";
-    this.maths.input1 = "";
-    this.maths.functionType = "";
-    this.maths.input2 = "";
-    this.maths.bracketClose = "";
-    this.maths.nextFunction = "";
-    this.selectedRow[0].maths.push(this.maths);
+    this.selectedRow[0].maths.push(new Maths("", "", "", "", "", ""));
   }
   onDeleteRow(index) {
     this.selectedRow[0].maths.splice(index, 1);
@@ -133,25 +133,38 @@ export class FunctionMathsComponent implements OnInit {
     maths.forEach(column => {
       if (!column.input1) {
         this.errorArray.push(
-          this.createError(maths, "Input 1 is missing and is a required field")
+          new CalculationError(
+            maths.rowIndex,
+            "Error",
+            "Input 1 is missing and is a required field"
+          )
         );
       }
       if (!column.input2) {
         this.errorArray.push(
-          this.createError(maths, "Input 2 is missing and is a required field")
+          new CalculationError(
+            maths.rowIndex,
+            "Error",
+            "Input 2 is missing and is a required field"
+          )
         );
       }
       if (!column.functionType) {
         this.errorArray.push(
-          this.createError(maths, "Function is missing and is a required field")
+          new CalculationError(
+            maths.rowIndex,
+            "Error",
+            "Function is missing and is a required field"
+          )
         );
       }
       if (column.input1) {
         const Number1 = this.getAutoCompleteOutput(column.input1, autoComplete);
         if (isNaN(Number(Number1))) {
           this.errorArray.push(
-            this.createError(
-              maths,
+            new CalculationError(
+              maths.rowIndex,
+              "Error",
               Number1 +
                 " - Number 1 - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
             )
@@ -162,8 +175,9 @@ export class FunctionMathsComponent implements OnInit {
         const Number2 = this.getAutoCompleteOutput(column.input2, autoComplete);
         if (isNaN(Number(Number2))) {
           this.errorArray.push(
-            this.createError(
-              maths,
+            new CalculationError(
+              maths.rowIndex,
+              "Error",
               Number2 +
                 " - Number 2 - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
             )
@@ -183,30 +197,35 @@ export class FunctionMathsComponent implements OnInit {
         column.nextFunction !== "na"
       ) {
         this.errorArray.push(
-          this.createError(maths, "Next row logic on row with no next row")
+          new CalculationError(
+            maths.rowIndex,
+            "Error",
+            "Next row logic on row with no next row"
+          )
         );
       }
       if (paramCounter < mathsLength && maths[paramCounter + 1]) {
         if (column.nextFunction === "" || column.nextFunction === "na") {
           this.errorArray.push(
-            this.createError(maths, "Next row logic missing")
+            new CalculationError(
+              maths.rowIndex,
+              "Error",
+              "Next row logic missing"
+            )
           );
         }
       }
       paramCounter = paramCounter + 1;
     });
     if (LBcounter > RBcounter) {
-      this.errorArray.push(this.createError(maths, "Brackets not closed"));
+      this.errorArray.push(
+        new CalculationError(maths.rowIndex, "Error", "Brackets not closed")
+      );
     } else if (LBcounter < RBcounter) {
-      this.errorArray.push(this.createError(maths, "Brackets not open"));
+      this.errorArray.push(
+        new CalculationError(maths.rowIndex, "Error", "Brackets not open")
+      );
     }
     return this.errorArray;
-  }
-  createError(dateDuration, errorText): CalculationError {
-    const error = new CalculationError();
-    error.errorText = errorText;
-    error.index = dateDuration.rowIndex;
-    error.type = "Error";
-    return error;
   }
 }

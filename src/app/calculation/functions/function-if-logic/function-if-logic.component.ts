@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from "@angular/core";
 import * as mathJs from "mathjs";
 import { CalculationError } from "../../shared/models/calculation-error";
 import { Observable } from "rxjs/Observable";
+import { ifError } from "assert";
 export class IfLogic {
   bracketOpen: string;
   input1: string;
@@ -9,6 +10,21 @@ export class IfLogic {
   input2: string;
   bracketClose: string;
   nextFunction: string;
+  constructor(
+    bracketOpen,
+    input1,
+    functionType,
+    input2,
+    bracketClose,
+    nextFunction
+  ) {
+    this.bracketOpen = "";
+    this.input1 = "";
+    this.functionType = "";
+    this.input2 = "";
+    this.bracketClose = "";
+    this.nextFunction = "";
+  }
 }
 @Component({
   selector: "app-function-if-logic",
@@ -22,29 +38,13 @@ export class FunctionIfLogicComponent implements OnInit {
   public ifLogic: IfLogic;
   public autoCompleteOptions: any[];
   filteredOptions: Observable<string[]>;
-  constructor() {
-    this.ifLogic = new IfLogic();
-    this.ifLogic.bracketOpen = "";
-    this.ifLogic.input1 = "";
-    this.ifLogic.functionType = "";
-    this.ifLogic.input2 = "";
-    this.ifLogic.bracketClose = "";
-    this.ifLogic.nextFunction = "";
-  }
+  constructor() {}
   onAddRow() {
-    this.ifLogic = new IfLogic();
-    this.ifLogic.bracketOpen = "";
-    this.ifLogic.input1 = "";
-    this.ifLogic.functionType = "";
-    this.ifLogic.input2 = "";
-    this.ifLogic.bracketClose = "";
-    this.ifLogic.nextFunction = "";
-    this.selectedRow[0].ifLogic.push(this.ifLogic);
+    this.selectedRow[0].ifLogic.push(new IfLogic("", "", "", "", "", ""));
   }
   onDeleteRow(index) {
     this.selectedRow[0].maths.splice(index, 1);
   }
-
   ngOnInit() {
     if (this.selectedRow[0].ifLogic == null) {
       this.selectedRow[0].ifLogic = [this.ifLogic];
@@ -53,7 +53,7 @@ export class FunctionIfLogicComponent implements OnInit {
     this.autoCompleteArray.forEach(element => {
       if (element.data.name !== "") {
         const autoCompleteText = element.data.name;
-          this.autoCompleteOptions.push(autoCompleteText);
+        this.autoCompleteOptions.push(autoCompleteText);
       }
     });
   }
@@ -125,17 +125,29 @@ export class FunctionIfLogicComponent implements OnInit {
     ifLogic.forEach(column => {
       if (!column.input1) {
         this.errorArray.push(
-          this.createError(ifLogic, "Input 1 is missing and is a required field")
+          new CalculationError(
+            ifLogic.rowIndex,
+            "Error",
+            "Input 1 is missing and is a required field"
+          )
         );
       }
       if (!column.input2) {
         this.errorArray.push(
-          this.createError(ifLogic, "Input 2 is missing and is a required field")
+          new CalculationError(
+            ifLogic.rowIndex,
+            "Error",
+            "Input 2 is missing and is a required field"
+          )
         );
       }
       if (!column.functionType) {
         this.errorArray.push(
-          this.createError(ifLogic, "Function is missing and is a required field")
+          new CalculationError(
+            ifLogic.rowIndex,
+            "Error",
+            "Function is missing and is a required field"
+          )
         );
       }
       if (column.bracketOpen === "(") {
@@ -150,30 +162,35 @@ export class FunctionIfLogicComponent implements OnInit {
         column.nextFunction !== "na"
       ) {
         this.errorArray.push(
-          this.createError(ifLogic, "Next row logic on row with no next row")
+          new CalculationError(
+            ifLogic.rowIndex,
+            "Error",
+            "Next row logic on row with no next row"
+          )
         );
       }
       if (paramCounter < mathsLength && ifLogic[paramCounter + 1]) {
         if (column.nextFunction === "" || column.nextFunction === "na") {
           this.errorArray.push(
-            this.createError(ifLogic, "Next row logic missing")
+            new CalculationError(
+              ifLogic.rowIndex,
+              "Error",
+              "Next row logic missing"
+            )
           );
         }
       }
       paramCounter = paramCounter + 1;
     });
     if (LBcounter > RBcounter) {
-      this.errorArray.push(this.createError(ifLogic, "Brackets not closed"));
+      this.errorArray.push(
+        new CalculationError(ifLogic.rowIndex, "Error", "Brackets not closed")
+      );
     } else if (LBcounter < RBcounter) {
-      this.errorArray.push(this.createError(ifLogic, "Brackets not open"));
+      this.errorArray.push(
+        new CalculationError(ifLogic.rowIndex, "Error", "Brackets not open")
+      );
     }
     return this.errorArray;
-  }
-  createError(dateDuration, errorText): CalculationError {
-    const error = new CalculationError();
-    error.errorText = errorText;
-    error.index = dateDuration.rowIndex;
-    error.type = "Error";
-    return error;
   }
 }

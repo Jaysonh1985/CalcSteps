@@ -19,6 +19,7 @@ import { FunctionIfLogicComponent } from "./functions/function-if-logic/function
 import { CalculationError } from "./shared/models/calculation-error";
 import { MatSnackBar, MatDialog } from "@angular/material";
 import { ConfirmationDialogComponent } from "../shared/confirmation-dialog/confirmation-dialog.component";
+import { AutoCompleteService } from "./shared/services/auto-complete.service";
 @Component({
   selector: "app-calculation",
   templateUrl: "./calculation.component.html",
@@ -52,8 +53,31 @@ export class CalculationComponent implements OnInit {
     private calcService: CalculationService,
     private router: Router,
     public snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private autocompleteService: AutoCompleteService
   ) {}
+  ngOnInit() {
+    const key = this.route.snapshot.params["key"];
+    this.calcService
+      .getCalculation(key)
+      .snapshotChanges()
+      .map(changes => {
+        return changes.map(c => ({
+          key: c.payload.key,
+          ...c.payload.val()
+        }));
+      })
+      .subscribe(calculations => {
+        this.calculation = calculations[0];
+        this.calculationInput = calculations[0].calculationInputs;
+        this.calculationConfiguration =
+          calculations[0].calculationConfigurations;
+        this.calculationOutput = calculations[0].calculationOutputs;
+        this.calculationName = calculations[0].name;
+        this.calculationGroup = calculations[0].group;
+        this.calculationInputNodes = calculations[0].calculationInputs;
+      });
+  }
   onSave() {
     this.calculation.calculationInputs = this.CalculationInputComponent.getAllRows();
     this.calculation.calculationOutputs = this.CalculationOutputComponent.getAllRows();
@@ -254,13 +278,14 @@ export class CalculationComponent implements OnInit {
     return ifLogic.calculate(configuration.data.ifLogic, autoComplete);
   }
   errorInput(input) {
-    const inputs = new CalculationInputComponent();
+    const inputs = new CalculationInputComponent(this.autocompleteService);
     let errorCheck: CalculationError[];
+    errorCheck = [];
     errorCheck = inputs.errorCheck(input);
     if (errorCheck.length > 0) {
       this.isErrors = true;
     }
-    return errorCheck;
+    return [];
   }
   errorDateAdjustment(configuration, autoComplete) {
     const dateAdjustment = new FunctionDateAdjustmentComponent();
@@ -356,33 +381,7 @@ export class CalculationComponent implements OnInit {
     this.configOutputsLogic = arrLogic;
     this.configOutputsText = arrText;
   }
-  receiveCalculationInput() {
-    this.calculationInputNodes = this.CalculationInputComponent.getAllRowsNodes();
-    this.getConfigOutputLists();
-  }
   routerReleaseManagement() {
     this.router.navigate(["release-management", this.calculation.key]);
-  }
-  ngOnInit() {
-    const key = this.route.snapshot.params["key"];
-    this.calcService
-      .getCalculation(key)
-      .snapshotChanges()
-      .map(changes => {
-        return changes.map(c => ({
-          key: c.payload.key,
-          ...c.payload.val()
-        }));
-      })
-      .subscribe(calculations => {
-        this.calculation = calculations[0];
-        this.calculationInput = calculations[0].calculationInputs;
-        this.calculationConfiguration =
-          calculations[0].calculationConfigurations;
-        this.calculationOutput = calculations[0].calculationOutputs;
-        this.calculationName = calculations[0].name;
-        this.calculationGroup = calculations[0].group;
-        this.calculationInputNodes = calculations[0].calculationInputs;
-      });
   }
 }

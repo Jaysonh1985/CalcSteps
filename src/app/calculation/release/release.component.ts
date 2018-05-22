@@ -12,7 +12,7 @@ import { CalculationService } from "../shared/services/calculation.service";
 import { CalculationError } from "../shared/models/calculation-error";
 import { moveIn, fallIn, moveInLeft } from "../../router.animations";
 import { MatSnackBar, MatDialog } from "@angular/material";
-
+import { AutoCompleteService } from "../shared/services/auto-complete.service";
 @Component({
   selector: "app-release",
   templateUrl: "./release.component.html",
@@ -42,7 +42,8 @@ export class ReleaseComponent implements OnInit {
     private router: Router,
     private calcService: CalculationService,
     public snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private autocompleteService: AutoCompleteService
   ) {
     this.errors = [];
   }
@@ -92,7 +93,8 @@ export class ReleaseComponent implements OnInit {
           this.calcService,
           this.router,
           this.snackBar,
-          this.dialog
+          this.dialog,
+          this.autocompleteService
         );
         let autoCompleteConfig = [];
         let autoCompleteAll = [];
@@ -148,7 +150,8 @@ export class ReleaseComponent implements OnInit {
             this.calcService,
             this.router,
             this.snackBar,
-            this.dialog
+            this.dialog,
+            this.autocompleteService
           );
           let autoCompleteConfig = [];
           let autoCompleteAll = [];
@@ -199,13 +202,13 @@ export class ReleaseComponent implements OnInit {
     }
   }
   errorInput(input) {
-    const inputs = new CalculationInputComponent();
+    const inputs = new CalculationInputComponent(this.autocompleteService);
     let errorCheck: CalculationError[];
     errorCheck = inputs.errorCheck(input);
     if (errorCheck.length > 0) {
       this.isErrors = true;
     }
-    return errorCheck;
+    return [];
   }
   calcOutput() {
     this.CalculationOutputComponent.getAllRowsNodes().forEach(output => {

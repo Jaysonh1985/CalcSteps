@@ -8,4 +8,13 @@ export class CalculationInput {
   errors: CalculationError[];
   dropDownList: string;
   required: string;
+  constructor(id, name, data, output, errors, dropDownList, required) {
+    this.id = id;
+    this.name = name;
+    this.data = data;
+    this.output = output;
+    this.errors = errors;
+    this.dropDownList = dropDownList;
+    this.required = required;
+  }
 }

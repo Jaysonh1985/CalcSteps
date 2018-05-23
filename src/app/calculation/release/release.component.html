@@ -1,22 +1,41 @@
-<div class="form-container">
-  <div [style.display]="getCalcStyle()" [@moveIn]="getResultTransition()" id="left" *ngIf='calculationInput'>
-    <button mat-raised-button (click)="onCalc()">Calculate</button>
-    <button mat-raised-button (click)="onReset()">Reset</button>
-    <button mat-raised-button (click)="onExit()">Exit</button>
-    <span class="error" *ngIf="errors.length > 0">
-      <h3>Errors</h3>
-      <ul *ngFor="let item of errors">
-        <li>{{item}}</li>
-      </ul>
-    </span>
-    <app-calculation-input [calculationInput]="calculationInput" [release]=true></app-calculation-input>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start stretch" fxLayoutGap="10px" fxLayoutGap.xs="0" style="height:90%">
+<div class="item item-1" [style.display]="getCalcStyle()" [@moveIn]="getResultTransition()" fxFlex>
+    <mat-card>
+      <mat-card-actions>
+        <button mat-raised-button (click)="onCalc()">Calculate</button>
+        <button mat-raised-button (click)="onReset()">Reset</button>
+        <button mat-raised-button (click)="onExit()">Exit</button>
+      </mat-card-actions>
+      <mat-card-header>
+        <span class="error" *ngIf="errors.length > 0">
+          <h3>Errors</h3>
+          <ul *ngFor="let item of errors">
+            <li>{{item}}</li>
+          </ul>
+        </span>
+      </mat-card-header>
+      <mat-card-content>
+        <div id="left" *ngIf='calculationInput'>
+          <app-calculation-input [calculationInput]="calculationInput" [release]=true></app-calculation-input>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
-  <div style="display: none" *ngIf="calculationConfiguration" id="middle">
-    <app-calculation-configuration [calculationConfiguration]="calculationConfiguration">
-    </app-calculation-configuration>
-  </div>
-  <div [style.display]="getResultStyle()" [@moveIn]="getResultTransition()" id="right" *ngIf='calculationOutput'>
-    <button mat-raised-button (click)="routeInput()">Go Back</button>
-    <app-calculation-output [calculationOutput]="calculationOutput" [release]=true></app-calculation-output>
+<div class="item item-2" [style.display]="getResultStyle()" [@moveIn]="getResultTransition()" fxFlex>
+
+    <mat-card>
+      <mat-card-actions>
+        <button mat-raised-button (click)="routeInput()">Go Back</button>
+      </mat-card-actions>
+      <mat-card-content>
+        <div style="display: none" *ngIf="calculationConfiguration" id="middle">
+          <app-calculation-configuration [calculationConfiguration]="calculationConfiguration">
+          </app-calculation-configuration>
+        </div>
+        <div id="right" *ngIf='calculationOutput'>
+          <app-calculation-output [calculationOutput]="calculationOutput" [release]=true></app-calculation-output>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>

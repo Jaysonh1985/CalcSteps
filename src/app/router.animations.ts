@@ -2,19 +2,19 @@ import { trigger, state, animate, style, transition } from "@angular/core";
 
 export function moveIn() {
   return trigger("moveIn", [
-    state("void", style({ position: "fixed", width: "800px", padding: "3.5em", left: "25%"})),
-    state("*", style({ position: "fixed", width: "800px", padding: "3.5em", left: "25%"})),
+    state("void", style({ })),
+    state("*", style({ })),
     transition(":enter", [
       style({ opacity: "0", transform: "translateX(1000px)" }),
       animate(
-        ".6s ease-in-out",
+        ".3s ease-in-out",
         style({ opacity: "1", transform: "translateX(0)" })
       )
     ]),
     transition(":leave", [
       style({ opacity: "1", transform: "translateX(0)" }),
       animate(
-        ".6s ease-in-out",
+        ".3s ease-in-out",
         style({ opacity: "0", transform: "translateX(-1000px)" })
       )
     ])

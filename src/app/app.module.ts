@@ -37,7 +37,7 @@ import { ReleaseService } from "./calculation/shared/services/release.service";
 import { InputDialogComponent } from "./shared/input-dialog/input-dialog.component";
 import { ConfirmationDialogComponent } from "./shared/confirmation-dialog/confirmation-dialog.component";
 import { AutoCompleteService } from "./calculation/shared/services/auto-complete.service";
-
+import { FlexLayoutModule } from "@angular/flex-layout";
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,6 +70,7 @@ import { AutoCompleteService } from "./calculation/shared/services/auto-complete
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    FlexLayoutModule,
     AgGridModule.withComponents([])
   ],
   entryComponents: [InputDialogComponent, ConfirmationDialogComponent],

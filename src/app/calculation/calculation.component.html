@@ -70,18 +70,17 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-evenly stretch" fxLayoutGap="0px" fxLayoutGap.xs="0" style="height:90%">
-
-    <div id="left" *ngIf='calculationInput' class="item item-1" fxFlex="30%">
-      <app-calculation-input [calculationInput]="calculationInput"></app-calculation-input>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-evenly stretch" fxLayoutGap="0px" fxLayoutGap.xs="0" style="height:90%">
+      <div id="left" *ngIf='calculationInput' class="item item-1" fxFlex="30%">
+        <app-calculation-input [calculationInput]="calculationInput"></app-calculation-input>
+      </div>
+      <div id="middle" *ngIf='calculationConfiguration' fxFlex="40%">
+        <app-calculation-configuration [calculationConfiguration]="calculationConfiguration"></app-calculation-configuration>
+      </div>
+      <div id="right" *ngIf='calculationOutput' fxFlex="30%">
+        <app-calculation-output [configOutputsNumber]=configOutputsNumber [configOutputsDate]=configOutputsDate [configOutputsLogic]=configOutputsLogic
+          [configOutputsText]=configOutputsText [calculationOutput]="calculationOutput" (messageEvent)="getConfigOutputLists()"></app-calculation-output>
+      </div>
     </div>
-    <div id="middle" *ngIf='calculationConfiguration' fxFlex="40%">
-      <app-calculation-configuration [calculationConfiguration]="calculationConfiguration"></app-calculation-configuration>
-    </div>
-    <div id="right" *ngIf='calculationOutput'fxFlex="30%">
-      <app-calculation-output [configOutputsNumber]=configOutputsNumber [configOutputsDate]=configOutputsDate [configOutputsLogic]=configOutputsLogic
- [configOutputsText]=configOutputsText [calculationOutput]="calculationOutput" (messageEvent)="getConfigOutputLists()"></app-calculation-output>
-    </div>
-  </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

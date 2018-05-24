@@ -10,7 +10,7 @@ import { Router } from "@angular/router";
 export class AccountComponent implements OnInit {
   name: any;
   constructor(private router: Router, public authService: AuthService) {
-    this.authService.user.subscribe(auth => {
+    this.authService.userFirebase.subscribe(auth => {
       if (auth) {
         this.name = auth;
       }
@@ -18,6 +18,9 @@ export class AccountComponent implements OnInit {
   }
   logout() {
     this.authService.logout();
+  }
+  deleteAccount() {
+    this.authService.deleteUser();
   }
   ngOnInit() {}
 }

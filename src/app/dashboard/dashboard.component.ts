@@ -29,6 +29,7 @@ import { DateDuration } from "../calculation/functions/function-date-duration/fu
 export class DashboardComponent implements OnInit {
   calculations: any;
   calculation: Calculation = null;
+  displayName: string;
   constructor(
     private calcService: CalculationService,
     private router: Router,
@@ -38,8 +39,9 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.authService.user.subscribe(auth => {
+    this.authService.userFirebase.subscribe(auth => {
       if (auth) {
+        this.displayName = auth.displayName;
         this.calcService
           .getCalculationListbyuid(auth.uid)
           .snapshotChanges()
@@ -63,7 +65,7 @@ export class DashboardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.authService.user.subscribe(auth => {
+        this.authService.userFirebase.subscribe(auth => {
           if (auth) {
             this.calculation = new Calculation();
             this.calculation.group = result.group;
@@ -76,30 +78,12 @@ export class DashboardComponent implements OnInit {
             this.calculation.username = auth.email;
             this.calculation.userid = auth.uid;
             this.calculation.calculationInputs = [];
-            this.calculation.calculationInputs.push(
-              new CalculationInput("", "", "", "", [], "", false)
-            );
+            this.calculation.calculationInputs.push(new CalculationInput("", "", "", "", [], "", false));
             this.calculation.calculationOutputs = [];
-            this.calculation.calculationOutputs.push(
-              new CalculationOutput("", "", "", "")
-            );
+            this.calculation.calculationOutputs.push(new CalculationOutput("", "", "", ""));
             this.calculation.calculationConfigurations = [];
-            this.calculation.calculationConfigurations.push(
-              new CalculationConfiguration(
-                "",
-                "",
-                "",
-                "",
-                "",
-                [],
-                new DateAdjustment("", "", "", "", "", "", "", ""),
-                new DateDuration("", "", "", "", ""),
-                [],
-                [],
-                "",
-                true
-              )
-            );
+            this.calculation.calculationConfigurations.push(new CalculationConfiguration("", "", "", "", "", [],
+            new DateAdjustment("", "", "", "", "", "", "", ""), new DateDuration("", "", "", "", ""), [], [], "", true));
             this.calcService.createCalculation(this.calculation);
             this.calculation = new Calculation();
           }

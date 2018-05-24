@@ -10,29 +10,41 @@ import {
   snapshotChanges
 } from "angularfire2/database";
 
+export class User {
+  uid: string;
+  displayName: string;
+  email: string;
+  constructor(auth) {
+    this.uid = auth.uid;
+    this.displayName = auth.displayName;
+    this.email = auth.email;
+  }
+}
+
 @Injectable()
 export class AuthService {
   private userDetails: firebase.User = null;
-  user: Observable<firebase.User>;
+  userFirebase: Observable<firebase.User>;
+  userRef: AngularFireList<User> = null;
   constructor(
     private firebaseAuth: AngularFireAuth,
     private router: Router,
     private db: AngularFireDatabase
   ) {
-    this.user = firebaseAuth.authState;
-    this.user.subscribe(user => {
+    this.userFirebase = firebaseAuth.authState;
+    this.userFirebase.subscribe(user => {
       if (user) {
         this.userDetails = user;
-        console.log(this.userDetails);
       } else {
         this.userDetails = null;
       }
     });
   }
-  signup(email: string, password: string) {
+  signup(email: string, password: string, name: string) {
+    const saveName = name;
     return this.firebaseAuth.auth
       .createUserWithEmailAndPassword(email, password)
-      .then(() => this.updateUserData())
+      .then()
       .catch(error => console.log(error));
   }
   login(email: string, password: string) {
@@ -41,7 +53,14 @@ export class AuthService {
   signInWithGoogle() {
     return this.firebaseAuth.auth
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
-      .then(() => this.updateUserData())
+      .then(newUser => {
+        const user: User = {
+          uid: newUser.uid,
+          displayName: newUser.displayName,
+          email: newUser.email
+        };
+        this.createUser(user);
+      })
       .catch(error => console.log(error));
   }
   isLoggedIn() {
@@ -60,17 +79,32 @@ export class AuthService {
       .then(() => console.log("email sent"))
       .catch(error => console.log(error));
   }
-
-  public updateUserData(): void {
-    const path = `users/${this.userDetails.uid}`; // Endpoint on firebase
+  deleteUser(): void {
+    this.userDetails.delete();
+    this.userRef = this.db.list(`users`);
+    this.userRef
+      .remove(this.userDetails.uid)
+      .then(() => this.router.navigate(["home"]))
+      .catch(error => console.log(error));
+  }
+  public createUser(user: User) {
+    this.updateDisplayName(user.displayName);
+    const path = `users/${user.uid}`; // Endpoint on firebase
     const data = {
-      name: this.userDetails.displayName,
-      email: this.userDetails.email
+      name: user.displayName,
+      email: user.email
     };
-
-    this.db
+    return this.db
       .object(path)
       .update(data)
       .catch(error => console.log(error));
+  }
+  public updateDisplayName(name: string) {
+   return this.firebaseAuth.auth.currentUser
+      .updateProfile({
+        displayName: name,
+        photoURL: ""
+      })
+      .then(function() {}, function(error) {});
   }
 }

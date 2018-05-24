@@ -2,6 +2,9 @@
   <h1>Sign up</h1>
   <div class="form-group">
     <mat-form-field>
+      <input type="text" matInput [(ngModel)]="name" placeholder="Name" required>
+    </mat-form-field>
+    <mat-form-field>
       <input type="email" matInput [(ngModel)]="email" placeholder="Email Address" required>
     </mat-form-field>
     <mat-form-field>

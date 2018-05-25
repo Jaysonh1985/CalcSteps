@@ -43,9 +43,7 @@ export class AuthService {
   signup(email: string, password: string, name: string) {
     const saveName = name;
     return this.firebaseAuth.auth
-      .createUserWithEmailAndPassword(email, password)
-      .then()
-      .catch(error => console.log(error));
+      .createUserWithEmailAndPassword(email, password);
   }
   login(email: string, password: string) {
     return this.firebaseAuth.auth.signInWithEmailAndPassword(email, password);
@@ -64,11 +62,13 @@ export class AuthService {
       .catch(error => console.log(error));
   }
   isLoggedIn() {
-    if (this.userDetails == null) {
-      return false;
-    } else {
-      return true;
-    }
+    this.firebaseAuth.auth.onAuthStateChanged(function(user) {
+      if (user) {
+        return true;
+      } else {
+        return false;
+      }
+    });
   }
   logout() {
     this.firebaseAuth.auth.signOut().then(res => this.router.navigate(["/"]));

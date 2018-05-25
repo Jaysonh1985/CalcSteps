@@ -1,25 +1,49 @@
-<div class="container text-centre">
-  <h1>Log in </h1>
-  <mat-form-field>
-    <input type="email" matInput [(ngModel)]="email" placeholder="Email" required>
-  </mat-form-field>
-  <mat-form-field>
-    <input type="password" matInput [(ngModel)]="password" placeholder="Password" required>
-  </mat-form-field>
-  <a mat-button routerLink="../signup">
-    Don't have an account?
-  </a>
-  <a mat-button (click)="resetPassword()">
-    Need a password reset?
-  </a>
-  <button mat-button (click)="login()" [disabled]="!email || !password">
-    Login
-  </button>
-  <button mat-button type="button" (click)="signInWithGoogle()" id="google">
-    Login with Google
-  </button>
-  <button mat-button (click)="logout()" *ngIf="authService.user | async">
-    Logout
-  </button>
-  <p *ngIf="passReset">Reset requested. Check your email instructions.</p>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start stretch" fxLayoutGap="10px" fxLayoutGap.xs="0" style="height:100vh">
+  <div class="item item-1" style="background:darkslateblue" fxFlex>
+    <div class="centeredlogo">Calc Steps</div>
+    <div class="subheadercentered">Automation made simple</div>
+  </div>
+  <div class="item item-2" fxFlex>
+    <div class="formcontainer">
+      <h1>Log in </h1>
+      <br/>
+      <div *ngIf="authService.userFirebase | async">
+        <p>You are already logged in.</p>
+        <button mat-button (click)="logout()">
+          Logout
+        </button>
+      </div>
+      <form [formGroup]="formdata" (ngSubmit)="login(formdata.value)">
+        <mat-form-field>
+          <input type="text" matInput name="email" placeholder="Email" formControlName="email">
+          <mat-error *ngIf="formdata.controls['email'].invalid">{{getEmailErrorMessage()}}</mat-error>
+        </mat-form-field>
+        <br/>
+        <mat-form-field>
+          <input type="password" matInput name="password" placeholder="Password" formControlName="password">
+          <mat-error *ngIf="formdata.controls['password'].invalid">{{getPasswordErrorMessage()}}</mat-error>
+        </mat-form-field>
+        <br/>
+        <button type="submit" [disabled]="!formdata.valid" mat-button>
+          Login
+        </button>
+        <a mat-button routerLink="../signup">
+          Don't have an account?
+        </a>
+        <br/>
+        <a mat-button (click)="resetPassword()">
+          Need a password reset?
+        </a>
+        <br/>
+        <button mat-button type="button" (click)="signInWithGoogle()" id="google">
+          Login with Google
+        </button>
+        <br/>
+        <br/>
+      </form>
+      <p *ngIf="passReset">Reset requested. Check your email instructions.</p>
+      <p *ngIf="emailNotFound">Email not recognised</p>
+      <p *ngIf="passwordIncorrect">Password incorrect</p>
+    </div>
+  </div>
 </div>

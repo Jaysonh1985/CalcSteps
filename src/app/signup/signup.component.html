@@ -1,17 +1,38 @@
-<div class="container text-centre">
-  <h1>Sign up</h1>
-  <div class="form-group">
-    <mat-form-field>
-      <input type="text" matInput [(ngModel)]="name" placeholder="Name" required>
-    </mat-form-field>
-    <mat-form-field>
-      <input type="email" matInput [(ngModel)]="email" placeholder="Email Address" required>
-    </mat-form-field>
-    <mat-form-field>
-      <input type="password" matInput [(ngModel)]="password" placeholder="Password" required>
-    </mat-form-field>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start stretch" fxLayoutGap="10px" fxLayoutGap.xs="0" style="height:100vh">
+  <div class="item item-1" style="background:darkslateblue" fxFlex>
+    <div class="centeredlogo">Calc Steps</div>
+    <div class="subheadercentered">Automation made simple</div>
   </div>
-  <button mat-button (click)="signup()" [disabled]="!email || !password">
-    Signup
-  </button>
-</div>
+  <div class="item item-2" fxFlex>
+    <div class="formcontainer">
+      <h1>Sign up</h1>
+      <br/>
+      <form [formGroup]="formdata" (ngSubmit)="signup(formdata.value)">
+        <mat-form-field>
+          <input type="text" matInput name="name" placeholder="Name" formControlName="name">
+          <mat-error *ngIf="formdata.controls['name'].invalid">{{getNameErrorMessage()}}</mat-error>
+        </mat-form-field>
+        <br/>
+        <mat-form-field>
+          <input type="text" matInput name="email" placeholder="Email" formControlName="email">
+          <mat-error *ngIf="formdata.controls['email'].invalid">{{getEmailErrorMessage()}}</mat-error>
+        </mat-form-field>
+        <br/>
+        <mat-form-field>
+          <input type="password" matInput name="password" placeholder="Password" formControlName="password">
+          <mat-error *ngIf="formdata.controls['password'].invalid">{{getPasswordErrorMessage()}}</mat-error>
+        </mat-form-field>
+        <br/>
+        <button type="submit" [disabled]="!formdata.valid" mat-button (click)="signup()">
+          Signup
+        </button>
+      </form>
+      <br/>
+      <a mat-button (click)="onRouteLogin()">
+        Back to login?
+      </a>
+      <br />
+      <p *ngIf="userExists">Email address already exists.</p>
+
+    </div>
+  </div>

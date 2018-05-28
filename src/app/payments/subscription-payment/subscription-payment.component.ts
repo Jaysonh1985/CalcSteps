@@ -41,8 +41,13 @@ export class SubscriptionPaymentComponent implements OnInit {
   private configHandler() {
     this.handler = StripeCheckout.configure({
       key: environment.stripeKey,
-      image: "https://goo.gl/EJJYq8",
+      image:
+        "https://stripe.com/img/documentation/checkout/marketplace.png",
       locale: "auto",
+      currency: "gbp",
+      name: "calc-steps",
+      description: "Enterprise Subscription",
+      amount: 1500,
       token: token => {
         this.pmt.processPayment(token);
       }
@@ -50,9 +55,7 @@ export class SubscriptionPaymentComponent implements OnInit {
   }
   openHandler() {
     this.handler.open({
-      name: "Calc-Steps",
-      excerpt: "Enterprise Subscription",
-      amount: 1500
+
     });
   }
 }

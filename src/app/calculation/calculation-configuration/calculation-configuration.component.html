@@ -37,6 +37,7 @@
           <app-function-date-duration [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'Date Duration'">
           </app-function-date-duration>
           <app-function-if-logic [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'If Logic'"></app-function-if-logic>
+          <app-function-distance [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'Distance'"></app-function-distance>
         </form>
       </div>
     </mat-card-content>

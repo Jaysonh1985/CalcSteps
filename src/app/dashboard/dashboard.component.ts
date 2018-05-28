@@ -20,6 +20,7 @@ import { InputDialogComponent } from "../shared/input-dialog/input-dialog.compon
 import { AuthService } from "../services/auth.service";
 import { DateAdjustment } from "../calculation/functions/function-date-adjustment/function-date-adjustment.component";
 import { DateDuration } from "../calculation/functions/function-date-duration/function-date-duration.component";
+import { Distance } from "../calculation/functions/function-distance/function-distance.component";
 
 @Component({
   selector: "app-dashboard",
@@ -78,12 +79,31 @@ export class DashboardComponent implements OnInit {
             this.calculation.username = auth.email;
             this.calculation.userid = auth.uid;
             this.calculation.calculationInputs = [];
-            this.calculation.calculationInputs.push(new CalculationInput("", "", "", "", [], "", false));
+            this.calculation.calculationInputs.push(
+              new CalculationInput("", "", "", "", [], "", false)
+            );
             this.calculation.calculationOutputs = [];
-            this.calculation.calculationOutputs.push(new CalculationOutput("", "", "", ""));
+            this.calculation.calculationOutputs.push(
+              new CalculationOutput("", "", "", "")
+            );
             this.calculation.calculationConfigurations = [];
-            this.calculation.calculationConfigurations.push(new CalculationConfiguration("", "", "", "", "", [],
-            new DateAdjustment("", "", "", "", "", "", "", ""), new DateDuration("", "", "", "", ""), [], [], "", true));
+            this.calculation.calculationConfigurations.push(
+              new CalculationConfiguration(
+                "",
+                "",
+                "",
+                "",
+                "",
+                [],
+                new DateAdjustment("", "", "", "", "", "", "", ""),
+                new DateDuration("", "", "", "", ""),
+                new Distance("", ""),
+                [],
+                [],
+                "",
+                true
+              )
+            );
             this.calcService.createCalculation(this.calculation);
             this.calculation = new Calculation();
           }

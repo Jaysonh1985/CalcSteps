@@ -38,6 +38,9 @@ import { InputDialogComponent } from "./shared/input-dialog/input-dialog.compone
 import { ConfirmationDialogComponent } from "./shared/confirmation-dialog/confirmation-dialog.component";
 import { AutoCompleteService } from "./calculation/shared/services/auto-complete.service";
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { HttpClientModule } from "@angular/common/http";
+import { FunctionDistanceComponent } from "./calculation/functions/function-distance/function-distance.component";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,7 +60,8 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     ReleaseComponent,
     ReleaseManagementComponent,
     InputDialogComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    FunctionDistanceComponent
   ],
   imports: [
     BrowserModule,
@@ -71,6 +75,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
+    HttpClientModule,
     AgGridModule.withComponents([])
   ],
   entryComponents: [InputDialogComponent, ConfirmationDialogComponent],

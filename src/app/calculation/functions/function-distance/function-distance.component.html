@@ -1,0 +1,13 @@
+<mat-form-field>
+  <input matInput placeholder="Origin" style="font-size: small" [(ngModel)]="selectedRow[0].distance.origin" [matAutocomplete]="auto"
+    (ngModelChange)="filteredOptions = filterAutoComplete(selectedRow[0].dateDuration.date1)">
+</mat-form-field>
+<mat-form-field>
+  <input matInput placeholder="Destination" [(ngModel)]="selectedRow[0].distance.destination" style="font-size: small" [matAutocomplete]="auto"
+    (ngModelChange)="filteredOptions = filterAutoComplete(selectedRow[0].distance.destination)">
+</mat-form-field>
+<mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+  <mat-option *ngFor="let option of filteredOptions" [value]="option">
+    {{ option }}
+  </mat-option>
+</mat-autocomplete>

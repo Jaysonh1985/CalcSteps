@@ -18,6 +18,7 @@ import { DateAdjustment } from "../functions/function-date-adjustment/function-d
 import { DateDuration } from "../functions/function-date-duration/function-date-duration.component";
 import { IfLogic } from "../functions/function-if-logic/function-if-logic.component";
 import { AutoCompleteService } from "../shared/services/auto-complete.service";
+import { Distance } from "../functions/function-distance/function-distance.component";
 
 @Component({
   selector: "app-calculation-configuration",
@@ -60,7 +61,13 @@ export class CalculationConfigurationComponent implements OnInit {
         editable: true,
         cellEditor: "agSelectCellEditor",
         cellEditorParams: {
-          values: ["Maths", "Date Adjustment", "Date Duration", "Condition"]
+          values: [
+            "Date Adjustment",
+            "Date Duration",
+            "Distance",
+            "If Logic",
+            "Maths"
+          ]
         }
       },
       {
@@ -90,6 +97,8 @@ export class CalculationConfigurationComponent implements OnInit {
           } else if (params.data.functionType === "If Logic") {
             params.data.data = "Logic";
             return "Logic";
+          } else if (params.data.functionType === "Distance") {
+            return "Number";
           }
         }
       },
@@ -138,6 +147,7 @@ export class CalculationConfigurationComponent implements OnInit {
       [],
       new DateAdjustment("", "", "", "", "", "", "", ""),
       new DateDuration("", "", "", "", ""),
+      new Distance("", ""),
       [],
       [],
       "",
@@ -195,6 +205,7 @@ export class CalculationConfigurationComponent implements OnInit {
         maths: node.data.maths,
         dateAdjustment: node.data.dateAdjustment,
         dateDuration: node.data.dateDuration,
+        distance: node.data.distance,
         ifLogic: node.data.ifLogic,
         errors: node.data.errors,
         condition: node.data.condition,

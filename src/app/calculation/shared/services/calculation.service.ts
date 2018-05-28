@@ -14,9 +14,10 @@ import { nodeChildrenAsMap } from "@angular/router/src/utils/tree";
 export class CalculationService {
   private dbPath = "calculations";
   calculationsRef: AngularFireList<Calculation> = null;
-
+  results: string;
   constructor(private db: AngularFireDatabase) {
     this.calculationsRef = db.list(this.dbPath);
+    this.results = "";
   }
 
   createCalculation(customer: Calculation): void {
@@ -45,11 +46,9 @@ export class CalculationService {
       ref.orderByChild("userid").equalTo(uid)
     );
   }
-
   deleteAll(): void {
     this.calculationsRef.remove().catch(error => this.handleError(error));
   }
-
   private handleError(error) {
     console.log(error);
   }

@@ -3,6 +3,7 @@ import { CalculationError } from "./calculation-error";
 import { DateAdjustment } from "../../functions/function-date-adjustment/function-date-adjustment.component";
 import { DateDuration } from "../../functions/function-date-duration/function-date-duration.component";
 import { IfLogic } from "../../functions/function-if-logic/function-if-logic.component";
+import { Distance } from "../../functions/function-distance/function-distance.component";
 
 export class CalculationConfiguration {
   group: string;
@@ -13,6 +14,7 @@ export class CalculationConfiguration {
   maths: Maths[];
   dateAdjustment: DateAdjustment;
   dateDuration: DateDuration;
+  distance: Distance;
   ifLogic: IfLogic[];
   errors: CalculationError[];
   condition: string;
@@ -26,6 +28,7 @@ export class CalculationConfiguration {
     maths,
     dateAdjustment,
     dateDuration,
+    distance,
     ifLogic,
     errors,
     condition,
@@ -39,6 +42,7 @@ export class CalculationConfiguration {
     this.maths = maths;
     this.dateAdjustment = dateAdjustment;
     this.dateDuration = dateDuration;
+    this.distance = distance;
     this.ifLogic = ifLogic;
     this.errors = errors;
     this.condition = condition;

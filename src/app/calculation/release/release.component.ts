@@ -13,6 +13,12 @@ import { CalculationError } from "../shared/models/calculation-error";
 import { moveIn, fallIn, moveInLeft } from "../../router.animations";
 import { MatSnackBar, MatDialog } from "@angular/material";
 import { AutoCompleteService } from "../shared/services/auto-complete.service";
+import { HttpClient } from "@angular/common/http";
+import { FunctionMathsComponent } from "../functions/function-maths/function-maths.component";
+import { FunctionDateAdjustmentComponent } from "../functions/function-date-adjustment/function-date-adjustment.component";
+import { FunctionDateDurationComponent } from "../functions/function-date-duration/function-date-duration.component";
+import { FunctionIfLogicComponent } from "../functions/function-if-logic/function-if-logic.component";
+import { FunctionDistanceComponent } from "../functions/function-distance/function-distance.component";
 @Component({
   selector: "app-release",
   templateUrl: "./release.component.html",
@@ -43,7 +49,8 @@ export class ReleaseComponent implements OnInit {
     private calcService: CalculationService,
     public snackBar: MatSnackBar,
     public dialog: MatDialog,
-    private autocompleteService: AutoCompleteService
+    private autocompleteService: AutoCompleteService,
+    private http: HttpClient
   ) {
     this.errors = [];
   }
@@ -94,7 +101,8 @@ export class ReleaseComponent implements OnInit {
           this.router,
           this.snackBar,
           this.dialog,
-          this.autocompleteService
+          this.autocompleteService,
+          this.http
         );
         let autoCompleteConfig = [];
         let autoCompleteAll = [];
@@ -103,25 +111,32 @@ export class ReleaseComponent implements OnInit {
         );
         autoCompleteAll = autoCompleteInputs.concat(autoCompleteConfig);
         if (configuration.data.functionType === "Maths") {
-          configuration.data.errors = calc.errorMaths(
-            configuration,
+          const math = new FunctionMathsComponent();
+          configuration.data.errors = math.errorCheck(
+            configuration.data.maths,
             autoCompleteAll
           );
         } else if (configuration.data.functionType === "Date Adjustment") {
-          configuration.data.errors = calc.errorDateAdjustment(
-            configuration,
+          const dateAdjustment = new FunctionDateAdjustmentComponent();
+          configuration.data.errors = dateAdjustment.errorCheck(
+            configuration.data.dateAdjustment,
             autoCompleteAll
           );
         } else if (configuration.data.functionType === "Date Duration") {
-          configuration.data.errors = calc.errorDateDuration(
-            configuration,
+          const dateDuration = new FunctionDateDurationComponent();
+          configuration.data.errors = dateDuration.errorCheck(
+            configuration.data.dateDuration,
             autoCompleteAll
           );
         } else if (configuration.data.functionType === "If Logic") {
-          configuration.data.errors = calc.errorIfLogic(
-            configuration,
+          const ifLogic = new FunctionIfLogicComponent();
+          configuration.data.errors = ifLogic.errorCheck(
+            configuration.data.ifLogic,
             autoCompleteAll
           );
+        }
+        if (configuration.data.errors.length > 0) {
+          this.isErrors = true;
         }
         this.CalculationConfigurationComponent.setRowOuput(
           configuration.id,
@@ -151,7 +166,8 @@ export class ReleaseComponent implements OnInit {
             this.router,
             this.snackBar,
             this.dialog,
-            this.autocompleteService
+            this.autocompleteService,
+            this.http
           );
           let autoCompleteConfig = [];
           let autoCompleteAll = [];
@@ -170,31 +186,74 @@ export class ReleaseComponent implements OnInit {
           );
           if (configuration.data.conditionResult === true) {
             if (configuration.data.functionType === "Maths") {
-              configuration.data.output = calc.calcMaths(
-                configuration,
+              const math = new FunctionMathsComponent();
+              configuration.data.output = math.calculate(
+                configuration.data.maths,
                 autoCompleteAll
               );
             } else if (configuration.data.functionType === "Date Adjustment") {
-              configuration.data.output = calc.calcDateAdjustment(
-                configuration,
+              const dateAdjustment = new FunctionDateAdjustmentComponent();
+              configuration.data.output = dateAdjustment.calculate(
+                configuration.data.dateAdjustment,
                 autoCompleteAll
               );
             } else if (configuration.data.functionType === "Date Duration") {
-              configuration.data.output = calc.calcDateDuration(
-                configuration,
+              const dateDuration = new FunctionDateDurationComponent();
+              configuration.data.output = dateDuration.calculate(
+                configuration.data.dateDuration,
                 autoCompleteAll
               );
             } else if (configuration.data.functionType === "If Logic") {
-              configuration.data.output = calc.calcIfLogic(
-                configuration,
+              const ifLogic = new FunctionIfLogicComponent();
+              configuration.data.output = ifLogic.calculate(
+                configuration.data.ifLogic,
                 autoCompleteAll
               );
+            } else if (configuration.data.functionType === "Distance") {
+              const distance = new FunctionDistanceComponent(this.calcService);
+              let Origin = distance.getAutoCompleteOutput(
+                configuration.data.distance.origin,
+                autoCompleteAll
+              );
+              let Destination = distance.getAutoCompleteOutput(
+                configuration.data.distance.destination,
+                autoCompleteAll
+              );
+              Origin = Origin.replace(" ", "+");
+              Destination = Destination.replace(" ", "+");
+              this.http
+                // tslint:disable-next-line:max-line-length
+                .get(
+                  "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" +
+                    Origin +
+                    "&destinations=" +
+                    Destination +
+                    "&mode=driving&language=en-GB&key=AIzaSyDzO3msuuB8lAAjsrSfG15Ecw8hSmXKbzQ"
+                )
+                .subscribe(data => {
+                  if (data["status"] === "OK") {
+                    let rows = data["rows"];
+                    rows = rows[0];
+                    let elements = rows["elements"];
+                    elements = elements[0];
+                    let meters = elements["distance"];
+                    meters = meters["value"];
+                    let miles: Number;
+                    miles = Number(meters / 1609.34);
+                    configuration.data.output = miles.toFixed(2);
+                    this.CalculationConfigurationComponent.setRowOuput(
+                      configuration.id,
+                      configuration.data,
+                      true
+                    );
+                  }
+                });
+              this.CalculationConfigurationComponent.setRowOuput(
+                configuration.id,
+                configuration.data,
+                false
+              );
             }
-            this.CalculationConfigurationComponent.setRowOuput(
-              configuration.id,
-              configuration.data,
-              false
-            );
           }
         }
       );

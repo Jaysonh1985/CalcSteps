@@ -6,6 +6,7 @@
 export const environment = {
   production: false,
   stripeKey: "pk_test_hEZwzsEgPukPMJAm1XukHDDt",
+  googleMapsKey: "AIzaSyDzO3msuuB8lAAjsrSfG15Ecw8hSmXKbzQ",
   firebase: {
     apiKey: "AIzaSyBM-ns8GzoibvP4ZOVaZ1MgpVLDnaNNw98",
     authDomain: "calc-steps.firebaseapp.com",

@@ -22,6 +22,7 @@ import { ConfirmationDialogComponent } from "../shared/confirmation-dialog/confi
 import { AutoCompleteService } from "./shared/services/auto-complete.service";
 import { FunctionDistanceComponent } from "./functions/function-distance/function-distance.component";
 import { HttpClient } from "@angular/common/http";
+import { environment } from "../../environments/environment";
 
 @Component({
   selector: "app-calculation",
@@ -244,7 +245,7 @@ export class CalculationComponent implements OnInit {
                     Origin +
                     "&destinations=" +
                     Destination +
-                    "&mode=driving&language=en-GB&key=XXXXXX"
+                "&mode=driving&language=en-GB&key=" + environment.googleMapsKey
                 )
                 .subscribe(data => {
                   if (data["status"] === "OK") {

@@ -244,7 +244,7 @@ export class CalculationComponent implements OnInit {
                     Origin +
                     "&destinations=" +
                     Destination +
-                    "&mode=driving&language=en-GB&key=AIzaSyDzO3msuuB8lAAjsrSfG15Ecw8hSmXKbzQ"
+                    "&mode=driving&language=en-GB&key=XXXXXX"
                 )
                 .subscribe(data => {
                   if (data["status"] === "OK") {

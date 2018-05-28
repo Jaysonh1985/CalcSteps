@@ -1,0 +1,8 @@
+<button *ngIf="status != 'active'" (click)="openHandler()">
+  Subscribe for $15 per Month
+</button>
+
+<div *ngIf="status == 'active'">
+  <h3>Subscription is Active</h3>
+</div>
+

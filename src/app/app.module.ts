@@ -40,6 +40,8 @@ import { AutoCompleteService } from "./calculation/shared/services/auto-complete
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { HttpClientModule } from "@angular/common/http";
 import { FunctionDistanceComponent } from "./calculation/functions/function-distance/function-distance.component";
+import { SubscriptionPaymentComponent } from "./payments/subscription-payment/subscription-payment.component";
+import { PaymentsService } from "./payments/payments.service";
 
 @NgModule({
   declarations: [
@@ -61,7 +63,8 @@ import { FunctionDistanceComponent } from "./calculation/functions/function-dist
     ReleaseManagementComponent,
     InputDialogComponent,
     ConfirmationDialogComponent,
-    FunctionDistanceComponent
+    FunctionDistanceComponent,
+    SubscriptionPaymentComponent
   ],
   imports: [
     BrowserModule,
@@ -83,7 +86,8 @@ import { FunctionDistanceComponent } from "./calculation/functions/function-dist
     AuthService,
     CalculationService,
     ReleaseService,
-    AutoCompleteService
+    AutoCompleteService,
+    PaymentsService
   ],
   bootstrap: [AppComponent]
 })

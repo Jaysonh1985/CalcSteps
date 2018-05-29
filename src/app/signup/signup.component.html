@@ -5,7 +5,7 @@
   </div>
   <div class="item item-2" fxFlex>
     <div class="formcontainer">
-      <h1>Sign up</h1>
+      <h1>Sign Up</h1>
       <br/>
       <form [formGroup]="formdata" (ngSubmit)="signup(formdata.value)">
         <mat-form-field>
@@ -24,7 +24,7 @@
         </mat-form-field>
         <br/>
         <button type="submit" [disabled]="!formdata.valid" mat-button (click)="signup()">
-          Signup
+          Sign Up
         </button>
       </form>
       <br/>

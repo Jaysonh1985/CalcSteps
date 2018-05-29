@@ -1,8 +1,11 @@
 <button mat-button *ngIf="status != 'active'" (click)="openHandler()">
-  Subscribe for $15 per Month
+  Click here to Subscribe to our Enterprise model for £15 per Month
 </button>
 
 <div *ngIf="status == 'active'">
   <h4>Enterprise Subscription is Active</h4>
+  <button mat-button>
+    Click here to Unsubscribe to our Enterprise model
+  </button>
 </div>
 

@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
-
+import { MatSnackBar, MatDialog } from "@angular/material";
+import { ConfirmationDialogComponent } from "../shared/confirmation-dialog/confirmation-dialog.component";
 @Component({
   selector: "app-account",
   templateUrl: "./account.component.html",
@@ -10,7 +11,11 @@ import { Router } from "@angular/router";
 export class AccountComponent implements OnInit {
   name: any;
   email: any;
-  constructor(private router: Router, public authService: AuthService) {
+  constructor(
+    private router: Router,
+    public authService: AuthService,
+    public dialog: MatDialog
+  ) {
     this.authService.userFirebase.subscribe(auth => {
       if (auth) {
         this.name = auth.displayName;
@@ -19,10 +24,26 @@ export class AccountComponent implements OnInit {
     });
   }
   logout() {
-    this.authService.logout();
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: "400px",
+      data: { description: "Do you wish to log out?" }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.authService.logout();
+      }
+    });
   }
   deleteAccount() {
-    this.authService.deleteUser();
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: "400px",
+      data: { description: "Do you wish to delete your Account?" }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.authService.deleteUser();
+      }
+    });
   }
   ngOnInit() {}
 }

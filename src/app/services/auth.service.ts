@@ -26,6 +26,7 @@ export class AuthService {
   private userDetails: firebase.User = null;
   userFirebase: Observable<firebase.User>;
   userRef: AngularFireList<User> = null;
+  customerRef: AngularFireList<any> = null;
   constructor(
     private firebaseAuth: AngularFireAuth,
     private router: Router,
@@ -42,8 +43,10 @@ export class AuthService {
   }
   signup(email: string, password: string, name: string) {
     const saveName = name;
-    return this.firebaseAuth.auth
-      .createUserWithEmailAndPassword(email, password);
+    return this.firebaseAuth.auth.createUserWithEmailAndPassword(
+      email,
+      password
+    );
   }
   login(email: string, password: string) {
     return this.firebaseAuth.auth.signInWithEmailAndPassword(email, password);
@@ -80,13 +83,19 @@ export class AuthService {
       .catch(error => console.log(error));
   }
   deleteUser(): void {
-    this.userDetails.delete();
-    this.userRef = this.db.list(`users`);
-    this.userRef
-      .remove(this.userDetails.uid)
-      .then(() => this.router.navigate(["home"]))
-      .catch(error => console.log(error));
+    this.db.object(`users/${this.userDetails.uid}`).snapshotChanges().map(val => {
+      return val.payload.val();
+    }).subscribe(sub => {
+      this.db.list("customers").remove(sub.customerId).catch(err => console.log);
+      this.userDetails.delete();
+      this.userRef = this.db.list(`users`);
+      this.userRef
+        .remove(this.userDetails.uid)
+        .then(() => this.router.navigate(["home"]))
+        .catch(error => console.log(error));
+    });
   }
+
   public createUser(user: User) {
     this.updateDisplayName(user.displayName);
     const path = `users/${user.uid}`; // Endpoint on firebase
@@ -100,7 +109,7 @@ export class AuthService {
       .catch(error => console.log(error));
   }
   public updateDisplayName(name: string) {
-   return this.firebaseAuth.auth.currentUser
+    return this.firebaseAuth.auth.currentUser
       .updateProfile({
         displayName: name,
         photoURL: ""

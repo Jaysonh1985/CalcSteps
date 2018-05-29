@@ -9,10 +9,12 @@ import { Router } from "@angular/router";
 })
 export class AccountComponent implements OnInit {
   name: any;
+  email: any;
   constructor(private router: Router, public authService: AuthService) {
     this.authService.userFirebase.subscribe(auth => {
       if (auth) {
-        this.name = auth;
+        this.name = auth.displayName;
+        this.email = auth.email;
       }
     });
   }

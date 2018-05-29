@@ -1,12 +1,31 @@
-<div class="form-container" id="toolbar">
-  <header>
-    <h1>My Account</h1>
-  </header>
-  <div id="page">
-    <button (click)="logout()" class="basic-btn">Logout</button>
-    <button (click)="deleteAccount()" class="basic-btn">Delete Account</button>
-    <app-subscription-payment></app-subscription-payment>
-
-  </div>
-
+<mat-toolbar style="background: darkslateblue;
+    color: white;">
+  <h1>Account</h1>
+</mat-toolbar>
+<div class="centre">
+  <mat-card class="card">
+    <mat-card-header>
+      <h3>Account Details</h3>
+    </mat-card-header>
+    <mat-card-content>
+      <br/>
+      Name: {{name}}
+      <br/>
+      <br/>
+      Email: {{email}}
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button (click)="logout()">Logout</button>
+      <button mat-button (click)="deleteAccount()">Delete Account</button>
+    </mat-card-actions>
+  </mat-card>
+  <mat-card class="card">
+    <mat-card-header>
+      <h3>Subscribe</h3>
+    </mat-card-header>
+    <mat-card-content></mat-card-content>
+    <mat-card-actions>
+      <app-subscription-payment></app-subscription-payment>
+    </mat-card-actions>
+  </mat-card>
 </div>

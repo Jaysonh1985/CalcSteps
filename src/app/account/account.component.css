@@ -1,0 +1,11 @@
+.center {
+  width: 75%;
+}
+
+.card {
+  max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 5%;
+
+}

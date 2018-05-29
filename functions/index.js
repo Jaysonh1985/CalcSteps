@@ -27,6 +27,35 @@ exports.createStripeCustomer = functions.auth.user().onCreate(event => {
       return admin.database().ref().update(updates);
     });
 });
+
+exports.deleteStripeCustomer = functions.auth.user().onDelete(event => {
+  const user = event.data;
+  return admin.database()
+    .ref(`/users/${user.uid}`)
+    .once('value')
+    .then(snapshot => snapshot.val())
+    .then(cus => {
+      return stripe.customers.del(cus.customerId)
+    })
+    .then(getuser => {
+      return admin.database()
+        .ref(`/users/${user.uid}`)
+        .once('value')
+        .then(snapshot => snapshot.val())
+    })
+    .then(delcus => {
+      return admin.database()
+      .ref(`/customers/${delcus.customerId}`)
+      .remove()
+    })
+    .then(sub => {
+      return admin.database()
+      .ref(`/users/${user.uid}`)
+      .remove()
+    })
+})
+
+
 exports.createSubscription = functions.database.ref('/users/{userId}/enterprise-membership/token').onWrite(event => {
 
   const tokenId = event.data.val();

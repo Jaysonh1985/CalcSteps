@@ -9,6 +9,7 @@ import {
   AngularFireObject,
   snapshotChanges
 } from "angularfire2/database";
+import { CalculationService } from "../calculation/shared/services/calculation.service";
 
 export class User {
   uid: string;
@@ -30,7 +31,8 @@ export class AuthService {
   constructor(
     private firebaseAuth: AngularFireAuth,
     private router: Router,
-    private db: AngularFireDatabase
+    private db: AngularFireDatabase,
+    private calcService: CalculationService
   ) {
     this.userFirebase = firebaseAuth.authState;
     this.userFirebase.subscribe(user => {
@@ -83,19 +85,8 @@ export class AuthService {
       .catch(error => console.log(error));
   }
   deleteUser(): void {
-    this.db.object(`users/${this.userDetails.uid}`).snapshotChanges().map(val => {
-      return val.payload.val();
-    }).subscribe(sub => {
-      this.db.list("customers").remove(sub.customerId).catch(err => console.log);
-      this.userDetails.delete();
-      this.userRef = this.db.list(`users`);
-      this.userRef
-        .remove(this.userDetails.uid)
-        .then(() => this.router.navigate(["home"]))
-        .catch(error => console.log(error));
-    });
+    this.userDetails.delete().then(() => this.router.navigate(["home"]));
   }
-
   public createUser(user: User) {
     this.updateDisplayName(user.displayName);
     const path = `users/${user.uid}`; // Endpoint on firebase

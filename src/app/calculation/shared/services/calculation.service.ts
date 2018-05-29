@@ -9,13 +9,17 @@ import {
 } from "angularfire2/database";
 import { query } from "@angular/core/src/animation/dsl";
 import { nodeChildrenAsMap } from "@angular/router/src/utils/tree";
+import { ReleaseService } from "./release.service";
 
 @Injectable()
 export class CalculationService {
   private dbPath = "calculations";
   calculationsRef: AngularFireList<Calculation> = null;
   results: string;
-  constructor(private db: AngularFireDatabase) {
+  constructor(
+    private db: AngularFireDatabase,
+    private releaseService: ReleaseService
+  ) {
     this.calculationsRef = db.list(this.dbPath);
     this.results = "";
   }
@@ -31,6 +35,20 @@ export class CalculationService {
   }
 
   deleteCalculation(key: string): void {
+    this.releaseService
+      .getReleaseListbycalculationKey(key)
+      .snapshotChanges()
+      .map(newchanges => {
+        return newchanges.map(c => ({
+          key: c.payload.key,
+          ...c.payload.val()
+        }));
+      })
+      .subscribe(releases => {
+        releases.forEach(elementR => {
+          this.releaseService.deleteRelease(elementR.key);
+        });
+      });
     this.calculationsRef.remove(key).catch(error => this.handleError(error));
   }
 

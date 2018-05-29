@@ -10,6 +10,7 @@ import {
   snapshotChanges
 } from "angularfire2/database";
 import { CalculationService } from "../calculation/shared/services/calculation.service";
+import { ReleaseService } from "../calculation/shared/services/release.service";
 
 export class User {
   uid: string;
@@ -32,7 +33,8 @@ export class AuthService {
     private firebaseAuth: AngularFireAuth,
     private router: Router,
     private db: AngularFireDatabase,
-    private calcService: CalculationService
+    private calcService: CalculationService,
+    private releaseService: ReleaseService
   ) {
     this.userFirebase = firebaseAuth.authState;
     this.userFirebase.subscribe(user => {
@@ -85,7 +87,38 @@ export class AuthService {
       .catch(error => console.log(error));
   }
   deleteUser(): void {
+    this.deleteUserCalcs();
     this.userDetails.delete().then(() => this.router.navigate(["home"]));
+  }
+  deleteUserCalcs(): void {
+    this.calcService
+      .getCalculationListbyuid(this.userDetails.uid)
+      .snapshotChanges()
+      .map(changes => {
+        return changes.map(c => ({
+          key: c.payload.key,
+          ...c.payload.val()
+        }));
+      })
+      .subscribe(calculations => {
+        calculations.forEach(element => {
+          this.releaseService
+            .getReleaseListbycalculationKey(element.key)
+            .snapshotChanges()
+            .map(newchanges => {
+              return newchanges.map(c => ({
+                key: c.payload.key,
+                ...c.payload.val()
+              }));
+            })
+            .subscribe(releases => {
+              releases.forEach(elementR => {
+                this.releaseService.deleteRelease(elementR.key);
+              });
+            });
+          this.calcService.deleteCalculation(element.key);
+        });
+      });
   }
   public createUser(user: User) {
     this.updateDisplayName(user.displayName);

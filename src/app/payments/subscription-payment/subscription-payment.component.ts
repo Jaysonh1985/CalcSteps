@@ -77,7 +77,7 @@ export class SubscriptionPaymentComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
-        this.pmt.setStatus("cancel");
+        this.pmt.setStatus("cancelled");
       }
     });
   }

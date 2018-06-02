@@ -24,7 +24,7 @@ export class PaymentsService {
   private userDetails: firebase.User = null;
   constructor(
     private db: AngularFireDatabase,
-    private afAuth: AngularFireAuth,
+    private afAuth: AngularFireAuth
   ) {
     this.userFirebase = afAuth.authState;
     this.userFirebase.subscribe(user => {
@@ -36,11 +36,16 @@ export class PaymentsService {
     });
   }
   getMembershipStatus(uid): AngularFireObject<any> {
-    return this.db.object(`users/${uid}/enterprise-membership/status`);
- }
+    return this.db.object(`users/${uid}/enterprisemembership/status`);
+  }
+  setStatus(status: string): void {
+    this.db
+      .object(`/users/${this.userDetails.uid}/enterprisemembership`)
+      .update({ status: status });
+  }
   processPayment(token: any) {
     return this.db
-      .object(`/users/${this.userDetails.uid}/enterprise-membership`)
+      .object(`/users/${this.userDetails.uid}/enterprisemembership`)
       .update({ token: token.id });
   }
 }

@@ -1,11 +1,43 @@
-<button mat-button *ngIf="status != 'active'" (click)="openHandler()">
-  Click here to Subscribe to our Enterprise model for £15 per Month
-</button>
-
-<div *ngIf="status == 'active'">
-  <h4>Enterprise Subscription is Active</h4>
-  <button mat-button>
-    Click here to Unsubscribe to our Enterprise model
+<div *ngIf="status === ''">
+  <button mat-button *ngIf="status !== 'pastDue'" (click)="openHandler()">
+    Click here to Subscribe to our Enterprise model for £15 per Month
   </button>
 </div>
-
+<div *ngIf="status != 'active'">
+  <div *ngIf="status === 'cancelled'">
+    <p>
+      You have cancelled your subscription with us, or you have a failed payment we are sorry to see you go. If you would like
+      to create a new account please click the link below
+    </p>
+    <button mat-button *ngIf="status !== 'pastDue'" (click)="openHandler()">
+      Click here to Subscribe to our Enterprise model for £15 per Month
+    </button>
+  </div>
+  <div *ngIf="status === 'pastDue'">
+    <p>
+      Your latest payment has failed if you wish to delete your account please do so above, alternatively, please click the below
+      button to update your details.
+    </p>
+    <button mat-button (click)="openHandler()">
+      Click here to update payment information
+    </button>
+  </div>
+  <div *ngIf="status === 'unpaid'">
+    <p>
+      Your latest payment has failed and your subscription has run out so your subscription has now been closed. Please click unsubiscribe
+      then create a new subscription.
+    </p>
+    <button mat-button (click)="onUnsubscribe()">
+      Click here to Unsubscribe
+    </button>
+  </div>
+</div>
+<div *ngIf="status == 'active'">
+  <h4>Enterprise Subscription is Active</h4>
+  <p>
+    If you wish to unsubscribe please click the below button, please note that your subscription will terminate immediately.
+  </p>
+  <button mat-button (click)="onUnsubscribe()">
+    Click here to Unsubscribe
+  </button>
+</div>

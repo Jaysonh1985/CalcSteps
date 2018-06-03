@@ -195,7 +195,7 @@ export class CalculationInputComponent implements OnInit {
     let data = rowNode.data;
     data = rowData;
     rowNode.setData(data);
-    this.autocompleteService.addAutoComplete(this.getAllRowsNodes());
+    this.autocompleteService.editAutocomplete(this.getAllRowsNodes());
   }
   errorCheck(input): CalculationError[] {
     this.errorArray = [];

@@ -10,6 +10,8 @@ import { SignupComponent } from "./signup/signup.component";
 import { AccountComponent } from "./account/account.component";
 import { ReleaseManagementComponent } from "./calculation/release-management/release-management.component";
 import { ReleaseComponent } from "./calculation/release/release.component";
+import { LookupComponent } from "./calculation/lookup/lookup.component";
+import { LookupMaintenanceComponent } from "./calculation/lookup-maintenance/lookup-maintenance.component";
 
 export const router: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -20,7 +22,9 @@ export const router: Routes = [
   { path: "signup", component: SignupComponent },
   { path: "account", component: AccountComponent },
   { path: "release-management/:key", component: ReleaseManagementComponent },
-  { path: "release/:key", component: ReleaseComponent }
+  { path: "release/:key", component: ReleaseComponent },
+  { path: "lookup-maintenance", component: LookupMaintenanceComponent },
+  { path: "lookup/:key", component: LookupComponent }
 ];
 
 export const routes: ModuleWithProviders = RouterModule.forRoot(router);

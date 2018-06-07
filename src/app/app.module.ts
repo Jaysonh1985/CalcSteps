@@ -42,6 +42,10 @@ import { HttpClientModule } from "@angular/common/http";
 import { FunctionDistanceComponent } from "./calculation/functions/function-distance/function-distance.component";
 import { SubscriptionPaymentComponent } from "./payments/subscription-payment/subscription-payment.component";
 import { PaymentsService } from "./payments/payments.service";
+import { LookupComponent } from "./calculation/lookup/lookup.component";
+import { LookupDialogComponent } from "./calculation/lookup/lookup-dialog/lookup-dialog.component";
+import { LookupMaintenanceComponent } from "./calculation/lookup-maintenance/lookup-maintenance.component";
+import { LookupService } from "./calculation/shared/services/lookup.service";
 
 @NgModule({
   declarations: [
@@ -64,7 +68,10 @@ import { PaymentsService } from "./payments/payments.service";
     InputDialogComponent,
     ConfirmationDialogComponent,
     FunctionDistanceComponent,
-    SubscriptionPaymentComponent
+    SubscriptionPaymentComponent,
+    LookupComponent,
+    LookupDialogComponent,
+    LookupMaintenanceComponent
   ],
   imports: [
     BrowserModule,
@@ -81,13 +88,18 @@ import { PaymentsService } from "./payments/payments.service";
     HttpClientModule,
     AgGridModule.withComponents([])
   ],
-  entryComponents: [InputDialogComponent, ConfirmationDialogComponent],
+  entryComponents: [
+    InputDialogComponent,
+    ConfirmationDialogComponent,
+    LookupDialogComponent
+  ],
   providers: [
     AuthService,
     CalculationService,
     ReleaseService,
     AutoCompleteService,
-    PaymentsService
+    PaymentsService,
+    LookupService
   ],
   bootstrap: [AppComponent]
 })

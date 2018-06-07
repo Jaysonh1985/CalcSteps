@@ -1,0 +1,35 @@
+<mat-toolbar style="background: darkslateblue;
+    color: white;">
+  <h1>Lookup Tables</h1>
+  <a mat-button routerLink="../account">
+    My Account
+  </a>
+</mat-toolbar>
+<div class="container">
+  <br/>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Group</th>
+        <th scope="col">Name</th>
+        <th scope="col">Owner</th>
+        <th scope="col">Update Date</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of lookups">
+        <td>{{item.group}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.owner}}</td>
+        <td>{{item.updatedate}}</td>
+        <td>{{item.regressionpass}}</td>
+        <td>
+          <button mat-raised-button (click)="editLookup(item)">View</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button mat-raised-button (click)="onAddLookup()">Add</button>
+</div>

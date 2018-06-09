@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import * as mathJs from "mathjs";
+import * as expeval from "expr-eval";
 import { CalculationError } from "../../shared/models/calculation-error";
 import { Observable } from "rxjs/Observable";
 import { ifError } from "assert";
@@ -108,13 +109,20 @@ export class FunctionIfLogicComponent implements OnInit {
       ifLogicString =
         ifLogicString +
         bracketOpen +
+        "'" +
         input1 +
+        "'" +
         functionType +
+        "'" +
         input2 +
+        "'" +
         bracketClose +
         nextFunction;
     });
-    return mathJs.eval(ifLogicString);
+    const Parser = expeval.Parser;
+    const parser = new Parser();
+    const expr = parser.parse(ifLogicString);
+    return expr.evaluate();
   }
   errorCheck(ifLogic, autoComplete): CalculationError[] {
     this.errorArray = [];

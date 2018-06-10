@@ -1,10 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { tryParse } from "selenium-webdriver/http";
 import { ActivatedRoute } from "@angular/router";
 import { CalculationService } from "./shared/services/calculation.service";
-import { Calculation } from "./shared/models/calculation";
-import { AngularFireList } from "angularfire2/database";
-import { Observable } from "rxjs/Observable";
 import { CalculationInput } from "./shared/models/calculation-input";
 import { CalculationOutput } from "./shared/models/calculation-output";
 import { CalculationConfiguration } from "./shared/models/calculation-configuration";

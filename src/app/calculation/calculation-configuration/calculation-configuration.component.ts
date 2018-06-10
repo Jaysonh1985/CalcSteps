@@ -101,6 +101,8 @@ export class CalculationConfigurationComponent implements OnInit {
             return "Logic";
           } else if (params.data.functionType === "Distance") {
             return "Number";
+          } else if (params.data.functionType === "Lookup Table") {
+            return params.data.lookupTable.OutputType;
           }
         }
       },

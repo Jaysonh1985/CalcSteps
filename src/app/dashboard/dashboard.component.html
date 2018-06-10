@@ -1,42 +1,63 @@
 <mat-toolbar style="background: darkslateblue;
     color: white;">
-    <h1>Calculations</h1>
-    <a mat-button routerLink="../account">
-      My Account
-    </a>
+  <h1>Calculations</h1>
 </mat-toolbar>
-<div class="container">
-  <h4 style="text-align: center">
-    Welcome {{displayName}}
-  </h4>
-  <br/>
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				<th scope="col">Group</th>
-				<th scope="col">Name</th>
-				<th scope="col">Owner</th>
-				<th scope="col">Update Date</th>
-				<th scope="col">Regression</th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr *ngFor="let item of calculations">
-				<td>{{item.group}}</td>
-				<td>{{item.name}}</td>
-				<td>{{item.owner}}</td>
-				<td>{{item.updatedate}}</td>
-				<td>{{item.regressionpass}}</td>
-				<td>
-					<button mat-raised-button (click)="editCalculation(item)">Edit</button>
-        </td>
-        <td>
-					<button mat-raised-button (click)="viewCalculation(item)">View</button>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	<button mat-raised-button (click)="onAddCalculation()">Add</button>
-</div>
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #sidenav mode="side" opened="true" style="background: #353535; color: white;" class="example-sidenav">
+    <mat-nav-list>
+      <mat-list-item style="color: white" routerLink="../">
+        <mat-icon matListIcon>home</mat-icon>
+        <h3 matLine> Home</h3>
+      </mat-list-item>
+      <mat-list-item style="color: white" routerLink="../account">
+        <mat-icon matListIcon>account_circle</mat-icon>
+        <h3 matLine> Account</h3>
+      </mat-list-item>
+      <mat-list-item style="color: white" routerLink="../lookup-maintenance">
+        <mat-icon matListIcon>search</mat-icon>
+        <h3 matLine> Lookup Tables</h3>
+      </mat-list-item>
+      <mat-list-item style="color: white" routerLink="../account">
+        <mat-icon matListIcon>help_outline</mat-icon>
+        <h3 matLine>Help</h3>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content style="height:90%">
+    <div class="container" style="height:90%">
+      <h4 style="text-align: center">
+        Welcome {{displayName}}
+      </h4>
+      <br/>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Group</th>
+            <th scope="col">Name</th>
+            <th scope="col">Owner</th>
+            <th scope="col">Update Date</th>
+            <th scope="col">Regression</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of calculations">
+            <td>{{item.group}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.owner}}</td>
+            <td>{{item.updatedate}}</td>
+            <td>{{item.regressionpass}}</td>
+            <td>
+              <button mat-raised-button (click)="editCalculation(item)">Edit</button>
+            </td>
+            <td>
+              <button mat-raised-button (click)="viewCalculation(item)">View</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button mat-raised-button (click)="onAddCalculation()">Add</button>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

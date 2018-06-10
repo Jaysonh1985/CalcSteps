@@ -1,9 +1,7 @@
 <mat-form-field>
   <mat-select placeholder="Table Name" [(ngModel)]="selectedRow[0].lookupTable.TableName" (ngModelChange)="setColumnList(selectedRow[0].lookupTable.TableName)">
     <mat-option>----</mat-option>
-    <mat-optgroup *ngFor="let group of lookups" [label]="group.group">
-      <mat-option *ngFor="let lookup of lookups" [value]="lookup.key">{{lookup.name}}</mat-option>
-    </mat-optgroup>
+    <mat-option *ngFor="let lookup of lookups " [value]="lookup.key">{{lookup.name}}</mat-option>
   </mat-select>
 </mat-form-field>
 <mat-form-field>

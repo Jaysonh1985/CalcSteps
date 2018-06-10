@@ -1,0 +1,36 @@
+<mat-form-field>
+  <mat-select placeholder="Table Name" [(ngModel)]="selectedRow[0].lookupTable.TableName" (ngModelChange)="setColumnList(selectedRow[0].lookupTable.TableName)">
+    <mat-option>----</mat-option>
+    <mat-optgroup *ngFor="let group of lookups" [label]="group.group">
+      <mat-option *ngFor="let lookup of lookups" [value]="lookup.key">{{lookup.name}}</mat-option>
+    </mat-optgroup>
+  </mat-select>
+</mat-form-field>
+<mat-form-field>
+  <mat-select placeholder="Lookup Data Type" [(ngModel)]="selectedRow[0].lookupTable.LookupType">
+    <mat-option value="Date">Date</mat-option>
+    <mat-option value="Number">Number</mat-option>
+    <mat-option value="Text">Text</mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field>
+  <input matInput placeholder="Lookup Value" [(ngModel)]="selectedRow[0].lookupTable.LookupValue" style="font-size: small"
+    [matAutocomplete]="auto" (ngModelChange)="filteredOptions = filterAutoComplete(selectedRow[0].lookupTable.LookupValue)">
+</mat-form-field>
+<mat-form-field>
+  <mat-select placeholder="Column" [(ngModel)]="selectedRow[0].lookupTable.ColumnNo">
+    <mat-option *ngFor="let column of columnList" [value]="column.key">{{column.name}}</mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field>
+  <mat-select placeholder="Output Data Type" [(ngModel)]="selectedRow[0].lookupTable.OutputType">
+    <mat-option value="Date">Date</mat-option>
+    <mat-option value="Number">Number</mat-option>
+    <mat-option value="Text">Text</mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-autocomplete #auto="matAutocomplete">
+  <mat-option *ngFor="let option of autoCompleteOptions" [value]="option">
+    {{ option }}
+  </mat-option>
+</mat-autocomplete>

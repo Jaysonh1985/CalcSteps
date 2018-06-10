@@ -19,6 +19,7 @@ import { DateDuration } from "../functions/function-date-duration/function-date-
 import { IfLogic } from "../functions/function-if-logic/function-if-logic.component";
 import { AutoCompleteService } from "../shared/services/auto-complete.service";
 import { Distance } from "../functions/function-distance/function-distance.component";
+import { LookupTable } from "../functions/function-lookup-table/function-lookup-table.component";
 
 @Component({
   selector: "app-calculation-configuration",
@@ -66,6 +67,7 @@ export class CalculationConfigurationComponent implements OnInit {
             "Date Duration",
             "Distance",
             "If Logic",
+            "Lookup Table",
             "Maths"
           ]
         }
@@ -150,6 +152,7 @@ export class CalculationConfigurationComponent implements OnInit {
       new Distance("", ""),
       [],
       [],
+      new LookupTable("", "", "", "", "", "", "", "", "", ""),
       "",
       true
     );
@@ -207,6 +210,7 @@ export class CalculationConfigurationComponent implements OnInit {
         dateDuration: node.data.dateDuration,
         distance: node.data.distance,
         ifLogic: node.data.ifLogic,
+        lookupTable: node.data.lookupTable,
         errors: node.data.errors,
         condition: node.data.condition,
         conditionResult: node.data.conditionResult

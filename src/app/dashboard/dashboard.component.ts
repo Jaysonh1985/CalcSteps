@@ -21,6 +21,7 @@ import { AuthService } from "../services/auth.service";
 import { DateAdjustment } from "../calculation/functions/function-date-adjustment/function-date-adjustment.component";
 import { DateDuration } from "../calculation/functions/function-date-duration/function-date-duration.component";
 import { Distance } from "../calculation/functions/function-distance/function-distance.component";
+import { LookupTable } from "../calculation/functions/function-lookup-table/function-lookup-table.component";
 
 @Component({
   selector: "app-dashboard",
@@ -100,6 +101,7 @@ export class DashboardComponent implements OnInit {
                 new Distance("", ""),
                 [],
                 [],
+                new LookupTable("", "", "", "", "", "", "", "", "", ""),
                 "",
                 true
               )

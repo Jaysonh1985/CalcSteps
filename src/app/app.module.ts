@@ -46,6 +46,7 @@ import { LookupComponent } from "./calculation/lookup/lookup.component";
 import { LookupDialogComponent } from "./calculation/lookup/lookup-dialog/lookup-dialog.component";
 import { LookupMaintenanceComponent } from "./calculation/lookup-maintenance/lookup-maintenance.component";
 import { LookupService } from "./calculation/shared/services/lookup.service";
+import { FunctionLookupTableComponent } from "./calculation/functions/function-lookup-table/function-lookup-table.component";
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { LookupService } from "./calculation/shared/services/lookup.service";
     SubscriptionPaymentComponent,
     LookupComponent,
     LookupDialogComponent,
-    LookupMaintenanceComponent
+    LookupMaintenanceComponent,
+    FunctionLookupTableComponent
   ],
   imports: [
     BrowserModule,

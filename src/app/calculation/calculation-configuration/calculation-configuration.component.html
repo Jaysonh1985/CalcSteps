@@ -13,9 +13,6 @@
   <ag-grid-angular #agGrid style="height:40vh; width: 99.5%" class="ag-theme-balham" [gridOptions]="gridOptions" [rowSelection]="rowSelection"
     [rowMultiSelectWithClick]="true" [rowDragManaged]="true" [animateRows]="true" [enableColResize]="true" (selectionChanged)="onSelectionChanged($event)"
     (gridReady)="onGridReady($event)" [stopEditingWhenGridLosesFocus]="true" [rowClassRules]="rowClassRules" [defaultColDef]="defaultColDef">
-
-
-
   </ag-grid-angular>
 </div>
 <mat-card style="height: 40vh; overflow:auto;">
@@ -38,6 +35,7 @@
           </app-function-date-duration>
           <app-function-if-logic [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'If Logic'"></app-function-if-logic>
           <app-function-distance [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'Distance'"></app-function-distance>
+          <app-function-lookup-table [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'Lookup Table'"></app-function-lookup-table>
         </form>
       </div>
     </mat-card-content>

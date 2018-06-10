@@ -4,6 +4,7 @@ import { DateAdjustment } from "../../functions/function-date-adjustment/functio
 import { DateDuration } from "../../functions/function-date-duration/function-date-duration.component";
 import { IfLogic } from "../../functions/function-if-logic/function-if-logic.component";
 import { Distance } from "../../functions/function-distance/function-distance.component";
+import { LookupTable } from "../../functions/function-lookup-table/function-lookup-table.component";
 
 export class CalculationConfiguration {
   group: string;
@@ -17,6 +18,7 @@ export class CalculationConfiguration {
   distance: Distance;
   ifLogic: IfLogic[];
   errors: CalculationError[];
+  lookupTable: LookupTable;
   condition: string;
   conditionResult: boolean;
   constructor(
@@ -31,6 +33,7 @@ export class CalculationConfiguration {
     distance,
     ifLogic,
     errors,
+    lookupTable,
     condition,
     conditionResult
   ) {
@@ -45,6 +48,7 @@ export class CalculationConfiguration {
     this.distance = distance;
     this.ifLogic = ifLogic;
     this.errors = errors;
+    this.lookupTable = lookupTable;
     this.condition = condition;
     this.conditionResult = conditionResult;
   }

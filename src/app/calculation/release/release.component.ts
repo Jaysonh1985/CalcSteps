@@ -19,6 +19,8 @@ import { FunctionDateAdjustmentComponent } from "../functions/function-date-adju
 import { FunctionDateDurationComponent } from "../functions/function-date-duration/function-date-duration.component";
 import { FunctionIfLogicComponent } from "../functions/function-if-logic/function-if-logic.component";
 import { FunctionDistanceComponent } from "../functions/function-distance/function-distance.component";
+import { AuthService } from "../../services/auth.service";
+import { LookupService } from "../shared/services/lookup.service";
 @Component({
   selector: "app-release",
   templateUrl: "./release.component.html",
@@ -50,7 +52,9 @@ export class ReleaseComponent implements OnInit {
     public snackBar: MatSnackBar,
     public dialog: MatDialog,
     private autocompleteService: AutoCompleteService,
-    private http: HttpClient
+    private http: HttpClient,
+    private lookupService: LookupService,
+    private authService: AuthService
   ) {
     this.errors = [];
   }
@@ -102,7 +106,9 @@ export class ReleaseComponent implements OnInit {
           this.snackBar,
           this.dialog,
           this.autocompleteService,
-          this.http
+          this.http,
+          this.lookupService,
+          this.authService
         );
         let autoCompleteConfig = [];
         let autoCompleteAll = [];
@@ -167,7 +173,9 @@ export class ReleaseComponent implements OnInit {
             this.snackBar,
             this.dialog,
             this.autocompleteService,
-            this.http
+            this.http,
+            this.lookupService,
+            this.authService
           );
           let autoCompleteConfig = [];
           let autoCompleteAll = [];

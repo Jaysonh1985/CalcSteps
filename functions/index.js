@@ -8,7 +8,7 @@ const cors = require('cors')({
 const stripe = require('stripe')(functions.config().stripe.testkey);
 
 exports.distanceMatrixProxy = functions.https.onRequest((req, res) => {
-  console.log("This works");
+
   /// Wrap request with cors
   cors(req, res, () => {
 
@@ -17,7 +17,6 @@ exports.distanceMatrixProxy = functions.https.onRequest((req, res) => {
     const Destination = req.query.Destination
 
     const url = formatUrl(Origin, Destination)
-    console.log(url);
     /// Send request to DarkSky
     return http.get(url).then(response => {
         return res.status(200).send(response.getBody());
@@ -32,7 +31,6 @@ exports.distanceMatrixProxy = functions.https.onRequest((req, res) => {
 /// Helper to format the request URL
 function formatUrl(Origin, Destination) {
   const apiKey = functions.config().distancematrix.key
-  console.log(apiKey)
   return `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${Origin}&destinations=${Destination}&mode=driving&language=en-GB&key=${apiKey}`
 }
 exports.createStripeCustomer = functions.auth.user().onCreate(event => {

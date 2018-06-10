@@ -373,16 +373,11 @@ export class CalculationComponent implements OnInit {
               );
               Origin = Origin.replace(" ", "+");
               Destination = Destination.replace(" ", "+");
-              this.http
-                // tslint:disable-next-line:max-line-length
-                .get(
-                  "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" +
-                    Origin +
-                    "&destinations=" +
-                    Destination +
-                    "&mode=driving&language=en-GB&key=" +
-                    environment.googleMapsKey
-                )
+              this.calcService
+                .getDistanceMatrix(Origin, Destination)
+                // .do(data => {
+                //   console.log(data);
+                // });
                 .subscribe(data => {
                   if (data["status"] === "OK") {
                     let rows = data["rows"];

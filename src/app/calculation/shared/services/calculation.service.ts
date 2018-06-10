@@ -10,15 +10,19 @@ import {
 import { query } from "@angular/core/src/animation/dsl";
 import { nodeChildrenAsMap } from "@angular/router/src/utils/tree";
 import { ReleaseService } from "./release.service";
+import { HttpClient, HttpParams } from "@angular/common/http";
 
 @Injectable()
 export class CalculationService {
   private dbPath = "calculations";
   calculationsRef: AngularFireList<Calculation> = null;
   results: string;
+  readonly ROOT_URL =
+    "https://us-central1-calc-steps.cloudfunctions.net/distanceMatrixProxy";
   constructor(
     private db: AngularFireDatabase,
-    private releaseService: ReleaseService
+    private releaseService: ReleaseService,
+    private http: HttpClient
   ) {
     this.calculationsRef = db.list(this.dbPath);
     this.results = "";
@@ -66,6 +70,13 @@ export class CalculationService {
   }
   deleteAll(): void {
     this.calculationsRef.remove().catch(error => this.handleError(error));
+  }
+
+  getDistanceMatrix(origin: string, destination: string): Observable<any> {
+    let params = new HttpParams();
+    params = params.set("Origin", origin.toString());
+    params = params.set("Destination", destination.toString());
+    return this.http.get(this.ROOT_URL, { params });
   }
   private handleError(error) {
     console.log(error);

@@ -7,6 +7,7 @@ export class CalculationInput {
   output: string;
   errors: CalculationError[];
   dropDownList: string;
+  dropDownValues: string;
   required: string;
   constructor(id, name, data, output, errors, dropDownList, required) {
     this.id = id;

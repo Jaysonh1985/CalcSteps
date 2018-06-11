@@ -159,6 +159,7 @@ export class CalculationInputComponent implements OnInit {
         data: node.data.data,
         errors: node.data.errors,
         dropDownList: node.data.dropDownList,
+        dropDownValues: node.data.dropDownValues,
         required: node.data.required
       };
       arr.push(Row);

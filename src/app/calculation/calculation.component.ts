@@ -414,7 +414,7 @@ export class CalculationComponent implements OnInit {
     }
   }
   calcCondition(configuration, autoComplete) {
-    let input: string;
+    let input: boolean;
     input = configuration.data.condition;
     autoComplete.forEach(value => {
       if (value.data.name === configuration.data.condition) {
@@ -439,7 +439,7 @@ export class CalculationComponent implements OnInit {
     ) {
       return false;
     } else {
-      if (input === "true") {
+      if (input === true) {
         return true;
       } else {
         return false;

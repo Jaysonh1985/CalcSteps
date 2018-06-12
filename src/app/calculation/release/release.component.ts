@@ -21,6 +21,9 @@ import { FunctionIfLogicComponent } from "../functions/function-if-logic/functio
 import { FunctionDistanceComponent } from "../functions/function-distance/function-distance.component";
 import { AuthService } from "../../services/auth.service";
 import { LookupService } from "../shared/services/lookup.service";
+import { FunctionLookupTableComponent } from "../functions/function-lookup-table/function-lookup-table.component";
+import * as moment from "moment";
+import "moment/locale/pt-br";
 @Component({
   selector: "app-release",
   templateUrl: "./release.component.html",
@@ -118,28 +121,21 @@ export class ReleaseComponent implements OnInit {
         autoCompleteAll = autoCompleteInputs.concat(autoCompleteConfig);
         if (configuration.data.functionType === "Maths") {
           const math = new FunctionMathsComponent();
-          configuration.data.errors = math.errorCheck(
-            configuration.data.maths,
-            autoCompleteAll
-          );
+          configuration.data.errors = math.errorCheck(configuration.data.maths, autoCompleteAll);
         } else if (configuration.data.functionType === "Date Adjustment") {
           const dateAdjustment = new FunctionDateAdjustmentComponent();
-          configuration.data.errors = dateAdjustment.errorCheck(
-            configuration.data.dateAdjustment,
-            autoCompleteAll
-          );
+          configuration.data.errors = dateAdjustment.errorCheck(configuration.data.dateAdjustment, autoCompleteAll);
         } else if (configuration.data.functionType === "Date Duration") {
           const dateDuration = new FunctionDateDurationComponent();
-          configuration.data.errors = dateDuration.errorCheck(
-            configuration.data.dateDuration,
-            autoCompleteAll
-          );
+          configuration.data.errors = dateDuration.errorCheck(configuration.data.dateDuration, autoCompleteAll);
+        } else if (configuration.data.functionType === "Distance") {
+          configuration.data.errors = [];
         } else if (configuration.data.functionType === "If Logic") {
           const ifLogic = new FunctionIfLogicComponent();
-          configuration.data.errors = ifLogic.errorCheck(
-            configuration.data.ifLogic,
-            autoCompleteAll
-          );
+          configuration.data.errors = ifLogic.errorCheck(configuration.data.ifLogic, autoCompleteAll);
+        } else if (configuration.data.functionType === "Lookup Table") {
+          const lookupTable = new FunctionLookupTableComponent(this.authService, this.lookupService);
+          configuration.data.errors = lookupTable.errorCheck(configuration.data.lookupTable, autoCompleteAll);
         }
         if (configuration.data.errors.length > 0) {
           this.isErrors = true;
@@ -212,11 +208,135 @@ export class ReleaseComponent implements OnInit {
                 autoCompleteAll
               );
             } else if (configuration.data.functionType === "If Logic") {
-              const ifLogic = new FunctionIfLogicComponent();
-              configuration.data.output = ifLogic.calculate(
-                configuration.data.ifLogic,
-                autoCompleteAll
-              );
+                     const ifLogic = new FunctionIfLogicComponent();
+                     configuration.data.output = ifLogic.calculate(configuration.data.ifLogic, autoCompleteAll);
+                   } else if (configuration.data.functionType === "Lookup Table") {
+                     const lookupTable = new FunctionLookupTableComponent(this.authService, this.lookupService);
+                     let LookupValue: string;
+                     LookupValue = configuration.data.lookupTable.LookupValue;
+                     if (configuration.data.lookupTable.LookupType === "Date") {
+                       LookupValue = lookupTable.getAutoCompleteOutputDate(configuration.data.lookupTable.LookupValue, autoCompleteAll);
+                     } else if (configuration.data.lookupTable.LookupType === "Number") {
+                       LookupValue = lookupTable.getAutoCompleteNumber(configuration.data.lookupTable.LookupValue, autoCompleteAll);
+                     }
+                     if (configuration.data.lookupTable.TableName) {
+                       const dataType = configuration.data.lookupTable.LookupType;
+                       this.lookupService
+                         .getLookup(configuration.data.lookupTable.TableName)
+                         .snapshotChanges()
+                         .map(changes => {
+                           return changes.map(c => ({
+                             key: c.payload.key,
+                             ...c.payload.val()
+                           }));
+                         })
+                         .subscribe(lookups => {
+                           let returnValue = "";
+                           if (configuration.data.lookupTable.LookupType === "Number") {
+                             let closest = 79228162514264337593543950335;
+                             let minDifference = 79228162514264337593543950335;
+                             const DecimalLookupValue = Number(LookupValue);
+                             let outputRowNo = 0;
+                             let RowNo = 0;
+                             lookups[0].lookup.forEach(
+                               element => {
+                                 let deciParsed = Number(
+                                   element[0]
+                                 );
+                                 if (
+                                   isNaN(Number(element[0]))
+                                 ) {
+                                   deciParsed = 0;
+                                 }
+                                 const difference = Math.abs(
+                                   deciParsed -
+                                     DecimalLookupValue
+                                 );
+                                 if (
+                                   minDifference > difference
+                                 ) {
+                                   minDifference = Number(
+                                     difference
+                                   );
+                                   closest = deciParsed;
+                                   outputRowNo = RowNo;
+                                 }
+                                 RowNo++;
+                               }
+                             );
+                             const lookupRow = lookups[0].lookup[outputRowNo];
+                             returnValue = lookupRow[configuration.data.lookupTable.ColumnNo];
+                           } else if (configuration.data.lookupTable.LookupType === "Date") {
+                             const date = moment(LookupValue, "DD/MM/YYYY", true);
+                             let lookupDate: Date;
+                             if (date.isValid() === true) {
+                               lookupDate = date.toDate();
+                             }
+                             const lookupDateticks = lookupDate.getTime() * 10000 + 621355968000000000;
+                             let lookupsDate = lookups[0].lookup[0];
+                             lookupsDate = lookupsDate[0];
+                             const minDate = moment(lookupsDate, "DD/MM/YYYY", true);
+                             let minDate1: Date;
+                             if (minDate.isValid() === true) {
+                               minDate1 = minDate.toDate();
+                             }
+                             const minDateTicks = minDate1.getTime() * 10000 + 621355968000000000;
+                             let min = Math.abs(lookupDateticks - minDateTicks);
+                             let diff;
+                             let closestDate: Date;
+                             let outputRowNo = 0;
+                             let RowNo = 0;
+                             lookups[0].lookup.forEach(
+                               element => {
+                                 const date2 = moment(
+                                   element[0],
+                                   "DD/MM/YYYY",
+                                   true
+                                 );
+                                 let returnDate: Date;
+                                 if (
+                                   date2.isValid() === true
+                                 ) {
+                                   returnDate = date2.toDate();
+                                 }
+                                 const returnDateticks =
+                                   returnDate.getTime() *
+                                     10000 +
+                                   621355968000000000;
+                                 diff = Math.abs(
+                                   lookupDateticks -
+                                     returnDateticks
+                                 );
+                                 if (diff < min) {
+                                   min = diff;
+                                   closestDate = returnDate;
+                                   outputRowNo = RowNo;
+                                 }
+                                 RowNo++;
+                               }
+                             );
+                             const lookupRow = lookups[0].lookup[outputRowNo];
+                             returnValue = lookupRow[configuration.data.lookupTable.ColumnNo];
+                           } else {
+                             let outputRowNo = 0;
+                             let RowNo = 0;
+                             lookups[0].lookup.forEach(
+                               element => {
+                                 if (
+                                   LookupValue === element[0]
+                                 ) {
+                                   outputRowNo = RowNo;
+                                 }
+                                 RowNo++;
+                               }
+                             );
+                             const lookupRow = lookups[0].lookup[outputRowNo];
+                             returnValue = lookupRow[configuration.data.lookupTable.ColumnNo];
+                           }
+                           configuration.data.output = returnValue;
+                           this.CalculationConfigurationComponent.setRowOuput(configuration.id, configuration.data, true);
+                         });
+                     }
             } else if (configuration.data.functionType === "Distance") {
               const distance = new FunctionDistanceComponent(this.calcService);
               let Origin = distance.getAutoCompleteOutput(
@@ -229,15 +349,11 @@ export class ReleaseComponent implements OnInit {
               );
               Origin = Origin.replace(" ", "+");
               Destination = Destination.replace(" ", "+");
-              this.http
-                // tslint:disable-next-line:max-line-length
-                .get(
-                  "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" +
-                    Origin +
-                    "&destinations=" +
-                    Destination +
-                    "&mode=driving&language=en-GB&key=AIzaSyDzO3msuuB8lAAjsrSfG15Ecw8hSmXKbzQ"
-                )
+              this.calcService
+                .getDistanceMatrix(Origin, Destination)
+                // .do(data => {
+                //   console.log(data);
+                // });
                 .subscribe(data => {
                   if (data["status"] === "OK") {
                     let rows = data["rows"];
@@ -256,11 +372,6 @@ export class ReleaseComponent implements OnInit {
                     );
                   }
                 });
-              this.CalculationConfigurationComponent.setRowOuput(
-                configuration.id,
-                configuration.data,
-                false
-              );
             }
           }
         }

@@ -207,6 +207,19 @@ export class CalculationComponent implements OnInit {
             configuration,
             autoCompleteAll
           );
+          if (configuration.data.conditionResult === false) {
+            const output =
+            this.CalculationConfigurationComponent.getFinalRowNodesbyNameIndex(configuration.data.name, configuration.rowIndex);
+            if (output === undefined) {
+              if (configuration.data.data === "Number") {
+                configuration.data.output = 0;
+              } else {
+                configuration.data.output = "";
+              }
+            } else {
+              configuration.data.output = output;
+            }
+          }
           this.CalculationConfigurationComponent.setRowOuput(
             configuration.id,
             configuration.data,

@@ -47,6 +47,7 @@ import { LookupDialogComponent } from "./calculation/lookup/lookup-dialog/lookup
 import { LookupMaintenanceComponent } from "./calculation/lookup-maintenance/lookup-maintenance.component";
 import { LookupService } from "./calculation/shared/services/lookup.service";
 import { FunctionLookupTableComponent } from "./calculation/functions/function-lookup-table/function-lookup-table.component";
+import { CalculateService } from "./calculation/shared/services/calculate.service";
 
 @NgModule({
   declarations: [
@@ -101,7 +102,8 @@ import { FunctionLookupTableComponent } from "./calculation/functions/function-l
     ReleaseService,
     AutoCompleteService,
     PaymentsService,
-    LookupService
+    LookupService,
+    CalculateService
   ],
   bootstrap: [AppComponent]
 })

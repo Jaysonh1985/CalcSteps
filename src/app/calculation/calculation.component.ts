@@ -8,22 +8,13 @@ import { CalculationInputComponent } from "./calculation-input/calculation-input
 import { CalculationOutputComponent } from "./calculation-output/calculation-output.component";
 import { CalculationConfigurationComponent } from "./calculation-configuration/calculation-configuration.component";
 import { Router } from "@angular/router";
-import { FunctionMathsComponent } from "./functions/function-maths/function-maths.component";
-import { FunctionDateAdjustmentComponent } from "./functions/function-date-adjustment/function-date-adjustment.component";
-import { FunctionDateDurationComponent } from "./functions/function-date-duration/function-date-duration.component";
-import { FunctionIfLogicComponent } from "./functions/function-if-logic/function-if-logic.component";
 import { CalculationError } from "./shared/models/calculation-error";
 import { MatSnackBar, MatDialog } from "@angular/material";
 import { ConfirmationDialogComponent } from "../shared/confirmation-dialog/confirmation-dialog.component";
 import { AutoCompleteService } from "./shared/services/auto-complete.service";
-import { FunctionDistanceComponent } from "./functions/function-distance/function-distance.component";
-import { HttpClient } from "@angular/common/http";
-import { environment } from "../../environments/environment";
-import { FunctionLookupTableComponent } from "./functions/function-lookup-table/function-lookup-table.component";
 import { LookupService } from "../calculation/shared/services/lookup.service";
+import { CalculateService } from "../calculation/shared/services/calculate.service";
 import { AuthService } from "../services/auth.service";
-import * as moment from "moment";
-import "moment/locale/pt-br";
 
 @Component({
   selector: "app-calculation",
@@ -43,7 +34,6 @@ export class CalculationComponent implements OnInit {
   private CalculationOutputComponent: CalculationOutputComponent;
   @ViewChild(CalculationConfigurationComponent)
   private CalculationConfigurationComponent: CalculationConfigurationComponent;
-  private FunctionMaths: FunctionMathsComponent;
   events = [];
   opened = true;
   public calculationName: string;
@@ -60,9 +50,9 @@ export class CalculationComponent implements OnInit {
     public snackBar: MatSnackBar,
     public dialog: MatDialog,
     private autocompleteService: AutoCompleteService,
-    private http: HttpClient,
     private lookupService: LookupService,
-    private authService: AuthService
+    private authService: AuthService,
+    private calculateService: CalculateService
   ) {}
   ngOnInit() {
     const key = this.route.snapshot.params["key"];
@@ -145,40 +135,12 @@ export class CalculationComponent implements OnInit {
           configuration.rowIndex
         );
         autoCompleteAll = autoCompleteInputs.concat(autoCompleteConfig);
-        if (configuration.data.functionType === "Maths") {
-          const math = new FunctionMathsComponent();
-          configuration.data.errors = math.errorCheck(
-            configuration.data.maths,
-            autoCompleteAll
-          );
-        } else if (configuration.data.functionType === "Date Adjustment") {
-          const dateAdjustment = new FunctionDateAdjustmentComponent();
-          configuration.data.errors = dateAdjustment.errorCheck(
-            configuration.data.dateAdjustment,
-            autoCompleteAll
-          );
-        } else if (configuration.data.functionType === "Date Duration") {
-          const dateDuration = new FunctionDateDurationComponent();
-          configuration.data.errors = dateDuration.errorCheck(
-            configuration.data.dateDuration,
-            autoCompleteAll
-          );
-        } else if (configuration.data.functionType === "If Logic") {
-          const ifLogic = new FunctionIfLogicComponent();
-          configuration.data.errors = ifLogic.errorCheck(
-            configuration.data.ifLogic,
-            autoCompleteAll
-          );
-        } else if (configuration.data.functionType === "Lookup Table") {
-          const lookupTable = new FunctionLookupTableComponent(
-            this.authService,
-            this.lookupService
-          );
-          configuration.data.errors = lookupTable.errorCheck(
-            configuration.data.lookupTable,
-            autoCompleteAll
-          );
-        }
+        configuration.data.errors = this.calculateService.runError(
+          configuration,
+          autoCompleteAll,
+          this.authService,
+          this.lookupService
+        );
         if (configuration.data.errors.length > 0) {
           this.isErrors = true;
         }
@@ -203,13 +165,15 @@ export class CalculationComponent implements OnInit {
             configuration.rowIndex
           );
           autoCompleteAll = autoCompleteInputs.concat(autoCompleteConfig);
-          configuration.data.conditionResult = this.calcCondition(
+          configuration.data.conditionResult = this.calculateService.runCondition(
             configuration,
             autoCompleteAll
           );
           if (configuration.data.conditionResult === false) {
-            const output =
-            this.CalculationConfigurationComponent.getFinalRowNodesbyNameIndex(configuration.data.name, configuration.rowIndex);
+            const output = this.CalculationConfigurationComponent.getFinalRowNodesbyNameIndex(
+              configuration.data.name,
+              configuration.rowIndex
+            );
             if (output === undefined) {
               if (configuration.data.data === "Number") {
                 configuration.data.output = 0;
@@ -227,188 +191,62 @@ export class CalculationComponent implements OnInit {
           );
           if (configuration.data.conditionResult === true) {
             const oldOutput = configuration.data.output;
-            if (configuration.data.functionType === "Maths") {
-              const math = new FunctionMathsComponent();
-              configuration.data.output = math.calculate(
-                configuration.data.maths,
-                autoCompleteAll
-              );
-            } else if (configuration.data.functionType === "Date Adjustment") {
-              const dateAdjustment = new FunctionDateAdjustmentComponent();
-              configuration.data.output = dateAdjustment.calculate(
-                configuration.data.dateAdjustment,
-                autoCompleteAll
-              );
-            } else if (configuration.data.functionType === "Date Duration") {
-              const dateDuration = new FunctionDateDurationComponent();
-              configuration.data.output = dateDuration.calculate(
-                configuration.data.dateDuration,
-                autoCompleteAll
-              );
-            } else if (configuration.data.functionType === "If Logic") {
-              const ifLogic = new FunctionIfLogicComponent();
-              configuration.data.output = ifLogic.calculate(
-                configuration.data.ifLogic,
-                autoCompleteAll
-              );
-            } else if (configuration.data.functionType === "Lookup Table") {
-              const lookupTable = new FunctionLookupTableComponent(
-                this.authService,
-                this.lookupService
-              );
-              let LookupValue: string;
-              LookupValue = configuration.data.lookupTable.LookupValue;
-              if (configuration.data.lookupTable.LookupType === "Date") {
-                LookupValue = lookupTable.getAutoCompleteOutputDate(
-                  configuration.data.lookupTable.LookupValue,
-                  autoCompleteAll
-                );
-              } else if (
-                configuration.data.lookupTable.LookupType === "Number"
-              ) {
-                LookupValue = lookupTable.getAutoCompleteNumber(
-                  configuration.data.lookupTable.LookupValue,
-                  autoCompleteAll
-                );
-              }
-              if (configuration.data.lookupTable.TableName) {
-                const dataType = configuration.data.lookupTable.LookupType;
-                this.lookupService
-                  .getLookup(configuration.data.lookupTable.TableName)
-                  .snapshotChanges()
-                  .map(changes => {
-                    return changes.map(c => ({
-                      key: c.payload.key,
-                      ...c.payload.val()
-                    }));
-                  })
-                  .subscribe(lookups => {
-                    let returnValue = "";
-                    if (
-                      configuration.data.lookupTable.LookupType === "Number"
-                    ) {
-                      let closest = 79228162514264337593543950335;
-                      let minDifference = 79228162514264337593543950335;
-                      const DecimalLookupValue = Number(LookupValue);
-                      let outputRowNo = 0;
-                      let RowNo = 0;
-                      lookups[0].lookup.forEach(element => {
-                        let deciParsed = Number(element[0]);
-                        if (isNaN(Number(element[0]))) {
-                          deciParsed = 0;
-                        }
-                        const difference = Math.abs(
-                          deciParsed - DecimalLookupValue
-                        );
-                        if (minDifference > difference) {
-                          minDifference = Number(difference);
-                          closest = deciParsed;
-                          outputRowNo = RowNo;
-                        }
-                        RowNo++;
-                      });
-                      const lookupRow = lookups[0].lookup[outputRowNo];
-                      returnValue =
-                        lookupRow[configuration.data.lookupTable.ColumnNo];
-                    } else if (
-                      configuration.data.lookupTable.LookupType === "Date"
-                    ) {
-                      const date = moment(LookupValue, "DD/MM/YYYY", true);
-                      let lookupDate: Date;
-                      if (date.isValid() === true) {
-                        lookupDate = date.toDate();
-                      }
-                      const lookupDateticks =
-                        lookupDate.getTime() * 10000 + 621355968000000000;
-                      let lookupsDate = lookups[0].lookup[0];
-                      lookupsDate = lookupsDate[0];
-                      const minDate = moment(lookupsDate, "DD/MM/YYYY", true);
-                      let minDate1: Date;
-                      if (minDate.isValid() === true) {
-                        minDate1 = minDate.toDate();
-                      }
-                      const minDateTicks =
-                        minDate1.getTime() * 10000 + 621355968000000000;
-                      let min = Math.abs(lookupDateticks - minDateTicks);
-                      let diff;
-                      let closestDate: Date;
-                      let outputRowNo = 0;
-                      let RowNo = 0;
-                      lookups[0].lookup.forEach(element => {
-                        const date2 = moment(element[0], "DD/MM/YYYY", true);
-                        let returnDate: Date;
-                        if (date2.isValid() === true) {
-                          returnDate = date2.toDate();
-                        }
-                        const returnDateticks =
-                          returnDate.getTime() * 10000 + 621355968000000000;
-                        diff = Math.abs(lookupDateticks - returnDateticks);
-                        if (diff < min) {
-                          min = diff;
-                          closestDate = returnDate;
-                          outputRowNo = RowNo;
-                        }
-                        RowNo++;
-                      });
-                      const lookupRow = lookups[0].lookup[outputRowNo];
-                      returnValue =
-                        lookupRow[configuration.data.lookupTable.ColumnNo];
-                    } else {
-                      let outputRowNo = 0;
-                      let RowNo = 0;
-                      lookups[0].lookup.forEach(element => {
-                        if (LookupValue === element[0]) {
-                          outputRowNo = RowNo;
-                        }
-                        RowNo++;
-                      });
-                      const lookupRow = lookups[0].lookup[outputRowNo];
-                      returnValue =
-                        lookupRow[configuration.data.lookupTable.ColumnNo];
-                    }
-                    configuration.data.output = returnValue;
-                    this.CalculationConfigurationComponent.setRowOuput(
-                      configuration.id,
-                      configuration.data,
-                      true
-                    );
-                  });
-              }
-            } else if (configuration.data.functionType === "Distance") {
-              const distance = new FunctionDistanceComponent(this.calcService);
-              let Origin = distance.getAutoCompleteOutput(
-                configuration.data.distance.origin,
-                autoCompleteAll
-              );
-              let Destination = distance.getAutoCompleteOutput(
-                configuration.data.distance.destination,
-                autoCompleteAll
-              );
-              Origin = Origin.replace(" ", "+");
-              Destination = Destination.replace(" ", "+");
-              this.calcService
-                .getDistanceMatrix(Origin, Destination)
-                // .do(data => {
-                //   console.log(data);
-                // });
+            if (configuration.data.functionType === "Distance") {
+              this.calculateService
+                .runCalculationObservable(
+                  configuration,
+                  autoCompleteAll,
+                  this.authService,
+                  this.lookupService,
+                  this.calcService
+                )
                 .subscribe(data => {
                   if (data["status"] === "OK") {
-                    let rows = data["rows"];
-                    rows = rows[0];
-                    let elements = rows["elements"];
-                    elements = elements[0];
-                    let meters = elements["distance"];
-                    meters = meters["value"];
-                    let miles: Number;
-                    miles = Number(meters / 1609.34);
-                    configuration.data.output = miles.toFixed(2);
+                    configuration.data.output = this.calculateService.getDistanceCalculation(
+                      data
+                    );
+                    if (oldOutput !== configuration.data.output) {
+                      this.CalculationConfigurationComponent.setRowOuput(
+                        configuration.id,
+                        configuration.data,
+                        true
+                      );
+                      this.calcOutput();
+                    }
+                  }
+                });
+            } else if (configuration.data.functionType === "Lookup Table") {
+              this.calculateService
+                .runCalculationObservable(
+                  configuration,
+                  autoCompleteAll,
+                  this.authService,
+                  this.lookupService,
+                  this.calcService
+                )
+                .subscribe(lookups => {
+                  configuration.data.output = this.calculateService.getLookupTableCalculation(
+                    configuration,
+                    lookups[0].LookupValue,
+                    lookups
+                  );
+                  if (oldOutput !== configuration.data.output) {
                     this.CalculationConfigurationComponent.setRowOuput(
                       configuration.id,
                       configuration.data,
                       true
                     );
+                    this.calcOutput();
                   }
                 });
+            } else {
+              configuration.data.output = this.calculateService.runCalculation(
+                configuration,
+                autoCompleteAll,
+                this.authService,
+                this.lookupService,
+                this.calcService
+              );
             }
             if (oldOutput !== configuration.data.output) {
               this.CalculationConfigurationComponent.setRowOuput(
@@ -416,6 +254,7 @@ export class CalculationComponent implements OnInit {
                 configuration.data,
                 true
               );
+
             }
           }
         }
@@ -424,39 +263,6 @@ export class CalculationComponent implements OnInit {
         duration: 2000
       });
       this.calcOutput();
-    }
-  }
-  calcCondition(configuration, autoComplete) {
-    let input: boolean;
-    input = configuration.data.condition;
-    autoComplete.forEach(value => {
-      if (value.data.name === configuration.data.condition) {
-        input = value.data.output;
-      }
-    });
-    if (configuration.data.condition === undefined) {
-      configuration.data.condition = "";
-    }
-    if (configuration.data.condition === "") {
-      return true;
-    } else if (
-      configuration.data.condition === "true" ||
-      configuration.data.condition === "True" ||
-      configuration.data.condition === "TRUE"
-    ) {
-      return true;
-    } else if (
-      configuration.data.condition === "false" ||
-      configuration.data.condition === "False" ||
-      configuration.data.condition === "FALSE"
-    ) {
-      return false;
-    } else {
-      if (input === true) {
-        return true;
-      } else {
-        return false;
-      }
     }
   }
   errorInput(input) {

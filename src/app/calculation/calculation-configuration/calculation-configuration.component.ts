@@ -103,6 +103,7 @@ export class CalculationConfigurationComponent implements OnInit {
             params.data.data = "Number";
             return "Number";
           } else if (params.data.functionType === "Lookup Table") {
+            params.data.data = params.data.lookupTable.OutputType;
             return params.data.lookupTable.OutputType;
           }
         }

@@ -114,7 +114,7 @@ export class CalculationComponent implements OnInit {
       }
     });
   }
-  onCalc() {
+  async onCalc() {
     this.isErrors = false;
     this.CalculationInputComponent.getAllRowsNodes().forEach(input => {
       const inputs = new CalculationInputComponent(this.autocompleteService);
@@ -157,8 +157,8 @@ export class CalculationComponent implements OnInit {
       });
     }
     if (this.isErrors === false) {
-      this.CalculationConfigurationComponent.getAllRowsNodes().forEach(
-        configuration => {
+
+      for (const configuration of this.CalculationConfigurationComponent.getAllRowsNodes()) {
           let autoCompleteConfig = [];
           let autoCompleteAll = [];
           autoCompleteConfig = this.CalculationConfigurationComponent.getAllRowsNodesbyIndex(
@@ -192,53 +192,17 @@ export class CalculationComponent implements OnInit {
           if (configuration.data.conditionResult === true) {
             const oldOutput = configuration.data.output;
             if (configuration.data.functionType === "Distance") {
-              this.calculateService
-                .runCalculationObservable(
-                  configuration,
-                  autoCompleteAll,
-                  this.authService,
-                  this.lookupService,
-                  this.calcService
-                )
-                .subscribe(data => {
-                  if (data["status"] === "OK") {
-                    configuration.data.output = this.calculateService.getDistanceCalculation(
-                      data
-                    );
-                    if (oldOutput !== configuration.data.output) {
-                      this.CalculationConfigurationComponent.setRowOuput(
-                        configuration.id,
-                        configuration.data,
-                        true
-                      );
-                      this.calcOutput();
-                    }
-                  }
-                });
+              configuration.data.output = await this.calculateService.runDistanceCalculationPromise(configuration, autoCompleteAll,
+                this.authService, this.lookupService, this.calcService);
             } else if (configuration.data.functionType === "Lookup Table") {
-              this.calculateService
-                .runCalculationObservable(
+              configuration.data.output = await this.calculateService
+                .runLookupCalculationPromise2(
                   configuration,
                   autoCompleteAll,
                   this.authService,
                   this.lookupService,
                   this.calcService
-                )
-                .subscribe(lookups => {
-                  configuration.data.output = this.calculateService.getLookupTableCalculation(
-                    configuration,
-                    lookups[0].LookupValue,
-                    lookups
-                  );
-                  if (oldOutput !== configuration.data.output) {
-                    this.CalculationConfigurationComponent.setRowOuput(
-                      configuration.id,
-                      configuration.data,
-                      true
-                    );
-                    this.calcOutput();
-                  }
-                });
+                );
             } else {
               configuration.data.output = this.calculateService.runCalculation(
                 configuration,
@@ -258,7 +222,6 @@ export class CalculationComponent implements OnInit {
             }
           }
         }
-      );
       this.snackBar.open("Calculated Successfully", "Success", {
         duration: 2000
       });

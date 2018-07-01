@@ -8,8 +8,10 @@ import { FunctionLookupTableComponent } from "../../functions/function-lookup-ta
 import { FunctionDistanceComponent } from "../../functions/function-distance/function-distance.component";
 import * as moment from "moment";
 import "moment/locale/pt-br";
-import { Observable } from "rxjs/Observable";
 import { HttpParams, HttpClient } from "@angular/common/http";
+import "rxjs/add/operator/first";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/toPromise";
 
 @Injectable()
 export class CalculateService {
@@ -18,63 +20,74 @@ export class CalculateService {
   private distanceResult: string;
   constructor(private http: HttpClient) {}
 
-  getDistanceMatrix(origin: string, destination: string): Observable<any> {
+  async getDistanceMatrix(origin: string, destination: string): Promise<any> {
     let params = new HttpParams();
     params = params.set("Origin", origin.toString());
     params = params.set("Destination", destination.toString());
-    return this.http.get(this.ROOT_URL, { params });
+    return await this.http.get(this.ROOT_URL, { params }).toPromise();
   }
-  runCalculationObservable(
+  async getLookupTableHttp(name: string): Promise<any> {
+    let params = new HttpParams();
+    params = params.set("Name", name.toString());
+    return await this.http
+      .get(
+        "https://us-central1-calc-steps.cloudfunctions.net/getLookupTable",
+        { params }
+      )
+      .toPromise();
+  }
+  async runDistanceCalculationPromise(
+    row,
+    autocomplete,
+    authService,
+    lookupService,
+    calcService
+  ): Promise<any> {
+    const distance = new FunctionDistanceComponent(calcService);
+    let Origin = distance.getAutoCompleteOutput(
+      row.data.distance.origin,
+      autocomplete
+    );
+    let Destination = distance.getAutoCompleteOutput(
+      row.data.distance.destination,
+      autocomplete
+    );
+    Origin = Origin.replace(" ", "+");
+    Destination = Destination.replace(" ", "+");
+    return await this.getDistanceMatrix(Origin, Destination).then(data => {
+      return this.getDistanceCalculation(data);
+    });
+  }
+  async runLookupCalculationPromise2(
     row,
     autocomplete,
     authService,
     lookupService,
     calcService
   ) {
-    if (row.data.functionType === "Distance") {
-      const distance = new FunctionDistanceComponent(calcService);
-      let Origin = distance.getAutoCompleteOutput(
-        row.data.distance.origin,
+    const lookupTable = new FunctionLookupTableComponent(
+      authService,
+      lookupService
+    );
+    let LookupValue: string;
+    LookupValue = row.data.lookupTable.LookupValue;
+    if (row.data.lookupTable.LookupType === "Date") {
+      LookupValue = lookupTable.getAutoCompleteOutputDate(
+        row.data.lookupTable.LookupValue,
         autocomplete
       );
-      let Destination = distance.getAutoCompleteOutput(
-        row.data.distance.destination,
+    } else if (row.data.lookupTable.LookupType === "Number") {
+      LookupValue = lookupTable.getAutoCompleteNumber(
+        row.data.lookupTable.LookupValue,
         autocomplete
       );
-      Origin = Origin.replace(" ", "+");
-      Destination = Destination.replace(" ", "+");
-      return this.getDistanceMatrix(Origin, Destination);
-    } else if (row.data.functionType === "Lookup Table") {
-      const lookupTable = new FunctionLookupTableComponent(
-        authService,
-        lookupService
-      );
-      let LookupValue: string;
-      LookupValue = row.data.lookupTable.LookupValue;
-      if (row.data.lookupTable.LookupType === "Date") {
-        LookupValue = lookupTable.getAutoCompleteOutputDate(
-          row.data.lookupTable.LookupValue,
-          autocomplete
-        );
-      } else if (row.data.lookupTable.LookupType === "Number") {
-        LookupValue = lookupTable.getAutoCompleteNumber(
-          row.data.lookupTable.LookupValue,
-          autocomplete
-        );
-      }
-      if (row.data.lookupTable.TableName) {
-        const dataType = row.data.lookupTable.LookupType;
-        return lookupService
-          .getLookup(row.data.lookupTable.TableName)
-          .snapshotChanges()
-          .map(changes => {
-            return changes.map(c => ({
-              key: c.payload.key,
-              ...c.payload.val(),
-              LookupValue: LookupValue
-            }));
-          });
-      }
+    }
+    if (row.data.lookupTable.TableName) {
+      const dataType = row.data.lookupTable.LookupType;
+      return await this.getLookupTableHttp(row.data.lookupTable.TableName).then(
+        data => {
+          return this.getLookupTableCalculation(row, LookupValue, data.lookup);
+        });
     }
   }
 
@@ -174,7 +187,7 @@ export class CalculateService {
       const DecimalLookupValue = Number(LookupValue);
       let outputRowNo = 0;
       let RowNo = 0;
-      lookups[0].lookup.forEach(element => {
+      lookups.forEach(element => {
         let deciParsed = Number(element[0]);
         if (isNaN(Number(element[0]))) {
           deciParsed = 0;
@@ -187,7 +200,7 @@ export class CalculateService {
         }
         RowNo++;
       });
-      const lookupRow = lookups[0].lookup[outputRowNo];
+      const lookupRow = lookups[outputRowNo];
       return lookupRow[row.data.lookupTable.ColumnNo];
     } else if (row.data.lookupTable.LookupType === "Date") {
       const date = moment(LookupValue, "DD/MM/YYYY", true);
@@ -196,7 +209,7 @@ export class CalculateService {
         lookupDate = date.toDate();
       }
       const lookupDateticks = lookupDate.getTime() * 10000 + 621355968000000000;
-      let lookupsDate = lookups[0].lookup[0];
+      let lookupsDate = lookups[0];
       lookupsDate = lookupsDate[0];
       const minDate = moment(lookupsDate, "DD/MM/YYYY", true);
       let minDate1: Date;
@@ -209,7 +222,7 @@ export class CalculateService {
       let closestDate: Date;
       let outputRowNo = 0;
       let RowNo = 0;
-      lookups[0].lookup.forEach(element => {
+      lookups.forEach(element => {
         const date2 = moment(element[0], "DD/MM/YYYY", true);
         let returnDate: Date;
         if (date2.isValid() === true) {
@@ -225,18 +238,18 @@ export class CalculateService {
         }
         RowNo++;
       });
-      const lookupRow = lookups[0].lookup[outputRowNo];
+      const lookupRow = lookups[outputRowNo];
       return lookupRow[row.data.lookupTable.ColumnNo];
     } else {
       let outputRowNo = 0;
       let RowNo = 0;
-      lookups[0].lookup.forEach(element => {
+      lookups.forEach(element => {
         if (LookupValue === element[0]) {
           outputRowNo = RowNo;
         }
         RowNo++;
       });
-      const lookupRow = lookups[0].lookup[outputRowNo];
+      const lookupRow = lookups[outputRowNo];
       return lookupRow[row.data.lookupTable.ColumnNo];
     }
   }

@@ -28,6 +28,25 @@ exports.distanceMatrixProxy = functions.https.onRequest((req, res) => {
   });
 
 });
+exports.getLookupTable = functions.https.onRequest((req, res) => {
+  /// Wrap request with cors
+  cors(req, res, () => {
+    /// Get the url params
+    const Name = req.query.Name
+    try {
+      console.log(Name);
+        const snapshot = admin.database().ref(`/lookups/${Name}`).once('value').then(snapshot => {
+        console.log(snapshot);
+        res.status(200).send(snapshot.val())
+      })
+    }
+    catch (error) {
+      console.log(error)
+      return res.status(200).send(error);
+    }
+  });
+
+});
 /// Helper to format the request URL
 function formatUrl(Origin, Destination) {
   const apiKey = functions.config().distancematrix.key

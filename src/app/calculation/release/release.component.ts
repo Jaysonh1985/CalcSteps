@@ -201,51 +201,51 @@ export class ReleaseComponent implements OnInit {
           if (configuration.data.conditionResult === true) {
             const oldOutput = configuration.data.output;
             if (configuration.data.functionType === "Distance") {
-              this.calculateService
-                .runCalculationObservable(
-                  configuration,
-                  autoCompleteAll,
-                  this.authService,
-                  this.lookupService,
-                  this.calcService
-                )
-                .subscribe(data => {
-                  if (data["status"] === "OK") {
-                    configuration.data.output = this.calculateService.getDistanceCalculation(data);
-                    if (oldOutput !== configuration.data.output) {
-                      this.CalculationConfigurationComponent.setRowOuput(
-                        configuration.id,
-                        configuration.data,
-                        true
-                      );
-                      this.calcOutput();
-                    }
-                  }
-                });
+              // this.calculateService
+              //   .runDistanceCalculationPromise(
+              //     configuration,
+              //     autoCompleteAll,
+              //     this.authService,
+              //     this.lookupService,
+              //     this.calcService
+              //   )
+              //   .subscribe(data => {
+              //     if (data["status"] === "OK") {
+              //       configuration.data.output = this.calculateService.getDistanceCalculation(data);
+              //       if (oldOutput !== configuration.data.output) {
+              //         this.CalculationConfigurationComponent.setRowOuput(
+              //           configuration.id,
+              //           configuration.data,
+              //           true
+              //         );
+              //         this.calcOutput();
+              //       }
+              //     }
+              //   });
             } else if (configuration.data.functionType === "Lookup Table") {
-              this.calculateService
-                .runCalculationObservable(
-                  configuration,
-                  autoCompleteAll,
-                  this.authService,
-                  this.lookupService,
-                  this.calcService
-                )
-                .subscribe(lookups => {
-                  configuration.data.output = this.calculateService.getLookupTableCalculation(
-                    configuration,
-                    lookups[0].LookupValue,
-                    lookups
-                  );
-                  if (oldOutput !== configuration.data.output) {
-                    this.CalculationConfigurationComponent.setRowOuput(
-                      configuration.id,
-                      configuration.data,
-                      true
-                    );
-                    this.calcOutput();
-                  }
-                });
+              // this.calculateService
+              //   .runCalculationObservable(
+              //     configuration,
+              //     autoCompleteAll,
+              //     this.authService,
+              //     this.lookupService,
+              //     this.calcService
+              //   )
+              //   .subscribe(lookups => {
+              //     configuration.data.output = this.calculateService.getLookupTableCalculation(
+              //       configuration,
+              //       lookups[0].LookupValue,
+              //       lookups
+              //     );
+              //     if (oldOutput !== configuration.data.output) {
+              //       this.CalculationConfigurationComponent.setRowOuput(
+              //         configuration.id,
+              //         configuration.data,
+              //         true
+              //       );
+              //       this.calcOutput();
+              //     }
+              //   });
             } else {
               configuration.data.output = this.calculateService.runCalculation(
                 configuration,

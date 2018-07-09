@@ -90,8 +90,7 @@ export class CalculationOutputComponent implements OnInit {
     if (this.release === true) {
       this.outputGridOptions.columnApi.setColumnsVisible(
         ["variable"],
-        false,
-        "api"
+        false
       );
     }
     const allColumnIds = [];

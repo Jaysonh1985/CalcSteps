@@ -120,8 +120,7 @@ export class CalculationInputComponent implements OnInit {
     if (this.release === true) {
       this.inputGridOptions.columnApi.setColumnsVisible(
         ["required", "dropDownList", "dropDownValues"],
-        false,
-        "api"
+        false
       );
     }
     this.gridColumnApi = params.columnApi;

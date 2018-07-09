@@ -1,7 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { AuthService, User } from "../../shared/services/auth.service";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+
+import { AuthService, User } from "../../shared/services/auth.service";
+
 @Component({
   selector: "app-signup",
   templateUrl: "./signup.component.html",

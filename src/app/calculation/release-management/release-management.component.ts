@@ -1,9 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { ReleaseService } from "../shared/services/release.service";
-import { Release } from "../shared/models/release";
 import { ActivatedRoute, Router } from "@angular/router";
-import { CalculationService } from "../shared/services/calculation.service";
+
 import { Calculation } from "../shared/models/calculation";
+import { Release } from "../shared/models/release";
+import { CalculationService } from "../shared/services/calculation.service";
+import { ReleaseService } from "../shared/services/release.service";
 
 @Component({
   selector: "app-release-management",

@@ -1,9 +1,9 @@
-import { trigger, state, animate, style, transition } from "@angular/core";
+import { animate, state, style, transition, trigger } from "@angular/core";
 
 export function moveIn() {
   return trigger("moveIn", [
-    state("void", style({ })),
-    state("*", style({ })),
+    state("void", style({})),
+    state("*", style({})),
     transition(":enter", [
       style({ opacity: "0", transform: "translateX(1000px)" }),
       animate(
@@ -25,11 +25,17 @@ export function fallIn() {
   return trigger("fallIn", [
     transition(":enter", [
       style({ opacity: "0", transform: "translateY(40px)" }),
-      animate(".4s .2s ease-in-out", style({ opacity: "1", transform: "translateY(0)" }))
+      animate(
+        ".4s .2s ease-in-out",
+        style({ opacity: "1", transform: "translateY(0)" })
+      )
     ]),
     transition(":leave", [
       style({ opacity: "1", transform: "translateX(0)" }),
-      animate(".3s ease-in-out", style({ opacity: "0", transform: "translateX(-200px)" }))
+      animate(
+        ".3s ease-in-out",
+        style({ opacity: "0", transform: "translateX(-200px)" })
+      )
     ])
   ]);
 }
@@ -38,7 +44,10 @@ export function moveInLeft() {
   return trigger("moveInLeft", [
     transition(":enter", [
       style({ opacity: "0", transform: "translateX(-100px)" }),
-      animate(".6s .2s ease-in-out", style({ opacity: "1", transform: "translateX(0)" }))
+      animate(
+        ".6s .2s ease-in-out",
+        style({ opacity: "1", transform: "translateX(0)" })
+      )
     ])
   ]);
 }

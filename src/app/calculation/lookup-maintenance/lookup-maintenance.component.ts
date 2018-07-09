@@ -1,9 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { LookupService } from "../../calculation/shared/services/lookup.service";
 import { MatDialog } from "@angular/material";
-import { AuthService } from "../../shared/services/auth.service";
-import { InputDialogComponent } from "../../shared/input-dialog/input-dialog.component";
 import { Router } from "@angular/router";
+
+import { LookupService } from "../../calculation/shared/services/lookup.service";
+import { InputDialogComponent } from "../../shared/input-dialog/input-dialog.component";
+import { AuthService } from "../../shared/services/auth.service";
 import { Lookup } from "../shared/models/lookup";
 
 @Component({

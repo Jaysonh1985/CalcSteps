@@ -1,12 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { GridOptions } from "ag-grid";
-import { Grid } from "ag-grid";
-import { tryParse } from "selenium-webdriver/http";
-import { CalculationInput } from "../shared/models/calculation-input";
-import { CalculationError } from "../shared/models/calculation-error";
-import * as moment from "moment";
 import "moment/locale/pt-br";
+
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { GridOptions } from "ag-grid";
+import * as moment from "moment";
+
+import { CalculationError } from "../shared/models/calculation-error";
+import { CalculationInput } from "../shared/models/calculation-input";
 import { AutoCompleteService } from "../shared/services/auto-complete.service";
+
 @Component({
   selector: "app-calculation-input",
   templateUrl: "./calculation-input.component.html",

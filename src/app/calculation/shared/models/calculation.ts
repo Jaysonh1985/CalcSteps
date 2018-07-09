@@ -1,6 +1,6 @@
+import { CalculationConfiguration } from "./calculation-configuration";
 import { CalculationInput } from "./calculation-input";
 import { CalculationOutput } from "./calculation-output";
-import { CalculationConfiguration } from "./calculation-configuration";
 
 export class Calculation {
   $key: string;

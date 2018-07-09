@@ -1,25 +1,13 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  ViewChild,
-  Output,
-  EventEmitter
-} from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { GridOptions } from "ag-grid";
-import { Grid } from "ag-grid";
-import { Maths } from "../functions/function-maths/function-maths.component";
-import { CalculationConfiguration } from "../shared/models/calculation-configuration";
+
 import { CalculationInputComponent } from "../calculation-input/calculation-input.component";
-import { CalculationService } from "../shared/services/calculation.service";
-import { concat } from "rxjs/operators";
-import { DateAdapter } from "@angular/material";
 import { DateAdjustment } from "../functions/function-date-adjustment/function-date-adjustment.component";
 import { DateDuration } from "../functions/function-date-duration/function-date-duration.component";
-import { IfLogic } from "../functions/function-if-logic/function-if-logic.component";
-import { AutoCompleteService } from "../shared/services/auto-complete.service";
 import { Distance } from "../functions/function-distance/function-distance.component";
 import { LookupTable } from "../functions/function-lookup-table/function-lookup-table.component";
+import { CalculationConfiguration } from "../shared/models/calculation-configuration";
+import { AutoCompleteService } from "../shared/services/auto-complete.service";
 
 @Component({
   selector: "app-calculation-configuration",

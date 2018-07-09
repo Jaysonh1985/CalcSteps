@@ -1,20 +1,20 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { CalculationService } from "./shared/services/calculation.service";
-import { CalculationInput } from "./shared/models/calculation-input";
-import { CalculationOutput } from "./shared/models/calculation-output";
-import { CalculationConfiguration } from "./shared/models/calculation-configuration";
+import { MatDialog, MatSnackBar } from "@angular/material";
+import { ActivatedRoute, Router } from "@angular/router";
+
+import { CalculateService } from "../calculation/shared/services/calculate.service";
+import { LookupService } from "../calculation/shared/services/lookup.service";
+import { ConfirmationDialogComponent } from "../shared/confirmation-dialog/confirmation-dialog.component";
+import { AuthService } from "../shared/services/auth.service";
+import { CalculationConfigurationComponent } from "./calculation-configuration/calculation-configuration.component";
 import { CalculationInputComponent } from "./calculation-input/calculation-input.component";
 import { CalculationOutputComponent } from "./calculation-output/calculation-output.component";
-import { CalculationConfigurationComponent } from "./calculation-configuration/calculation-configuration.component";
-import { Router } from "@angular/router";
+import { CalculationConfiguration } from "./shared/models/calculation-configuration";
 import { CalculationError } from "./shared/models/calculation-error";
-import { MatSnackBar, MatDialog } from "@angular/material";
-import { ConfirmationDialogComponent } from "../shared/confirmation-dialog/confirmation-dialog.component";
+import { CalculationInput } from "./shared/models/calculation-input";
+import { CalculationOutput } from "./shared/models/calculation-output";
 import { AutoCompleteService } from "./shared/services/auto-complete.service";
-import { LookupService } from "../calculation/shared/services/lookup.service";
-import { CalculateService } from "../calculation/shared/services/calculate.service";
-import { AuthService } from "../shared/services/auth.service";
+import { CalculationService } from "./shared/services/calculation.service";
 
 @Component({
   selector: "app-calculation",
@@ -157,71 +157,73 @@ export class CalculationComponent implements OnInit {
       });
     }
     if (this.isErrors === false) {
-
       for (const configuration of this.CalculationConfigurationComponent.getAllRowsNodes()) {
-          let autoCompleteConfig = [];
-          let autoCompleteAll = [];
-          autoCompleteConfig = this.CalculationConfigurationComponent.getAllRowsNodesbyIndex(
+        let autoCompleteConfig = [];
+        let autoCompleteAll = [];
+        autoCompleteConfig = this.CalculationConfigurationComponent.getAllRowsNodesbyIndex(
+          configuration.rowIndex
+        );
+        autoCompleteAll = autoCompleteInputs.concat(autoCompleteConfig);
+        configuration.data.conditionResult = this.calculateService.runCondition(
+          configuration,
+          autoCompleteAll
+        );
+        if (configuration.data.conditionResult === false) {
+          const output = this.CalculationConfigurationComponent.getFinalRowNodesbyNameIndex(
+            configuration.data.name,
             configuration.rowIndex
           );
-          autoCompleteAll = autoCompleteInputs.concat(autoCompleteConfig);
-          configuration.data.conditionResult = this.calculateService.runCondition(
-            configuration,
-            autoCompleteAll
-          );
-          if (configuration.data.conditionResult === false) {
-            const output = this.CalculationConfigurationComponent.getFinalRowNodesbyNameIndex(
-              configuration.data.name,
-              configuration.rowIndex
-            );
-            if (output === undefined) {
-              if (configuration.data.data === "Number") {
-                configuration.data.output = 0;
-              } else {
-                configuration.data.output = "";
-              }
+          if (output === undefined) {
+            if (configuration.data.data === "Number") {
+              configuration.data.output = 0;
             } else {
-              configuration.data.output = output;
+              configuration.data.output = "";
             }
-          }
-          this.CalculationConfigurationComponent.setRowOuput(
-            configuration.id,
-            configuration.data,
-            false
-          );
-          if (configuration.data.conditionResult === true) {
-            const oldOutput = configuration.data.output;
-            if (configuration.data.functionType === "Distance") {
-              configuration.data.output = await this.calculateService.runDistanceCalculationPromise(configuration, autoCompleteAll,
-                this.authService, this.lookupService, this.calcService);
-            } else if (configuration.data.functionType === "Lookup Table") {
-              configuration.data.output = await this.calculateService
-                .runLookupCalculationPromise2(
-                  configuration,
-                  autoCompleteAll,
-                  this.authService,
-                  this.lookupService,
-                  this.calcService
-                );
-            } else {
-              configuration.data.output = this.calculateService.runCalculation(
-                configuration,
-                autoCompleteAll,
-                this.authService,
-                this.lookupService,
-                this.calcService
-              );
-            }
-            if (oldOutput !== configuration.data.output) {
-              this.CalculationConfigurationComponent.setRowOuput(
-                configuration.id,
-                configuration.data,
-                true
-              );
-
-            }
+          } else {
+            configuration.data.output = output;
           }
         }
+        this.CalculationConfigurationComponent.setRowOuput(
+          configuration.id,
+          configuration.data,
+          false
+        );
+        if (configuration.data.conditionResult === true) {
+          const oldOutput = configuration.data.output;
+          if (configuration.data.functionType === "Distance") {
+            configuration.data.output = await this.calculateService.runDistanceCalculationPromise(
+              configuration,
+              autoCompleteAll,
+              this.authService,
+              this.lookupService,
+              this.calcService
+            );
+          } else if (configuration.data.functionType === "Lookup Table") {
+            configuration.data.output = await this.calculateService.runLookupCalculationPromise2(
+              configuration,
+              autoCompleteAll,
+              this.authService,
+              this.lookupService,
+              this.calcService
+            );
+          } else {
+            configuration.data.output = this.calculateService.runCalculation(
+              configuration,
+              autoCompleteAll,
+              this.authService,
+              this.lookupService,
+              this.calcService
+            );
+          }
+          if (oldOutput !== configuration.data.output) {
+            this.CalculationConfigurationComponent.setRowOuput(
+              configuration.id,
+              configuration.data,
+              true
+            );
+          }
+        }
+      }
       this.snackBar.open("Calculated Successfully", "Success", {
         duration: 2000
       });

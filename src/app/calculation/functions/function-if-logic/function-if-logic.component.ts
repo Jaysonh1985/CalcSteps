@@ -1,9 +1,9 @@
-import { Component, OnInit, Input } from "@angular/core";
-import * as mathJs from "mathjs";
+import { Component, Input, OnInit } from "@angular/core";
 import * as expeval from "expr-eval";
-import { CalculationError } from "../../shared/models/calculation-error";
 import { Observable } from "rxjs/Observable";
-import { ifError } from "assert";
+
+import { CalculationError } from "../../shared/models/calculation-error";
+
 export class IfLogic {
   bracketOpen: string;
   input1: string;

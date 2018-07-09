@@ -1,7 +1,9 @@
-import { Component, OnInit, HostBinding } from "@angular/core";
-import { AuthService } from "../../shared/services/auth.service";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+
+import { AuthService } from "../../shared/services/auth.service";
+
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",

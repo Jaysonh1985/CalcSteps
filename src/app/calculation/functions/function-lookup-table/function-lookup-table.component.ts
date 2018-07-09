@@ -1,10 +1,12 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { CalculationError } from "../../shared/models/calculation-error";
-import { Observable } from "rxjs/Observable";
-import { AuthService } from "../../../shared/services/auth.service";
-import { LookupService } from "../../shared/services/lookup.service";
-import * as moment from "moment";
 import "moment/locale/pt-br";
+
+import { Component, Input, OnInit } from "@angular/core";
+import * as moment from "moment";
+
+import { AuthService } from "../../../shared/services/auth.service";
+import { CalculationError } from "../../shared/models/calculation-error";
+import { LookupService } from "../../shared/services/lookup.service";
+
 export class LookupTable {
   TableName: string;
   LookupType: string;

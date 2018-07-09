@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { GridOptions } from "ag-grid";
-import { Grid } from "ag-grid";
-import { tryParse } from "selenium-webdriver/http";
+
 import { CalculationOutput } from "../shared/models/calculation-output";
 
 @Component({

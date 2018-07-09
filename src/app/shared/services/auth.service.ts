@@ -1,14 +1,10 @@
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 import { AngularFireAuth } from "angularfire2/auth";
+import { AngularFireDatabase, AngularFireList } from "angularfire2/database";
 import * as firebase from "firebase/app";
 import { Observable } from "rxjs/Observable";
-import { Router } from "@angular/router";
-import {
-  AngularFireDatabase,
-  AngularFireList,
-  AngularFireObject,
-  snapshotChanges
-} from "angularfire2/database";
+
 import { CalculationService } from "../../calculation/shared/services/calculation.service";
 import { ReleaseService } from "../../calculation/shared/services/release.service";
 

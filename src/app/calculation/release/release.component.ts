@@ -1,30 +1,25 @@
+import "moment/locale/pt-br";
+
+import { HttpClient } from "@angular/common/http";
 import { Component, OnInit, ViewChild } from "@angular/core";
+import { MatDialog, MatSnackBar } from "@angular/material";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ReleaseService } from "../shared/services/release.service";
-import { CalculationConfiguration } from "../shared/models/calculation-configuration";
-import { CalculationInput } from "../shared/models/calculation-input";
-import { CalculationOutput } from "../shared/models/calculation-output";
+
+import { fallIn, moveIn, moveInLeft } from "../../router.animations";
+import { AuthService } from "../../shared/services/auth.service";
+import { CalculationConfigurationComponent } from "../calculation-configuration/calculation-configuration.component";
 import { CalculationInputComponent } from "../calculation-input/calculation-input.component";
 import { CalculationOutputComponent } from "../calculation-output/calculation-output.component";
-import { CalculationConfigurationComponent } from "../calculation-configuration/calculation-configuration.component";
 import { CalculationComponent } from "../calculation.component";
-import { CalculationService } from "../shared/services/calculation.service";
+import { CalculationConfiguration } from "../shared/models/calculation-configuration";
 import { CalculationError } from "../shared/models/calculation-error";
-import { moveIn, fallIn, moveInLeft } from "../../router.animations";
-import { MatSnackBar, MatDialog } from "@angular/material";
+import { CalculationInput } from "../shared/models/calculation-input";
+import { CalculationOutput } from "../shared/models/calculation-output";
 import { AutoCompleteService } from "../shared/services/auto-complete.service";
-import { HttpClient } from "@angular/common/http";
-import { FunctionMathsComponent } from "../functions/function-maths/function-maths.component";
-import { FunctionDateAdjustmentComponent } from "../functions/function-date-adjustment/function-date-adjustment.component";
-import { FunctionDateDurationComponent } from "../functions/function-date-duration/function-date-duration.component";
-import { FunctionIfLogicComponent } from "../functions/function-if-logic/function-if-logic.component";
-import { FunctionDistanceComponent } from "../functions/function-distance/function-distance.component";
-import { AuthService } from "../../shared/services/auth.service";
-import { LookupService } from "../shared/services/lookup.service";
-import { FunctionLookupTableComponent } from "../functions/function-lookup-table/function-lookup-table.component";
-import * as moment from "moment";
-import "moment/locale/pt-br";
 import { CalculateService } from "../shared/services/calculate.service";
+import { CalculationService } from "../shared/services/calculation.service";
+import { LookupService } from "../shared/services/lookup.service";
+import { ReleaseService } from "../shared/services/release.service";
 
 @Component({
   selector: "app-release",

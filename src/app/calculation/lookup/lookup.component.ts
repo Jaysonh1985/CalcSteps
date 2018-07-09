@@ -1,11 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { GridOptions, GridApi } from "ag-grid";
-import { Grid } from "ag-grid";
 import { MatDialog, MatSnackBar } from "@angular/material";
-import { LookupDialogComponent } from "./lookup-dialog/lookup-dialog.component";
+import { ActivatedRoute } from "@angular/router";
+import { GridApi, GridOptions } from "ag-grid";
+
 import { Lookup } from "../shared/models/lookup";
 import { LookupService } from "../shared/services/lookup.service";
-import { Router, ActivatedRoute } from "@angular/router";
+import { LookupDialogComponent } from "./lookup-dialog/lookup-dialog.component";
 
 @Component({
   selector: "app-lookup",

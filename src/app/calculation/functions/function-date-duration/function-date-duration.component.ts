@@ -1,11 +1,10 @@
-import { Component, OnInit, Input } from "@angular/core";
-import * as moment from "moment";
 import "moment/locale/pt-br";
-import { CalculationError } from "../../shared/models/calculation-error";
-import { DateFilter } from "ag-grid";
-import { FormControl } from "@angular/forms";
+
+import { Component, Input, OnInit } from "@angular/core";
+import * as moment from "moment";
 import { Observable } from "rxjs/observable";
-import { map, startWith } from "rxjs/operators";
+
+import { CalculationError } from "../../shared/models/calculation-error";
 
 export class DateDuration {
   type: string;

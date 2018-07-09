@@ -1,13 +1,9 @@
-import { Component, OnInit, Input, ViewChild } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import * as mathJs from "mathjs";
-import { CalculationConfiguration } from "../../shared/models/calculation-configuration";
-import { CalculationInputComponent } from "../../calculation-input/calculation-input.component";
-import { CalculationOutputComponent } from "../../calculation-output/calculation-output.component";
-import { parse } from "querystring";
-import { MatSelect } from "@angular/material";
-import { map, startWith, concat } from "rxjs/operators";
-import { CalculationError } from "../../shared/models/calculation-error";
 import { Observable } from "rxjs/Observable";
+
+import { CalculationError } from "../../shared/models/calculation-error";
+
 export class Maths {
   bracketOpen: string;
   input1: string;

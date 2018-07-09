@@ -1,10 +1,10 @@
-import { Maths } from "../../functions/function-maths/function-maths.component";
-import { CalculationError } from "./calculation-error";
 import { DateAdjustment } from "../../functions/function-date-adjustment/function-date-adjustment.component";
 import { DateDuration } from "../../functions/function-date-duration/function-date-duration.component";
-import { IfLogic } from "../../functions/function-if-logic/function-if-logic.component";
 import { Distance } from "../../functions/function-distance/function-distance.component";
+import { IfLogic } from "../../functions/function-if-logic/function-if-logic.component";
 import { LookupTable } from "../../functions/function-lookup-table/function-lookup-table.component";
+import { Maths } from "../../functions/function-maths/function-maths.component";
+import { CalculationError } from "./calculation-error";
 
 export class CalculationConfiguration {
   group: string;

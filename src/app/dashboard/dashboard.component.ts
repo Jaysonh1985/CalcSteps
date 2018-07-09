@@ -1,27 +1,19 @@
-import { Component, OnInit, Injectable } from "@angular/core";
-import { Router } from "@angular/router";
-import { Observable } from "rxjs/Observable";
-import { Calculation } from "../calculation/shared/models/calculation";
-import { CalculationService } from "../calculation/shared/services/calculation.service";
-import {
-  AngularFireDatabase,
-  AngularFireList,
-  AngularFireObject
-} from "angularfire2/database";
-import { CalculationInput } from "../calculation/shared/models/calculation-input";
-import { CalculationOutput } from "../calculation/shared/models/calculation-output";
-import { CalculationConfiguration } from "../calculation/shared/models/calculation-configuration";
-import { CalculationInputComponent } from "../calculation/calculation-input/calculation-input.component";
-import { CalculationOutputComponent } from "../calculation/calculation-output/calculation-output.component";
-import { CalculationConfigurationComponent } from "../calculation/calculation-configuration/calculation-configuration.component";
-import { ReleaseService } from "../calculation/shared/services/release.service";
+import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material";
-import { InputDialogComponent } from "../shared/input-dialog/input-dialog.component";
-import { AuthService } from "../shared/services/auth.service";
+import { Router } from "@angular/router";
+
 import { DateAdjustment } from "../calculation/functions/function-date-adjustment/function-date-adjustment.component";
 import { DateDuration } from "../calculation/functions/function-date-duration/function-date-duration.component";
 import { Distance } from "../calculation/functions/function-distance/function-distance.component";
 import { LookupTable } from "../calculation/functions/function-lookup-table/function-lookup-table.component";
+import { Calculation } from "../calculation/shared/models/calculation";
+import { CalculationConfiguration } from "../calculation/shared/models/calculation-configuration";
+import { CalculationInput } from "../calculation/shared/models/calculation-input";
+import { CalculationOutput } from "../calculation/shared/models/calculation-output";
+import { CalculationService } from "../calculation/shared/services/calculation.service";
+import { ReleaseService } from "../calculation/shared/services/release.service";
+import { InputDialogComponent } from "../shared/input-dialog/input-dialog.component";
+import { AuthService } from "../shared/services/auth.service";
 
 @Component({
   selector: "app-dashboard",

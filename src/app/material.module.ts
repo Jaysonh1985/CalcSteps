@@ -1,17 +1,16 @@
 import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
 import {
   MatAutocompleteModule,
   MatButtonModule,
-  MatToolbarModule,
-  MatSidenavModule,
-  MatListModule,
-  MatIconModule,
   MatCardModule,
   MatDialogModule,
-  MatSnackBarModule,
+  MatIconModule,
   MatInputModule,
-  MatSelectModule
+  MatListModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatSnackBarModule,
+  MatToolbarModule
 } from "@angular/material";
 
 @NgModule({

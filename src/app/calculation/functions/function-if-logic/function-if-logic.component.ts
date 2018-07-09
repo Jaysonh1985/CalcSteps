@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import * as expeval from "expr-eval";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 
 import { CalculationError } from "../../shared/models/calculation-error";
 

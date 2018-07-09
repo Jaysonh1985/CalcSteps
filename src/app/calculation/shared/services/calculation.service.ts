@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { Calculation } from "../models/calculation";
 import {
   AngularFireDatabase,
@@ -7,7 +7,6 @@ import {
   AngularFireObject,
   snapshotChanges
 } from "angularfire2/database";
-import { query } from "@angular/core/src/animation/dsl";
 import { nodeChildrenAsMap } from "@angular/router/src/utils/tree";
 import { ReleaseService } from "./release.service";
 import { HttpClient, HttpParams } from "@angular/common/http";

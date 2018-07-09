@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { AngularFireAuth } from "angularfire2/auth";
 import { AngularFireDatabase, AngularFireList } from "angularfire2/database";
 import * as firebase from "firebase/app";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 
 import { CalculationService } from "../../calculation/shared/services/calculation.service";
 import { ReleaseService } from "../../calculation/shared/services/release.service";

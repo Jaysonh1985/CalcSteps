@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from "@angular/core";
 import * as moment from "moment";
 import "moment/locale/pt-br";
 import { CalculationError } from "../../shared/models/calculation-error";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 
 export class DateAdjustment {
   type: string;

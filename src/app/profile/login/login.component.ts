@@ -1,5 +1,5 @@
 import { Component, OnInit, HostBinding } from "@angular/core";
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "../../services/auth.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 @Component({
@@ -53,6 +53,8 @@ export class LoginComponent implements OnInit {
         if (err.code === "auth/wrong-password") {
           this.passwordIncorrect = true;
         } else if (err.code === "auth/invalid-email") {
+          this.emailNotFound = true;
+        } else if (err.code === "auth/user-not-found") {
           this.emailNotFound = true;
         }
       });

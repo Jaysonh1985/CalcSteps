@@ -11,7 +11,7 @@ import "rxjs/add/operator/switchMap";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/map";
 import { retry } from "rxjs/operators";
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "../../services/auth.service";
 import { Observable } from "rxjs/Observable";
 
 @Injectable()

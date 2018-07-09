@@ -1,17 +1,16 @@
 import { ModuleWithProviders } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
-import { AppComponent } from "./app.component";
-import { HomeComponent } from "./home/home.component";
-import { LoginComponent } from "./login/login.component";
+import { RouterModule, Routes } from "@angular/router";
+
 import { CalculationComponent } from "./calculation/calculation.component";
-import { DashboardComponent } from "./dashboard/dashboard.component";
-import { AuthGuardService } from "./services/auth-guard.service";
-import { SignupComponent } from "./signup/signup.component";
-import { AccountComponent } from "./account/account.component";
+import { LookupMaintenanceComponent } from "./calculation/lookup-maintenance/lookup-maintenance.component";
+import { LookupComponent } from "./calculation/lookup/lookup.component";
 import { ReleaseManagementComponent } from "./calculation/release-management/release-management.component";
 import { ReleaseComponent } from "./calculation/release/release.component";
-import { LookupComponent } from "./calculation/lookup/lookup.component";
-import { LookupMaintenanceComponent } from "./calculation/lookup-maintenance/lookup-maintenance.component";
+import { DashboardComponent } from "./dashboard/dashboard.component";
+import { HomeComponent } from "./home/home.component";
+import { AccountComponent } from "./profile/account/account.component";
+import { LoginComponent } from "./profile/login/login.component";
+import { SignupComponent } from "./profile/signup/signup.component";
 
 export const router: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },

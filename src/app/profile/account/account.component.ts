@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { AuthService } from "../../services/auth.service";
+import { AuthService } from "../../shared/services/auth.service";
 import { Router } from "@angular/router";
 import { MatSnackBar, MatDialog } from "@angular/material";
 import { ConfirmationDialogComponent } from "../../shared/confirmation-dialog/confirmation-dialog.component";

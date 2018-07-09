@@ -9,8 +9,8 @@ import {
   AngularFireObject,
   snapshotChanges
 } from "angularfire2/database";
-import { CalculationService } from "../calculation/shared/services/calculation.service";
-import { ReleaseService } from "../calculation/shared/services/release.service";
+import { CalculationService } from "../../calculation/shared/services/calculation.service";
+import { ReleaseService } from "../../calculation/shared/services/release.service";
 
 export class User {
   uid: string;

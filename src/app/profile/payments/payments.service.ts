@@ -1,17 +1,13 @@
 import { Injectable } from "@angular/core";
 import {
   AngularFireDatabase,
-  AngularFireList,
-  AngularFireObject,
-  snapshotChanges
+  AngularFireObject
 } from "angularfire2/database";
 import { AngularFireAuth } from "angularfire2/auth";
 import * as firebase from "firebase/app";
 import "rxjs/add/operator/switchMap";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/map";
-import { retry } from "rxjs/operators";
-import { AuthService } from "../../services/auth.service";
 import { Observable } from "rxjs/Observable";
 
 @Injectable()

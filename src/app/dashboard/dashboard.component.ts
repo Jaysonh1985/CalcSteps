@@ -17,7 +17,7 @@ import { CalculationConfigurationComponent } from "../calculation/calculation-co
 import { ReleaseService } from "../calculation/shared/services/release.service";
 import { MatDialog } from "@angular/material";
 import { InputDialogComponent } from "../shared/input-dialog/input-dialog.component";
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "../shared/services/auth.service";
 import { DateAdjustment } from "../calculation/functions/function-date-adjustment/function-date-adjustment.component";
 import { DateDuration } from "../calculation/functions/function-date-duration/function-date-duration.component";
 import { Distance } from "../calculation/functions/function-distance/function-distance.component";

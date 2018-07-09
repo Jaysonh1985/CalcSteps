@@ -37,7 +37,7 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { HomeComponent } from "./home/home.component";
 import { MaterialModule } from "./material.module";
 
-import { AuthService } from "./services/auth.service";
+import { AuthService } from "./shared/services/auth.service";
 import { ConfirmationDialogComponent } from "./shared/confirmation-dialog/confirmation-dialog.component";
 import { InputDialogComponent } from "./shared/input-dialog/input-dialog.component";
 import { ProfileModule } from "./profile/profile.module";

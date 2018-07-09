@@ -13,7 +13,7 @@ import { MaterialModule } from "../material.module";
 import { AppComponent } from "../app.component";
 import { routes } from "../app.router";
 import { FlexLayoutModule } from "@angular/flex-layout";
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "../shared/services/auth.service";
 
 @NgModule({
   imports: [

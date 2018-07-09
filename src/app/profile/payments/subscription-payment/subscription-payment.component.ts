@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { PaymentsService } from "../payments.service";
 import { environment } from "../../../../environments/environment";
-import { AuthService } from "../../../services/auth.service";
+import { AuthService } from "../../../shared/services/auth.service";
 import { MatSnackBar, MatDialog } from "@angular/material";
 import { ConfirmationDialogComponent } from "../../../shared/confirmation-dialog/confirmation-dialog.component";
 

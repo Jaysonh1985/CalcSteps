@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { CalculationError } from "../../shared/models/calculation-error";
 import { Observable } from "rxjs/Observable";
-import { AuthService } from "../../../services/auth.service";
+import { AuthService } from "../../../shared/services/auth.service";
 import { LookupService } from "../../shared/services/lookup.service";
 import * as moment from "moment";
 import "moment/locale/pt-br";

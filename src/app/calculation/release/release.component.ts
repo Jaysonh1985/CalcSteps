@@ -19,7 +19,7 @@ import { FunctionDateAdjustmentComponent } from "../functions/function-date-adju
 import { FunctionDateDurationComponent } from "../functions/function-date-duration/function-date-duration.component";
 import { FunctionIfLogicComponent } from "../functions/function-if-logic/function-if-logic.component";
 import { FunctionDistanceComponent } from "../functions/function-distance/function-distance.component";
-import { AuthService } from "../../services/auth.service";
+import { AuthService } from "../../shared/services/auth.service";
 import { LookupService } from "../shared/services/lookup.service";
 import { FunctionLookupTableComponent } from "../functions/function-lookup-table/function-lookup-table.component";
 import * as moment from "moment";

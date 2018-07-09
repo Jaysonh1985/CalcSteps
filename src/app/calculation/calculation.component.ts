@@ -14,7 +14,7 @@ import { ConfirmationDialogComponent } from "../shared/confirmation-dialog/confi
 import { AutoCompleteService } from "./shared/services/auto-complete.service";
 import { LookupService } from "../calculation/shared/services/lookup.service";
 import { CalculateService } from "../calculation/shared/services/calculate.service";
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "../shared/services/auth.service";
 
 @Component({
   selector: "app-calculation",

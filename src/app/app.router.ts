@@ -26,4 +26,4 @@ export const router: Routes = [
   { path: "lookup/:key", component: LookupComponent }
 ];
 
-export const routes: ModuleWithProviders = RouterModule.forRoot(router);
+export const RouteModule: ModuleWithProviders = RouterModule.forRoot(router);

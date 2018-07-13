@@ -2,7 +2,7 @@ import "moment/locale/pt-br";
 
 import { Component, Input, OnInit } from "@angular/core";
 import * as moment from "moment";
-import { Observable } from "rxjs/observable";
+import { Observable } from "rxjs/Observable";
 
 import { CalculationError } from "../../shared/models/calculation-error";
 

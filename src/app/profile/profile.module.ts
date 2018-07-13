@@ -5,16 +5,17 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import {
   FormsModule,
   ReactiveFormsModule
-} from "../../../node_modules/@angular/forms";
+} from "@angular/forms";
 import { AppComponent } from "../app.component";
-import { routes } from "../app.router";
+import { RouteModule } from "../app.router";
 import { MaterialModule } from "../material.module";
-import { AccountComponent } from "../profile/account/account.component";
-import { LoginComponent } from "../profile/login/login.component";
-import { PaymentsService } from "../profile/payments/payments.service";
-import { SubscriptionPaymentComponent } from "../profile/payments/subscription-payment/subscription-payment.component";
-import { SignupComponent } from "../profile/signup/signup.component";
+import { AccountComponent } from "./account/account.component";
+import { LoginComponent } from "./login/login.component";
+import { PaymentsService } from "./payments/payments.service";
+import { SubscriptionPaymentComponent } from "./payments/subscription-payment/subscription-payment.component";
+import { SignupComponent } from "./signup/signup.component";
 import { AuthService } from "../shared/services/auth.service";
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { AuthService } from "../shared/services/auth.service";
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
-    routes
+    RouteModule,
+    SharedModule
   ],
   declarations: [
     LoginComponent,

@@ -1,0 +1,6 @@
+.example-sidenav {
+  background: #353535;
+  color: white;
+  display: flex;
+  width: 200px;
+}

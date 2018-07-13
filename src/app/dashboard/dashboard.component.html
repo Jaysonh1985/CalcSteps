@@ -1,27 +1,7 @@
-<mat-toolbar style="background: darkslateblue;
-    color: white;">
-  <h1>Calculations</h1>
-</mat-toolbar>
+<app-toolbar [title]="'Dashboard'"></app-toolbar>
 <mat-sidenav-container class="example-container">
   <mat-sidenav #sidenav mode="side" opened="true" style="background: #353535; color: white;" class="example-sidenav">
-    <mat-nav-list>
-      <mat-list-item style="color: white" routerLink="../">
-        <mat-icon matListIcon>home</mat-icon>
-        <h3 matLine> Home</h3>
-      </mat-list-item>
-      <mat-list-item style="color: white" routerLink="../account">
-        <mat-icon matListIcon>account_circle</mat-icon>
-        <h3 matLine> Account</h3>
-      </mat-list-item>
-      <mat-list-item style="color: white" routerLink="../lookup-maintenance">
-        <mat-icon matListIcon>search</mat-icon>
-        <h3 matLine> Lookup Tables</h3>
-      </mat-list-item>
-      <mat-list-item style="color: white" routerLink="../account">
-        <mat-icon matListIcon>help_outline</mat-icon>
-        <h3 matLine>Help</h3>
-      </mat-list-item>
-    </mat-nav-list>
+    <app-sidenav [sideNav]="config.sideNav"></app-sidenav>
   </mat-sidenav>
   <mat-sidenav-content style="height:90%">
     <div class="container" style="height:90%">

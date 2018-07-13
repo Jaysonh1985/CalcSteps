@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatDialog, MatSnackBar } from "@angular/material";
 import { ActivatedRoute, Router } from "@angular/router";
 
-import { CalculateService } from "../calculation/shared/services/calculate.service";
-import { LookupService } from "../calculation/shared/services/lookup.service";
-import { ConfirmationDialogComponent } from "../shared/confirmation-dialog/confirmation-dialog.component";
+import { CalculateService } from "./shared/services/calculate.service";
+import { LookupService } from "./shared/services/lookup.service";
+import { ConfirmationDialogComponent } from "../shared/components/confirmation-dialog/confirmation-dialog.component";
 import { AuthService } from "../shared/services/auth.service";
 import { CalculationConfigurationComponent } from "./calculation-configuration/calculation-configuration.component";
 import { CalculationInputComponent } from "./calculation-input/calculation-input.component";
@@ -43,6 +43,13 @@ export class CalculationComponent implements OnInit {
   public configOutputsText: string[];
   public configOutputsLogic: string[];
   public isErrors: boolean;
+  config = {
+    sideNav: [
+      { name: "Home", routerLink: "../", icon: "home" },
+      { name: "Account", routerLink: "../account", icon: "account_circle" },
+      { name: "Help", routerLink: "../account", icon: "help_outline" }
+    ]
+  };
   constructor(
     private route: ActivatedRoute,
     private calcService: CalculationService,

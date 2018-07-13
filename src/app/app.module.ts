@@ -5,22 +5,24 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
-import { AgGridModule } from "ag-grid-angular/main";
+import { AgGridModule } from "ag-grid-angular";
 import { AngularFireModule } from "angularfire2";
 import { AngularFireAuthModule } from "angularfire2/auth";
 import { AngularFireDatabaseModule } from "angularfire2/database";
 
 import { environment } from "../environments/environment";
 import { AppComponent } from "./app.component";
-import { routes } from "./app.router";
+import { RouteModule } from "./app.router";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { HomeComponent } from "./home/home.component";
 import { MaterialModule } from "./material.module";
 import { ProfileModule } from "./profile/profile.module";
-import { ConfirmationDialogComponent } from "./shared/confirmation-dialog/confirmation-dialog.component";
-import { InputDialogComponent } from "./shared/input-dialog/input-dialog.component";
+import { ConfirmationDialogComponent } from "./shared/components/confirmation-dialog/confirmation-dialog.component";
+import { InputDialogComponent } from "./shared/components/input-dialog/input-dialog.component";
 import { AuthService } from "./shared/services/auth.service";
 import { CalculationModule } from "./calculation/calculation.module";
+import { SharedModule } from "./shared/shared.module";
+
 
 @NgModule({
   declarations: [
@@ -28,7 +30,7 @@ import { CalculationModule } from "./calculation/calculation.module";
     HomeComponent,
     DashboardComponent,
     InputDialogComponent,
-    ConfirmationDialogComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +38,8 @@ import { CalculationModule } from "./calculation/calculation.module";
     RouterModule,
     ProfileModule,
     CalculationModule,
-    routes,
+    SharedModule,
+    RouteModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
@@ -47,13 +50,8 @@ import { CalculationModule } from "./calculation/calculation.module";
     HttpClientModule,
     AgGridModule.withComponents([])
   ],
-  entryComponents: [
-    InputDialogComponent,
-    ConfirmationDialogComponent
-  ],
-  providers: [
-    AuthService,
-  ],
+  entryComponents: [InputDialogComponent, ConfirmationDialogComponent],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

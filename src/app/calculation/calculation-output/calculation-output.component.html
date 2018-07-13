@@ -6,15 +6,12 @@
     <button *ngIf="release !== true" mat-icon-button (click)="onAddRow()">
       <mat-icon aria-label="add config">add</mat-icon>
     </button>
-    <button *ngIf="release !== true"   mat-icon-button (click)="onRemoveSelected()">
+    <button *ngIf="release !== true" mat-icon-button (click)="onRemoveSelected()">
       <mat-icon aria-label="delete config">delete</mat-icon>
     </button>
   </div>
   <ag-grid-angular #outputGrid style="height:85vh; width: 100%;" class="ag-theme-balham" [gridOptions]="outputGridOptions"
- [rowSelection]="rowSelection" [rowDragManaged]="true" [animateRows]="true" [enableColResize]="true" (selectionChanged)="onSelectionChanged($event)"
-(gridReady)="onGridReady($event)"
-
-    [stopEditingWhenGridLosesFocus]="true">
-
+    [rowSelection]="rowSelection" [rowDragManaged]="true" [animateRows]="true" [enableColResize]="true" (selectionChanged)="onSelectionChanged($event)"
+    (gridReady)="onGridReady($event)" [stopEditingWhenGridLosesFocus]="true">
   </ag-grid-angular>
 </div>

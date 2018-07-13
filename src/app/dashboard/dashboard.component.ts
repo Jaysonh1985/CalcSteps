@@ -12,7 +12,7 @@ import { CalculationInput } from "../calculation/shared/models/calculation-input
 import { CalculationOutput } from "../calculation/shared/models/calculation-output";
 import { CalculationService } from "../calculation/shared/services/calculation.service";
 import { ReleaseService } from "../calculation/shared/services/release.service";
-import { InputDialogComponent } from "../shared/input-dialog/input-dialog.component";
+import { InputDialogComponent } from "../shared/components/input-dialog/input-dialog.component";
 import { AuthService } from "../shared/services/auth.service";
 
 @Component({
@@ -24,6 +24,13 @@ export class DashboardComponent implements OnInit {
   calculations: any;
   calculation: Calculation = null;
   displayName: string;
+  config = {
+    sideNav: [
+      { name: "Home", routerLink: "../", icon: "home" },
+      { name: "Account", routerLink: "../account", icon: "account_circle" },
+      { name: "Help", routerLink: "../account", icon: "help_outline" }
+    ]
+  };
   constructor(
     private calcService: CalculationService,
     private router: Router,

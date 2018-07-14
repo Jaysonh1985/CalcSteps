@@ -24,8 +24,8 @@ export class CalculationConfigurationComponent implements OnInit {
   public selectedRow: any[];
   public rowClassRules;
   @ViewChild(CalculationInputComponent)
-  private CalculationInputComponent: CalculationInputComponent;
-  @Input() calculationConfiguration: string[];
+  @Input()
+  calculationConfiguration: string[];
   public autoCompleteOptions: any[];
   public defaultColDef;
   constructor(private autocompleteService: AutoCompleteService) {

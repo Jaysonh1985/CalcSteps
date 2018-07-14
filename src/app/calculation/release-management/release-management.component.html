@@ -1,10 +1,4 @@
-<mat-toolbar style="background: darkslateblue;
-    color: white;">
-  <h1>Release Management</h1>
-  <a mat-button routerLink="../account">
-    My Account
-  </a>
-</mat-toolbar>
+<app-toolbar [title]="'Release Management'"></app-toolbar>
 <br>
 <div class="container">
 <button mat-raised-button (click)="routerCalculation()">Back to Calculation</button>

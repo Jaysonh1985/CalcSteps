@@ -1,3 +1,39 @@
+<div *ngIf="authServices.userFirebase | async; then authenticated else guest" class="profile">
+  <!-- template will replace this div -->
+</div>
+
+
+<!-- User NOT logged in -->
+<ng-template #guest>
+  <h3>Howdy, GUEST</h3>
+  <p>Login to get started...</p>
+
+  <button (click)="authServices.signInWithGoogle()" class="button is-danger">
+      <i class="fa fa-google"></i> Login with Google
+  </button>
+
+</ng-template>
+
+
+<!-- User logged in -->
+<ng-template #authenticated>
+<div *ngIf="authServices.userFirebase | async as user">
+    <h3>Howdy, {{ user.displayName }}</h3>
+    <img [src]="user.photoURL || 'https://goo.gl/knVFYJ'">
+    <p class="firebase-text">Firebase UID: {{ user.uid }}</p>
+    <p class="stripe-text">Stripe ID: {{ user?.stripeCustomerId || 'provisioning' }} </p>
+
+    <hr>
+
+    <div *ngIf="user.subscriptions">
+      <h5>Active Subscriptions</h5>
+      {{ user.subscriptions | json }}
+      <hr>
+    </div>
+
+<button (click)="authServices.logout()" class="button">Logout</button>
+  </div>
+</ng-template>
 <div *ngIf="status === ''">
   <button mat-button *ngIf="status !== 'pastDue'" (click)="openHandler()">
     Click here to Subscribe to our Enterprise model for £15 per Month

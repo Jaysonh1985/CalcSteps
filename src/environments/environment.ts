@@ -14,5 +14,6 @@ export const environment = {
     projectId: "calc-steps",
     storageBucket: "calc-steps.appspot.com",
     messagingSenderId: "468301501954"
-  }
+  },
+  functionsURL: "https://us-central1-calc-steps.cloudfunctions.net"
 };

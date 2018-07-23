@@ -2,10 +2,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FlexLayoutModule } from "@angular/flex-layout";
 
-import {
-  FormsModule,
-  ReactiveFormsModule
-} from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AppComponent } from "../app.component";
 import { RouteModule } from "../app.router";
 import { MaterialModule } from "../material.module";
@@ -16,6 +13,11 @@ import { SubscriptionPaymentComponent } from "./payments/subscription-payment/su
 import { SignupComponent } from "./signup/signup.component";
 import { AuthService } from "../shared/services/auth.service";
 import { SharedModule } from "../shared/shared.module";
+import { PaymentDashboardComponent } from "./payments/payment-dashboard/payment-dashboard.component";
+import { UserChargesComponent } from "./payments/user-charges/user-charges.component";
+import { UserSourcesComponent } from "./payments/user-sources/user-sources.component";
+import { UserSubscriptionsComponent } from "./payments/user-subscriptions/user-subscriptions.component";
+import { StripePipe } from "./payments/shared/stripe.pipe";
 
 @NgModule({
   imports: [
@@ -31,7 +33,12 @@ import { SharedModule } from "../shared/shared.module";
     LoginComponent,
     SignupComponent,
     AccountComponent,
-    SubscriptionPaymentComponent
+    SubscriptionPaymentComponent,
+    PaymentDashboardComponent,
+    UserChargesComponent,
+    UserSourcesComponent,
+    UserSubscriptionsComponent,
+    StripePipe
   ],
   providers: [PaymentsService, AuthService],
   bootstrap: [AppComponent]

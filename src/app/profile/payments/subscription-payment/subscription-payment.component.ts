@@ -19,7 +19,7 @@ export class SubscriptionPaymentComponent implements OnInit {
   email: string;
   constructor(
     public pmt: PaymentsService,
-    private authServices: AuthService,
+    public authServices: AuthService,
     public dialog: MatDialog
   ) {
     this.authServices.userFirebase.subscribe(auth => {

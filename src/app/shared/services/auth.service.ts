@@ -9,15 +9,20 @@ import { CalculationService } from "../../calculation/shared/services/calculatio
 import { ReleaseService } from "../../calculation/shared/services/release.service";
 
 export class User {
-  uid: string;
-  displayName: string;
-  email: string;
-  constructor(auth) {
-    this.uid = auth.uid;
-    this.displayName = auth.displayName;
-    this.email = auth.email;
+    uid: string;
+    displayName?: string;
+    email: string;
+    photoUrl?: string;
+    customerId?: string;
+    subscriptions?: {
+      [key: string]: "active" | "pastDue" | "cancelled";
+    };
+    constructor(auth) {
+      this.uid = auth.uid;
+      this.displayName = auth.displayName;
+      this.email = auth.email;
+    }
   }
-}
 
 @Injectable()
 export class AuthService {

@@ -40,8 +40,8 @@ export async function getUser(userId: string): Promise<any> {
 // Takes a Firebase user and creates a Stripe customer account
 export async function createCustomer(firebaseUser: any): Promise<any> {
   return await stripe.customers.create({
-    email: firebaseUser.email,
-    metadata: { firebaseUID: firebaseUser.uid }
+    email: firebaseUser.data.email,
+    metadata: { firebaseUID: firebaseUser.data.uid }
   });
 }
 

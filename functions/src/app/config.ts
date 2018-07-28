@@ -43,7 +43,7 @@ import * as admin from "firebase-admin";
 //// If not using Stripe Connect, initialize without service account
 admin.initializeApp(functions.config().firebase);
 
-export const db = admin.firestore();
+export const db = admin.database();
 export const auth = admin.auth();
 
 //// Initalize Stripe NodeJS SDK ////

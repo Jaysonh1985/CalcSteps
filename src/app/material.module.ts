@@ -10,6 +10,7 @@ import {
   MatSelectModule,
   MatSidenavModule,
   MatSnackBarModule,
+  MatTabsModule,
   MatToolbarModule
 } from "@angular/material";
 
@@ -25,7 +26,8 @@ import {
     MatDialogModule,
     MatSnackBarModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTabsModule
   ],
   exports: [
     MatAutocompleteModule,
@@ -38,7 +40,8 @@ import {
     MatDialogModule,
     MatSnackBarModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTabsModule
   ]
 })
 export class MaterialModule {}

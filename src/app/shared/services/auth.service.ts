@@ -4,7 +4,7 @@ import { AngularFireAuth } from "angularfire2/auth";
 import { AngularFireDatabase, AngularFireList } from "angularfire2/database";
 import * as firebase from "firebase/app";
 import { Observable } from "rxjs";
-
+import { fromPromise } from "rxjs/observable/fromPromise";
 import { CalculationService } from "../../calculation/shared/services/calculation.service";
 import { ReleaseService } from "../../calculation/shared/services/release.service";
 
@@ -140,5 +140,9 @@ export class AuthService {
         photoURL: ""
       })
       .then(function() {}, function(error) {});
+  }
+  // Used by the http interceptor to set the auth header
+  getUserIdToken(): Observable<string> {
+    return fromPromise(this.firebaseAuth.auth.currentUser.getIdToken());
   }
 }

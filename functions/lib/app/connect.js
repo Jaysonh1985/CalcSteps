@@ -65,7 +65,7 @@ function mintFirebaseToken(code) {
             email: account.email,
             displayName: account.display_name
         };
-        yield config_1.db.doc(`users/${uid}`).set(userData, { merge: true });
+        // await db.doc(`users/${uid}`).set(userData, { merge: true });
         return firebaseToken;
     });
 }

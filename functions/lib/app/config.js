@@ -27,7 +27,7 @@ const admin = require("firebase-admin");
 // });
 //// If not using Stripe Connect, initialize without service account
 admin.initializeApp(functions.config().firebase);
-exports.db = admin.firestore();
+exports.db = admin.database();
 exports.auth = admin.auth();
 //// Initalize Stripe NodeJS SDK ////
 const Stripe = require("stripe");

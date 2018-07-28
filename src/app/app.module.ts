@@ -22,7 +22,8 @@ import { InputDialogComponent } from "./shared/components/input-dialog/input-dia
 import { AuthService } from "./shared/services/auth.service";
 import { CalculationModule } from "./calculation/calculation.module";
 import { SharedModule } from "./shared/shared.module";
-
+import { TokenInterceptor } from "./shared/services/token.interceptor";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { SharedModule } from "./shared/shared.module";
     AgGridModule.withComponents([])
   ],
   entryComponents: [InputDialogComponent, ConfirmationDialogComponent],
-  providers: [AuthService],
+  providers: [AuthService,
+   {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true} ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

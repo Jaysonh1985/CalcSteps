@@ -2,78 +2,97 @@
   <!-- template will replace this div -->
 </div>
 
-
 <!-- User NOT logged in -->
 <ng-template #guest>
-  <h3>Howdy, GUEST</h3>
   <p>Login to get started...</p>
-
-  <button (click)="authServices.signInWithGoogle()" class="button is-danger">
-      <i class="fa fa-google"></i> Login with Google
-  </button>
-
 </ng-template>
-
 
 <!-- User logged in -->
 <ng-template #authenticated>
-<div *ngIf="authServices.userFirebase | async as user">
-    <h3>Howdy, {{ user.displayName }}</h3>
-    <img [src]="user.photoURL || 'https://goo.gl/knVFYJ'">
-    <p class="firebase-text">Firebase UID: {{ user.uid }}</p>
-    <p class="stripe-text">Stripe ID: {{ user?.stripeCustomerId || 'provisioning' }} </p>
-
-    <hr>
-
-    <div *ngIf="user.subscriptions">
-      <h5>Active Subscriptions</h5>
-      {{ user.subscriptions | json }}
-      <hr>
+  <div>
+    <h3>CalcSteps Gold Standard Subscription</h3>
+  </div>
+  <div>
+    Status: {{subscriptionStatus}}
+  </div>
+  <ng-template [ngIf]="subscriptionStatus === 'active'">
+    <div>
+      <p>
+        If you wish to unsubscribe please click the below button, please note that your subscription will terminate at the end of
+        your billing period.
+      </p>
+      <button mat-raised-button (click)="cancelHandler()">
+        Unsubscribe
+      </button>
+      <app-user-sources></app-user-sources>
+      <app-user-charges></app-user-charges>
     </div>
-
-<button (click)="authServices.logout()" class="button">Logout</button>
-  </div>
+  </ng-template>
+  <ng-template [ngIf]="subscriptionStatus === 'cancelled'">
+    <div>
+      <p>
+        You have cancelled your subscription with us, or you have a failed payment we are sorry to see you go.
+      </p>
+      <p>
+        If you would like to reactivate your subscription please apply your new card details below to reactivate.
+      </p>
+      <app-payment-form></app-payment-form>
+    </div>
+  </ng-template>
+  <ng-template [ngIf]="subscriptionStatus === 'pastDue' || subscriptionStatus === 'unpaid' ">
+    <div>
+      <p>
+        Your latest payment has failed if you wish to delete your account please do so above, alternatively, please click update
+        your card details below to reactivate.
+      </p>
+      <app-payment-form></app-payment-form>
+    </div>
+  </ng-template>
+  <ng-template [ngIf]="subscriptionStatus === null">
+    <div class="billing-summary">
+      <h3>
+        <span>Monthly Plan Summary</span>
+      </h3>
+      <table>
+        <tbody>
+          <tr>
+            <td>
+              <span>
+                <span>1 Gold License</span>
+              </span>
+              <span>
+                <span> 25% saving with this plan</span>
+              </span>
+            </td>
+            <td> </td>
+            <td>
+              <strong>£15.00</strong>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span> Sales Tax</span>
+            </td>
+            <td> </td>
+            <td>
+              <strong>£0.00</strong>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>
+              <span>Total</span>
+            </td>
+            <td> </td>
+            <td>
+              <strong class="price">£15.00</strong>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <br/>
+    <app-payment-form></app-payment-form>
+  </ng-template>
 </ng-template>
-<div *ngIf="status === ''">
-  <button mat-button *ngIf="status !== 'pastDue'" (click)="openHandler()">
-    Click here to Subscribe to our Enterprise model for £15 per Month
-  </button>
-</div>
-<div *ngIf="status != 'active'">
-  <div *ngIf="status === 'cancelled'">
-    <p>
-      You have cancelled your subscription with us, or you have a failed payment we are sorry to see you go. If you would like
-      to create a new account please click the link below
-    </p>
-    <button mat-button *ngIf="status !== 'pastDue'" (click)="openHandler()">
-      Click here to Subscribe to our Enterprise model for £15 per Month
-    </button>
-  </div>
-  <div *ngIf="status === 'pastDue'">
-    <p>
-      Your latest payment has failed if you wish to delete your account please do so above, alternatively, please click the below
-      button to update your details.
-    </p>
-    <button mat-button (click)="openHandler()">
-      Click here to update payment information
-    </button>
-  </div>
-  <div *ngIf="status === 'unpaid'">
-    <p>
-      Your latest payment has failed and your subscription has run out so your subscription has now been closed. Please click unsubiscribe
-      then create a new subscription.
-    </p>
-    <button mat-button (click)="onUnsubscribe()">
-      Click here to Unsubscribe
-    </button>
-  </div>
-</div>
-<div *ngIf="status == 'active'">
-  <h4>Enterprise Subscription is Active</h4>
-  <p>
-    If you wish to unsubscribe please click the below button, please note that your subscription will terminate immediately.
-  </p>
-  <button mat-button (click)="onUnsubscribe()">
-    Click here to Unsubscribe
-  </button>
-</div>

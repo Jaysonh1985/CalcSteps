@@ -17,7 +17,6 @@ app.post("/charges", (req, res) => {
 // GET User Charges
 app.get("/charges", (req, res) => {
   const userId = req.user.uid;
-
   const promise = helpers.getUserCharges(userId);
   defaultHandler(promise, res);
 });
@@ -44,7 +43,6 @@ app.post("/subscriptions", (req, res) => {
   const userId = req.user.uid;
   const sourceId = req.body.sourceId;
   const planId = req.body.planId;
-
   const promise = helpers.createSubscription(userId, sourceId, planId);
 
   defaultHandler(promise, res);

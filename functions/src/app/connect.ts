@@ -69,7 +69,7 @@ export async function mintFirebaseToken(code: string): Promise<any> {
     displayName: account.display_name
   };
 
-  await db.doc(`users/${uid}`).set(userData, { merge: true });
+  // await db.doc(`users/${uid}`).set(userData, { merge: true });
 
   return firebaseToken;
 }

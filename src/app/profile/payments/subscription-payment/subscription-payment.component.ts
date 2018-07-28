@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { MatDialog } from "@angular/material";
 
 import { environment } from "../../../../environments/environment";
@@ -14,71 +14,53 @@ import { PaymentsService } from "../payments.service";
 export class SubscriptionPaymentComponent implements OnInit {
   handler: any;
   updateHandler: any;
-  status: string;
+  subscriptionStatus: any;
   uid: string;
   email: string;
+  loading: boolean;
+  @Input() planId: string;
+  @Input() sourceId: string;
+
   constructor(
     public pmt: PaymentsService,
     public authServices: AuthService,
     public dialog: MatDialog
-  ) {
-    this.authServices.userFirebase.subscribe(auth => {
-      if (auth) {
-        this.uid = auth.uid;
-        this.email = auth.email;
-      }
-    });
-    status = "";
-  }
+  ) {}
 
   ngOnInit() {
-    this.configHandler();
     this.authServices.userFirebase.subscribe(auth => {
+      this.subscriptionStatus = null;
       if (auth) {
         this.uid = auth.uid;
-        this.status = "";
         this.pmt
-          .getMembershipStatus(auth.uid)
+          .getSubscriptions(auth.uid)
           .snapshotChanges()
           .map(changes => {
             return changes.payload.val();
           })
-          .subscribe(stat => {
-            if (stat != null) {
-              this.status = stat;
+          .subscribe(sub => {
+            if (sub != null) {
+              this.subscriptionStatus = sub.status;
             }
           });
       }
     });
   }
-  private configHandler() {
-    this.handler = StripeCheckout.configure({
-      key: environment.stripeKey,
-      image: "https://stripe.com/img/documentation/checkout/marketplace.png",
-      locale: "auto",
-      currency: "gbp",
-      name: "calc-steps",
-      description: "Enterprise Subscription",
-      amount: 1500,
-      token: token => {
-        this.pmt.processPayment(token);
-      }
-    });
-  }
-  openHandler() {
-    this.handler.open({ email: this.email });
-  }
-  onUnsubscribe() {
+
+  cancelHandler() {
+    this.loading = true;
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: "400px",
       data: {
         description:
-          "Do you wish to unsubscribe, this will take effect immediately?"
+          "Do you wish to unsubscribe, this will take effect on your next billing date?"
       }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
-        this.pmt.setStatus("cancelled");
+        this.pmt.cancelSubscription(this.planId).subscribe(data => {
+          this.loading = false;
+        });
       }
     });
   }

@@ -6,10 +6,8 @@ const admin = require("firebase-admin");
 exports.createStripeCustomer = functions.auth
     .user()
     .onCreate((user) => {
-    console.log(user, "User");
     return helpers_1.createCustomer(user)
         .then(customer => {
-        console.log(customer, "Customer");
         /// update Firestore with stripe customer id
         const data = { stripeCustomerId: customer.id };
         const updates = {};

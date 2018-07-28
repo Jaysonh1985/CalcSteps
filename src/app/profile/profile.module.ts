@@ -13,11 +13,11 @@ import { SubscriptionPaymentComponent } from "./payments/subscription-payment/su
 import { SignupComponent } from "./signup/signup.component";
 import { AuthService } from "../shared/services/auth.service";
 import { SharedModule } from "../shared/shared.module";
-import { PaymentDashboardComponent } from "./payments/payment-dashboard/payment-dashboard.component";
 import { UserChargesComponent } from "./payments/user-charges/user-charges.component";
 import { UserSourcesComponent } from "./payments/user-sources/user-sources.component";
 import { UserSubscriptionsComponent } from "./payments/user-subscriptions/user-subscriptions.component";
 import { StripePipe } from "./payments/shared/stripe.pipe";
+import { PaymentFormComponent } from "./payments/payment-form/payment-form.component";
 
 @NgModule({
   imports: [
@@ -34,11 +34,11 @@ import { StripePipe } from "./payments/shared/stripe.pipe";
     SignupComponent,
     AccountComponent,
     SubscriptionPaymentComponent,
-    PaymentDashboardComponent,
     UserChargesComponent,
     UserSourcesComponent,
     UserSubscriptionsComponent,
-    StripePipe
+    StripePipe,
+    PaymentFormComponent
   ],
   providers: [PaymentsService, AuthService],
   bootstrap: [AppComponent]

@@ -13,6 +13,7 @@ import { AuthService } from "../../shared/services/auth.service";
 export class AccountComponent implements OnInit {
   name: any;
   email: any;
+  accountReference: any;
   constructor(
     private router: Router,
     public authService: AuthService,
@@ -22,6 +23,7 @@ export class AccountComponent implements OnInit {
       if (auth) {
         this.name = auth.displayName;
         this.email = auth.email;
+        this.accountReference = auth.uid;
       }
     });
   }

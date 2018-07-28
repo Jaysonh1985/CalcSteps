@@ -35,13 +35,15 @@ exports.authenticateUser = authenticateUser;
 function getUser(userId) {
     return __awaiter(this, void 0, void 0, function* () {
         return yield config_1.db
-            .collection("users")
-            .doc(userId)
-            .get()
-            .then(doc => doc.data());
+            .ref(`/users/${userId}`)
+            .once('value')
+            .then(snapshot => {
+            return snapshot.val();
+        });
     });
 }
 exports.getUser = getUser;
+;
 // Takes a Firebase user and creates a Stripe customer account
 function createCustomer(firebaseUser) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -55,7 +57,7 @@ exports.createCustomer = createCustomer;
 function getCustomer(userId) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = yield getUser(userId);
-        const customerId = user.stripeCustomerId;
+        const customerId = user.customerId;
         return yield config_1.stripe.customers.retrieve(customerId);
     });
 }
@@ -83,7 +85,7 @@ exports.attachSource = attachSource;
 function createCharge(userId, sourceId, amount, currency) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = yield getUser(userId);
-        const customerId = user.stripeCustomerId;
+        const customerId = user.customerId;
         const card = yield attachSource(userId, sourceId);
         return yield config_1.stripe.charges.create({
             amount: amount,
@@ -99,7 +101,7 @@ exports.createCharge = createCharge;
 function getUserCharges(userId, limit) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = yield getUser(userId);
-        const customerId = user.stripeCustomerId;
+        const customerId = user.customerId;
         return yield config_1.stripe.charges.list({
             limit,
             customer: customerId
@@ -112,7 +114,7 @@ exports.getUserCharges = getUserCharges;
 function createSubscription(userId, sourceId, planId) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = yield getUser(userId);
-        const customerId = user.stripeCustomerId;
+        const customerId = user.customerId;
         const card = yield attachSource(userId, sourceId);
         const subscription = yield config_1.stripe.subscriptions.create({
             customer: customerId,
@@ -122,11 +124,11 @@ function createSubscription(userId, sourceId, planId) {
                 }
             ]
         });
-        // Add the plan to existing subscriptions
-        const subscriptions = {
-            [planId]: "active"
-        };
-        yield config_1.db.doc(`users/${userId}`).set({ subscriptions }, { merge: true });
+        yield config_1.db.ref(`/users/${userId}/subscriptions`)
+            .update({
+            status: 'active',
+            productId: planId
+        });
         return subscription;
     });
 }
@@ -140,10 +142,12 @@ function cancelSubscription(userId, planId) {
         if (subscription) {
             cancellation = yield config_1.stripe.subscriptions.del(subscription.id);
         }
-        const subscriptions = {
-            [planId]: "cancelled"
-        };
-        yield config_1.db.doc(`users/${userId}`).set({ subscriptions }, { merge: true });
+        yield config_1.db
+            .ref(`/users/${userId}/subscriptions`)
+            .update({
+            status: "cancelled",
+            productId: ""
+        });
         return cancellation;
     });
 }
@@ -162,19 +166,18 @@ function recurringPayment(customerId, planId, hook) {
         if (hook === "invoice.payment_failed") {
             status = "cancelled";
         }
-        const subscriptions = {
-            [planId]: status
-        };
-        return yield config_1.db
-            .doc(`users/${userId}`)
-            .set({ subscriptions }, { merge: true });
+        yield config_1.db
+            .ref(`/users/${userId}/subscriptions`)
+            .update({
+            status: status,
+        });
     });
 }
 exports.recurringPayment = recurringPayment;
 function getSubscription(userId, planId) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = yield getUser(userId);
-        const customer = user.stripeCustomerId;
+        const customer = user.customerId;
         const stripeSubs = yield config_1.stripe.subscriptions.list({
             customer,
             plan: planId

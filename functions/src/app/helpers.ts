@@ -31,12 +31,12 @@ export function authenticateUser(req, res, next): void {
 // Returns the user document data from Firestore
 export async function getUser(userId: string): Promise<any> {
   return await db
-    .collection("users")
-    .doc(userId)
-    .get()
-    .then(doc => doc.data());
-}
-
+    .ref(`/users/${userId}`)
+    .once('value')
+    .then(snapshot => {
+      return snapshot.val();
+    })
+};
 // Takes a Firebase user and creates a Stripe customer account
 export async function createCustomer(firebaseUser: any): Promise<any> {
   return await stripe.customers.create({
@@ -47,8 +47,7 @@ export async function createCustomer(firebaseUser: any): Promise<any> {
 
 export async function getCustomer(userId: string): Promise<any> {
   const user = await getUser(userId);
-  const customerId = user.stripeCustomerId;
-
+  const customerId = user.customerId;
   return await stripe.customers.retrieve(customerId);
 }
 
@@ -82,7 +81,7 @@ export async function createCharge(
   currency?: string
 ): Promise<any> {
   const user = await getUser(userId);
-  const customerId = user.stripeCustomerId;
+  const customerId = user.customerId;
 
   const card = await attachSource(userId, sourceId);
 
@@ -102,7 +101,7 @@ export async function getUserCharges(
   limit?: number
 ): Promise<any> {
   const user = await getUser(userId);
-  const customerId = user.stripeCustomerId;
+  const customerId = user.customerId;
 
   return await stripe.charges.list({
     limit,
@@ -119,7 +118,7 @@ export async function createSubscription(
   planId: string
 ): Promise<any> {
   const user = await getUser(userId);
-  const customerId = user.stripeCustomerId;
+  const customerId = user.customerId;
 
   const card = await attachSource(userId, sourceId);
 
@@ -132,12 +131,11 @@ export async function createSubscription(
     ]
   });
 
-  // Add the plan to existing subscriptions
-  const subscriptions = {
-    [planId]: "active"
-  };
-
-  await db.doc(`users/${userId}`).set({ subscriptions }, { merge: true });
+  await db.ref(`/users/${userId}/subscriptions`)
+    .update({
+      status: 'active',
+      productId: planId
+    });
 
   return subscription;
 }
@@ -156,11 +154,12 @@ export async function cancelSubscription(
     cancellation = await stripe.subscriptions.del(subscription.id);
   }
 
-  const subscriptions = {
-    [planId]: "cancelled"
-  };
-
-  await db.doc(`users/${userId}`).set({ subscriptions }, { merge: true });
+  await db
+    .ref(`/users/${userId}/subscriptions`)
+    .update({
+      status: "cancelled",
+      productId: ""
+    });
 
   return cancellation;
 }
@@ -187,13 +186,12 @@ export async function recurringPayment(
     status = "cancelled";
   }
 
-  const subscriptions = {
-    [planId]: status
-  };
+  await db
+    .ref(`/users/${userId}/subscriptions`)
+    .update({
+      status: status,
+    });
 
-  return await db
-    .doc(`users/${userId}`)
-    .set({ subscriptions }, { merge: true });
 }
 
 export async function getSubscription(
@@ -201,7 +199,7 @@ export async function getSubscription(
   planId: string
 ): Promise<any> {
   const user = await getUser(userId);
-  const customer = user.stripeCustomerId;
+  const customer = user.customerId;
 
   const stripeSubs = await stripe.subscriptions.list({
     customer,

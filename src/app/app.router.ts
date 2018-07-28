@@ -11,7 +11,6 @@ import { HomeComponent } from "./home/home.component";
 import { AccountComponent } from "./profile/account/account.component";
 import { LoginComponent } from "./profile/login/login.component";
 import { SignupComponent } from "./profile/signup/signup.component";
-import { PaymentDashboardComponent } from "./profile/payments/payment-dashboard/payment-dashboard.component";
 
 export const router: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -24,8 +23,7 @@ export const router: Routes = [
   { path: "release-management/:key", component: ReleaseManagementComponent },
   { path: "release/:key", component: ReleaseComponent },
   { path: "lookup-maintenance", component: LookupMaintenanceComponent },
-  { path: "lookup/:key", component: LookupComponent },
-  { path: "payments-dashboard", component: PaymentDashboardComponent },
+  { path: "lookup/:key", component: LookupComponent }
 ];
 
 export const RouteModule: ModuleWithProviders = RouterModule.forRoot(router);

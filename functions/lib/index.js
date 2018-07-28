@@ -9,6 +9,7 @@ const api_1 = require("./app/api");
 exports.app = api_1.api;
 // Auth Functions
 exports.createStripeCustomer = auth.createStripeCustomer;
+exports.deleteStripeCustomer = auth.deleteStripeCustomer;
 // Webhook Functions
 exports.recurringPaymentWebhook = webhooks.recurringPaymentWebhook;
 // Connect Functions

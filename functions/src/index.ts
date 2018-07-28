@@ -9,6 +9,7 @@ export const app = api;
 
 // Auth Functions
 export const createStripeCustomer = auth.createStripeCustomer;
+export const deleteStripeCustomer = auth.deleteStripeCustomer;
 
 // Webhook Functions
 export const recurringPaymentWebhook = webhooks.recurringPaymentWebhook;

@@ -1,4 +1,5 @@
 import { stripe, db, auth } from "./config";
+import { isAdmin } from "../../../node_modules/@firebase/util";
 
 /////  USER MANAGEMENT ///////
 
@@ -37,6 +38,7 @@ export async function getUser(userId: string): Promise<any> {
       return snapshot.val();
     })
 };
+// // Returns the user document data from Firestore
 // Takes a Firebase user and creates a Stripe customer account
 export async function createCustomer(firebaseUser: any): Promise<any> {
   return await stripe.customers.create({
@@ -44,15 +46,17 @@ export async function createCustomer(firebaseUser: any): Promise<any> {
     metadata: { firebaseUID: firebaseUser.data.uid }
   });
 }
-
+// Takes a Firebase user and creates a Stripe customer account
+export async function deleteCustomer(userId: string): Promise<any> {
+  const user = await getUser(userId);
+  return await stripe.customers.del(user.customerId);
+}
 export async function getCustomer(userId: string): Promise<any> {
   const user = await getUser(userId);
   const customerId = user.customerId;
   return await stripe.customers.retrieve(customerId);
 }
-
 /////  CHARGES and SOURCES ///////
-
 // Looks for payment source attached to user, otherwise it creates it.
 export async function attachSource(
   userId: string,

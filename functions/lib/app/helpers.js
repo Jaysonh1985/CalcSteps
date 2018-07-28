@@ -44,6 +44,7 @@ function getUser(userId) {
 }
 exports.getUser = getUser;
 ;
+// // Returns the user document data from Firestore
 // Takes a Firebase user and creates a Stripe customer account
 function createCustomer(firebaseUser) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -54,6 +55,14 @@ function createCustomer(firebaseUser) {
     });
 }
 exports.createCustomer = createCustomer;
+// Takes a Firebase user and creates a Stripe customer account
+function deleteCustomer(userId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const user = yield getUser(userId);
+        return yield config_1.stripe.customers.del(user.customerId);
+    });
+}
+exports.deleteCustomer = deleteCustomer;
 function getCustomer(userId) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = yield getUser(userId);

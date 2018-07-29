@@ -12,30 +12,28 @@ import { HttpParams, HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/first";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
+import { environment } from "../../../../environments/environment";
 
 @Injectable()
 export class CalculateService {
-  readonly ROOT_URL =
-    "https://us-central1-calc-steps.cloudfunctions.net/distanceMatrixProxy";
-  private distanceResult: string;
+  readonly api = `${environment.functionsURL}/app`;
   constructor(private http: HttpClient) {}
 
   async getDistanceMatrix(origin: string, destination: string): Promise<any> {
     let params = new HttpParams();
     params = params.set("Origin", origin.toString());
     params = params.set("Destination", destination.toString());
-    return await this.http.get(this.ROOT_URL, { params }).toPromise();
+    const url = `${this.api}/distanceMatrix/`;
+    return await this.http.get(url, { params }).toPromise();
   }
+
   async getLookupTableHttp(name: string): Promise<any> {
     let params = new HttpParams();
     params = params.set("Name", name.toString());
-    return await this.http
-      .get(
-        "https://us-central1-calc-steps.cloudfunctions.net/getLookupTable",
-        { params }
-      )
-      .toPromise();
+    const url = `${this.api}/lookupTable/`;
+    return await this.http.get(url, { params }).toPromise();
   }
+
   async runDistanceCalculationPromise(
     row,
     autocomplete,
@@ -58,6 +56,7 @@ export class CalculateService {
       return this.getDistanceCalculation(data);
     });
   }
+
   async runLookupCalculationPromise2(
     row,
     autocomplete,
@@ -87,7 +86,8 @@ export class CalculateService {
       return await this.getLookupTableHttp(row.data.lookupTable.TableName).then(
         data => {
           return this.getLookupTableCalculation(row, LookupValue, data.lookup);
-        });
+        }
+      );
     }
   }
 
@@ -146,6 +146,7 @@ export class CalculateService {
       }
     }
   }
+
   runError(row, autocomplete, authService, lookupService): CalculationError[] {
     if (row.data.functionType === "Maths") {
       const math = new FunctionMathsComponent();
@@ -169,6 +170,7 @@ export class CalculateService {
       return [];
     }
   }
+
   getDistanceCalculation(data): string {
     let rows = data["rows"];
     rows = rows[0];
@@ -180,6 +182,7 @@ export class CalculateService {
     miles = Number(meters / 1609.34);
     return miles.toFixed(2);
   }
+
   getLookupTableCalculation(row, LookupValue, lookups): string {
     if (row.data.lookupTable.LookupType === "Number") {
       let closest = 79228162514264337593543950335;

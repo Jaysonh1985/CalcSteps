@@ -46,6 +46,17 @@ config_1.app.put("/subscriptions/cancel", (req, res) => {
     const promise = helpers.cancelSubscription(userId, planId);
     defaultHandler(promise, res);
 });
+// GET Distance Matrix
+config_1.app.get("/distanceMatrix", (req, res) => {
+    const apiKey = functions.config().distancematrix.key;
+    const promise = helpers.getDistanceMatrix(res, req, apiKey);
+    defaultHandler(promise, res);
+});
+// GET Lookup Table
+config_1.app.get("/lookupTable", (req, res) => {
+    const promise = helpers.getLookupTable(req);
+    defaultHandler(promise, res);
+});
 // Default handling of response
 function defaultHandler(promise, res) {
     promise

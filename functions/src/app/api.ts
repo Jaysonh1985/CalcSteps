@@ -2,7 +2,6 @@ import * as functions from "firebase-functions";
 import * as helpers from "./helpers";
 import * as connect from "./connect";
 import { app } from "./config";
-
 // POST Charge
 app.post("/charges", (req, res) => {
   const userId = req.user.uid;
@@ -57,7 +56,21 @@ app.put("/subscriptions/cancel", (req, res) => {
 
   defaultHandler(promise, res);
 });
+// GET Distance Matrix
+app.get("/distanceMatrix", (req, res) => {
+  const apiKey = functions.config().distancematrix.key;
 
+  const promise = helpers.getDistanceMatrix(res, req, apiKey);
+
+  defaultHandler(promise, res);
+});
+// GET Lookup Table
+app.get("/lookupTable", (req, res) => {
+
+  const promise = helpers.getLookupTable(req);
+
+  defaultHandler(promise, res);
+});
 // Default handling of response
 function defaultHandler(promise: Promise<any>, res: any): void {
   promise

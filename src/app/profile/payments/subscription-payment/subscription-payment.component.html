@@ -24,7 +24,7 @@
       <button mat-raised-button (click)="cancelHandler()">
         Unsubscribe
       </button>
-      <app-user-sources></app-user-sources>
+      <app-user-sources [canSelect]=false></app-user-sources>
       <app-user-charges></app-user-charges>
     </div>
   </ng-template>
@@ -36,7 +36,7 @@
       <p>
         If you would like to reactivate your subscription please apply your new card details below to reactivate.
       </p>
-      <app-payment-form></app-payment-form>
+    <app-payment-form [totalAmount]="0"></app-payment-form>
     </div>
   </ng-template>
   <ng-template [ngIf]="subscriptionStatus === 'pastDue' || subscriptionStatus === 'unpaid' ">
@@ -45,7 +45,7 @@
         Your latest payment has failed if you wish to delete your account please do so above, alternatively, please click update
         your card details below to reactivate.
       </p>
-      <app-payment-form></app-payment-form>
+      <app-payment-form [totalAmount]="0"></app-payment-form>
     </div>
   </ng-template>
   <ng-template [ngIf]="subscriptionStatus === null">
@@ -93,6 +93,6 @@
       </table>
     </div>
     <br/>
-    <app-payment-form></app-payment-form>
+    <app-payment-form [totalAmount]="0" ></app-payment-form>
   </ng-template>
 </ng-template>

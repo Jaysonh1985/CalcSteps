@@ -1,5 +1,6 @@
 import { stripe, db, auth } from "./config";
 import { isAdmin } from "../../../node_modules/@firebase/util";
+import * as http from "request-promise";
 
 /////  USER MANAGEMENT ///////
 
@@ -86,14 +87,16 @@ export async function createCharge(
 ): Promise<any> {
   const user = await getUser(userId);
   const customerId = user.customerId;
+  console.log(user.email)
 
   const card = await attachSource(userId, sourceId);
 
   return await stripe.charges.create({
     amount: amount,
-    currency: currency || "usd",
+    currency: currency || "gbp",
     customer: customerId,
-    source: sourceId
+    source: sourceId,
+    receipt_email: user.email
   });
 }
 
@@ -195,7 +198,6 @@ export async function recurringPayment(
     .update({
       status: status,
     });
-
 }
 
 export async function getSubscription(
@@ -210,4 +212,25 @@ export async function getSubscription(
     plan: planId
   });
   return stripeSubs.data[0];
+}
+
+export async function getDistanceMatrix(res, req,apiKey): Promise<any> {
+  const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${req.query.Origin}&destinations=${req.query.Destination}&mode=driving&language=en-GB&key=${apiKey}`;
+    return await http
+    .get(url)
+    .then(response => {
+      return response;
+    })
+    .catch(err => {
+      return err;
+    });
+}
+export async function getLookupTable(req): Promise<any> {
+  const Name = req.query.Name
+  return await db
+    .ref(`/lookups/${Name}`)
+    .once("value")
+    .then(snapshot => {
+      return snapshot.val();
+    });
 }

@@ -20,3 +20,18 @@
 .StripeElement--webkit-autofill {
   background-color: #fefde5 !important;
 }
+
+.fieldset {
+  border-style: none;
+  padding: 5px;
+  margin-left: -5px;
+  margin-right: -5px;
+  background: rgba(18, 91, 152, 0.05);
+  border-radius: 8px;
+  text-align: center
+}
+
+.button {
+  width: 100%;
+  display: block;
+}

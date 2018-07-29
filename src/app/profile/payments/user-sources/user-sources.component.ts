@@ -10,19 +10,12 @@ import { Source, Customer, StripeObject } from "../shared/models";
 })
 export class UserSourcesComponent implements OnInit {
   customer$: Observable<Customer>;
-  customers: any;
   @Input() canSelect: boolean;
   @Output() selectedSource = new EventEmitter<Source>();
   constructor(private pmt: PaymentsService) {}
 
-  async ngOnInit() {
-    await this.pmt.getCustomer().subscribe(user => {
-      if (user) {
-        this.customers = user.sources;
-      } else {
-        this.customers = null;
-      }
-    });
+  ngOnInit() {
+    this.customer$ = this.pmt.getCustomer();
   }
 
   clickHandler(source: Source) {

@@ -87,6 +87,8 @@ export class PaymentFormComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.card.destroy();
+    if(this.card) {
+      this.card.destroy();
+    }
   }
 }

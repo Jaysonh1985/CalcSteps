@@ -20,6 +20,7 @@
     "stripe": "^5.4.0"
   },
   "devDependencies": {
+    "@types/request-promise": "^4.1.42",
     "tslint": "^5.8.0",
     "typescript": "^2.5.3"
   },

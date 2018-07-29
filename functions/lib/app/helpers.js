@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const config_1 = require("./config");
+const http = require("request-promise");
 /////  USER MANAGEMENT ///////
 // Authenticates Firebase user on HTTP functions, used as expressJS middleware
 function authenticateUser(req, res, next) {
@@ -95,12 +96,14 @@ function createCharge(userId, sourceId, amount, currency) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = yield getUser(userId);
         const customerId = user.customerId;
+        console.log(user.email);
         const card = yield attachSource(userId, sourceId);
         return yield config_1.stripe.charges.create({
             amount: amount,
-            currency: currency || "usd",
+            currency: currency || "gbp",
             customer: customerId,
-            source: sourceId
+            source: sourceId,
+            receipt_email: user.email
         });
     });
 }
@@ -195,4 +198,30 @@ function getSubscription(userId, planId) {
     });
 }
 exports.getSubscription = getSubscription;
+function getDistanceMatrix(res, req, apiKey) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${req.query.Origin}&destinations=${req.query.Destination}&mode=driving&language=en-GB&key=${apiKey}`;
+        return yield http
+            .get(url)
+            .then(response => {
+            return response;
+        })
+            .catch(err => {
+            return err;
+        });
+    });
+}
+exports.getDistanceMatrix = getDistanceMatrix;
+function getLookupTable(req) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const Name = req.query.Name;
+        return yield config_1.db
+            .ref(`/lookups/${Name}`)
+            .once("value")
+            .then(snapshot => {
+            return snapshot.val();
+        });
+    });
+}
+exports.getLookupTable = getLookupTable;
 //# sourceMappingURL=helpers.js.map

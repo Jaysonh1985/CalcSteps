@@ -57,16 +57,6 @@ export class PaymentsService {
     const url = `${this.api}/charges/`;
     return this.http.get<StripeObject>(url).map(res => res.data);
   }
-  setStatus(status: string): void {
-    this.db
-      .object(`/users/${this.userDetails.uid}/enterprisemembership`)
-      .update({ status: status });
-  }
-  processPayment(token: any) {
-    return this.db
-      .object(`/users/${this.userDetails.uid}/enterprisemembership`)
-      .update({ token: token.id });
-  }
   createCharge(card: any, amount: number): Observable<Charge> {
     const url = `${this.api}/charges/`;
 
@@ -103,7 +93,6 @@ export class PaymentsService {
   // Cancels subscription
   cancelSubscription(planId: string): Observable<SubscriptionPlan> {
     const url = `${this.api}/subscriptions/cancel`;
-
     return this.http.put<SubscriptionPlan>(url, { planId });
   }
 }

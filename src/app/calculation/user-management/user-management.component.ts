@@ -1,5 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { Validators, FormGroup, FormBuilder, FormControl } from "@angular/forms";
+import {
+  Validators,
+  FormGroup,
+  FormBuilder,
+  FormControl
+} from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AngularFireDatabase } from "angularfire2/database";
 import { CalculationService } from "../shared/services/calculation.service";
@@ -20,6 +25,7 @@ export class UserManagementComponent implements OnInit {
   public users: any[];
   public calculation: any;
   userForm: FormGroup;
+  public userExists: boolean;
   ngOnInit() {
     this.userForm = this.fb.group({
       email: ["", [Validators.required, Validators.email]]
@@ -50,15 +56,38 @@ export class UserManagementComponent implements OnInit {
         }));
       })
       .subscribe(releases => {
-        if ((releases.length === 0)) {
-          this.userForm.controls["email"].setErrors({ "userDoesNotExists": true });
+        if (releases.length === 0) {
+          this.userForm.controls["email"].setErrors({
+            userDoesNotExists: true
+          });
           return null;
         }
-        this.calculation[0].users.push({
-          email: releases[0].email,
-          name: releases[0].name
-        });
-        this.calcService.updateCalculation(this.route.snapshot.params["key"], this.calculation[0]);
+        this.userExists = false;
+        if (this.users) {
+          this.users.forEach(element => {
+            if (element.email === this.userForm.controls["email"].value) {
+              this.userExists = true;
+              this.userForm.controls["email"].setErrors({
+                userInList: true
+              });
+              return null;
+            }
+          });
+        }
+        if (this.userExists === false) {
+          if (!this.calculation[0].users) {
+            this.calculation[0].users = [];
+          }
+          this.calculation[0].users.push({
+            email: releases[0].email,
+            name: releases[0].name,
+            uid: releases[0].key
+          });
+          this.calcService.updateCalculation(
+            this.route.snapshot.params["key"],
+            this.calculation[0]
+          );
+        }
       });
   }
   routerCalculation(calculation) {
@@ -73,6 +102,9 @@ export class UserManagementComponent implements OnInit {
       : this.userForm.controls["email"].hasError("email")
         ? "Not a valid email"
         : this.userForm.controls["email"].hasError("userDoesNotExists")
-        ? "User does not exist"
-        : "";  }
+          ? "User does not exist"
+          : this.userForm.controls["email"].hasError("userInList")
+            ? "User already attached"
+            : "";
+  }
 }

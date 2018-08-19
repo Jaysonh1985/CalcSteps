@@ -17,12 +17,14 @@
       <tr>
         <th scope="col">Email</th>
         <th scope="col">Name</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of users">
+      <tr *ngFor="let item of users; let i=index">
         <td>{{item.email}}</td>
         <td>{{item.name}}</td>
+        <td> <button mat-raised-button  (click)="deleteUser(i)" *ngIf="item.owner !== true" >Delete User</button></td>
       </tr>
     </tbody>
   </table>

@@ -13,6 +13,7 @@ export class Calculation {
   updateDate: Date = new Date();
   username: string;
   userid: string;
+  users: any[];
   calculationInputs: CalculationInput[];
   calculationOutputs: CalculationOutput[];
   calculationConfigurations: CalculationConfiguration[];

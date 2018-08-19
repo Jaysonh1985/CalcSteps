@@ -105,6 +105,13 @@ export class DashboardComponent implements OnInit {
                 true
               )
             );
+            this.calculation.users = [];
+            this.calculation.users.push({
+              email: auth.email,
+              name: auth.displayName,
+              uid: auth.uid,
+              owner: true
+            }),
             this.calcService.createCalculation(this.calculation);
             this.calculation = new Calculation();
           }

@@ -8,6 +8,8 @@ import {
 import { ActivatedRoute, Router } from "@angular/router";
 import { AngularFireDatabase } from "angularfire2/database";
 import { CalculationService } from "../shared/services/calculation.service";
+import { MatDialog } from "@angular/material";
+import { ConfirmationDialogComponent } from "../../shared/components/confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: "app-user-management",
@@ -20,7 +22,8 @@ export class UserManagementComponent implements OnInit {
     private db: AngularFireDatabase,
     private calcService: CalculationService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog,
   ) {}
   public users: any[];
   public calculation: any;
@@ -89,6 +92,22 @@ export class UserManagementComponent implements OnInit {
           );
         }
       });
+  }
+  deleteUser(index) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: "400px",
+      data: { description: "Do you wish to delete user?" }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.calculation[0].users.splice(index, 1);
+        this.calcService.updateCalculation(
+          this.route.snapshot.params["key"],
+          this.calculation[0]
+        );
+      }
+    });
+
   }
   routerCalculation(calculation) {
     this.router.navigate(["calculation", this.route.snapshot.params["key"]]);

@@ -3,9 +3,9 @@
 <div class="container">
   <button mat-raised-button (click)="routerCalculation()">Back to Calculation</button>
   <h3>Add a New User</h3>
+  <p>Please enter an email below of a user who has an account with CalcSteps.</p>
   <form [formGroup]="userForm" (ngSubmit)="addUser(userForm.value)" novalidate>
     <mat-form-field>
-      <mat-label></mat-label>
       <input matInput placeholder="Email" type="email" formControlName="email">
       <mat-error *ngIf="userForm.controls['email'].invalid">{{getEmailErrorMessage()}}</mat-error>
     </mat-form-field>

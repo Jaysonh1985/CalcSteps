@@ -123,7 +123,7 @@ export class UserManagementComponent implements OnInit {
         : this.userForm.controls["email"].hasError("userDoesNotExists")
           ? "User does not exist"
           : this.userForm.controls["email"].hasError("userInList")
-            ? "User already attached"
+            ? "User already added"
             : "";
   }
 }

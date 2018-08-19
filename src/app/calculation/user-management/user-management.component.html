@@ -1,0 +1,29 @@
+<app-toolbar [title]="'User Management'"></app-toolbar>
+<br>
+<div class="container">
+  <button mat-raised-button (click)="routerCalculation()">Back to Calculation</button>
+  <h3>Add a New User</h3>
+  <form [formGroup]="userForm" (ngSubmit)="addUser(userForm.value)" novalidate>
+    <mat-form-field>
+      <mat-label></mat-label>
+      <input matInput placeholder="Email" type="email" formControlName="email">
+      <mat-error *ngIf="userForm.controls['email'].invalid">{{getEmailErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <br/>
+    <button mat-raised-button type="submit" [disabled]="!userForm.valid">Add User</button>
+  </form>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Email</th>
+        <th scope="col">Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of users">
+        <td>{{item.email}}</td>
+        <td>{{item.name}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

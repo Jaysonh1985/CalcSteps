@@ -44,7 +44,7 @@ export class FunctionIfLogicComponent implements OnInit {
     this.selectedRow[0].ifLogic.push(new IfLogic("", "", "", "", "", ""));
   }
   onDeleteRow(index) {
-    this.selectedRow[0].maths.splice(index, 1);
+    this.selectedRow[0].ifLogic.splice(index, 1);
   }
   ngOnInit() {
     if (this.selectedRow[0].ifLogic == null) {

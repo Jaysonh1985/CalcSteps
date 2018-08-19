@@ -20,10 +20,10 @@
   <mat-sidenav #sidenav mode="over" style="background: #353535; color: white;">
 
     <mat-nav-list>
-      <mat-list-item style="color: white">
+      <!-- <mat-list-item style="color: white">
         <mat-icon matListIcon>home</mat-icon>
         <h3 matLine> Home</h3>
-      </mat-list-item>
+      </mat-list-item> -->
       <mat-list-item (click)="onCalc()" style="color: white">
         <mat-icon matListIcon>apps</mat-icon>
         <h3 matLine> Calculate</h3>
@@ -39,6 +39,10 @@
       <mat-list-item style="color: white" (click)=routerReleaseManagement()>
         <mat-icon matListIcon>history</mat-icon>
         <h3 matLine> Release-Management </h3>
+      </mat-list-item>
+      <mat-list-item style="color: white" (click)=routerUserManagement()>
+        <mat-icon matListIcon>person_pin</mat-icon>
+        <h3 matLine> User-Management </h3>
       </mat-list-item>
       <!-- <mat-list-item style="color: white">
         <mat-icon matListIcon>history</mat-icon>

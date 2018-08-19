@@ -26,6 +26,7 @@ import { LookupService } from "./shared/services/lookup.service";
 import { ReleaseService } from "./shared/services/release.service";
 import { MaterialModule } from "../material.module";
 import { SharedModule } from "../shared/shared.module";
+import { UserManagementComponent } from './user-management/user-management.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { SharedModule } from "../shared/shared.module";
     LookupComponent,
     LookupDialogComponent,
     LookupMaintenanceComponent,
-    FunctionLookupTableComponent
+    FunctionLookupTableComponent,
+    UserManagementComponent
   ],
   entryComponents: [LookupDialogComponent],
   providers: [

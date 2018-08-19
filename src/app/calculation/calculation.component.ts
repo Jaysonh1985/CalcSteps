@@ -302,4 +302,7 @@ export class CalculationComponent implements OnInit {
   routerReleaseManagement() {
     this.router.navigate(["release-management", this.calculation.key]);
   }
+  routerUserManagement() {
+    this.router.navigate(["user-management", this.calculation.key]);
+  }
 }

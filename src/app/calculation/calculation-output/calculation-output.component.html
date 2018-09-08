@@ -12,6 +12,6 @@
   </div>
   <ag-grid-angular #outputGrid style="height:85vh; width: 100%;" class="ag-theme-balham" [gridOptions]="outputGridOptions"
     [rowSelection]="rowSelection" [rowDragManaged]="true" [animateRows]="true" [enableColResize]="true" (selectionChanged)="onSelectionChanged($event)" (cellValueChanged)="onDataChanged($event)" (rowDragEnd)="onDataChanged($event)"
-    (gridReady)="onGridReady($event)" [stopEditingWhenGridLosesFocus]="true">
+    (gridReady)="onGridReady($event)" [stopEditingWhenGridLosesFocus]="true"(rowDragEnd)="onDataChanged()">
   </ag-grid-angular>
 </div>

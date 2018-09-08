@@ -12,7 +12,7 @@
   </div>
   <ag-grid-angular #agGrid style="height:40vh; width: 99.5%" class="ag-theme-balham" [gridOptions]="gridOptions" [rowSelection]="rowSelection"
     [rowMultiSelectWithClick]="true" [rowDragManaged]="true" [animateRows]="true" [enableColResize]="true" (selectionChanged)="onSelectionChanged($event)"
-    (gridReady)="onGridReady($event)" [stopEditingWhenGridLosesFocus]="true" [rowClassRules]="rowClassRules" [defaultColDef]="defaultColDef" (cellValueChanged)="onDataChanged()">
+    (gridReady)="onGridReady($event)" [stopEditingWhenGridLosesFocus]="true" [rowClassRules]="rowClassRules" [defaultColDef]="defaultColDef" (cellValueChanged)="onDataChanged()" (rowDragEnd)="onDataChanged()">
   </ag-grid-angular>
 </div>
 <mat-card style="height: 40vh; overflow:auto;">

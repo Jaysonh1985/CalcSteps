@@ -16,6 +16,7 @@ export class CalculationOutputComponent implements OnInit {
   private gridApi;
   private gridColumnApi;
   @Output() messageEvent = new EventEmitter();
+  @Output() dataChangeEvent = new EventEmitter();
   @Input() calculationOutput: string[];
   @Input() configOutputsNumber: string[];
   @Input() configOutputsDate: string[];
@@ -106,8 +107,11 @@ export class CalculationOutputComponent implements OnInit {
     const selectedData = this.gridApi.getSelectedRows();
     const res = this.gridApi.updateRowData({ remove: selectedData });
   }
-  onSelectionChanged(event) {
+  onSelectionChanged() {
     this.messageEvent.emit("Add Input");
+  }
+  onDataChanged() {
+    this.dataChangeEvent.emit();
   }
   getAllRows(): CalculationOutput[] {
     const arr: Array<CalculationOutput> = [];

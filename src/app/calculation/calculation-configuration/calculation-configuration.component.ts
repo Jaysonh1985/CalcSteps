@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, ViewChild } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+  Output,
+  EventEmitter
+} from "@angular/core";
 import { GridOptions } from "ag-grid";
 
 import { CalculationInputComponent } from "../calculation-input/calculation-input.component";
@@ -23,9 +30,8 @@ export class CalculationConfigurationComponent implements OnInit {
   public autoCompleteArray;
   public selectedRow: any[];
   public rowClassRules;
-  @ViewChild(CalculationInputComponent)
-  @Input()
-  calculationConfiguration: string[];
+  @Output() dataChangeEvent = new EventEmitter();
+  @Input() calculationConfiguration: string[];
   public autoCompleteOptions: any[];
   public defaultColDef;
   constructor(private autocompleteService: AutoCompleteService) {
@@ -34,6 +40,7 @@ export class CalculationConfigurationComponent implements OnInit {
       cellClass: "align-right",
       enableCellChangeFlash: true
     };
+
     this.gridOptions.columnDefs = [
       {
         headerName: "Group",
@@ -121,7 +128,6 @@ export class CalculationConfigurationComponent implements OnInit {
       }
     };
   }
-
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
@@ -149,10 +155,12 @@ export class CalculationConfigurationComponent implements OnInit {
       true
     );
     const res = this.gridApi.updateRowData({ add: [newItem] });
+    this.onDataChanged();
   }
   onRemoveSelected() {
     const selectedData = this.gridApi.getSelectedRows();
     const res = this.gridApi.updateRowData({ remove: selectedData });
+    this.onDataChanged();
   }
   onSelectionChanged(event, myRows: CalculationConfiguration) {
     this.selectedRow = this.gridApi.getSelectedNodes();
@@ -176,6 +184,10 @@ export class CalculationConfigurationComponent implements OnInit {
       data.output = "";
       rowNode.setData(data);
     });
+    this.onDataChanged();
+  }
+  onDataChanged() {
+    this.dataChangeEvent.emit();
   }
   getLogicArray() {
     this.autoCompleteOptions = [];

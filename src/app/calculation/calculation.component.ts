@@ -1,4 +1,10 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
+import {
+  Validators,
+  FormGroup,
+  FormBuilder,
+  FormControl
+} from "@angular/forms";
 import { MatDialog, MatSnackBar } from "@angular/material";
 import { ActivatedRoute, Router } from "@angular/router";
 
@@ -34,6 +40,7 @@ export class CalculationComponent implements OnInit {
   private CalculationOutputComponent: CalculationOutputComponent;
   @ViewChild(CalculationConfigurationComponent)
   private CalculationConfigurationComponent: CalculationConfigurationComponent;
+  @ViewChild("calculationForm") calculationForm: any;
   events = [];
   opened = true;
   public calculationName: string;
@@ -60,7 +67,8 @@ export class CalculationComponent implements OnInit {
     private lookupService: LookupService,
     private authService: AuthService,
     private calculateService: CalculateService
-  ) {}
+  ) {
+  }
   ngOnInit() {
     const key = this.route.snapshot.params["key"];
     this.calcService
@@ -97,6 +105,7 @@ export class CalculationComponent implements OnInit {
       duration: 2000
     });
     this.opened = false;
+    this.calculationForm.reset();
   }
   onDelete() {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -305,4 +314,8 @@ export class CalculationComponent implements OnInit {
   routerUserManagement() {
     this.router.navigate(["user-management", this.calculation.key]);
   }
+  setFormDirty() {
+    this.calculationForm.control.markAsDirty();
+  }
+
 }

@@ -24,6 +24,7 @@ export class CalculationInputComponent implements OnInit {
   @Input() calculationInput: string[];
   @Input() release: boolean;
   @Output() messageEvent = new EventEmitter();
+  @Output() dataChangeEvent = new EventEmitter();
   public errorArray: CalculationError[];
   constructor(private autocompleteService: AutoCompleteService) {
     this.inputGridOptions = <GridOptions>{};
@@ -134,11 +135,13 @@ export class CalculationInputComponent implements OnInit {
     const newItem = new CalculationInput("", "", "", "", [], "", false);
     const res = this.gridApi.updateRowData({ add: [newItem] });
     this.autocompleteService.editAutocomplete(this.getAllRowsNodes());
+    this.onDataChanged();
   }
   onRemoveSelected() {
     const selectedData = this.gridApi.getSelectedRows();
     const res = this.gridApi.updateRowData({ remove: selectedData });
     this.autocompleteService.editAutocomplete(this.getAllRowsNodes());
+    this.onDataChanged();
   }
   onDeleteAllInputs() {
     this.gridApi.forEachNode(function(node, index) {
@@ -148,6 +151,10 @@ export class CalculationInputComponent implements OnInit {
       rowNode.setData(data);
     });
     this.autocompleteService.editAutocomplete(this.getAllRowsNodes());
+    this.onDataChanged();
+  }
+  onDataChanged() {
+    this.dataChangeEvent.emit();
   }
   getAllRows(): CalculationInput[] {
     const arr: Array<CalculationInput> = [];

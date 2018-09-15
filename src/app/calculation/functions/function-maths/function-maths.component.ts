@@ -8,22 +8,12 @@ import { CalculationError } from "../../shared/models/calculation-error";
 import { MatChipInputEvent } from "@angular/material";
 import { DragulaService } from "ng2-dragula";
 import { invalid } from "moment";
+import { Chip } from "../../shared/models/chip";
 
 export class Maths {
   formula: string[];
   constructor(formula) {
     this.formula = formula;
-  }
-}
-export class Chip {
-  name: string;
-  type: string;
-  datatype: string;
-
-  constructor(name, type, datatype) {
-    this.name = name,
-    this.type = type,
-    this.datatype = datatype;
   }
 }
 
@@ -40,15 +30,13 @@ export class FunctionMathsComponent implements OnInit {
   autoCompleteArray: any[];
   public maths: Maths;
   public autoCompleteOptions: any[];
-  filteredOptions: Observable<string[]>;
-  selectedChips: any[];
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
   droppedData: string;
-  subs = new Subscription();
+
   constructor(private dragulaService: DragulaService) {
     this.dragulaService.destroy("formula");
     this.dragulaService.createGroup("formula", {
@@ -65,19 +53,16 @@ export class FunctionMathsComponent implements OnInit {
         return target.id !== "options";
       }
     });
-    this.dragulaService.dropModel("formula").subscribe(args => {
-    });
+    this.dragulaService.dropModel("formula").subscribe(args => {});
   }
 
   ngOnInit() {
     if (this.selectedRow[0].maths == null) {
-      const newItem = new Maths([]);
-      this.selectedRow[0].maths = newItem;
+      this.selectedRow[0].maths = new Maths([]);
     }
     if (this.selectedRow[0].maths.formula == null) {
       this.selectedRow[0].maths.formula = [];
     }
-    this.selectedChips = [];
     this.autoCompleteOptions = [];
     this.autoCompleteOptions.push({ name: "(", type: "" });
     this.autoCompleteOptions.push({ name: ")", type: "" });

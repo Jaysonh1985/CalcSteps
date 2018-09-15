@@ -13,11 +13,12 @@ import "rxjs/add/operator/first";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import { environment } from "../../../../environments/environment";
+import { DragulaService } from "ng2-dragula";
 
 @Injectable()
 export class CalculateService {
   readonly api = `${environment.functionsURL}/app`;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private dragulaService: DragulaService) {}
 
   async getDistanceMatrix(origin: string, destination: string): Promise<any> {
     let params = new HttpParams();
@@ -99,7 +100,7 @@ export class CalculateService {
     calcService
   ): string {
     if (row.data.functionType === "Maths") {
-      const math = new FunctionMathsComponent();
+      const math = new FunctionMathsComponent(this.dragulaService);
       return math.calculate(row.data.maths, autocomplete);
     } else if (row.data.functionType === "Date Adjustment") {
       const dateAdjustment = new FunctionDateAdjustmentComponent();
@@ -149,7 +150,7 @@ export class CalculateService {
 
   runError(row, autocomplete, authService, lookupService): CalculationError[] {
     if (row.data.functionType === "Maths") {
-      const math = new FunctionMathsComponent();
+      const math = new FunctionMathsComponent(this.dragulaService);
       return math.errorCheck(row.data.maths, autocomplete);
     } else if (row.data.functionType === "Date Adjustment") {
       const dateAdjustment = new FunctionDateAdjustmentComponent();

@@ -15,7 +15,7 @@
     (gridReady)="onGridReady($event)" [stopEditingWhenGridLosesFocus]="true" [rowClassRules]="rowClassRules" [defaultColDef]="defaultColDef" (cellValueChanged)="onDataChanged()" (rowDragEnd)="onDataChanged()">
   </ag-grid-angular>
 </div>
-<mat-card style="height: 40vh; overflow:auto;">
+
   <div *ngFor="let row of selectedRows">
     <mat-form-field>
       <input matInput placeholder="Condition" [(ngModel)]="row.condition" style="font-size: small" [matAutocomplete]="auto">
@@ -45,4 +45,4 @@
       </mat-option>
     </mat-autocomplete>
   </div>
-</mat-card>
+

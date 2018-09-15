@@ -27,6 +27,8 @@ import { ReleaseService } from "./shared/services/release.service";
 import { MaterialModule } from "../material.module";
 import { SharedModule } from "../shared/shared.module";
 import { UserManagementComponent } from "./user-management/user-management.component";
+import { DragAndDropModule } from "angular-draggable-droppable";
+import { DragulaModule } from "ng2-dragula";
 
 @NgModule({
   imports: [
@@ -36,7 +38,9 @@ import { UserManagementComponent } from "./user-management/user-management.compo
     ReactiveFormsModule,
     AgGridModule,
     FlexLayoutModule,
-    SharedModule
+    SharedModule,
+    DragAndDropModule,
+    DragulaModule.forRoot()
   ],
   declarations: [
     CalculationComponent,

@@ -12,7 +12,7 @@ export class CalculationConfiguration {
   name: string;
   data: string;
   output: string;
-  maths: Maths[];
+  maths: Maths;
   dateAdjustment: DateAdjustment;
   dateDuration: DateDuration;
   distance: Distance;

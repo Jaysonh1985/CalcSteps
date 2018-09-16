@@ -24,7 +24,7 @@
       <p>Date 1<p>
           <mat-form-field style="width:100%">
             <mat-chip-list #selectedChips1>
-                <mat-chip selected [color]="primary" [removable]="removable" *ngFor="let chips of selectedRow[0].dateDuration.date1; let i=index"
+                <mat-chip  [color]="primary" [removable]="removable" *ngFor="let chips of selectedRow[0].dateDuration.date1; let i=index"
                   (removed)="removeDates1(i)">
                   {{chips.name}}
                   <mat-icon matChipRemove>cancel</mat-icon>
@@ -44,7 +44,7 @@
       <p>Date 2<p>
         <mat-form-field style="width:100%">
           <mat-chip-list #selectedChips2>
-              <mat-chip selected [color]="primary" [removable]="removable" *ngFor="let chips of selectedRow[0].dateDuration.date2; let i=index"
+              <mat-chip  [color]="primary" [removable]="removable" *ngFor="let chips of selectedRow[0].dateDuration.date2; let i=index"
                 (removed)="removeDates2(i)">
                 {{chips.name}}
                 <mat-icon matChipRemove>cancel</mat-icon>

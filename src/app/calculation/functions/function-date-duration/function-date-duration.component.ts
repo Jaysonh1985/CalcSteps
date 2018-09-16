@@ -9,7 +9,6 @@ import { CalculationError } from "../../shared/models/calculation-error";
 import { DragulaService } from "ng2-dragula";
 import { Chip } from "../../shared/models/chip";
 import { DragAndDropModule } from "angular-draggable-droppable";
-import { FormControl } from "@angular/forms";
 import { MatDatepickerInputEvent } from "@angular/material/datepicker";
 import {
   MAT_MOMENT_DATE_FORMATS,

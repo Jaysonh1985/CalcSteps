@@ -1,13 +1,43 @@
-<mat-form-field>
-  <input matInput placeholder="Origin" style="font-size: small" [(ngModel)]="selectedRow[0].distance.origin" [matAutocomplete]="auto"
-    (ngModelChange)="filteredOptions = filterAutoComplete(selectedRow[0].dateDuration.date1)">
+<mat-form-field style="width:100%">
+  <mat-chip-list>
+    <mat-chip *ngFor="let chip of autoCompleteOptions" selected draggable [dragData]="chip" id="options">
+      {{chip.name}}
+    </mat-chip>
+  </mat-chip-list>
+  <br>
 </mat-form-field>
-<mat-form-field>
-  <input matInput placeholder="Destination" [(ngModel)]="selectedRow[0].distance.destination" style="font-size: small" [matAutocomplete]="auto"
-    (ngModelChange)="filteredOptions = filterAutoComplete(selectedRow[0].distance.destination)">
-</mat-form-field>
-<mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-  <mat-option *ngFor="let option of filteredOptions" [value]="option">
-    {{ option }}
-  </mat-option>
-</mat-autocomplete>
+
+<table class="example-full-width" cellspacing="0">
+  <tr>
+    <td>
+      <p>Origin<p>
+          <mat-form-field style="width:100%">
+            <mat-chip-list #selectedChips1>
+              <mat-chip [removable]="removable" *ngFor="let chips of selectedRow[0].distance.origin"
+                (removed)="removeOrigin(i)">
+                {{chips.name}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-list>
+            <div style="width:100%" droppable (onDrop)="onOriginDrop($event)">
+              <input [matChipInputFor]="selectedChips1" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" id="dates1" (matChipInputTokenEnd)="addOrigin($event)" [matChipInputAddOnBlur]="addOnBlur" >
+            </div>
+          </mat-form-field>
+    </td>
+    <td>
+      <p>Destination<p>
+          <mat-form-field style="width:100%">
+            <mat-chip-list #selectedChips2>
+              <mat-chip [color]="primary" [removable]="removable" *ngFor="let chips of selectedRow[0].distance.destination; let i=index"
+                (removed)="removeDestination(i)">
+                {{chips.name}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-list>
+            <div style="width:100%" droppable (onDrop)="onDestinationDrop($event)">
+              <input [matChipInputFor]="selectedChips2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" id="dates2" >
+            </div>
+          </mat-form-field>
+    </td>
+  </tr>
+</table>

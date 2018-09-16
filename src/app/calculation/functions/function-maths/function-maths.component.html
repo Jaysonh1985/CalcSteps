@@ -13,7 +13,7 @@
 <mat-form-field style="width:100%" *ngIf="selectedRow[0].maths.formula.length > 0">
   <mat-chip-list #selectedChips2>
     <div class="container" dragula="formula" [(dragulaModel)]="selectedRow[0].maths.formula" id="formula">
-      <mat-chip *ngFor="let chips of selectedRow[0].maths.formula; let i=index" selected [color]="primary" [removable]="removable"
+      <mat-chip *ngFor="let chips of selectedRow[0].maths.formula; let i=index" [removable]="removable"
         (removed)="remove(i)" class="draggable">
         {{chips.name}}
         <mat-icon matChipRemove>cancel</mat-icon>

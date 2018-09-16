@@ -1,13 +1,8 @@
 import { Component, Input, OnInit, NgZone, ViewChild } from "@angular/core";
 import * as mathJs from "mathjs";
-import { Observable, Subscription } from "rxjs";
-import { CdkTextareaAutosize } from "@angular/cdk/text-field";
-import { take, concat } from "rxjs/operators";
 import { COMMA, ENTER } from "@angular/cdk/keycodes";
 import { CalculationError } from "../../shared/models/calculation-error";
-import { MatChipInputEvent } from "@angular/material";
 import { DragulaService } from "ng2-dragula";
-import { invalid } from "moment";
 import { Chip } from "../../shared/models/chip";
 
 export class Maths {

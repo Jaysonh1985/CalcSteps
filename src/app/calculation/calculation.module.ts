@@ -29,6 +29,7 @@ import { SharedModule } from "../shared/shared.module";
 import { UserManagementComponent } from "./user-management/user-management.component";
 import { DragAndDropModule } from "angular-draggable-droppable";
 import { DragulaModule } from "ng2-dragula";
+import { NgDragDropModule } from "ng-drag-drop";
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { DragulaModule } from "ng2-dragula";
     FlexLayoutModule,
     SharedModule,
     DragAndDropModule,
-    DragulaModule.forRoot()
+    DragulaModule.forRoot(),
+    NgDragDropModule.forRoot()
   ],
   declarations: [
     CalculationComponent,

@@ -5,12 +5,14 @@ import {
   MatCardModule,
   MatChipsModule,
   MatDialogModule,
+  MatNativeDateModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
   MatSelectModule,
   MatSidenavModule,
   MatSnackBarModule,
+  MatDatepickerModule,
   MatTabsModule,
   MatToolbarModule
 } from "@angular/material";
@@ -29,7 +31,9 @@ import {
     MatSnackBarModule,
     MatInputModule,
     MatSelectModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   exports: [
     MatAutocompleteModule,
@@ -44,7 +48,9 @@ import {
     MatSnackBarModule,
     MatInputModule,
     MatSelectModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ]
 })
 export class MaterialModule {}

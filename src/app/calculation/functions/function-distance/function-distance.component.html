@@ -13,14 +13,14 @@
       <p>Origin<p>
           <mat-form-field style="width:100%">
             <mat-chip-list #selectedChips1>
-              <mat-chip [removable]="removable" *ngFor="let chips of selectedRow[0].distance.origin"
+              <mat-chip [removable]="removable" *ngFor="let chips of selectedRow[0].distance.origin; let i = index"
                 (removed)="removeOrigin(i)">
                 {{chips.name}}
                 <mat-icon matChipRemove>cancel</mat-icon>
               </mat-chip>
             </mat-chip-list>
             <div style="width:100%" droppable (onDrop)="onOriginDrop($event)">
-              <input [matChipInputFor]="selectedChips1" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" id="dates1" (matChipInputTokenEnd)="addOrigin($event)" [matChipInputAddOnBlur]="addOnBlur" >
+              <input [matChipInputFor]="selectedChips1" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addOrigin($event)" [matChipInputAddOnBlur]="addOnBlur" >
             </div>
           </mat-form-field>
     </td>
@@ -28,14 +28,14 @@
       <p>Destination<p>
           <mat-form-field style="width:100%">
             <mat-chip-list #selectedChips2>
-              <mat-chip [color]="primary" [removable]="removable" *ngFor="let chips of selectedRow[0].distance.destination; let i=index"
+              <mat-chip [removable]="removable" *ngFor="let chips of selectedRow[0].distance.destination; let i=index"
                 (removed)="removeDestination(i)">
                 {{chips.name}}
                 <mat-icon matChipRemove>cancel</mat-icon>
               </mat-chip>
             </mat-chip-list>
             <div style="width:100%" droppable (onDrop)="onDestinationDrop($event)">
-              <input [matChipInputFor]="selectedChips2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" id="dates2" >
+              <input [matChipInputFor]="selectedChips2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"  (matChipInputTokenEnd)="addDestination($event)" [matChipInputAddOnBlur]="addOnBlur">
             </div>
           </mat-form-field>
     </td>

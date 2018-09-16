@@ -43,14 +43,21 @@ export class CalculateService {
     calcService
   ): Promise<any> {
     const distance = new FunctionDistanceComponent(calcService);
-    let Origin = distance.getAutoCompleteOutput(
-      row.data.distance.origin,
-      autocomplete
-    );
-    let Destination = distance.getAutoCompleteOutput(
-      row.data.distance.destination,
-      autocomplete
-    );
+    let Origin = "";
+    if (row.data.distance.origin[0].type === "variable") {
+       Origin = distance.getAutoCompleteOutput(
+        row.data.distance.origin[0].name,
+        autocomplete
+      );
+    }
+    let Destination = "";
+    if (row.data.distance.destination[0].type === "variable") {
+      Destination = distance.getAutoCompleteOutput(
+        row.data.distance.destination[0].name,
+        autocomplete
+      );
+    }
+
     Origin = Origin.replace(" ", "+");
     Destination = Destination.replace(" ", "+");
     return await this.getDistanceMatrix(Origin, Destination).then(data => {

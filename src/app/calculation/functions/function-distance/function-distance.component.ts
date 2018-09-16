@@ -36,6 +36,9 @@ export class FunctionDistanceComponent implements OnInit {
   constructor(private calcService: CalculationService) {}
 
   ngOnInit() {
+    if (this.selectedRow[0].distance == null) {
+      this.selectedRow[0].distance = [];
+    }
     if (this.selectedRow[0].distance.origin == null) {
       this.selectedRow[0].distance.origin = [];
     }
@@ -64,6 +67,25 @@ export class FunctionDistanceComponent implements OnInit {
     if ((value || "").trim()) {
       this.selectedRow[0].distance.origin = [];
       this.selectedRow[0].distance.origin.push({
+        name: value.trim(),
+        type: "",
+        datatype: "text"
+      });
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = "";
+    }
+  }
+  addDestination(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || "").trim()) {
+      this.selectedRow[0].distance.destination = [];
+      this.selectedRow[0].distance.destination.push({
         name: value.trim(),
         type: "",
         datatype: "text"

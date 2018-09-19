@@ -181,7 +181,7 @@ export class FunctionLookupTableComponent implements OnInit {
       this.selectedRow[0].lookupTable.LookupValue.push({
         name: value.trim(),
         type: "",
-        datatype: "text"
+        datatype: this.selectedRow[0].lookupTable.LookupType
       });
     }
 
@@ -252,11 +252,16 @@ export class FunctionLookupTableComponent implements OnInit {
         )
       );
     }
-    if (lookupTable.LookupType === "Date") {
-      const Date1 = this.getAutoCompleteOutputDate(
-        lookupTable.LookupValue[0].name,
-        autoComplete
-      );
+    if (lookupTable.LookupType === "Date"  && lookupTable.LookupValue.length > 0) {
+
+      let Date1 = lookupTable.LookupValue[0].name;
+      if (lookupTable.LookupValue[0].type === "variable") {
+        Date1 = this.getAutoCompleteOutputDate(
+          lookupTable.LookupValue[0].name,
+          autoComplete
+        );
+      }
+
       const a = moment(Date1, "DD/MM/YYYY", true);
       if (a.isValid() === false) {
         this.errorArray.push(
@@ -267,11 +272,16 @@ export class FunctionLookupTableComponent implements OnInit {
           )
         );
       }
-    } else if (lookupTable.LookupType === "Number") {
-      const Number2 = this.getAutoCompleteNumber(
-        lookupTable.LookupValue[0].name,
-        autoComplete
-      );
+    } else if (lookupTable.LookupType === "Number" && lookupTable.LookupValue.length > 0) {
+
+      let Number2 = lookupTable.LookupValue[0].name;
+      if (lookupTable.LookupValue[0].type === "variable") {
+        Number2 = this.getAutoCompleteNumber(
+          lookupTable.LookupValue[0].name,
+          autoComplete
+        );
+      }
+
       if (isNaN(Number(Number2))) {
         this.errorArray.push(
           new CalculationError(

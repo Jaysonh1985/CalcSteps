@@ -113,8 +113,12 @@ export class FunctionMathsComponent implements OnInit {
     let mathString: string;
     mathString = "";
     maths.formula.forEach(element => {
+      let number = element.name;
+      if (element.type === "variable") {
+        number = this.getAutoCompleteOutput(element.name, autoComplete);
+      }
       mathString = mathString.concat(
-        this.getAutoCompleteOutput(element.name, autoComplete)
+        number
       );
     });
     return mathJs.eval(mathString);

@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { CalculationService } from "../../shared/services/calculation.service";
 import { DragAndDropModule } from "angular-draggable-droppable";
 import { MatChipInputEvent } from "@angular/material";
+import { CalculationError } from "../../shared/models/calculation-error";
 
 export class Distance {
   origin: string[];
@@ -27,13 +28,15 @@ export class FunctionDistanceComponent implements OnInit {
   public autoCompleteOptions: any[];
   filteredOptions: Observable<string[]>;
   public distance: Distance;
+  public errorArray: CalculationError[];
+  public error: CalculationError;
   visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
   droppedData: string;
 
-  constructor(private calcService: CalculationService) {}
+  constructor() {}
 
   ngOnInit() {
     if (this.selectedRow[0].distance == null) {
@@ -130,5 +133,28 @@ export class FunctionDistanceComponent implements OnInit {
       }
     });
     return input;
+  }
+
+  errorCheck(distance, autoComplete): CalculationError[] {
+    this.errorArray = [];
+    if (distance.origin.length === 0) {
+      this.errorArray.push(
+        new CalculationError(
+          distance.rowIndex,
+          "Error",
+          "Origin is missing and is a required field"
+        )
+      );
+    }
+    if (distance.destination.length === 0) {
+      this.errorArray.push(
+        new CalculationError(
+          distance.rowIndex,
+          "Error",
+          "Destination is missing and is a required field"
+        )
+      );
+    }
+    return this.errorArray;
   }
 }

@@ -121,8 +121,8 @@ export class FunctionDateDurationComponent implements OnInit {
     this.selectedRow[0].dateDuration.date1 = [];
     this.selectedRow[0].dateDuration.date1.push({
       name: moment(event.value).format("DD/MM/YYYY"),
-      type: "date",
-      datatype: ""
+      type: "",
+      datatype: "date"
     });
   }
   addEventDate2(type: string, event: MatDatepickerInputEvent<Date>) {
@@ -131,7 +131,7 @@ export class FunctionDateDurationComponent implements OnInit {
     this.selectedRow[0].dateDuration.date2.push({
       name: moment(event.value).format("DD/MM/YYYY"),
       type: "date",
-      datatype: ""
+      datatype: "date"
     });
   }
 
@@ -212,42 +212,46 @@ export class FunctionDateDurationComponent implements OnInit {
       );
     }
     moment.locale("en-GB");
-    let Date1 = dateDuration.date1[0].name;
-    if (dateDuration.date1[0].type === "variable") {
-      Date1 = this.getAutoCompleteOutputDate(
-        dateDuration.date1[0].name,
-        autoComplete
-      );
+    if (dateDuration.date1.length > 0) {
+      let Date1 = dateDuration.date1[0].name;
+      if (dateDuration.date1[0].type === "variable") {
+        Date1 = this.getAutoCompleteOutputDate(
+          dateDuration.date1[0].name,
+          autoComplete
+        );
+      }
+      const a = moment(Date1, "DD/MM/YYYY", true);
+      if (a.isValid() === false) {
+        this.errorArray.push(
+          new CalculationError(
+            dateDuration.rowIndex,
+            "Error",
+            "Date 1 - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
+          )
+        );
+      }
     }
 
-    let Date2 = dateDuration.date2[0].name;
-    if (dateDuration.date2[0].type === "variable") {
-      Date2 = this.getAutoCompleteOutputDate(
-        dateDuration.date2[0].name,
-        autoComplete
-      );
+    if (dateDuration.date2.length > 0) {
+      let Date2 = dateDuration.date2[0].name;
+      if (dateDuration.date2[0].type === "variable") {
+        Date2 = this.getAutoCompleteOutputDate(
+          dateDuration.date2[0].name,
+          autoComplete
+        );
+      }
+      const b = moment(Date2, "DD/MM/YYYY", true);
+      if (b.isValid() === false) {
+        this.errorArray.push(
+          new CalculationError(
+            dateDuration.rowIndex,
+            "Error",
+            "Date 2 - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
+          )
+        );
+      }
     }
 
-    const a = moment(Date1, "DD/MM/YYYY", true);
-    const b = moment(Date2, "DD/MM/YYYY", true);
-    if (a.isValid() === false) {
-      this.errorArray.push(
-        new CalculationError(
-          dateDuration.rowIndex,
-          "Error",
-          "Date 1 - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
-        )
-      );
-    }
-    if (b.isValid() === false) {
-      this.errorArray.push(
-        new CalculationError(
-          dateDuration.rowIndex,
-          "Error",
-          "Date 2 - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
-        )
-      );
-    }
     return this.errorArray;
   }
 }

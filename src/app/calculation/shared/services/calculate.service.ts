@@ -42,7 +42,7 @@ export class CalculateService {
     lookupService,
     calcService
   ): Promise<any> {
-    const distance = new FunctionDistanceComponent(calcService);
+    const distance = new FunctionDistanceComponent();
     let Origin = "";
     if (row.data.distance.origin[0].type === "variable") {
        Origin = distance.getAutoCompleteOutput(
@@ -77,13 +77,12 @@ export class CalculateService {
       lookupService
     );
     let LookupValue: string;
-    LookupValue = row.data.lookupTable.LookupValue;
-    if (row.data.lookupTable.LookupType === "Date") {
+    LookupValue = row.data.lookupTable.LookupValue[0].name;
+    if (row.data.lookupTable.LookupType === "Date" && row.data.lookupTable.LookupValue[0].type === "variable") {
       LookupValue = lookupTable.getAutoCompleteOutputDate(
         row.data.lookupTable.LookupValue[0].name,
-        autocomplete
-      );
-    } else if (row.data.lookupTable.LookupType === "Number") {
+        autocomplete);
+    } else if (row.data.lookupTable.LookupType === "Number" && row.data.lookupTable.LookupValue[0].type === "variable") {
       LookupValue = lookupTable.getAutoCompleteNumber(
         row.data.lookupTable.LookupValue[0].name,
         autocomplete
@@ -168,6 +167,9 @@ export class CalculateService {
     } else if (row.data.functionType === "If Logic") {
       const ifLogic = new FunctionIfLogicComponent();
       return ifLogic.errorCheck(row.data.ifLogic, autocomplete);
+    } else if (row.data.functionType === "Distance") {
+      const distance = new FunctionDistanceComponent();
+      return distance.errorCheck(row.data.distance, autocomplete);
     } else if (row.data.functionType === "Lookup Table") {
       const lookupTable = new FunctionLookupTableComponent(
         authService,

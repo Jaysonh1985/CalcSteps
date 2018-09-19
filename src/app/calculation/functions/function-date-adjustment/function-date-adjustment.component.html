@@ -1,3 +1,13 @@
+<mat-form-field style="width:100%">
+  <p>Dates</p>
+  <mat-chip-list>
+    <mat-chip *ngFor="let chip of autoCompleteOptionsDate" selected draggable [dragData]="chip" id="options">
+      {{chip.name}}
+    </mat-chip>
+  </mat-chip-list>
+  <br>
+</mat-form-field>
+
 <mat-form-field>
   <mat-select [(ngModel)]="selectedRow[0].dateAdjustment.type" placeholder="Type">
     <mat-option value="Add">Add</mat-option>
@@ -11,32 +21,95 @@
     <mat-option value="Today">Today</mat-option>
   </mat-select>
 </mat-form-field>
-<table class="example-full-width" cellspacing="0">
+<table class="example-full-width" cellspacing="0" *ngIf="selectedRow[0].dateAdjustment.type !== ''">
+  <tr>
+    <td *ngIf="selectedRow[0].dateAdjustment.type != 'Today'">
+      <p>Date 1<p>
+          <mat-form-field style="width:100%">
+            <mat-chip-list #selectedChips1>
+              <mat-chip [color]="primary" [removable]="removable" *ngFor="let chips of selectedRow[0].dateAdjustment.date1; let i=index"
+                (removed)="removeDates1(i)">
+                {{chips.name}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-list>
+            <div style="width:100%" droppable (onDrop)="onDate1Drop($event)">
+              <div *ngIf="selectedRow[0].dateAdjustment.date1.length === 0">
+                <input matInput [matDatepicker]="picker" (dateInput)="addEventDate1('input', $event)" (dateChange)="addEventDate1('change', $event)">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </div>
+              <input [matChipInputFor]="selectedChips2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" id="dates1"
+                *ngIf="selectedRow[0].dateAdjustment.date1.length > 0" disabled>
+            </div>
+          </mat-form-field>
+    </td>
+    <td *ngIf="selectedRow[0].dateAdjustment.type == 'Earlier' || selectedRow[0].dateAdjustment.type == 'Later' || selectedRow[0].dateAdjustment.type == 'DatesBetween' || selectedRow[0].dateAdjustment.type== 'MonthsBetween'">
+      <p>Date 2<p>
+          <mat-form-field style="width:100%">
+            <mat-chip-list #selectedChips2>
+              <mat-chip [color]="primary" [removable]="removable" *ngFor="let chips of selectedRow[0].dateAdjustment.date2; let i=index"
+                (removed)="removeDates2(i)">
+                {{chips.name}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-list>
+            <div style="width:100%" droppable (onDrop)="onDate2Drop($event)">
+              <div *ngIf="selectedRow[0].dateAdjustment.date2.length === 0">
+                <input matInput [matDatepicker]="picker" (dateInput)="addEventDate2('input', $event)" (dateChange)="addEventDate2('change', $event)">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </div>
+              <input [matChipInputFor]="selectedChips2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" id="dates2"
+                *ngIf="selectedRow[0].dateAdjustment.date2.length > 0" disabled>
+            </div>
+          </mat-form-field>
+    </td>
+  </tr>
+</table>
+<mat-form-field style="width:100%" *ngIf="selectedRow[0].dateAdjustment.type == 'Add'|| selectedRow[0].dateAdjustment.type =='Subtract' || selectedRow[0].dateAdjustment.type == 'Adjust'|| selectedRow[0].dateAdjustment.type =='AdjustDay' || selectedRow[0].dateAdjustment.type =='DatesBetween' || selectedRow[0].dateAdjustment.type =='MonthsBetween'">
+  <p>Numbers</p>
+  <mat-chip-list>
+    <mat-chip *ngFor="let chip of autoCompleteOptionsNumber" selected draggable [dragData]="chip" id="options">
+      {{chip.name}}
+    </mat-chip>
+  </mat-chip-list>
+  <br>
+</mat-form-field>
+<table class="example-full-width" cellspacing="0" *ngIf="selectedRow[0].dateAdjustment.type == 'Add'|| selectedRow[0].dateAdjustment.type =='Subtract'">
   <tr>
     <td>
-      <mat-form-field *ngIf="selectedRow[0].dateAdjustment.type != 'Today'">
-        <input matInput placeholder="Date 1" [(ngModel)]="selectedRow[0].dateAdjustment.date1" style="font-size: small" [matAutocomplete]="auto" (ngModelChange)="filteredOptions = filterAutoComplete(selectedRow[0].dateAdjustment.date1)">
+      <mat-form-field>
+        <mat-select [(ngModel)]="selectedRow[0].dateAdjustment.periodType" placeholder="Period Type">
+          <mat-option value="YearsDays">Years Days</mat-option>
+          <mat-option value="YearsMonths">Years Months</mat-option>
+          <mat-option value="Years">Years</mat-option>
+          <mat-option value="Months">Months</mat-option>
+          <mat-option value="Days">Days</mat-option>
+        </mat-select>
       </mat-form-field>
     </td>
+  </tr>
+  <tr *ngIf="selectedRow[0].dateAdjustment.periodType !== ''">
     <td>
-      <mat-form-field *ngIf="selectedRow[0].dateAdjustment.type == 'Earlier' || selectedRow[0].dateAdjustment.type == 'Later' || selectedRow[0].dateAdjustment.type == 'DatesBetween' || selectedRow[0].dateAdjustment.type== 'MonthsBetween'">
-        <input matInput placeholder="Date 2" [(ngModel)]="selectedRow[0].dateAdjustment.date2" style="font-size: small" [matAutocomplete]="auto" (ngModelChange)="filteredOptions = filterAutoComplete(selectedRow[0].dateAdjustment.date2)">
+      <mat-form-field  style="width:100%">
+        <p>Period</p>
+        <mat-chip-list #periodList>
+          <mat-chip *ngFor="let chips of selectedRow[0].dateAdjustment.period" [removable]="removable"
+            (removed)="removePeriod()">
+            {{chips.name}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+        <div style="width:100%" droppable (onDrop)="onPeriodDrop($event)">
+            <input [matChipInputFor]="periodList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"  (matChipInputTokenEnd)="addEventPeriod($event)" [matChipInputAddOnBlur]="addOnBlur" type="number">
+          </div>
       </mat-form-field>
     </td>
   </tr>
 </table>
-<mat-form-field *ngIf="selectedRow[0].dateAdjustment.type == 'Add'|| selectedRow[0].dateAdjustment.type =='Subtract'">
-  <mat-select [(ngModel)]="selectedRow[0].dateAdjustment.periodType" placeholder="Period Type">
-    <mat-option value="YearsDays">Years Days</mat-option>
-    <mat-option value="YearsMonths">Years Months</mat-option>
-    <mat-option value="Years">Years</mat-option>
-    <mat-option value="Months">Months</mat-option>
-    <mat-option value="Days">Days</mat-option>
-  </mat-select>
-</mat-form-field>
-<mat-form-field *ngIf="selectedRow[0].dateAdjustment.type == 'Add'|| selectedRow[0].dateAdjustment.type =='Subtract'">
-  <input matInput placeholder="Period" [(ngModel)]="selectedRow[0].dateAdjustment.period" style="font-size: small" [matAutocomplete]="auto">
-</mat-form-field>
+
+
 <mat-form-field *ngIf="selectedRow[0].dateAdjustment.type == 'Adjust'|| selectedRow[0].dateAdjustment.type =='AdjustDay'">
   <mat-select [(ngModel)]="selectedRow[0].dateAdjustment.adjustment" placeholder="Adjustment Type">
     <mat-option value="Less">Before</mat-option>
@@ -47,10 +120,12 @@
   </mat-select>
 </mat-form-field>
 <mat-form-field *ngIf="selectedRow[0].dateAdjustment.type == 'Adjust'|| selectedRow[0].dateAdjustment.type =='AdjustDay' || selectedRow[0].dateAdjustment.type =='DatesBetween' || selectedRow[0].dateAdjustment.type =='MonthsBetween'">
-  <input matInput placeholder="Day" [(ngModel)]="selectedRow[0].dateAdjustment.day" style="font-size: small" [matAutocomplete]="auto">
+  <input matInput placeholder="Day" [(ngModel)]="selectedRow[0].dateAdjustment.day" style="font-size: small"
+    [matAutocomplete]="auto">
 </mat-form-field>
 <mat-form-field *ngIf="selectedRow[0].dateAdjustment.type == 'Adjust'|| selectedRow[0].dateAdjustment.type =='DatesBetween'">
-  <input matInput placeholder="Month" [(ngModel)]="selectedRow[0].dateAdjustment.month" style="font-size: small" [matAutocomplete]="auto">
+  <input matInput placeholder="Month" [(ngModel)]="selectedRow[0].dateAdjustment.month" style="font-size: small"
+    [matAutocomplete]="auto">
 </mat-form-field>
 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
   <mat-option *ngFor="let option of filteredOptions" [value]="option">

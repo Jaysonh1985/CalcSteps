@@ -8,6 +8,16 @@ import { CalculationError } from "../../shared/models/calculation-error";
 import { LookupService } from "../../shared/services/lookup.service";
 import { MatChipInputEvent } from "@angular/material";
 import { DragAndDropModule } from "angular-draggable-droppable";
+import { MatDatepickerInputEvent } from "@angular/material/datepicker";
+import {
+  MAT_MOMENT_DATE_FORMATS,
+  MomentDateAdapter
+} from "@angular/material-moment-adapter";
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE
+} from "@angular/material/core";
 
 export class LookupTable {
   TableName: string;
@@ -190,7 +200,15 @@ export class FunctionLookupTableComponent implements OnInit {
       input.value = "";
     }
   }
-
+  addEventLookup(type: string, event: MatDatepickerInputEvent<Date>) {
+    moment.locale("en-GB");
+    this.selectedRow[0].lookupTable.LookupValue = [];
+    this.selectedRow[0].lookupTable.LookupValue.push({
+      name: moment(event.value).format("DD/MM/YYYY"),
+      type: "",
+      datatype: "date"
+    });
+  }
   onValueDrop(data: any) {
     // Get the dropped data here
     this.selectedRow[0].lookupTable.LookupValue = [];

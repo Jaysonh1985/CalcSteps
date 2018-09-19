@@ -1,3 +1,22 @@
+<mat-form-field style="width:100%" *ngIf="selectedRow[0].lookupTable.LookupType !== ''">
+  <mat-chip-list *ngIf="selectedRow[0].lookupTable.LookupType === 'Number'">
+    <mat-chip  *ngFor="let chip of autoCompleteOptionsNumber" selected draggable [dragData]="chip" id="options">
+      {{chip.name}}
+    </mat-chip>
+  </mat-chip-list>
+  <mat-chip-list *ngIf="selectedRow[0].lookupTable.LookupType === 'Date'">
+    <mat-chip  *ngFor="let chip of autoCompleteOptionsDate" selected draggable [dragData]="chip" id="options">
+      {{chip.name}}
+    </mat-chip>
+  </mat-chip-list>
+  <mat-chip-list *ngIf="selectedRow[0].lookupTable.LookupType === 'Text'">
+    <mat-chip  *ngFor="let chip of autoCompleteOptionsText" selected draggable [dragData]="chip" id="options">
+      {{chip.name}}
+    </mat-chip>
+  </mat-chip-list>
+  <br>
+</mat-form-field>
+
 <mat-form-field>
   <mat-select placeholder="Table Name" [(ngModel)]="selectedRow[0].lookupTable.TableName" (ngModelChange)="setColumnList(selectedRow[0].lookupTable.TableName)">
     <mat-option>----</mat-option>
@@ -11,10 +30,20 @@
     <mat-option value="Text">Text</mat-option>
   </mat-select>
 </mat-form-field>
-<mat-form-field>
-  <input matInput placeholder="Lookup Value" [(ngModel)]="selectedRow[0].lookupTable.LookupValue" style="font-size: small"
-    [matAutocomplete]="auto" (ngModelChange)="filteredOptions = filterAutoComplete(selectedRow[0].lookupTable.LookupValue)">
+<mat-form-field style="width:100%">
+  <p>Lookup Value</p>
+  <mat-chip-list #selectedChips1>
+    <mat-chip [removable]="removable" *ngFor="let chips of selectedRow[0].lookupTable.LookupValue; let i = index" (removed)="removeValue(i)">
+      {{chips.name}}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+  </mat-chip-list>
+  <div style="width:100%" droppable (onDrop)="onValueDrop($event)">
+    <input [matChipInputFor]="selectedChips1" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      (matChipInputTokenEnd)="addValue($event)" [matChipInputAddOnBlur]="addOnBlur">
+  </div>
 </mat-form-field>
+
 <mat-form-field>
   <mat-select placeholder="Column" [(ngModel)]="selectedRow[0].lookupTable.ColumnNo">
     <mat-option *ngFor="let column of columnList" [value]="column.key">{{column.name}}</mat-option>

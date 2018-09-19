@@ -80,12 +80,12 @@ export class CalculateService {
     LookupValue = row.data.lookupTable.LookupValue;
     if (row.data.lookupTable.LookupType === "Date") {
       LookupValue = lookupTable.getAutoCompleteOutputDate(
-        row.data.lookupTable.LookupValue,
+        row.data.lookupTable.LookupValue[0].name,
         autocomplete
       );
     } else if (row.data.lookupTable.LookupType === "Number") {
       LookupValue = lookupTable.getAutoCompleteNumber(
-        row.data.lookupTable.LookupValue,
+        row.data.lookupTable.LookupValue[0].name,
         autocomplete
       );
     }

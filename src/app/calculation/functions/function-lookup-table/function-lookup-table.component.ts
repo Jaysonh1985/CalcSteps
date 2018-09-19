@@ -6,11 +6,13 @@ import * as moment from "moment";
 import { AuthService } from "../../../shared/services/auth.service";
 import { CalculationError } from "../../shared/models/calculation-error";
 import { LookupService } from "../../shared/services/lookup.service";
+import { MatChipInputEvent } from "@angular/material";
+import { DragAndDropModule } from "angular-draggable-droppable";
 
 export class LookupTable {
   TableName: string;
   LookupType: string;
-  LookupValue: string;
+  LookupValue: string[];
   OutputType: string;
   RowMatch: string;
   RowMatchLookupType: string;
@@ -32,7 +34,7 @@ export class LookupTable {
   ) {
     this.TableName = "";
     this.LookupType = "";
-    this.LookupValue = "";
+    this.LookupValue = [];
     this.OutputType = "";
     this.RowMatch = "";
     this.RowMatchLookupType = "";
@@ -51,10 +53,17 @@ export class FunctionLookupTableComponent implements OnInit {
   @Input() selectedRow: any[];
   @Input() autoCompleteArray: any[];
   public lookupTable: LookupTable;
-  public autoCompleteOptions: any[];
+  public autoCompleteOptionsNumber: any[];
+  public autoCompleteOptionsText: any[];
+  public autoCompleteOptionsDate: any[];
   public errorArray: CalculationError[];
   lookups: any;
   columnList: any;
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  droppedData: string;
   constructor(
     private authService: AuthService,
     private lookupService: LookupService
@@ -64,11 +73,33 @@ export class FunctionLookupTableComponent implements OnInit {
     if (this.selectedRow[0].lookupTable == null) {
       this.selectedRow[0].lookupTable = this.lookupTable;
     }
-    this.autoCompleteOptions = [];
+    if (this.selectedRow[0].lookupTable.LookupValue == null) {
+      this.selectedRow[0].lookupTable.LookupValue = [];
+    }
+    this.autoCompleteOptionsNumber = [];
+    this.autoCompleteOptionsText = [];
+    this.autoCompleteOptionsDate = [];
     this.autoCompleteArray.forEach(element => {
       if (element.data.name !== "") {
-        const autoCompleteText = element.data.name;
-        this.autoCompleteOptions.push(autoCompleteText);
+        if (element.data.data === "Number") {
+          this.autoCompleteOptionsNumber.push({
+            name: element.data.name,
+            type: "variable",
+            datatype: element.data.data
+          });
+        } else if ( element.data.data === "Date") {
+          this.autoCompleteOptionsDate.push({
+            name: element.data.name,
+            type: "variable",
+            datatype: element.data.data
+          });
+        } else if ( element.data.data === "Text") {
+          this.autoCompleteOptionsText.push({
+            name: element.data.name,
+            type: "variable",
+            datatype: element.data.data
+          });
+        }
       }
     });
     this.authService.userFirebase.subscribe(auth => {
@@ -88,16 +119,6 @@ export class FunctionLookupTableComponent implements OnInit {
           });
       }
     });
-  }
-  filterAutoComplete(val: string) {
-    if (val) {
-      const filterValue = val.toLowerCase();
-      const filteredResults = this.autoCompleteOptions.filter(state =>
-        state.toLowerCase().startsWith(filterValue)
-      );
-      return filteredResults;
-    }
-    return this.autoCompleteOptions;
   }
   setColumnList(key: string) {
     if (key) {
@@ -150,6 +171,39 @@ export class FunctionLookupTableComponent implements OnInit {
     }
     return input;
   }
+  addValue(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || "").trim()) {
+      this.selectedRow[0].lookupTable.LookupValue = [];
+      this.selectedRow[0].lookupTable.LookupValue.push({
+        name: value.trim(),
+        type: "",
+        datatype: "text"
+      });
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = "";
+    }
+  }
+
+  onValueDrop(data: any) {
+    // Get the dropped data here
+    this.selectedRow[0].lookupTable.LookupValue = [];
+    this.selectedRow[0].lookupTable.LookupValue.push({
+      name: data.dragData.name,
+      type: data.dragData.type,
+      datatype: data.dragData.datatype
+    });
+  }
+  removeValue() {
+    this.selectedRow[0].lookupTable.LookupValue = [];
+  }
+
   calculate(lookupTable, autoComplete): any {}
   errorCheck(lookupTable, autoComplete): CalculationError[] {
     this.errorArray = [];
@@ -171,7 +225,7 @@ export class FunctionLookupTableComponent implements OnInit {
         )
       );
     }
-    if (!lookupTable.LookupValue) {
+    if (lookupTable.LookupValue.length === 0) {
       this.errorArray.push(
         new CalculationError(
           lookupTable.rowIndex,
@@ -200,7 +254,7 @@ export class FunctionLookupTableComponent implements OnInit {
     }
     if (lookupTable.LookupType === "Date") {
       const Date1 = this.getAutoCompleteOutputDate(
-        lookupTable.LookupValue,
+        lookupTable.LookupValue[0].name,
         autoComplete
       );
       const a = moment(Date1, "DD/MM/YYYY", true);
@@ -215,7 +269,7 @@ export class FunctionLookupTableComponent implements OnInit {
       }
     } else if (lookupTable.LookupType === "Number") {
       const Number2 = this.getAutoCompleteNumber(
-        lookupTable.LookupValue,
+        lookupTable.LookupValue[0].name,
         autoComplete
       );
       if (isNaN(Number(Number2))) {

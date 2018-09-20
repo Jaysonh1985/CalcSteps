@@ -1,29 +1,36 @@
 <app-toolbar [title]="'Lookup Maintenance'"></app-toolbar>
-<div class="container">
-  <br/>
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Group</th>
-        <th scope="col">Name</th>
-        <th scope="col">Owner</th>
-        <th scope="col">Update Date</th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of lookups">
-        <td>{{item.group}}</td>
-        <td>{{item.name}}</td>
-        <td>{{item.owner}}</td>
-        <td>{{item.updatedate}}</td>
-        <td>{{item.regressionpass}}</td>
-        <td>
-          <button mat-raised-button (click)="editLookup(item)">View</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <button mat-raised-button (click)="onAddLookup()">Add</button>
-</div>
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #sidenav mode="side" opened="true" style="background: #353535; color: white;" class="example-sidenav">
+    <app-sidenav [sideNav]="config.sideNav"></app-sidenav>
+  </mat-sidenav>
+  <mat-sidenav-content style="height:90%">
+    <div class="container">
+      <br/>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Group</th>
+            <th scope="col">Name</th>
+            <th scope="col">Owner</th>
+            <th scope="col">Update Date</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of lookups">
+            <td>{{item.group}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.owner}}</td>
+            <td>{{item.updatedate}}</td>
+            <td>{{item.regressionpass}}</td>
+            <td>
+              <button mat-raised-button (click)="editLookup(item)">View</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button mat-raised-button (click)="onAddLookup()">Add</button>
+    </div>  
+  </mat-sidenav-content>
+</mat-sidenav-container>

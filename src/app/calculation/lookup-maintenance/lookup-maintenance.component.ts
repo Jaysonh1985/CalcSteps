@@ -22,6 +22,14 @@ export class LookupMaintenanceComponent implements OnInit {
   lookups: any;
   displayName: string;
   lookup: Lookup = null;
+  config = {
+    sideNav: [
+      { name: "Home", routerLink: "../", icon: "home" },
+      { name: "Account", routerLink: "../account", icon: "account_circle" },
+      { name: "Lookup Table", routerLink: "../lookup-maintenance", icon: "folder" },
+      { name: "Help", routerLink: "../account", icon: "help_outline" },
+    ]
+  };
   ngOnInit() {
     this.authService.userFirebase.subscribe(auth => {
       if (auth) {

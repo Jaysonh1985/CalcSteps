@@ -28,7 +28,8 @@ export class DashboardComponent implements OnInit {
     sideNav: [
       { name: "Home", routerLink: "../", icon: "home" },
       { name: "Account", routerLink: "../account", icon: "account_circle" },
-      { name: "Help", routerLink: "../account", icon: "help_outline" }
+      { name: "Lookup Table", routerLink: "../lookup-maintenance", icon: "folder" },
+      { name: "Help", routerLink: "../account", icon: "help_outline" },
     ]
   };
   constructor(

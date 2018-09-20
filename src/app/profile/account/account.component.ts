@@ -14,6 +14,14 @@ export class AccountComponent implements OnInit {
   name: any;
   email: any;
   accountReference: any;
+  config = {
+    sideNav: [
+      { name: "Home", routerLink: "../", icon: "home" },
+      { name: "Account", routerLink: "../account", icon: "account_circle" },
+      { name: "Lookup Table", routerLink: "../lookup-maintenance", icon: "folder" },
+      { name: "Help", routerLink: "../account", icon: "help_outline" },
+    ]
+  };
   constructor(
     private router: Router,
     public authService: AuthService,

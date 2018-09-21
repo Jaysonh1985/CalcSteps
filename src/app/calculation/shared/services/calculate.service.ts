@@ -115,7 +115,7 @@ export class CalculateService {
       const dateDuration = new FunctionDateDurationComponent();
       return dateDuration.calculate(row.data.dateDuration, autocomplete);
     } else if (row.data.functionType === "If Logic") {
-      const ifLogic = new FunctionIfLogicComponent();
+      const ifLogic = new FunctionIfLogicComponent(this.dragulaService);
       return ifLogic.calculate(row.data.ifLogic, autocomplete);
     }
     return "";
@@ -165,7 +165,7 @@ export class CalculateService {
       const dateDuration = new FunctionDateDurationComponent();
       return dateDuration.errorCheck(row.data.dateDuration, autocomplete);
     } else if (row.data.functionType === "If Logic") {
-      const ifLogic = new FunctionIfLogicComponent();
+      const ifLogic = new FunctionIfLogicComponent(this.dragulaService);
       return ifLogic.errorCheck(row.data.ifLogic, autocomplete);
     } else if (row.data.functionType === "Distance") {
       const distance = new FunctionDistanceComponent();

@@ -1,55 +1,67 @@
-<div class="row" *ngFor="let row of selectedRow[0].ifLogic; let i = index" style="border: 1px solid #CCC; background: white; padding-left: 3%;
-    padding-top: 1%;">
-  <mat-form-field style="width: 30px">
-    <mat-select [(ngModel)]="row.bracketOpen">
-      <mat-option [value]=""></mat-option>
-      <mat-option [value]="'('">(</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field style="width: 130px">
-<input matInput placeholder="Input 1" [(ngModel)]="row.input1" style="font-size: small" [matAutocomplete]="auto" (ngModelChange)="filteredOptions = filterAutoComplete(row.input1)">
+<br>
+<mat-form-field>
+  <mat-select placeholder="Logic Data Type" [(ngModel)]="selectedRow[0].ifLogic.datatype">
+    <mat-option value="Date">Date</mat-option>
+    <mat-option value="Number">Number</mat-option>
+    <mat-option value="Text">Text</mat-option>
+  </mat-select>
+</mat-form-field>
 
+<mat-form-field style="width:100%" *ngIf="selectedRow[0].ifLogic.datatype !== ''">
+  <mat-chip-list>
+    <div class="container" dragula="formula" [(dragulaModel)]="autoCompleteOptions" id="options">
+      <mat-chip *ngFor="let chip of autoCompleteOptions" selected class="draggable">
+        {{chip.name}}
+      </mat-chip>
+    </div>
+  </mat-chip-list>
+  <mat-chip-list *ngIf="selectedRow[0].ifLogic.datatype === 'Number'">
+    <div class="container" dragula="formula" [(dragulaModel)]="autoCompleteOptionsNumber" id="options">
+      <mat-chip *ngFor="let chip of autoCompleteOptionsNumber" selected class="draggable">
+        {{chip.name}}
+      </mat-chip>
+    </div>
+  </mat-chip-list>
+  <mat-chip-list *ngIf="selectedRow[0].ifLogic.datatype === 'Date'">
+    <div class="container" dragula="formula" [(dragulaModel)]="autoCompleteOptionsDate" id="options">
+      <mat-chip *ngFor="let chip of autoCompleteOptionsDate" selected class="draggable">
+        {{chip.name}}
+      </mat-chip>
+    </div>
+  </mat-chip-list>
+  <mat-chip-list *ngIf="selectedRow[0].ifLogic.datatype === 'Text'">
+    <div class="container" dragula="formula" [(dragulaModel)]="autoCompleteOptionsText" id="options">
+      <mat-chip *ngFor="let chip of autoCompleteOptionsText" selected class="draggable">
+        {{chip.name}}
+      </mat-chip>
+    </div>
+  </mat-chip-list>
+  <br>
+</mat-form-field>
 
-  </mat-form-field>
-  <mat-form-field style="width: 40px">
-    <mat-select [(ngModel)]="row.functionType">
-      <mat-option value=""></mat-option>
-      <mat-option value="=">=</mat-option>
-      <mat-option value="NotEqual">
-        !=
-      </mat-option>
-      <mat-option value="Greater">></mat-option>
-      <mat-option value="GreaterEqual">>=</mat-option>
-      <mat-option value="Less">
-        <</mat-option>
-          <mat-option value="LessEqual">
-            <=</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field style="width: 130px">
-<input matInput placeholder="Input 2" [(ngModel)]="row.input2" style="font-size: small" [matAutocomplete]="auto" (ngModelChange)="filteredOptions = filterAutoComplete(row.input2)">
-
-  </mat-form-field>
-  <mat-form-field style="width: 30px">
-    <mat-select [(ngModel)]="row.bracketClose">
-      <mat-option [value]=""></mat-option>
-      <mat-option [value]="')'">)</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field style="width: 50px">
-    <mat-select [(ngModel)]="row.nextFunction">
-      <mat-option value=""></mat-option>
-      <mat-option value="and">AND</mat-option>
-      <mat-option value="or">OR</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-  <mat-option *ngFor="let option of filteredOptions" [value]="option">
-      {{ option }}
-    </mat-option>
-  </mat-autocomplete>
-  <button mat-icon-button style="font-size: small">
-    <mat-icon matListIcon (click)="onDeleteRow(i)" style="font-size: small; color: red">remove</mat-icon>
-  </button>
+<div *ngIf="selectedRow[0].ifLogic.datatype !== ''">
+  <p>Formula<p>
+      <mat-form-field style="width:100%" *ngIf="selectedRow[0].ifLogic.formula.length > 0">
+        <mat-chip-list #selectedChips2>
+          <div class="container" dragula="formula" [(dragulaModel)]="selectedRow[0].ifLogic.formula" id="formula">
+            <mat-chip *ngFor="let chips of selectedRow[0].ifLogic.formula; let i=index" [removable]="removable"
+              (removed)="remove(i)" class="draggable">
+              {{chips.name}}
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+          </div>
+        </mat-chip-list>
+        <input [matChipInputFor]="selectedChips2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" readonly>
+      </mat-form-field>
+      <mat-form-field style="width:100%" *ngIf="selectedRow[0].ifLogic.formula.length === 0">
+        <div class="container" dragula="formula" [(dragulaModel)]="selectedRow[0].ifLogic.formula" id="formula">
+          <mat-chip-list>
+            <div class="container">
+              <mat-chip>
+                Add Chip Here
+              </mat-chip>
+            </div>
+          </mat-chip-list>
+        </div>
+      </mat-form-field>
 </div>
-<button mat-button (click)="onAddRow()">Add Row</button>

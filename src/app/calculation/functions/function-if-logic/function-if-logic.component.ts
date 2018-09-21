@@ -1,30 +1,18 @@
 import { Component, Input, OnInit } from "@angular/core";
 import * as expeval from "expr-eval";
 import { Observable } from "rxjs";
-
+import { COMMA, ENTER } from "@angular/cdk/keycodes";
+import { DragulaService } from "ng2-dragula";
+import { Chip } from "../../shared/models/chip";
 import { CalculationError } from "../../shared/models/calculation-error";
+import * as moment from "moment";
 
 export class IfLogic {
-  bracketOpen: string;
-  input1: string;
-  functionType: string;
-  input2: string;
-  bracketClose: string;
-  nextFunction: string;
-  constructor(
-    bracketOpen,
-    input1,
-    functionType,
-    input2,
-    bracketClose,
-    nextFunction
-  ) {
-    this.bracketOpen = "";
-    this.input1 = "";
-    this.functionType = "";
-    this.input2 = "";
-    this.bracketClose = "";
-    this.nextFunction = "";
+  datatype: string;
+  formula: string[];
+  constructor(datatype, formula) {
+    this.formula = formula;
+    this.datatype = datatype;
   }
 }
 @Component({
@@ -34,40 +22,119 @@ export class IfLogic {
 })
 export class FunctionIfLogicComponent implements OnInit {
   errorArray: any[];
-  @Input() selectedRow: any[];
-  @Input() autoCompleteArray: any[];
+  @Input()
+  selectedRow: any[];
+  @Input()
+  autoCompleteArray: any[];
   public ifLogic: IfLogic;
   public autoCompleteOptions: any[];
   filteredOptions: Observable<string[]>;
-  constructor() {}
-  onAddRow() {
-    this.selectedRow[0].ifLogic.push(new IfLogic("", "", "", "", "", ""));
+  public autoCompleteOptionsNumber: any[];
+  public autoCompleteOptionsText: any[];
+  public autoCompleteOptionsDate: any[];
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  droppedData: string;
+  constructor(private dragulaService: DragulaService) {
+    this.dragulaService.destroy("formula");
+    this.dragulaService.createGroup("formula", {
+      revertOnSpill: true,
+      direction: "horizontal",
+      copy: (el, source) => {
+        return source.id === "options";
+      },
+      copyItem: (chip: Chip) => {
+        return new Chip(chip.name, chip.type, chip.datatype);
+      },
+      accepts: (el, target, source, sibling) => {
+        // To avoid dragging from right to left container
+        return target.id !== "options";
+      }
+    });
+    this.dragulaService.dropModel("formula").subscribe(args => {});
   }
-  onDeleteRow(index) {
-    this.selectedRow[0].ifLogic.splice(index, 1);
-  }
+
   ngOnInit() {
     if (this.selectedRow[0].ifLogic == null) {
       this.selectedRow[0].ifLogic = [this.ifLogic];
     }
+    if (this.selectedRow[0].ifLogic.formula == null) {
+      this.selectedRow[0].ifLogic.formula = [];
+    }
+    if (this.selectedRow[0].ifLogic.datatype == null) {
+      this.selectedRow[0].ifLogic.datatype = "";
+    }
     this.autoCompleteOptions = [];
+    this.autoCompleteOptions.push({ name: "==", type: "" });
+    this.autoCompleteOptions.push({ name: "!=", type: "" });
+    this.autoCompleteOptions.push({ name: ">", type: "" });
+    this.autoCompleteOptions.push({ name: ">=", type: "" });
+    this.autoCompleteOptions.push({ name: "<", type: "" });
+    this.autoCompleteOptions.push({ name: "<=", type: "" });
+    this.autoCompleteOptions.push({ name: "(", type: "" });
+    this.autoCompleteOptions.push({ name: ")", type: "" });
+    this.autoCompleteOptions.push({ name: "and", type: "" });
+    this.autoCompleteOptions.push({ name: "or", type: "" });
+    this.autoCompleteOptionsNumber = [];
+    this.autoCompleteOptionsText = [];
+    this.autoCompleteOptionsDate = [];
     this.autoCompleteArray.forEach(element => {
       if (element.data.name !== "") {
-        const autoCompleteText = element.data.name;
-        this.autoCompleteOptions.push(autoCompleteText);
+        if (element.data.data === "Number") {
+          this.autoCompleteOptionsNumber.push({
+            name: element.data.name,
+            type: "variable",
+            datatype: element.data.data
+          });
+        } else if (element.data.data === "Date") {
+          this.autoCompleteOptionsDate.push({
+            name: element.data.name,
+            type: "variable",
+            datatype: element.data.data
+          });
+        } else if (element.data.data === "Text") {
+          this.autoCompleteOptionsText.push({
+            name: element.data.name,
+            type: "variable",
+            datatype: element.data.data
+          });
+        }
       }
     });
   }
-  filterAutoComplete(val: string) {
-    if (val) {
-      const filterValue = val.toLowerCase();
-      const filteredResults = this.autoCompleteOptions.filter(state =>
-        state.toLowerCase().startsWith(filterValue)
-      );
-      return filteredResults;
+
+  getAutoCompleteOutputDate(InputValue, array): any {
+    let input = 0;
+    const date = moment(InputValue, "DD/MM/YYYY", true);
+    if (date.isValid() === false) {
+      input = InputValue;
+      array.forEach(value => {
+        if (value.data.name === InputValue && value.data.data === "Date") {
+          input = value.data.output;
+        }
+      });
+    } else {
+      input = InputValue;
     }
-    return this.autoCompleteOptions;
+    return input;
   }
+  getAutoCompleteNumber(InputValue, array): any {
+    let input = 0;
+    if (isNaN(Number(InputValue))) {
+      input = InputValue;
+      array.forEach(value => {
+        if (value.data.name === InputValue) {
+          input = value.data.output;
+        }
+      });
+    } else {
+      input = InputValue;
+    }
+    return input;
+  }
+
   private getAutoCompleteOutput(InputValue, array): any {
     let input = 0;
     if (isNaN(Number(InputValue))) {
@@ -82,123 +149,74 @@ export class FunctionIfLogicComponent implements OnInit {
     }
     return input;
   }
-  private getFunctionType(functionType): any {
-    if (functionType === "=") {
-      return "==";
-    } else if (functionType === "NotEqual") {
-      return "!=";
-    } else if (functionType === "Greater") {
-      return ">";
-    } else if (functionType === "GreaterEqual") {
-      return ">=";
-    } else if (functionType === "Less") {
-      return "<";
-    } else if (functionType === "LessEqual") {
-      return "<=";
+  remove(index): void {
+    if (index >= 0) {
+      this.selectedRow[0].ifLogic.formula.splice(index, 1);
     }
   }
-  public calculate(maths, autoComplete): any {
-    let ifLogicString = "";
-    maths.forEach(column => {
-      const input1 = this.getAutoCompleteOutput(column.input1, autoComplete);
-      const bracketOpen = column.bracketOpen;
-      const functionType = this.getFunctionType(column.functionType);
-      const input2 = this.getAutoCompleteOutput(column.input2, autoComplete);
-      const bracketClose = column.bracketClose;
-      const nextFunction = " " + column.nextFunction + " ";
-      ifLogicString =
-        ifLogicString +
-        bracketOpen +
-        "'" +
-        input1 +
-        "'" +
-        functionType +
-        "'" +
-        input2 +
-        "'" +
-        bracketClose +
-        nextFunction;
+
+  public calculate(ifLogic, autoComplete): any {
+    let ifLogicString: string;
+    ifLogicString = "";
+    ifLogic.formula.forEach(element => {
+      let output = element.name;
+      if (element.type === "variable") {
+        if (element.datatype === "Date") {
+          output = this.getAutoCompleteOutputDate(element.name, autoComplete);
+        } else if (element.datatype === "Number") {
+          output = this.getAutoCompleteNumber(element.name, autoComplete);
+        } else {
+          output = this.getAutoCompleteOutput(element.name, autoComplete);
+        }
+        output = "'" + output + "'";
+      }
+      ifLogicString = ifLogicString.concat(output);
     });
     const Parser = expeval.Parser;
     const parser = new Parser();
     const expr = parser.parse(ifLogicString);
     return expr.evaluate();
   }
+
   errorCheck(ifLogic, autoComplete): CalculationError[] {
     this.errorArray = [];
-    let paramCounter = 0;
-    let LBcounter = 0;
-    let RBcounter = 0;
-    const mathsLength = ifLogic.length - 1;
-    ifLogic.forEach(column => {
-      if (!column.input1) {
-        this.errorArray.push(
-          new CalculationError(
-            ifLogic.rowIndex,
-            "Error",
-            "Input 1 is missing and is a required field"
-          )
-        );
-      }
-      if (!column.input2) {
-        this.errorArray.push(
-          new CalculationError(
-            ifLogic.rowIndex,
-            "Error",
-            "Input 2 is missing and is a required field"
-          )
-        );
-      }
-      if (!column.functionType) {
-        this.errorArray.push(
-          new CalculationError(
-            ifLogic.rowIndex,
-            "Error",
-            "Function is missing and is a required field"
-          )
-        );
-      }
-      if (column.bracketOpen === "(") {
-        LBcounter = LBcounter + 1;
-      }
-      if (column.bracketClose === ")") {
-        RBcounter = RBcounter + 1;
-      }
-      if (
-        paramCounter === mathsLength &&
-        column.nextFunction !== "" &&
-        column.nextFunction !== "na"
-      ) {
-        this.errorArray.push(
-          new CalculationError(
-            ifLogic.rowIndex,
-            "Error",
-            "Next row logic on row with no next row"
-          )
-        );
-      }
-      if (paramCounter < mathsLength && ifLogic[paramCounter + 1]) {
-        if (column.nextFunction === "" || column.nextFunction === "na") {
-          this.errorArray.push(
-            new CalculationError(
-              ifLogic.rowIndex,
-              "Error",
-              "Next row logic missing"
-            )
-          );
+    ifLogic.formula.forEach(element => {
+      if (element.type === "variable") {
+        if (element.datatype === "Date") {
+          let Date1 = element.name;
+          if (element.type === "variable") {
+            Date1 = this.getAutoCompleteOutputDate(element.name, autoComplete);
+          }
+          const a = moment(Date1, "DD/MM/YYYY", true);
+          if (a.isValid() === false) {
+            this.errorArray.push(
+              new CalculationError(
+                ifLogic.rowIndex,
+                "Error",
+                Date1 +
+                  "Lookup Value - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
+              )
+            );
+          }
+        }
+        if (element.datatype === "Number") {
+          let Number2 = element.name;
+          if (element.type === "variable") {
+            Number2 = this.getAutoCompleteNumber(element.name, autoComplete);
+          }
+          if (isNaN(Number(Number2))) {
+            this.errorArray.push(
+              new CalculationError(
+                ifLogic.rowIndex,
+                "Error",
+                Number2 +
+                  " - Number 2 - Variable mismatch error - this could be a missing variable or a number in an incorrect format"
+              )
+            );
+          }
         }
       }
-      paramCounter = paramCounter + 1;
     });
-    if (LBcounter > RBcounter) {
-      this.errorArray.push(
-        new CalculationError(ifLogic.rowIndex, "Error", "Brackets not closed")
-      );
-    } else if (LBcounter < RBcounter) {
-      this.errorArray.push(
-        new CalculationError(ifLogic.rowIndex, "Error", "Brackets not open")
-      );
-    }
     return this.errorArray;
   }
 }

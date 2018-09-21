@@ -16,6 +16,7 @@ import { LookupTable } from "../functions/function-lookup-table/function-lookup-
 import { CalculationConfiguration } from "../shared/models/calculation-configuration";
 import { AutoCompleteService } from "../shared/services/auto-complete.service";
 import { Maths } from "../functions/function-maths/function-maths.component";
+import { IfLogic } from "../functions/function-if-logic/function-if-logic.component";
 
 @Component({
   selector: "app-calculation-configuration",
@@ -149,7 +150,7 @@ export class CalculationConfigurationComponent implements OnInit {
       new DateAdjustment("", "", "", "", "", "", "", ""),
       new DateDuration("", "", "", "", ""),
       new Distance("", ""),
-      [],
+      new IfLogic("", []),
       [],
       new LookupTable("", "", "", "", "", "", "", "", "", ""),
       "",

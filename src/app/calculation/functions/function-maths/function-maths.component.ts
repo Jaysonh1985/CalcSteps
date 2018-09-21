@@ -76,7 +76,7 @@ export class FunctionMathsComponent implements OnInit {
     this.autoCompleteOptions.push({ name: "8", type: "", datatype: "number" });
     this.autoCompleteOptions.push({ name: "9", type: "", datatype: "number" });
     this.autoCompleteArray.forEach(element => {
-      if (element.data.data === "Number") {
+      if (element.data.datatype === "Number") {
         if (element.data.name !== "") {
           this.autoCompleteOptions.push({
             name: element.data.name,
@@ -127,7 +127,7 @@ export class FunctionMathsComponent implements OnInit {
   errorCheck(maths, autoComplete): CalculationError[] {
     this.errorArray = [];
     maths.formula.forEach(element => {
-      if (element.type === "variable") {
+      if (element.datatype === "variable") {
         const Number1 = this.getAutoCompleteOutput(element.name, autoComplete);
         if (isNaN(Number(Number1))) {
           this.errorArray.push(

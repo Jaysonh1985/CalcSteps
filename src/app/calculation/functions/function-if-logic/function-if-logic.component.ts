@@ -6,6 +6,7 @@ import { DragulaService } from "ng2-dragula";
 import { Chip } from "../../shared/models/chip";
 import { CalculationError } from "../../shared/models/calculation-error";
 import * as moment from "moment";
+import { MatDatepickerInputEvent } from "@angular/material";
 
 export class IfLogic {
   datatype: string;
@@ -155,6 +156,23 @@ export class FunctionIfLogicComponent implements OnInit {
     }
   }
 
+  addEventLookup(type: string, event: MatDatepickerInputEvent<Date>) {
+    moment.locale("en-GB");
+    this.selectedRow[0].ifLogic.formula.push({
+      name: moment(event.value).format("DD/MM/YYYY"),
+      type: "hardcoded",
+      datatype: "date"
+    });
+    event.target.value = null;
+  }
+  onBlurEvent(type, event) {
+    this.selectedRow[0].ifLogic.formula.push({
+      name: event.target.value,
+      type: "hardcoded",
+      datatype: type
+    });
+    event.target.value = null;
+  }
   public calculate(ifLogic, autoComplete): any {
     let ifLogicString: string;
     ifLogicString = "";
@@ -169,6 +187,8 @@ export class FunctionIfLogicComponent implements OnInit {
           output = this.getAutoCompleteOutput(element.name, autoComplete);
         }
         output = "'" + output + "'";
+      } else if (element.type === "hardcoded") {
+        output = " '" + element.name + "'";
       }
       ifLogicString = ifLogicString.concat(output);
     });

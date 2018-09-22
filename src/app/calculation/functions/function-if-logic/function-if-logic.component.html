@@ -1,6 +1,6 @@
 <br>
 <mat-form-field>
-  <mat-select placeholder="Logic Data Type" [(ngModel)]="selectedRow[0].ifLogic.datatype">
+  <mat-select matInput placeholder="Logic Data Type" [(ngModel)]="selectedRow[0].ifLogic.datatype">
     <mat-option value="Date">Date</mat-option>
     <mat-option value="Number">Number</mat-option>
     <mat-option value="Text">Text</mat-option>
@@ -37,6 +37,21 @@
     </div>
   </mat-chip-list>
   <br>
+</mat-form-field>
+
+<mat-form-field style="width:100%" *ngIf="selectedRow[0].ifLogic.datatype !== ''">
+  <p>Add {{selectedRow[0].ifLogic.datatype}} Input</p>
+  <div  *ngIf="selectedRow[0].ifLogic.datatype === 'Date'">
+    <input matInput [matDatepicker]="picker" (dateInput)="addEventLookup('input', $event)">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </div>
+  <div *ngIf="selectedRow[0].ifLogic.datatype === 'Number'">
+    <input matInput type="number" (blur)="onBlurEvent('number',$event)">
+  </div>
+  <div *ngIf="selectedRow[0].ifLogic.datatype === 'Text'">
+    <input matInput (blur)="onBlurEvent('text',$event)">
+  </div>
 </mat-form-field>
 
 <div *ngIf="selectedRow[0].ifLogic.datatype !== ''">

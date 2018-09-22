@@ -10,21 +10,25 @@
       <mat-icon aria-label="delete config">delete</mat-icon>
     </button>
   </div>
-  <ag-grid-angular #agGrid style="height:40vh; width: 99.5%" class="ag-theme-balham" [gridOptions]="gridOptions" [rowSelection]="rowSelection"
+  <ag-grid-angular #agGrid style="height:45vh; width: 99.5%" class="ag-theme-balham" [gridOptions]="gridOptions" [rowSelection]="rowSelection"
     [rowMultiSelectWithClick]="true" [rowDragManaged]="true" [animateRows]="true" [enableColResize]="true" (selectionChanged)="onSelectionChanged($event)"
     (gridReady)="onGridReady($event)" [stopEditingWhenGridLosesFocus]="true" [rowClassRules]="rowClassRules" [defaultColDef]="defaultColDef" (cellValueChanged)="onDataChanged()" (rowDragEnd)="onDataChanged()">
   </ag-grid-angular>
 </div>
 
-  <div *ngFor="let row of selectedRows">
-    <mat-form-field>
-      <input matInput placeholder="Condition" [(ngModel)]="row.condition" style="font-size: small" [matAutocomplete]="auto">
-    </mat-form-field>
+  <div *ngFor="let row of selectedRows"  style="height: 45vh; overflow: auto">
     <ol>
       <li *ngFor="let error of row.errors">{{error.errorText}}</li>
     </ol>
     <mat-card-header>
-      <mat-card-title>{{row.functionType}}</mat-card-title>
+      <mat-card-title>
+        <h4 style="text-align: center">
+            {{row.functionType}}
+        </h4> 
+        <mat-form-field>
+          <input matInput placeholder="If Logic" [(ngModel)]="row.condition" style="font-size: small" [matAutocomplete]="auto">
+        </mat-form-field>
+      </mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div>

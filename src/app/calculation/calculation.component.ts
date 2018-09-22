@@ -49,6 +49,8 @@ export class CalculationComponent implements OnInit {
   public configOutputsDate: string[];
   public configOutputsText: string[];
   public configOutputsLogic: string[];
+  public loading: boolean;
+  public loadingProgress: number;
   public isErrors: boolean;
   config = {
     sideNav: [
@@ -71,6 +73,7 @@ export class CalculationComponent implements OnInit {
   }
   ngOnInit() {
     const key = this.route.snapshot.params["key"];
+    this.loadingProgress = 0;
     this.calcService
       .getCalculation(key)
       .snapshotChanges()
@@ -92,20 +95,30 @@ export class CalculationComponent implements OnInit {
       });
   }
   onSave() {
+    this.loading = true;
+    this.snackBar.open("Calculation in progress...", "Please wait", {
+      duration: 500
+    });
+    this.loadingProgress = 10;
     this.calculation.calculationInputs = this.CalculationInputComponent.getAllRows();
     this.calculation.calculationOutputs = this.CalculationOutputComponent.getAllRows();
     this.calculation.calculationConfigurations = this.CalculationConfigurationComponent.getAllRows();
     this.calculation.group = this.calculationGroup;
     this.calculation.name = this.calculationName;
+    this.loadingProgress = 30;
     this.calcService.updateCalculation(
       this.calculation.key,
       JSON.parse(JSON.stringify(this.calculation))
     );
+    this.loadingProgress = 70;
     this.snackBar.open("Calculation Saved", "Saved", {
       duration: 2000
     });
+    this.loadingProgress = 100;
+    this.loading = false;
     this.opened = false;
     this.calculationForm.reset();
+    setTimeout(() => {  this.loadingProgress = 0; }, 2000);
   }
   onDelete() {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -131,6 +144,11 @@ export class CalculationComponent implements OnInit {
     });
   }
   async onCalc() {
+    this.loading = true;
+    this.snackBar.open("Calculation in progress...", "Please wait", {
+      duration: 500
+    });
+    this.loadingProgress = 0;
     this.isErrors = false;
     this.CalculationInputComponent.getAllRowsNodes().forEach(input => {
       const inputs = new CalculationInputComponent(this.autocompleteService);
@@ -140,6 +158,7 @@ export class CalculationComponent implements OnInit {
       }
       this.CalculationInputComponent.setRowOuput(input.id, input.data);
     });
+    this.loadingProgress = 30;
     let autoCompleteInputs = [];
     autoCompleteInputs = this.CalculationInputComponent.getAllRowsNodes();
     this.CalculationConfigurationComponent.getAllRowsNodes().forEach(
@@ -167,10 +186,13 @@ export class CalculationComponent implements OnInit {
         );
       }
     );
+    this.loadingProgress = 50;
     if (this.isErrors) {
       this.snackBar.open("Calculation Failed", "Failed", {
         duration: 2000
       });
+      this.loading = false;
+      setTimeout(() => {  this.loadingProgress = 0; }, 2000);
     }
     if (this.isErrors === false) {
       for (const configuration of this.CalculationConfigurationComponent.getAllRowsNodes()) {
@@ -240,9 +262,7 @@ export class CalculationComponent implements OnInit {
           }
         }
       }
-      this.snackBar.open("Calculated Successfully", "Success", {
-        duration: 2000
-      });
+      this.loadingProgress = 70;
       this.calcOutput();
     }
   }
@@ -282,6 +302,12 @@ export class CalculationComponent implements OnInit {
         );
       }
     });
+    this.loadingProgress = 100;
+    this.loading = false;
+    this.snackBar.open("Calculated Successfully", "Success", {
+      duration: 2000
+    });
+    setTimeout(() => {  this.loadingProgress = 0; }, 2000);
   }
   getConfigOutputLists() {
     const arrNumber: Array<any> = [];

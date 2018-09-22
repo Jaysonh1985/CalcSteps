@@ -181,8 +181,8 @@ export class FunctionDateAdjustmentComponent implements OnInit {
     this.selectedRow[0].dateAdjustment.date1 = [];
     this.selectedRow[0].dateAdjustment.date1.push({
       name: moment(event.value).format("DD/MM/YYYY"),
-      type: "",
-      datatype: "date"
+      type: "hardcoded",
+      datatype: "Date"
     });
   }
   addEventDate2(type: string, event: MatDatepickerInputEvent<Date>) {
@@ -190,8 +190,8 @@ export class FunctionDateAdjustmentComponent implements OnInit {
     this.selectedRow[0].dateAdjustment.date2 = [];
     this.selectedRow[0].dateAdjustment.date2.push({
       name: moment(event.value).format("DD/MM/YYYY"),
-      type: "",
-      datatype: "date"
+      type: "hardcoded",
+      datatype: "Date"
     });
   }
   addEventPeriod(event: MatChipInputEvent) {
@@ -203,7 +203,7 @@ export class FunctionDateAdjustmentComponent implements OnInit {
         this.selectedRow[0].dateAdjustment.period = [];
         this.selectedRow[0].dateAdjustment.period.push({
           name: event.value,
-          type: "",
+          type: "hardcoded",
           datatype: "Number"
         });
       }

@@ -47,10 +47,10 @@
     <mat-datepicker #picker></mat-datepicker>
   </div>
   <div *ngIf="selectedRow[0].ifLogic.datatype === 'Number'">
-    <input matInput type="number" (blur)="onBlurEvent('number',$event)">
+    <input matInput type="number" (blur)="onBlurEvent('Number',$event)">
   </div>
   <div *ngIf="selectedRow[0].ifLogic.datatype === 'Text'">
-    <input matInput (blur)="onBlurEvent('text',$event)">
+    <input matInput (blur)="onBlurEvent('Text',$event)">
   </div>
 </mat-form-field>
 

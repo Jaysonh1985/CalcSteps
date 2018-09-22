@@ -55,7 +55,7 @@ export class FunctionDistanceComponent implements OnInit {
           this.autoCompleteOptions.push({
             name: element.data.name,
             type: "variable",
-            datatype: "text"
+            datatype: "Text"
           });
         }
       }
@@ -66,13 +66,12 @@ export class FunctionDistanceComponent implements OnInit {
     const input = event.input;
     const value = event.value;
 
-    // Add our fruit
     if ((value || "").trim()) {
       this.selectedRow[0].distance.origin = [];
       this.selectedRow[0].distance.origin.push({
         name: value.trim(),
-        type: "",
-        datatype: "text"
+        type: "hardcoded",
+        datatype: "Text"
       });
     }
 
@@ -90,8 +89,8 @@ export class FunctionDistanceComponent implements OnInit {
       this.selectedRow[0].distance.destination = [];
       this.selectedRow[0].distance.destination.push({
         name: value.trim(),
-        type: "",
-        datatype: "text"
+        type: "hardcoded",
+        datatype: "Text"
       });
     }
 

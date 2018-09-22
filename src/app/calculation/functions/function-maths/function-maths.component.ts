@@ -66,22 +66,22 @@ export class FunctionMathsComponent implements OnInit {
     this.autoCompleteOptions.push({ name: "*", type: "" });
     this.autoCompleteOptions.push({ name: "/", type: "" });
     this.autoCompleteOptions.push({ name: "^", type: "" });
-    this.autoCompleteOptions.push({ name: "1", type: "", datatype: "number" });
-    this.autoCompleteOptions.push({ name: "2", type: "", datatype: "number" });
-    this.autoCompleteOptions.push({ name: "3", type: "", datatype: "number" });
-    this.autoCompleteOptions.push({ name: "4", type: "", datatype: "number" });
-    this.autoCompleteOptions.push({ name: "5", type: "", datatype: "number" });
-    this.autoCompleteOptions.push({ name: "6", type: "", datatype: "number" });
-    this.autoCompleteOptions.push({ name: "7", type: "", datatype: "number" });
-    this.autoCompleteOptions.push({ name: "8", type: "", datatype: "number" });
-    this.autoCompleteOptions.push({ name: "9", type: "", datatype: "number" });
+    this.autoCompleteOptions.push({ name: "1", type: "", datatype: "Number" });
+    this.autoCompleteOptions.push({ name: "2", type: "", datatype: "Number" });
+    this.autoCompleteOptions.push({ name: "3", type: "", datatype: "Number" });
+    this.autoCompleteOptions.push({ name: "4", type: "", datatype: "Number" });
+    this.autoCompleteOptions.push({ name: "5", type: "", datatype: "Number" });
+    this.autoCompleteOptions.push({ name: "6", type: "", datatype: "Number" });
+    this.autoCompleteOptions.push({ name: "7", type: "", datatype: "Number" });
+    this.autoCompleteOptions.push({ name: "8", type: "", datatype: "Number" });
+    this.autoCompleteOptions.push({ name: "9", type: "", datatype: "Number" });
     this.autoCompleteArray.forEach(element => {
-      if (element.data.datatype === "Number") {
+      if (element.data.data === "Number") {
         if (element.data.name !== "") {
           this.autoCompleteOptions.push({
             name: element.data.name,
             type: "variable",
-            datatype: "number"
+            datatype: "Number"
           });
         }
       }
@@ -127,7 +127,7 @@ export class FunctionMathsComponent implements OnInit {
   errorCheck(maths, autoComplete): CalculationError[] {
     this.errorArray = [];
     maths.formula.forEach(element => {
-      if (element.datatype === "variable") {
+      if (element.type === "variable") {
         const Number1 = this.getAutoCompleteOutput(element.name, autoComplete);
         if (isNaN(Number(Number1))) {
           this.errorArray.push(

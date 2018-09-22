@@ -190,7 +190,7 @@ export class FunctionLookupTableComponent implements OnInit {
       this.selectedRow[0].lookupTable.LookupValue = [];
       this.selectedRow[0].lookupTable.LookupValue.push({
         name: value.trim(),
-        type: "",
+        type: "hardcoded",
         datatype: this.selectedRow[0].lookupTable.LookupType
       });
     }
@@ -205,8 +205,8 @@ export class FunctionLookupTableComponent implements OnInit {
     this.selectedRow[0].lookupTable.LookupValue = [];
     this.selectedRow[0].lookupTable.LookupValue.push({
       name: moment(event.value).format("DD/MM/YYYY"),
-      type: "",
-      datatype: "date"
+      type: "hardcoded",
+      datatype: "Date"
     });
   }
   onValueDrop(data: any) {
@@ -222,7 +222,6 @@ export class FunctionLookupTableComponent implements OnInit {
     this.selectedRow[0].lookupTable.LookupValue = [];
   }
 
-  calculate(lookupTable, autoComplete): any {}
   errorCheck(lookupTable, autoComplete): CalculationError[] {
     this.errorArray = [];
     if (!lookupTable.TableName) {

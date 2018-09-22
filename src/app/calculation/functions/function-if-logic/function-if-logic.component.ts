@@ -161,7 +161,7 @@ export class FunctionIfLogicComponent implements OnInit {
     this.selectedRow[0].ifLogic.formula.push({
       name: moment(event.value).format("DD/MM/YYYY"),
       type: "hardcoded",
-      datatype: "date"
+      datatype: "Date"
     });
     event.target.value = null;
   }

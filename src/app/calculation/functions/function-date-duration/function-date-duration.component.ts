@@ -86,7 +86,7 @@ export class FunctionDateDurationComponent implements OnInit {
           this.autoCompleteOptions.push({
             name: element.data.name,
             type: "variable",
-            datatype: "date"
+            datatype: "Date"
           });
         }
       }
@@ -122,7 +122,7 @@ export class FunctionDateDurationComponent implements OnInit {
     this.selectedRow[0].dateDuration.date1.push({
       name: moment(event.value).format("DD/MM/YYYY"),
       type: "",
-      datatype: "date"
+      datatype: "Date"
     });
   }
   addEventDate2(type: string, event: MatDatepickerInputEvent<Date>) {
@@ -130,8 +130,8 @@ export class FunctionDateDurationComponent implements OnInit {
     this.selectedRow[0].dateDuration.date2 = [];
     this.selectedRow[0].dateDuration.date2.push({
       name: moment(event.value).format("DD/MM/YYYY"),
-      type: "date",
-      datatype: "date"
+      type: "",
+      datatype: "Date"
     });
   }
 

@@ -20,7 +20,8 @@
               </mat-chip>
             </mat-chip-list>
             <div style="width:100%" droppable (onDrop)="onOriginDrop($event)">
-              <input [matChipInputFor]="selectedChips1" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addOrigin($event)" [matChipInputAddOnBlur]="addOnBlur" >
+              <input [matChipInputFor]="selectedChips1" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="addOrigin($event)" [matChipInputAddOnBlur]="addOnBlur">
             </div>
           </mat-form-field>
     </td>
@@ -35,7 +36,8 @@
               </mat-chip>
             </mat-chip-list>
             <div style="width:100%" droppable (onDrop)="onDestinationDrop($event)">
-              <input [matChipInputFor]="selectedChips2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"  (matChipInputTokenEnd)="addDestination($event)" [matChipInputAddOnBlur]="addOnBlur">
+              <input [matChipInputFor]="selectedChips2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="addDestination($event)" [matChipInputAddOnBlur]="addOnBlur">
             </div>
           </mat-form-field>
     </td>

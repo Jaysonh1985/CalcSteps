@@ -9,6 +9,11 @@
   <br>
 </mat-form-field>
 
+<mat-form-field style="width:100%">
+  <p>Add Number Input</p>
+  <input matInput type="number" (blur)="onAddInput('Number',$event)">
+</mat-form-field>
+
 <p>Formula<p>
 <mat-form-field style="width:100%" *ngIf="selectedRow[0].maths.formula.length > 0">
   <mat-chip-list #selectedChips2>

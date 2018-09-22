@@ -165,14 +165,18 @@ export class FunctionIfLogicComponent implements OnInit {
     });
     event.target.value = null;
   }
-  onBlurEvent(type, event) {
-    this.selectedRow[0].ifLogic.formula.push({
-      name: event.target.value,
-      type: "hardcoded",
-      datatype: type
-    });
-    event.target.value = null;
+
+  onAddInput(type, event) {
+    if (event.target.value !== "") {
+      this.selectedRow[0].ifLogic.formula.push({
+        name: event.target.value,
+        type: "hardcoded",
+        datatype: type
+      });
+      event.target.value = null;
+    }
   }
+
   public calculate(ifLogic, autoComplete): any {
     let ifLogicString: string;
     ifLogicString = "";

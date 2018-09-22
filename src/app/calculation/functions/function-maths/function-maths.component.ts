@@ -66,15 +66,6 @@ export class FunctionMathsComponent implements OnInit {
     this.autoCompleteOptions.push({ name: "*", type: "" });
     this.autoCompleteOptions.push({ name: "/", type: "" });
     this.autoCompleteOptions.push({ name: "^", type: "" });
-    this.autoCompleteOptions.push({ name: "1", type: "", datatype: "Number" });
-    this.autoCompleteOptions.push({ name: "2", type: "", datatype: "Number" });
-    this.autoCompleteOptions.push({ name: "3", type: "", datatype: "Number" });
-    this.autoCompleteOptions.push({ name: "4", type: "", datatype: "Number" });
-    this.autoCompleteOptions.push({ name: "5", type: "", datatype: "Number" });
-    this.autoCompleteOptions.push({ name: "6", type: "", datatype: "Number" });
-    this.autoCompleteOptions.push({ name: "7", type: "", datatype: "Number" });
-    this.autoCompleteOptions.push({ name: "8", type: "", datatype: "Number" });
-    this.autoCompleteOptions.push({ name: "9", type: "", datatype: "Number" });
     this.autoCompleteArray.forEach(element => {
       if (element.data.data === "Number") {
         if (element.data.name !== "") {
@@ -86,6 +77,17 @@ export class FunctionMathsComponent implements OnInit {
         }
       }
     });
+  }
+
+  onAddInput(type, event) {
+    if (event.target.value !== "") {
+      this.selectedRow[0].maths.formula.push({
+        name: event.target.value,
+        type: "hardcoded",
+        datatype: type
+      });
+      event.target.value = null;
+    }
   }
 
   remove(index): void {

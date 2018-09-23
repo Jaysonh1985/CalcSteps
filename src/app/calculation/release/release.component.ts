@@ -43,6 +43,8 @@ export class ReleaseComponent implements OnInit {
   private CalculationOutputComponent: CalculationOutputComponent;
   @ViewChild(CalculationConfigurationComponent)
   private CalculationConfigurationComponent: CalculationConfigurationComponent;
+  public loading: boolean;
+  public loadingProgress: number;
   constructor(
     private route: ActivatedRoute,
     private releaseService: ReleaseService,
@@ -90,7 +92,12 @@ export class ReleaseComponent implements OnInit {
     this.router.navigate(["dashboard"]);
   }
   async onCalc() {
+    this.loading = true;
+    this.snackBar.open("Calculation in progress...", "Please wait", {
+      duration: 500
+    });
     this.isErrors = false;
+    this.loadingProgress = 0;
     this.CalculationInputComponent.getAllRowsNodes().forEach(input => {
       const inputs = new CalculationInputComponent(this.autocompleteService);
       input.data.errors = inputs.errorCheck(input);
@@ -99,6 +106,7 @@ export class ReleaseComponent implements OnInit {
       }
       this.CalculationInputComponent.setRowOuput(input.id, input.data);
     });
+    this.loadingProgress = 30;
     let autoCompleteInputs = [];
     autoCompleteInputs = this.CalculationInputComponent.getAllRowsNodes();
     this.CalculationConfigurationComponent.getAllRowsNodes().forEach(
@@ -126,6 +134,7 @@ export class ReleaseComponent implements OnInit {
         );
       }
     );
+    this.loadingProgress = 50;
     if (this.isErrors) {
       this.CalculationInputComponent.getAllRowsNodes().forEach(input => {
         if (input.data.errors.length > 0) {
@@ -134,6 +143,11 @@ export class ReleaseComponent implements OnInit {
           });
         }
       });
+      this.snackBar.open("Calculation Failed", "Failed", {
+        duration: 2000
+      });
+      this.loading = false;
+      setTimeout(() => {  this.loadingProgress = 0; }, 2000);
     }
 
     if (this.isErrors === false) {
@@ -205,6 +219,7 @@ export class ReleaseComponent implements OnInit {
             }
           }
         }
+      this.loadingProgress = 70;
       this.calcOutput();
     }
   }
@@ -230,6 +245,12 @@ export class ReleaseComponent implements OnInit {
       );
     });
     this.isInput = false;
+    this.loadingProgress = 100;
+    this.loading = false;
+    this.snackBar.open("Calculated Successfully", "Success", {
+      duration: 2000
+    });
+    setTimeout(() => {  this.loadingProgress = 0; }, 2000);
   }
   routeInput() {
     this.isInput = true;

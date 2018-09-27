@@ -30,6 +30,8 @@ import { UserManagementComponent } from "./user-management/user-management.compo
 import { DragAndDropModule } from "angular-draggable-droppable";
 import { DragulaModule } from "ng2-dragula";
 import { NgDragDropModule } from "ng-drag-drop";
+import { TestManagementComponent } from "./test-management/test-management.component";
+import { TestDialogComponent } from "./test-management/test-dialog/test-dialog.component";
 
 @NgModule({
   imports: [
@@ -60,9 +62,11 @@ import { NgDragDropModule } from "ng-drag-drop";
     LookupDialogComponent,
     LookupMaintenanceComponent,
     FunctionLookupTableComponent,
-    UserManagementComponent
+    UserManagementComponent,
+    TestManagementComponent,
+    TestDialogComponent
   ],
-  entryComponents: [LookupDialogComponent],
+  entryComponents: [LookupDialogComponent, TestDialogComponent],
   providers: [
     CalculationService,
     ReleaseService,

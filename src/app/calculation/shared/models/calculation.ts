@@ -1,6 +1,7 @@
 import { CalculationConfiguration } from "./calculation-configuration";
 import { CalculationInput } from "./calculation-input";
 import { CalculationOutput } from "./calculation-output";
+import { CalculationTest } from "./calculation-test";
 
 export class Calculation {
   $key: string;
@@ -17,4 +18,5 @@ export class Calculation {
   calculationInputs: CalculationInput[];
   calculationOutputs: CalculationOutput[];
   calculationConfigurations: CalculationConfiguration[];
+  calculationTests: CalculationTest[];
 }

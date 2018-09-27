@@ -1,0 +1,8 @@
+<mat-dialog-content class="mat-typography">
+  <app-calculation-input [calculationInput]="data.calculationInputs" [release]=true></app-calculation-input>
+  <app-calculation-output [calculationOutput]="data.calculationOutputs" [release]=true></app-calculation-output>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Save</button>
+</mat-dialog-actions>

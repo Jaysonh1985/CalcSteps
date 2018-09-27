@@ -21,10 +21,14 @@ export class CalculationInputComponent implements OnInit {
   private gridApi;
   private gridColumnApi;
   public inputRows: object[];
-  @Input() calculationInput: string[];
-  @Input() release: boolean;
-  @Output() messageEvent = new EventEmitter();
-  @Output() dataChangeEvent = new EventEmitter();
+  @Input()
+  calculationInput: string[];
+  @Input()
+  release: boolean;
+  @Output()
+  messageEvent = new EventEmitter();
+  @Output()
+  dataChangeEvent = new EventEmitter();
   public errorArray: CalculationError[];
   constructor(private autocompleteService: AutoCompleteService) {
     this.inputGridOptions = <GridOptions>{};
@@ -132,11 +136,32 @@ export class CalculationInputComponent implements OnInit {
     this.autocompleteService.editAutocomplete(this.getAllRowsNodes());
   }
   onAddRow() {
-    const newItem = new CalculationInput("", "", "", "", [], "", false);
+    const newItem = new CalculationInput(this.getGuid(), "", "", "", [], "", false);
     const res = this.gridApi.updateRowData({ add: [newItem] });
     this.autocompleteService.editAutocomplete(this.getAllRowsNodes());
     this.onDataChanged();
   }
+  getGuid() {
+    return this.s4() +
+    this.s4() +
+    "-" +
+    this.s4() +
+    "-" +
+    this.s4() +
+    "-" +
+    this.s4() +
+    "-" +
+    this.s4() +
+    this.s4() +
+    this.s4();
+  }
+
+  s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+
   onRemoveSelected() {
     const selectedData = this.gridApi.getSelectedRows();
     const res = this.gridApi.updateRowData({ remove: selectedData });

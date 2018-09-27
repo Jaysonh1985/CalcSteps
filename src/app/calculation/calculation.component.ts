@@ -340,6 +340,9 @@ export class CalculationComponent implements OnInit {
   routerUserManagement() {
     this.router.navigate(["user-management", this.calculation.key]);
   }
+  routerTestManagement() {
+    this.router.navigate(["test-management", this.calculation.key]);
+  }
   setFormDirty() {
     this.calculationForm.control.markAsDirty();
   }

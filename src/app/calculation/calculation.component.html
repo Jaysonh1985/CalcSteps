@@ -33,9 +33,9 @@
         <mat-icon matListIcon>save</mat-icon>
         <h3 matLine> Save </h3>
       </mat-list-item>
-      <mat-list-item style="color: white" *ngIf="calculationForm.dirty !== true">
+      <mat-list-item style="color: white" (click)=routerTestManagement()  *ngIf="calculationForm.dirty !== true">
         <mat-icon matListIcon>done_all</mat-icon>
-        <h3 matLine> Regression </h3>
+        <h3 matLine> Test-Management </h3>
       </mat-list-item>
       <mat-list-item style="color: white" (click)=routerReleaseManagement() *ngIf="calculationForm.dirty !== true">
         <mat-icon matListIcon>history</mat-icon>

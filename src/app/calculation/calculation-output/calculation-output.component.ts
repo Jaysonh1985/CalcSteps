@@ -81,7 +81,22 @@ export class CalculationOutputComponent implements OnInit {
         width: 110,
         editable: false,
         suppressFilter: true
+      },
+      {
+        headerName: "Expected Result",
+        field: "eresult",
+        width: 110,
+        editable: true,
+        suppressFilter: true
+      },
+      {
+        headerName: "Pass/Fail",
+        field: "pass",
+        width: 110,
+        editable: false,
+        suppressFilter: true
       }
+
     ];
     this.outputGridOptions.floatingFilter = true;
   }
@@ -100,7 +115,7 @@ export class CalculationOutputComponent implements OnInit {
     });
   }
   onAddRow() {
-    const newItem = new CalculationOutput("", "", "", "");
+    const newItem = new CalculationOutput("", "", "", "", "", true);
     const res = this.gridApi.updateRowData({ add: [newItem] });
   }
   onRemoveSelected() {
@@ -120,7 +135,9 @@ export class CalculationOutputComponent implements OnInit {
         name: node.data.name,
         variable: node.data.variable,
         output: node.data.output,
-        data: node.data.data
+        data: node.data.data,
+        eresult: node.data.eresult,
+        pass: node.data.pass
       };
       arr.push(Row);
     });

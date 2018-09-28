@@ -3,10 +3,14 @@ export class CalculationOutput {
   data: string;
   variable: string;
   output: string;
-  constructor(name, data, output, variable) {
+  eresult: string;
+  pass: boolean;
+  constructor(name, data, output, variable, eresult, pass) {
     this.name = name;
     this.data = data;
     this.variable = variable;
     this.output = output;
+    this.eresult = eresult;
+    this.pass = pass;
   }
 }

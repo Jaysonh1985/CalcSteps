@@ -306,7 +306,12 @@ export class CalculationComponent implements OnInit {
         output.variable,
         calculationConfiguration
       );
-      output.output = arr.output;
+      output.output = arr.output.toString();
+      if (output.output === output.eresult) {
+        output.pass = true;
+      } else {
+        output.pass = false;
+      }
     }
     return calculationOutput;
   }

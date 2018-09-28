@@ -76,7 +76,7 @@ export class TestManagementComponent implements OnInit {
 
   onViewTest(item) {
     const dialogRef = this.dialog.open(TestDialogComponent, {
-      width: "600px",
+      width: "800px",
       height: "80vh",
       data: { calculationInputs: item.calculationInputs, calculationOutputs: item.calculationOutputs }
     });

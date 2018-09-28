@@ -35,11 +35,11 @@ export class CalculationComponent implements OnInit {
   public calculationInputNodes: any[];
   public calculationOutput: CalculationOutput;
   @ViewChild(CalculationInputComponent)
-  private CalculationInputComponent: CalculationInputComponent;
+  public CalculationInputComponent: CalculationInputComponent;
   @ViewChild(CalculationOutputComponent)
-  private CalculationOutputComponent: CalculationOutputComponent;
+  public CalculationOutputComponent: CalculationOutputComponent;
   @ViewChild(CalculationConfigurationComponent)
-  private CalculationConfigurationComponent: CalculationConfigurationComponent;
+  public CalculationConfigurationComponent: CalculationConfigurationComponent;
   @ViewChild("calculationForm")
   calculationForm: any;
   events = [];
@@ -157,10 +157,11 @@ export class CalculationComponent implements OnInit {
     this.CalculationInputComponent.setTableData(calculationInput);
     this.loadingProgress = 30;
     let autoCompleteInputs = [];
-    autoCompleteInputs = this.CalculationInputComponent.getAllRowsNodes();
+    autoCompleteInputs = this.CalculationInputComponent.getAllRows();
     const calculationConfiguration = this.CalculationConfigurationComponent.getAllRows();
     const getErrorsConfiguration: CalculationConfiguration[] = this.getErrorsConfiguration(calculationConfiguration, autoCompleteInputs);
     const isErrorConfiguration = this.errorExists(getErrorsConfiguration);
+    this.CalculationConfigurationComponent.setTableData(calculationConfiguration);
     this.loadingProgress = 50;
     if (isErrorInput === true || isErrorConfiguration === true) {
       this.snackBar.open("Calculation Failed", "Failed", {
@@ -176,7 +177,7 @@ export class CalculationComponent implements OnInit {
       this.CalculationConfigurationComponent.setTableData(calculationConfiguration);
       this.loadingProgress = 70;
       let calculationOutput = this.CalculationOutputComponent.getAllRows();
-      calculationOutput = this.calculateOutput(calculationOutput);
+      calculationOutput = this.calculateOutput(calculationOutput, calculationConfiguration);
       this.CalculationOutputComponent.setTableData(calculationOutput);
       this.loadingProgress = 100;
       this.loading = false;
@@ -196,14 +197,15 @@ export class CalculationComponent implements OnInit {
     }
     return calculationInput;
   }
-  getErrorsConfiguration(calculationOutput, autoCompleteInputs): CalculationConfiguration[] {
+  getErrorsConfiguration(calculationConfiguration, autoCompleteInputs): CalculationConfiguration[] {
     let rowIndex = 0;
-    for (const configuration of calculationOutput) {
+    for (const configuration of calculationConfiguration) {
       let autoCompleteConfig = [];
       let autoCompleteAll = [];
       configuration.errors = [];
-      autoCompleteConfig = this.CalculationConfigurationComponent.getAllRowsNodesbyIndex(
-        rowIndex
+      autoCompleteConfig = this.getAllRowsbyIndex(
+        rowIndex,
+        calculationConfiguration
       );
       autoCompleteAll = autoCompleteInputs.concat(autoCompleteConfig);
       configuration.errors = this.calculateService.runError(
@@ -214,7 +216,7 @@ export class CalculationComponent implements OnInit {
       );
       rowIndex ++;
     }
-    return calculationOutput;
+    return calculationConfiguration;
   }
   errorExists(array) {
     for (const row of array) {
@@ -241,8 +243,9 @@ export class CalculationComponent implements OnInit {
     for (const configuration of calculationConfiguration) {
       let autoCompleteConfig = [];
       let autoCompleteAll = [];
-      autoCompleteConfig = this.CalculationConfigurationComponent.getAllRowsNodesbyIndex(
-        rowIndex
+      autoCompleteConfig = this.getAllRowsbyIndex(
+        rowIndex,
+        calculationConfiguration
       );
       autoCompleteAll = autoCompleteInputs.concat(autoCompleteConfig);
       configuration.conditionResult = this.calculateService.runCondition(
@@ -250,9 +253,10 @@ export class CalculationComponent implements OnInit {
         autoCompleteAll
       );
       if (configuration.conditionResult === false) {
-        const output = this.CalculationConfigurationComponent.getFinalRowNodesbyNameIndex(
+        const output = this.getFinalRowNodesbyNameIndex(
           configuration.name,
-          rowIndex
+          rowIndex,
+          calculationConfiguration
         );
         if (output === undefined) {
           if (configuration.data === "Number") {
@@ -295,13 +299,14 @@ export class CalculationComponent implements OnInit {
     }
     return calculationConfiguration;
   }
-  calculateOutput(calculationOutput): CalculationOutput[] {
+  calculateOutput(calculationOutput, calculationConfiguration): CalculationOutput[] {
     for (const output of calculationOutput) {
-      let arr: Array<any> = [];
-      arr = this.CalculationConfigurationComponent.getFinalRowNodes(
-        output.variable
+      let arr: CalculationConfiguration;
+      arr = this.getFinalRowNodes(
+        output.variable,
+        calculationConfiguration
       );
-      output.output = arr["data"].output;
+      output.output = arr.output;
     }
     return calculationOutput;
   }
@@ -329,6 +334,47 @@ export class CalculationComponent implements OnInit {
     this.configOutputsDate = arrDate;
     this.configOutputsLogic = arrLogic;
     this.configOutputsText = arrText;
+  }
+  getAllRowsbyIndex(rowIndex, array): any[] {
+    const arr: Array<any> = [];
+    array.forEach(function(node, index) {
+      if (index < rowIndex) {
+        arr.push(node);
+      }
+      if (index === rowIndex) {
+        if (arr.length > 0) {
+          return arr[arr.length - 1];
+        } else {
+          return null;
+        }
+      }
+    });
+    return arr;
+  }
+  getFinalRowNodesbyNameIndex(name, rowIndex, array): any[] {
+    const arr: Array<any> = [];
+    array.forEach(function(node, index) {
+      if (node.data.name === name && index < rowIndex) {
+        arr.push(node);
+      }
+      if (index === rowIndex) {
+        if ((arr.length = 0)) {
+          return null;
+        } else {
+          return arr[arr.length - 1];
+        }
+      }
+    });
+    return arr[arr.length - 1];
+  }
+  getFinalRowNodes(name, array): CalculationConfiguration {
+    const arr: Array<any> = [];
+    array.forEach(function(node, index) {
+      if (node.name === name) {
+        arr.push(node);
+      }
+    });
+    return arr[arr.length - 1];
   }
   routerReleaseManagement() {
     this.router.navigate(["release-management", this.calculation.key]);

@@ -116,8 +116,8 @@ export class FunctionDateAdjustmentComponent implements OnInit {
     if (date.isValid() === false) {
       input = InputValue;
       array.forEach(value => {
-        if (value.data.name === InputValue && value.data.data === "Date") {
-          input = value.data.output;
+        if (value.name === InputValue && value.data === "Date") {
+          input = value.output;
         }
       });
     } else {
@@ -130,8 +130,8 @@ export class FunctionDateAdjustmentComponent implements OnInit {
     if (isNaN(Number(InputValue))) {
       input = InputValue;
       array.forEach(value => {
-        if (value.data.name === InputValue) {
-          input = value.data.output;
+        if (value.name === InputValue) {
+          input = value.output;
         }
       });
     } else {

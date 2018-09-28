@@ -127,8 +127,8 @@ export class FunctionDistanceComponent implements OnInit {
     let input = "";
     input = InputValue;
     array.forEach(value => {
-      if (value.data.name === InputValue && value.data.data === "Text") {
-        input = value.data.output;
+      if (value.name === InputValue && value.data === "Text") {
+        input = value.output;
       }
     });
     return input;

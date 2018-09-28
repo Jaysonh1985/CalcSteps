@@ -19,6 +19,7 @@ import { CalculateService } from "../shared/services/calculate.service";
 import { CalculationService } from "../shared/services/calculation.service";
 import { LookupService } from "../shared/services/lookup.service";
 import { ReleaseService } from "../shared/services/release.service";
+import { CalculationComponent } from "../calculation.component";
 
 @Component({
   selector: "app-release",
@@ -96,161 +97,62 @@ export class ReleaseComponent implements OnInit {
     this.snackBar.open("Calculation in progress...", "Please wait", {
       duration: 500
     });
-    this.isErrors = false;
     this.loadingProgress = 0;
-    this.CalculationInputComponent.getAllRowsNodes().forEach(input => {
-      const inputs = new CalculationInputComponent(this.autocompleteService);
-      input.data.errors = inputs.errorCheck(input);
-      if (input.data.errors.length > 0) {
-        this.isErrors = true;
-      }
-      this.CalculationInputComponent.setRowOuput(input.id, input.data);
-    });
+    const calculationComponent = new CalculationComponent(
+      this.route,
+      this.calcService,
+      this.router,
+      this.snackBar,
+      this.dialog,
+      this.autocompleteService,
+      this.lookupService,
+      this.authService,
+      this.calculateService
+    );
+    const calculationInput = this.CalculationInputComponent.getAllRows();
+    const getErrorsInput: CalculationInput[] = calculationComponent.getErrorsInput(
+      calculationInput
+    );
+    const isErrorInput = calculationComponent.errorExists(getErrorsInput);
+    this.CalculationInputComponent.setTableData(calculationInput);
     this.loadingProgress = 30;
     let autoCompleteInputs = [];
-    autoCompleteInputs = this.CalculationInputComponent.getAllRowsNodes();
-    this.CalculationConfigurationComponent.getAllRowsNodes().forEach(
-      configuration => {
-        let autoCompleteConfig = [];
-        let autoCompleteAll = [];
-        configuration.data.errors = [];
-        autoCompleteConfig = this.CalculationConfigurationComponent.getAllRowsNodesbyIndex(
-          configuration.rowIndex
-        );
-        autoCompleteAll = autoCompleteInputs.concat(autoCompleteConfig);
-        configuration.data.errors = this.calculateService.runError(
-          configuration,
-          autoCompleteAll,
-          this.authService,
-          this.lookupService
-        );
-        if (configuration.data.errors.length > 0) {
-          this.isErrors = true;
-        }
-        this.CalculationConfigurationComponent.setRowOuput(
-          configuration.id,
-          configuration.data,
-          false
-        );
-      }
+    autoCompleteInputs = this.CalculationInputComponent.getAllRows();
+    const calculationConfiguration = this.CalculationConfigurationComponent.getAllRows();
+    const getErrorsConfiguration: CalculationConfiguration[] = calculationComponent.getErrorsConfiguration(
+      calculationConfiguration,
+      autoCompleteInputs
+    );
+    const isErrorConfiguration = calculationComponent.errorExists(
+      getErrorsConfiguration
     );
     this.loadingProgress = 50;
-    if (this.isErrors) {
-      this.CalculationInputComponent.getAllRowsNodes().forEach(input => {
-        if (input.data.errors.length > 0) {
-          input.data.errors.forEach(element => {
-            this.errors.push(element.errorText);
-          });
-        }
-      });
+    if (isErrorInput === true || isErrorConfiguration === true) {
       this.snackBar.open("Calculation Failed", "Failed", {
         duration: 2000
       });
       this.loading = false;
-      setTimeout(() => {  this.loadingProgress = 0; }, 2000);
+      setTimeout(() => {
+        this.loadingProgress = 0;
+      }, 2000);
     }
-
-    if (this.isErrors === false) {
-      this.errors = [];
-      for (const configuration of this.CalculationConfigurationComponent.getAllRowsNodes()) {
-          let autoCompleteConfig = [];
-          let autoCompleteAll = [];
-          autoCompleteConfig = this.CalculationConfigurationComponent.getAllRowsNodesbyIndex(
-            configuration.rowIndex
-          );
-          autoCompleteAll = autoCompleteInputs.concat(autoCompleteConfig);
-          configuration.data.conditionResult = this.calculateService.runCondition(
-            configuration,
-            autoCompleteAll
-          );
-          if (configuration.data.conditionResult === false) {
-            const output = this.CalculationConfigurationComponent.getFinalRowNodesbyNameIndex(
-              configuration.data.name,
-              configuration.rowIndex
-            );
-            if (output === undefined) {
-              if (configuration.data.data === "Number") {
-                configuration.data.output = 0;
-              } else {
-                configuration.data.output = "";
-              }
-            } else {
-              configuration.data.output = output;
-            }
-          }
-          this.CalculationConfigurationComponent.setRowOuput(
-            configuration.id,
-            configuration.data,
-            false
-          );
-          if (configuration.data.conditionResult === true) {
-            const oldOutput = configuration.data.output;
-            if (configuration.data.functionType === "Distance") {
-              configuration.data.output = await this.calculateService.runDistanceCalculationPromise(
-                configuration,
-                autoCompleteAll,
-                this.authService,
-                this.lookupService,
-                this.calcService
-              );
-            } else if (configuration.data.functionType === "Lookup Table") {
-              configuration.data.output = await this.calculateService.runLookupCalculationPromise2(
-                configuration,
-                autoCompleteAll,
-                this.authService,
-                this.lookupService,
-                this.calcService
-              );
-            } else {
-              configuration.data.output = this.calculateService.runCalculation(
-                configuration,
-                autoCompleteAll,
-                this.authService,
-                this.lookupService,
-                this.calcService
-              );
-            }
-            if (oldOutput !== configuration.data.output) {
-              this.CalculationConfigurationComponent.setRowOuput(
-                configuration.id,
-                configuration.data,
-                true
-              );
-            }
-          }
-        }
+    if (isErrorInput === false && isErrorConfiguration === false) {
+      await calculationComponent.calculateConfiguration(calculationConfiguration, autoCompleteInputs);
+      this.CalculationConfigurationComponent.setTableData(calculationConfiguration);
       this.loadingProgress = 70;
-      this.calcOutput();
+      let calculationOutput = this.CalculationOutputComponent.getAllRows();
+      calculationOutput = calculationComponent.calculateOutput(calculationOutput, calculationConfiguration);
+      this.CalculationOutputComponent.setTableData(calculationOutput);
+      this.loadingProgress = 100;
+      this.loading = false;
+      this.snackBar.open("Calculated Successfully", "Success", {
+        duration: 2000
+      });
+      this.isInput = false;
+      setTimeout(() => {
+        this.loadingProgress = 0;
+      }, 2000);
     }
-  }
-  errorInput(input) {
-    const inputs = new CalculationInputComponent(this.autocompleteService);
-    let errorCheck: CalculationError[];
-    errorCheck = inputs.errorCheck(input);
-    if (errorCheck.length > 0) {
-      this.isErrors = true;
-    }
-    return [];
-  }
-  calcOutput() {
-    this.CalculationOutputComponent.getAllRowsNodes().forEach(output => {
-      this.CalculationOutputComponent.setRowOuput(output.id, "");
-      let arr: Array<any> = [];
-      arr = this.CalculationConfigurationComponent.getFinalRowNodes(
-        output.data.variable
-      );
-      this.CalculationOutputComponent.setRowOuput(
-        output.id,
-        arr["data"].output
-      );
-    });
-    this.isInput = false;
-    this.loadingProgress = 100;
-    this.loading = false;
-    this.snackBar.open("Calculated Successfully", "Success", {
-      duration: 2000
-    });
-    setTimeout(() => {  this.loadingProgress = 0; }, 2000);
   }
   routeInput() {
     this.isInput = true;

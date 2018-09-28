@@ -6,7 +6,7 @@ import {
   Output,
   EventEmitter
 } from "@angular/core";
-import { GridOptions } from "ag-grid";
+import { GridOptions, RowNode } from "ag-grid";
 
 import { CalculationInputComponent } from "../calculation-input/calculation-input.component";
 import { DateAdjustment } from "../functions/function-date-adjustment/function-date-adjustment.component";
@@ -32,8 +32,10 @@ export class CalculationConfigurationComponent implements OnInit {
   public autoCompleteArray;
   public selectedRow: any[];
   public rowClassRules;
-  @Output() dataChangeEvent = new EventEmitter();
-  @Input() calculationConfiguration: string[];
+  @Output()
+  dataChangeEvent = new EventEmitter();
+  @Input()
+  calculationConfiguration: string[];
   public autoCompleteOptions: any[];
   public defaultColDef;
   constructor(private autocompleteService: AutoCompleteService) {
@@ -137,10 +139,12 @@ export class CalculationConfigurationComponent implements OnInit {
     this.gridColumnApi.getAllColumns().forEach(function(column) {
       allColumnIds.push(column.colId);
     });
+    this.onSetAllRowID();
     // this.gridColumnApi.autoSizeColumns(allColumnIds);
   }
   onAddRow() {
     const newItem = new CalculationConfiguration(
+      this.getGuid(),
       "",
       "",
       "",
@@ -157,12 +161,49 @@ export class CalculationConfigurationComponent implements OnInit {
       true
     );
     const res = this.gridApi.updateRowData({ add: [newItem] });
+    const rowNode = this.gridApi.getRowNode(res.add[0].id);
+    rowNode.id = rowNode.data.id;
+    this.setRowOuput(res.add[0].id, rowNode.data, true);
     this.onDataChanged();
+  }
+  getGuid() {
+    return this.s4() +
+    this.s4() +
+    "-" +
+    this.s4() +
+    "-" +
+    this.s4() +
+    "-" +
+    this.s4() +
+    "-" +
+    this.s4() +
+    this.s4() +
+    this.s4();
+  }
+
+  s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
   }
   onRemoveSelected() {
     const selectedData = this.gridApi.getSelectedRows();
     const res = this.gridApi.updateRowData({ remove: selectedData });
     this.onDataChanged();
+  }
+  onSetAllRowID() {
+    const array = this.getAllRowsNodes();
+    array.forEach(row => {
+      const oldRowId = row.id;
+      const rowNode = this.gridApi.getRowNode(row.id);
+      if (rowNode.data.id === undefined) {
+        row.id = this.getGuid();
+        rowNode.data.id = row.id;
+        this.setRowOuput(oldRowId, rowNode.data, true);
+      } else {
+        row.id = rowNode.data.id;
+      }
+    });
   }
   onSelectionChanged(event, myRows: CalculationConfiguration) {
     this.selectedRow = this.gridApi.getSelectedNodes();
@@ -206,6 +247,7 @@ export class CalculationConfigurationComponent implements OnInit {
     const arr: Array<CalculationConfiguration> = [];
     this.gridApi.forEachNode(function(node, index) {
       const row: CalculationConfiguration = {
+        id: node.data.id,
         group: node.data.group,
         functionType: node.data.functionType,
         name: node.data.name,
@@ -314,6 +356,14 @@ export class CalculationConfigurationComponent implements OnInit {
     if (flash === true) {
       this.gridApi.flashCells({ rowNodes: [rowNode], columns: ["output"] });
     }
+  }
+  setTableData(calculationConfiguration) {
+    let selectedData = this.gridApi.selectAll();
+    selectedData = this.gridApi.getSelectedRows();
+    const res = this.gridApi.updateRowData({ remove: selectedData});
+    calculationConfiguration.forEach(element => {
+      const res2 = this.gridApi.updateRowData({ add: [element] });
+    });
   }
   ngOnInit() {
     this.gridOptions.rowData = this.calculationConfiguration;

@@ -133,11 +133,15 @@ export class CalculationInputComponent implements OnInit {
     this.gridColumnApi.getAllColumns().forEach(column => {
       allColumnIds.push(column.colId);
     });
+    this.onSetAllRowID();
     this.autocompleteService.editAutocomplete(this.getAllRowsNodes());
   }
   onAddRow() {
     const newItem = new CalculationInput(this.getGuid(), "", "", "", [], "", false);
     const res = this.gridApi.updateRowData({ add: [newItem] });
+    const rowNode = this.gridApi.getRowNode(res.add[0].id);
+    rowNode.id = rowNode.data.id;
+    this.setRowOuput(res.add[0].id, rowNode.data);
     this.autocompleteService.editAutocomplete(this.getAllRowsNodes());
     this.onDataChanged();
   }
@@ -161,7 +165,20 @@ export class CalculationInputComponent implements OnInit {
       .toString(16)
       .substring(1);
   }
-
+  onSetAllRowID() {
+    const array = this.getAllRowsNodes();
+    array.forEach(row => {
+      const oldRowId = row.id;
+      const rowNode = this.gridApi.getRowNode(row.id);
+      if (rowNode.data.id === undefined) {
+        row.id = this.getGuid();
+        rowNode.data.id = row.id;
+        this.setRowOuput(oldRowId, rowNode.data);
+      } else {
+        row.id = rowNode.data.id;
+      }
+    });
+  }
   onRemoveSelected() {
     const selectedData = this.gridApi.getSelectedRows();
     const res = this.gridApi.updateRowData({ remove: selectedData });
@@ -222,6 +239,14 @@ export class CalculationInputComponent implements OnInit {
       }
     });
     return arr;
+  }
+  public setTableData(calculationInput) {
+    let selectedData = this.gridApi.selectAll();
+    selectedData = this.gridApi.getSelectedRows();
+    const res = this.gridApi.updateRowData({ remove: selectedData});
+    calculationInput.forEach(element => {
+      const res2 = this.gridApi.updateRowData({ add: [element] });
+    });
   }
   public setRowOuput(id, rowData) {
     const rowNode = this.gridApi.getRowNode(id);

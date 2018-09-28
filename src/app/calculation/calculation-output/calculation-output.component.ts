@@ -141,6 +141,14 @@ export class CalculationOutputComponent implements OnInit {
       rowNode.setData(data);
     });
   }
+  public setTableData(calculationOutput) {
+    let selectedData = this.gridApi.selectAll();
+    selectedData = this.gridApi.getSelectedRows();
+    const res = this.gridApi.updateRowData({ remove: selectedData});
+    calculationOutput.forEach(element => {
+      const res2 = this.gridApi.updateRowData({ add: [element] });
+    });
+  }
   public setRowOuput(id, value) {
     const rowNode = this.gridApi.getRowNode(id);
     const data = rowNode.data;

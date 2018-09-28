@@ -44,16 +44,16 @@ export class CalculateService {
   ): Promise<any> {
     const distance = new FunctionDistanceComponent();
     let Origin = "";
-    if (row.data.distance.origin[0].type === "variable") {
+    if (row.distance.origin[0].type === "variable") {
        Origin = distance.getAutoCompleteOutput(
-        row.data.distance.origin[0].name,
+        row.distance.origin[0].name,
         autocomplete
       );
     }
     let Destination = "";
-    if (row.data.distance.destination[0].type === "variable") {
+    if (row.distance.destination[0].type === "variable") {
       Destination = distance.getAutoCompleteOutput(
-        row.data.distance.destination[0].name,
+        row.distance.destination[0].name,
         autocomplete
       );
     }
@@ -77,20 +77,20 @@ export class CalculateService {
       lookupService
     );
     let LookupValue: string;
-    LookupValue = row.data.lookupTable.LookupValue[0].name;
-    if (row.data.lookupTable.LookupType === "Date" && row.data.lookupTable.LookupValue[0].type === "variable") {
+    LookupValue = row.lookupTable.LookupValue[0].name;
+    if (row.lookupTable.LookupType === "Date" && row.lookupTable.LookupValue[0].type === "variable") {
       LookupValue = lookupTable.getAutoCompleteOutputDate(
-        row.data.lookupTable.LookupValue[0].name,
+        row.lookupTable.LookupValue[0].name,
         autocomplete);
-    } else if (row.data.lookupTable.LookupType === "Number" && row.data.lookupTable.LookupValue[0].type === "variable") {
+    } else if (row.lookupTable.LookupType === "Number" && row.lookupTable.LookupValue[0].type === "variable") {
       LookupValue = lookupTable.getAutoCompleteNumber(
-        row.data.lookupTable.LookupValue[0].name,
+        row.lookupTable.LookupValue[0].name,
         autocomplete
       );
     }
-    if (row.data.lookupTable.TableName) {
-      const dataType = row.data.lookupTable.LookupType;
-      return await this.getLookupTableHttp(row.data.lookupTable.TableName).then(
+    if (row.lookupTable.TableName) {
+      const dataType = row.lookupTable.LookupType;
+      return await this.getLookupTableHttp(row.lookupTable.TableName).then(
         data => {
           return this.getLookupTableCalculation(row, LookupValue, data.lookup);
         }
@@ -105,44 +105,44 @@ export class CalculateService {
     lookupService,
     calcService
   ): string {
-    if (row.data.functionType === "Maths") {
+    if (row.functionType === "Maths") {
       const math = new FunctionMathsComponent(this.dragulaService);
-      return math.calculate(row.data.maths, autocomplete);
-    } else if (row.data.functionType === "Date Adjustment") {
+      return math.calculate(row.maths, autocomplete);
+    } else if (row.functionType === "Date Adjustment") {
       const dateAdjustment = new FunctionDateAdjustmentComponent();
-      return dateAdjustment.calculate(row.data.dateAdjustment, autocomplete);
-    } else if (row.data.functionType === "Date Duration") {
+      return dateAdjustment.calculate(row.dateAdjustment, autocomplete);
+    } else if (row.functionType === "Date Duration") {
       const dateDuration = new FunctionDateDurationComponent();
-      return dateDuration.calculate(row.data.dateDuration, autocomplete);
-    } else if (row.data.functionType === "If Logic") {
+      return dateDuration.calculate(row.dateDuration, autocomplete);
+    } else if (row.functionType === "If Logic") {
       const ifLogic = new FunctionIfLogicComponent(this.dragulaService);
-      return ifLogic.calculate(row.data.ifLogic, autocomplete);
+      return ifLogic.calculate(row.ifLogic, autocomplete);
     }
     return "";
   }
   runCondition(row, autocomplete): boolean {
     let input: boolean;
-    input = row.data.condition;
+    input = row.condition;
     autocomplete.forEach(value => {
-      if (value.data.name === row.data.condition) {
+      if (value.data.name === row.condition) {
         input = value.data.output;
       }
     });
-    if (row.data.condition === undefined) {
-      row.data.condition = "";
+    if (row.condition === undefined) {
+      row.condition = "";
     }
-    if (row.data.condition === "") {
+    if (row.condition === "") {
       return true;
     } else if (
-      row.data.condition === "true" ||
-      row.data.condition === "True" ||
-      row.data.condition === "TRUE"
+      row.condition === "true" ||
+      row.condition === "True" ||
+      row.condition === "TRUE"
     ) {
       return true;
     } else if (
-      row.data.condition === "false" ||
-      row.data.condition === "False" ||
-      row.data.condition === "FALSE"
+      row.condition === "false" ||
+      row.condition === "False" ||
+      row.condition === "FALSE"
     ) {
       return false;
     } else {
@@ -155,27 +155,27 @@ export class CalculateService {
   }
 
   runError(row, autocomplete, authService, lookupService): CalculationError[] {
-    if (row.data.functionType === "Maths") {
+    if (row.functionType === "Maths") {
       const math = new FunctionMathsComponent(this.dragulaService);
-      return math.errorCheck(row.data.maths, autocomplete);
-    } else if (row.data.functionType === "Date Adjustment") {
+      return math.errorCheck(row.maths, autocomplete);
+    } else if (row.functionType === "Date Adjustment") {
       const dateAdjustment = new FunctionDateAdjustmentComponent();
-      return dateAdjustment.errorCheck(row.data.dateAdjustment, autocomplete);
-    } else if (row.data.functionType === "Date Duration") {
+      return dateAdjustment.errorCheck(row.dateAdjustment, autocomplete);
+    } else if (row.functionType === "Date Duration") {
       const dateDuration = new FunctionDateDurationComponent();
-      return dateDuration.errorCheck(row.data.dateDuration, autocomplete);
-    } else if (row.data.functionType === "If Logic") {
+      return dateDuration.errorCheck(row.dateDuration, autocomplete);
+    } else if (row.functionType === "If Logic") {
       const ifLogic = new FunctionIfLogicComponent(this.dragulaService);
-      return ifLogic.errorCheck(row.data.ifLogic, autocomplete);
-    } else if (row.data.functionType === "Distance") {
+      return ifLogic.errorCheck(row.ifLogic, autocomplete);
+    } else if (row.functionType === "Distance") {
       const distance = new FunctionDistanceComponent();
-      return distance.errorCheck(row.data.distance, autocomplete);
-    } else if (row.data.functionType === "Lookup Table") {
+      return distance.errorCheck(row.distance, autocomplete);
+    } else if (row.functionType === "Lookup Table") {
       const lookupTable = new FunctionLookupTableComponent(
         authService,
         lookupService
       );
-      return lookupTable.errorCheck(row.data.lookupTable, autocomplete);
+      return lookupTable.errorCheck(row.lookupTable, autocomplete);
     } else {
       return [];
     }
@@ -194,7 +194,7 @@ export class CalculateService {
   }
 
   getLookupTableCalculation(row, LookupValue, lookups): string {
-    if (row.data.lookupTable.LookupType === "Number") {
+    if (row.lookupTable.LookupType === "Number") {
       let closest = 79228162514264337593543950335;
       let minDifference = 79228162514264337593543950335;
       const DecimalLookupValue = Number(LookupValue);
@@ -214,8 +214,8 @@ export class CalculateService {
         RowNo++;
       });
       const lookupRow = lookups[outputRowNo];
-      return lookupRow[row.data.lookupTable.ColumnNo];
-    } else if (row.data.lookupTable.LookupType === "Date") {
+      return lookupRow[row.lookupTable.ColumnNo];
+    } else if (row.lookupTable.LookupType === "Date") {
       const date = moment(LookupValue, "DD/MM/YYYY", true);
       let lookupDate: Date;
       if (date.isValid() === true) {
@@ -252,7 +252,7 @@ export class CalculateService {
         RowNo++;
       });
       const lookupRow = lookups[outputRowNo];
-      return lookupRow[row.data.lookupTable.ColumnNo];
+      return lookupRow[row.lookupTable.ColumnNo];
     } else {
       let outputRowNo = 0;
       let RowNo = 0;
@@ -263,7 +263,7 @@ export class CalculateService {
         RowNo++;
       });
       const lookupRow = lookups[outputRowNo];
-      return lookupRow[row.data.lookupTable.ColumnNo];
+      return lookupRow[row.lookupTable.ColumnNo];
     }
   }
 }

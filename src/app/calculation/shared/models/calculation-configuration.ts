@@ -7,6 +7,7 @@ import { Maths } from "../../functions/function-maths/function-maths.component";
 import { CalculationError } from "./calculation-error";
 
 export class CalculationConfiguration {
+  id: string;
   group: string;
   functionType: string;
   name: string;
@@ -22,6 +23,7 @@ export class CalculationConfiguration {
   condition: string;
   conditionResult: boolean;
   constructor(
+    id,
     group,
     functionType,
     name,
@@ -37,6 +39,7 @@ export class CalculationConfiguration {
     condition,
     conditionResult
   ) {
+    this.id = id;
     this.group = group;
     this.functionType = functionType;
     this.name = name;

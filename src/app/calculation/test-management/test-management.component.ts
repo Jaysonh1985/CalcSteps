@@ -3,11 +3,10 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { CalculationService } from "../shared/services/calculation.service";
 import { CalculationInput } from "../shared/models/calculation-input";
 import { CalculationTest } from "../shared/models/calculation-test";
-import { CalculationOutput } from "../shared/models/calculation-output";
 import { AuthService } from "../../shared/services/auth.service";
-import { Calculation } from "../shared/models/calculation";
 import { MatDialog } from "@angular/material";
 import { TestDialogComponent } from "./test-dialog/test-dialog.component";
+import { Calculation } from "../shared/models/calculation";
 
 @Component({
   selector: "app-test-management",
@@ -20,12 +19,13 @@ export class TestManagementComponent implements OnInit {
     private router: Router,
     private calcService: CalculationService,
     private authService: AuthService,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {}
   public calculationTest: CalculationTest;
   public calculationInput: CalculationInput[];
   public calculationTests: CalculationTest[];
   public calculation: any;
+  public calculations: Calculation[];
   ngOnInit() {
     this.authService.userFirebase.subscribe(auth => {
       if (auth) {
@@ -62,7 +62,7 @@ export class TestManagementComponent implements OnInit {
       owner: "",
       pass: false,
       updateDate: new Date(),
-      userid : "",
+      userid: "",
       username: "",
       calculationInputs: this.calculation.calculationInputs,
       calculationOutputs: this.calculation.calculationOutputs
@@ -78,18 +78,32 @@ export class TestManagementComponent implements OnInit {
     const dialogRef = this.dialog.open(TestDialogComponent, {
       width: "800px",
       height: "80vh",
-      data: { calculationInputs: item.calculationInputs, calculationOutputs: item.calculationOutputs }
+      data: {
+        calculationInputs: item.calculationInputs,
+        calculationOutputs: item.calculationOutputs,
+        calculationConfiguration: this.calculation.calculationConfigurations,
+        calculationTests: item
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         item.calculationInputs = result.calculationInputs;
         item.calculationOutputs = result.calculationOutputs;
+        item.pass = this.isPass(result.calculationOutputs);
         this.calcService.updateCalculation(
           this.calculation.key,
           JSON.parse(JSON.stringify(this.calculation))
         );
       }
     });
+  }
+  isPass(calculationOutputs) {
+    for (const output of calculationOutputs) {
+      if (output.pass === false) {
+        return false;
+      }
+    }
+    return true;
   }
 }

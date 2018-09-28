@@ -9,6 +9,7 @@ export class CalculationTest {
   username: string;
   userid: string;
   pass: boolean;
+  description: string;
   calculationInputs: CalculationInput[];
   calculationOutputs: CalculationOutput[];
 }

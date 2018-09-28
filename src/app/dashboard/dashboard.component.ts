@@ -86,7 +86,7 @@ export class DashboardComponent implements OnInit {
             );
             this.calculation.calculationOutputs = [];
             this.calculation.calculationOutputs.push(
-              new CalculationOutput("", "", "", "")
+              new CalculationOutput("", "", "", "", "", false)
             );
             this.calculation.calculationConfigurations = [];
             this.calculation.calculationConfigurations.push(

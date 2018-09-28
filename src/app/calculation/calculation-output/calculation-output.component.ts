@@ -90,7 +90,7 @@ export class CalculationOutputComponent implements OnInit {
         suppressFilter: true
       },
       {
-        headerName: "Pass/Fail",
+        headerName: "Pass",
         field: "pass",
         width: 110,
         editable: false,

@@ -1,8 +1,38 @@
+<h2 mat-dialog-title>Test Manager</h2>
 <mat-dialog-content class="mat-typography">
-  <app-calculation-input [calculationInput]="data.calculationInputs" [release]=true></app-calculation-input>
-  <app-calculation-output [calculationOutput]="data.calculationOutputs" [release]=true></app-calculation-output>
+  <mat-tab-group>
+    <mat-tab label="Information">
+      <br/>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Group" [(ngModel)]="data.calculationTests.group">
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Name" [(ngModel)]="data.calculationTests.name">
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <textarea matInput placeholder="Description" [(ngModel)]="data.calculationTests.description" rows="14"></textarea>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Pass" [(ngModel)]="data.calculationTests.pass" disabled>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Owner" [(ngModel)]="data.calculationTests.owner" disabled>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Last Update Date" [(ngModel)]="data.calculationTests.updateDate" disabled>
+      </mat-form-field>
+    </mat-tab>
+    <mat-tab label="Input">
+      <app-calculation-input [calculationInput]="data.calculationInputs" [release]=true></app-calculation-input>
+    </mat-tab>
+    <mat-tab label="Output">
+      <app-calculation-output [calculationOutput]="data.calculationOutputs" [release]=true></app-calculation-output>
+    </mat-tab>
+  </mat-tab-group>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Save</button>
+  <mat-progress-bar mode="determinate" value="{{this.loadingProgress}}"></mat-progress-bar>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="data" cdkFocusInitial>Save</button>
+  <button mat-raised-button color="warn" (click)="onCalc()">Calculate</button>
 </mat-dialog-actions>

@@ -1,7 +1,11 @@
 <app-toolbar [title]="'Release Management'"></app-toolbar>
 <br>
 <div class="container">
-<button mat-raised-button (click)="routerCalculation()">Back to Calculation</button>
+  <button mat-raised-button (click)="routerCalculation()">Back to Calculation</button>
+  <h3>Add a New Release</h3>
+  <p>Please click the Add Release button below to create a new release, this can be rolled back to a previous version
+    by clicking the rollback button on the relevant version.</p>
+  <button mat-raised-button (click)="onRelease()">Add Release</button>
   <table class="table table-hover">
     <thead>
       <tr>
@@ -26,7 +30,7 @@
         <td>{{item.comment}}</td>
         <td>{{item.isAvailable}}</td>
         <td>
-            <button *ngIf="item.isAvailable === true && item.currentVersion !== true"  mat-raised-button (click)="onRevertVersion(item)">Rollback</button>
+          <button *ngIf="item.isAvailable === true && item.currentVersion !== true" mat-raised-button (click)="onRevertVersion(item)">Rollback</button>
         </td>
         <td>
           <button *ngIf="item.isAvailable === true  && item.currentVersion !== true" mat-raised-button (click)="onDeleteVersion(item)">Delete</button>
@@ -34,8 +38,4 @@
       </tr>
     </tbody>
   </table>
-  <button mat-raised-button (click)="onRelease()">Add Release</button>
-
 </div>
-
-

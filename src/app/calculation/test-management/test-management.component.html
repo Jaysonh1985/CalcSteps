@@ -1,7 +1,10 @@
 <app-toolbar [title]="'Test Management'"></app-toolbar>
-<button mat-raised-button (click)="routerCalculation()">Back to Calculation</button>
 <br />
 <div class="container" style="height:90%">
+  <button mat-raised-button (click)="routerCalculation()">Back to Calculation</button>
+  <h3>Add a New Test</h3>
+  <p>Please click the Add Test button below to create a new test, once available click View Test to write the relevant details, inputs and expected results of the test.</p>
+  <button mat-raised-button (click)="onAddRow()">Add Test</button>
   <table class="table table-hover">
     <thead>
       <tr>
@@ -26,5 +29,5 @@
       </tr>
     </tbody>
   </table>
-  <button mat-raised-button (click)="onAddRow()">Add</button> 
+  
 </div>

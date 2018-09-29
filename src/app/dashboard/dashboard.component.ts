@@ -82,11 +82,11 @@ export class DashboardComponent implements OnInit {
             this.calculation.userid = auth.uid;
             this.calculation.calculationInputs = [];
             this.calculation.calculationInputs.push(
-              new CalculationInput("", "", "", "", [], "", false)
+              new CalculationInput(this.getGuid(), "", "", "", [], "", false)
             );
             this.calculation.calculationOutputs = [];
             this.calculation.calculationOutputs.push(
-              new CalculationOutput("", "", "", "", "", false)
+              new CalculationOutput(this.getGuid(), "", "", "", "", "", false)
             );
             this.calculation.calculationConfigurations = [];
             this.calculation.calculationConfigurations.push(
@@ -149,5 +149,25 @@ export class DashboardComponent implements OnInit {
           this.router.navigate(["release", releaseRef]);
         }
       });
+  }
+  getGuid() {
+    return this.s4() +
+    this.s4() +
+    "-" +
+    this.s4() +
+    "-" +
+    this.s4() +
+    "-" +
+    this.s4() +
+    "-" +
+    this.s4() +
+    this.s4() +
+    this.s4();
+  }
+
+  s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
   }
 }

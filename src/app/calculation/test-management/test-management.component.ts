@@ -75,6 +75,8 @@ export class TestManagementComponent implements OnInit {
   }
 
   onViewTest(item) {
+    item.calculationInputs = this.mapInputs(item.calculationInputs);
+    item.calculationOutputs = this.mapOutputs(item.calculationOutputs);
     const dialogRef = this.dialog.open(TestDialogComponent, {
       width: "800px",
       height: "80vh",
@@ -97,6 +99,32 @@ export class TestManagementComponent implements OnInit {
         );
       }
     });
+  }
+  mapInputs(oldCalculationInputs) {
+    const newCalculationInputs = this.calculation.calculationInputs;
+    for (const newInput of newCalculationInputs) {
+      for (const oldInput of oldCalculationInputs) {
+        if (oldInput.id === newInput.id) {
+          newInput.output = oldInput.output;
+          break;
+        }
+      }
+    }
+    return newCalculationInputs;
+  }
+  mapOutputs(oldCalculationOutput) {
+    const newCalculationOutputs = this.calculation.calculationOutputs;
+    for (const newOutput of newCalculationOutputs) {
+      for (const oldOutput of oldCalculationOutput) {
+        if (oldOutput.id === newOutput.id) {
+          newOutput.output = oldOutput.output;
+          newOutput.eresult = oldOutput.eresult;
+          newOutput.pass = oldOutput.pass;
+          break;
+        }
+      }
+    }
+    return newCalculationOutputs;
   }
   isPass(calculationOutputs) {
     for (const output of calculationOutputs) {

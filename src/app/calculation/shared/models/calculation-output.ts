@@ -1,11 +1,13 @@
 export class CalculationOutput {
+  id: string;
   name: string;
   data: string;
   variable: string;
   output: string;
   eresult: string;
   pass: boolean;
-  constructor(name, data, output, variable, eresult, pass) {
+  constructor(id, name, data, output, variable, eresult, pass) {
+    this.id = id;
     this.name = name;
     this.data = data;
     this.variable = variable;

@@ -115,8 +115,28 @@ export class CalculationOutputComponent implements OnInit {
     });
   }
   onAddRow() {
-    const newItem = new CalculationOutput("", "", "", "", "", true);
+    const newItem = new CalculationOutput(this.getGuid(), "", "", "", "", "", false);
     const res = this.gridApi.updateRowData({ add: [newItem] });
+  }
+  getGuid() {
+    return this.s4() +
+    this.s4() +
+    "-" +
+    this.s4() +
+    "-" +
+    this.s4() +
+    "-" +
+    this.s4() +
+    "-" +
+    this.s4() +
+    this.s4() +
+    this.s4();
+  }
+
+  s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
   }
   onRemoveSelected() {
     const selectedData = this.gridApi.getSelectedRows();
@@ -132,6 +152,7 @@ export class CalculationOutputComponent implements OnInit {
     const arr: Array<CalculationOutput> = [];
     this.gridApi.forEachNode(function(node, index) {
       const Row: CalculationOutput = {
+        id: node.data.id,
         name: node.data.name,
         variable: node.data.variable,
         output: node.data.output,

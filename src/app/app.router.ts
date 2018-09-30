@@ -13,6 +13,7 @@ import { LoginComponent } from "./profile/login/login.component";
 import { SignupComponent } from "./profile/signup/signup.component";
 import { UserManagementComponent } from "./calculation/user-management/user-management.component";
 import { TestManagementComponent } from "./calculation/test-management/test-management.component";
+import { HelpComponent } from "./calculation/help/help.component";
 
 export const router: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -28,6 +29,7 @@ export const router: Routes = [
   { path: "lookup/:key", component: LookupComponent },
   { path: "user-management/:key", component: UserManagementComponent },
   { path: "test-management/:key", component: TestManagementComponent },
+  { path: "help", component: HelpComponent },
 ];
 
 export const RouteModule: ModuleWithProviders = RouterModule.forRoot(router);

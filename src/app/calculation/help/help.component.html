@@ -1,0 +1,65 @@
+<app-toolbar [title]="'Help'"></app-toolbar>
+<mat-sidenav-container class="example-container">
+  <mat-sidenav mode="side" opened="true" style="background: #353535; color: white;">
+    <mat-nav-list>
+      <mat-list-item style="color: white" (click)="onChangeScreen('CalculationConfiguration')">
+        <h3 matLine>Calculation Configuration</h3>
+      </mat-list-item>
+      <mat-list-item style="color: white" (click)="onChangeScreen('CalculationFunctions')">
+        <h3 matLine>Calculation Functions</h3>
+      </mat-list-item>
+      <mat-list-item style="color: white" (click)="onChangeScreen('Lookup')">
+        <h3 matLine>Lookup Maintenance</h3>
+      </mat-list-item>
+      <mat-list-item style="color: white" (click)="onChangeScreen('Test')">
+        <h3 matLine>Test Management</h3>
+      </mat-list-item>
+      <mat-list-item style="color: white" (click)="onChangeScreen('Release')">
+        <h3 matLine>Release Management</h3>
+      </mat-list-item>
+      <mat-list-item style="color: white" (click)="onChangeScreen('User')">
+        <h3 matLine>User Management</h3>
+      </mat-list-item>
+      <mat-list-item style="color: white" (click)="onRouteDashboard()">
+          <h3 matLine>Back to Calculations</h3>
+        </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <ng-template [ngIf]="screen === 'Index'">
+      <div>
+        This is the help screen
+      </div>
+    </ng-template>
+    <ng-template [ngIf]="screen === 'CalculationConfiguration'">
+      <div>
+        <app-help-calculation-configuration></app-help-calculation-configuration>
+      </div>
+    </ng-template>
+    <ng-template [ngIf]="screen === 'CalculationFunctions'">
+      <div>
+        <app-help-calculation-functions></app-help-calculation-functions>
+      </div>
+    </ng-template>
+    <ng-template [ngIf]="screen === 'Lookup'">
+      <div>
+        <app-help-lookup-maintenance></app-help-lookup-maintenance>
+      </div>
+    </ng-template>
+    <ng-template [ngIf]="screen === 'Release'">
+      <div>
+        <app-help-release-management></app-help-release-management>
+      </div>
+    </ng-template>
+    <ng-template [ngIf]="screen === 'Test'">
+      <div>
+        <app-help-test-management></app-help-test-management>
+      </div>
+    </ng-template>
+    <ng-template [ngIf]="screen === 'User'">
+      <div>
+        <app-help-user-maintenance></app-help-user-maintenance>
+      </div>
+    </ng-template>
+  </mat-sidenav-content>
+</mat-sidenav-container>

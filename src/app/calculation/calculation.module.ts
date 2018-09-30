@@ -32,6 +32,14 @@ import { DragulaModule } from "ng2-dragula";
 import { NgDragDropModule } from "ng-drag-drop";
 import { TestManagementComponent } from "./test-management/test-management.component";
 import { TestDialogComponent } from "./test-management/test-dialog/test-dialog.component";
+import { HelpComponent } from "./help/help.component";
+import { HelpReleaseManagementComponent } from "./help/categories/help-release-management/help-release-management.component";
+// tslint:disable-next-line:max-line-length
+import { HelpCalculationConfigurationComponent } from "./help/categories/help-calculation-configuration/help-calculation-configuration.component";
+import { HelpTestManagementComponent } from "./help/categories/help-test-management/help-test-management.component";
+import { HelpCalculationFunctionsComponent } from "./help/categories/help-calculation-functions/help-calculation-functions.component";
+import { HelpLookupMaintenanceComponent } from "./help/categories/help-lookup-maintenance/help-lookup-maintenance.component";
+import { HelpUserMaintenanceComponent } from "./help/categories/help-user-maintenance/help-user-maintenance.component";
 
 @NgModule({
   imports: [
@@ -64,7 +72,14 @@ import { TestDialogComponent } from "./test-management/test-dialog/test-dialog.c
     FunctionLookupTableComponent,
     UserManagementComponent,
     TestManagementComponent,
-    TestDialogComponent
+    TestDialogComponent,
+    HelpComponent,
+    HelpReleaseManagementComponent,
+    HelpCalculationConfigurationComponent,
+    HelpTestManagementComponent,
+    HelpCalculationFunctionsComponent,
+    HelpLookupMaintenanceComponent,
+    HelpUserMaintenanceComponent
   ],
   entryComponents: [LookupDialogComponent, TestDialogComponent],
   providers: [

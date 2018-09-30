@@ -20,7 +20,7 @@ export class AccountComponent implements OnInit {
       { name: "Dashboard", routerLink: "../dashboard", icon: "dashboard" },
       { name: "Account", routerLink: "../account", icon: "account_circle" },
       { name: "Lookup Table", routerLink: "../lookup-maintenance", icon: "folder" },
-      { name: "Help", routerLink: "../account", icon: "help_outline" },
+      { name: "Help", routerLink: "../help", icon: "help_outline" },
     ]
   };
   constructor(

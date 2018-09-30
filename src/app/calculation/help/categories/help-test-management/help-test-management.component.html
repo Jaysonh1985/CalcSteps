@@ -1,0 +1,59 @@
+<div>
+  <h3>Overview</h3>
+  <p>
+    A regression facility is associated with every calculation; this is to be used to store calculation results at a
+    specific point in time. The idea is that if any adjustment is made in the future to the configuration, then the
+    outputs remain the same or don’t change to protect the members used in test.
+    The way to use this is to add one member to regression at a time rather than multiple members, so build the
+    configuration for the first member then when the expected results match for the test member in test the test
+    member should be added to regression. The next member should be picked up and configured in the builder before
+    adding into regression and testing against the previous member(s) to ensure that they still match.
+  </p>
+  <mat-divider></mat-divider>
+  <h3>Adding Member to Regression</h3>
+  <p>
+    Once the configuration has been built in the builder and the expected results match, this configuration must be
+    saved in order to access the Regression facility. Access Regression by clicking the Regression button.
+  </p>
+  <p>
+    To add a new saved calculation in click the Add button, insert a reference number for the member and if a comment
+    is required this can be used for defining the scenario for this member.
+    Then click the cog to add in the Inputs for the regression, this will then create all the inputs available in the
+    builder. Click the Use Current Inputs button to take the inputs from the current builder and click save.
+
+  </p>
+  <mat-divider></mat-divider>
+  <h3>Running Regression</h3>
+  <p>
+    Once the member has been added with the inputs, click Run All this will then create an baseline value in the old
+    column and will display a button to view this output. If you click the old button this will display all of the
+    outputs from the baseline run in the outputs screen. You can also search the outputs for specific outputs.
+  </p>
+  <mat-divider></mat-divider>
+  <h3>Encountering a Fail in Regression</h3>
+  <p>
+    If a change has been made to the configuration and this creates a difference against the previous result in the
+    regression for the member, this will then create a new output in the new column which can be clicked and
+    displayed to the user. The Pass/Fail will then be displayed as red and this must be investigated. The user will
+    be displayed with the differences which will be contained in the Differences column, click this button and it
+    will show the differences between the old result and the new result.
+    The user will then have to decide whether the new results are correct or not. If the results are not correct then
+    click Reject All; this will keep the Old results. If the results are correct and these are now the baseline
+    regression results select Accept All this will replace the Old results with the New and set the Pass/Fail to
+    green.
+    To investigate these results click the two opposing arrows on the row to investigate, this should populate the
+    builder with these inputs for quick debugging.
+
+  </p>
+  <mat-divider></mat-divider>
+  <h3>Exporting Regression Results</h3>
+  <p>
+    Text
+  </p>
+  <mat-divider></mat-divider>
+  <h3>Moving Member from Regression to Builder</h3>
+  <p>
+    Text
+  </p>
+  <mat-divider></mat-divider>
+</div>

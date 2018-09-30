@@ -32,9 +32,9 @@ export class ReleaseComponent implements OnInit {
   isInput: boolean;
   errors: string[];
   public calculation: any;
-  public calculationConfiguration: CalculationConfiguration;
+  public calculationConfiguration: CalculationConfiguration[];
   public calculationInput: CalculationInput[];
-  public calculationOutput: CalculationOutput;
+  public calculationOutput: CalculationOutput[];
   public calculationName: string;
   public calculationGroup: string;
   public calculationInputNodes: any[];

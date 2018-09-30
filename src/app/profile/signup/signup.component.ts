@@ -39,7 +39,7 @@ export class SignupComponent implements OnInit {
       )
       .then(res => {
         const user: User = {
-          uid: res.uid,
+          uid: res.user.uid,
           displayName: this.formdata.controls["name"].value,
           email: this.formdata.controls["email"].value
         };

@@ -30,10 +30,10 @@ import { CalculationService } from "./shared/services/calculation.service";
 export class CalculationComponent implements OnInit {
   public key: any[];
   public calculation: any;
-  public calculationConfiguration: CalculationConfiguration;
+  public calculationConfiguration: CalculationConfiguration[];
   public calculationInput: CalculationInput[];
   public calculationInputNodes: any[];
-  public calculationOutput: CalculationOutput;
+  public calculationOutput: CalculationOutput[];
   @ViewChild(CalculationInputComponent)
   public CalculationInputComponent: CalculationInputComponent;
   @ViewChild(CalculationOutputComponent)

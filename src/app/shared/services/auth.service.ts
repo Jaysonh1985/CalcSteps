@@ -61,9 +61,9 @@ export class AuthService {
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then(newUser => {
         const user: User = {
-          uid: newUser.uid,
-          displayName: newUser.displayName,
-          email: newUser.email
+          uid: newUser.user.uid,
+          displayName: newUser.user.displayName,
+          email: newUser.user.email
         };
         this.createUser(user);
       })

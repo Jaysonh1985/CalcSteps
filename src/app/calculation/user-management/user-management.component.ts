@@ -55,6 +55,8 @@ export class UserManagementComponent implements OnInit {
       .map(arr => {
         return arr.map(c => ({
           key: c.payload.key,
+          email: "",
+          name: "",
           ...c.payload.val()
         }));
       })

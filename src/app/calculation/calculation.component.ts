@@ -16,7 +16,6 @@ import { CalculationConfigurationComponent } from "./calculation-configuration/c
 import { CalculationInputComponent } from "./calculation-input/calculation-input.component";
 import { CalculationOutputComponent } from "./calculation-output/calculation-output.component";
 import { CalculationConfiguration } from "./shared/models/calculation-configuration";
-import { CalculationError } from "./shared/models/calculation-error";
 import { CalculationInput } from "./shared/models/calculation-input";
 import { CalculationOutput } from "./shared/models/calculation-output";
 import { AutoCompleteService } from "./shared/services/auto-complete.service";

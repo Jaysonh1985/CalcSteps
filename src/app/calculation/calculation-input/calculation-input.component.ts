@@ -222,24 +222,6 @@ export class CalculationInputComponent implements OnInit {
     });
     return arr;
   }
-  getFinalRowNodesName(name): any[] {
-    const arr: Array<any> = [];
-    this.gridApi.forEachNode(function(node, index) {
-      if (node.data.name === name) {
-        arr.push(node);
-      }
-    });
-    return arr[arr.length - 1];
-  }
-  getAllRowNodesbyData(data): any[] {
-    const arr: Array<any> = [];
-    this.gridApi.forEachNode(function(node, index) {
-      if (node.data.data === data) {
-        arr.push(node);
-      }
-    });
-    return arr;
-  }
   public setTableData(calculationInput) {
     let selectedData = this.gridApi.selectAll();
     selectedData = this.gridApi.getSelectedRows();

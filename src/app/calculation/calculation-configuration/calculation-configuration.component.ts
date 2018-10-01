@@ -2,13 +2,11 @@ import {
   Component,
   Input,
   OnInit,
-  ViewChild,
   Output,
   EventEmitter
 } from "@angular/core";
-import { GridOptions, RowNode } from "ag-grid";
+import { GridOptions} from "ag-grid";
 
-import { CalculationInputComponent } from "../calculation-input/calculation-input.component";
 import { DateAdjustment } from "../functions/function-date-adjustment/function-date-adjustment.component";
 import { DateDuration } from "../functions/function-date-duration/function-date-duration.component";
 import { Distance } from "../functions/function-distance/function-distance.component";
@@ -220,15 +218,6 @@ export class CalculationConfigurationComponent implements OnInit {
       this.getLogicArray();
     }
   }
-  onDeleteAllOutputs() {
-    this.gridApi.forEachNode(function(node, index) {
-      const rowNode = node;
-      const data = rowNode.data;
-      data.output = "";
-      rowNode.setData(data);
-    });
-    this.onDataChanged();
-  }
   onDataChanged() {
     this.dataChangeEvent.emit();
   }
@@ -274,22 +263,6 @@ export class CalculationConfigurationComponent implements OnInit {
     });
     return arr;
   }
-  getAllRowsNodesbyDataIndex(data, index): any[] {
-    const arr: Array<any> = [];
-    this.gridApi.forEachNode(function(node) {
-      if (node.data.data === data && node.rowIndex < index) {
-        arr.push(node);
-      }
-      if (node.rowIndex === index) {
-        if (arr.length > 0) {
-          return arr[arr.length - 1];
-        } else {
-          return null;
-        }
-      }
-    });
-    return arr;
-  }
   getAllRowsNodesbyIndex(index): any[] {
     const arr: Array<any> = [];
     this.gridApi.forEachNode(function(node) {
@@ -305,31 +278,6 @@ export class CalculationConfigurationComponent implements OnInit {
       }
     });
     return arr;
-  }
-  getFinalRowNodes(name): any[] {
-    const arr: Array<any> = [];
-    this.gridApi.forEachNode(function(node, index) {
-      if (node.data.name === name) {
-        arr.push(node);
-      }
-    });
-    return arr[arr.length - 1];
-  }
-  getFinalRowNodesbyNameIndex(name, index): any[] {
-    const arr: Array<any> = [];
-    this.gridApi.forEachNode(function(node) {
-      if (node.data.name === name && node.rowIndex < index) {
-        arr.push(node);
-      }
-      if (node.rowIndex === index) {
-        if ((arr.length = 0)) {
-          return null;
-        } else {
-          return arr[arr.length - 1];
-        }
-      }
-    });
-    return arr[arr.length - 1];
   }
   getFinalRowNodesbyDataIndex(data, index): any[] {
     const arr: Array<any> = [];

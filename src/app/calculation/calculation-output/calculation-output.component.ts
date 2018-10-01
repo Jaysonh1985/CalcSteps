@@ -164,13 +164,6 @@ export class CalculationOutputComponent implements OnInit {
     });
     return arr;
   }
-  getAllRowsNodes(): any[] {
-    const arr: Array<any> = [];
-    this.gridApi.forEachNode(function(node, index) {
-      arr.push(node);
-    });
-    return arr;
-  }
   onDeleteAllOutputs() {
     this.gridApi.forEachNode(function(node, index) {
       const rowNode = node;

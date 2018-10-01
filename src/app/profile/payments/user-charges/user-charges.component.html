@@ -1,6 +1,5 @@
 <div *ngIf="charges$ | async as charges; else loading;">
   <div *ngIf="charges.length">
-    <h3>Payments History</h3>
     <mat-list dense>
       <mat-list-item *ngFor="let charge of charges">
         Amount: {{ charge.amount}} | Status: {{ charge.status }}

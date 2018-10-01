@@ -1,6 +1,5 @@
 <div *ngIf="(customer$ | async)?.sources.data as sources; else loading;">
   <div *ngIf="sources.length">
-    <h3>Card History</h3>
     <mat-list dense>
       <mat-list-item *ngFor="let source of sources">
         Card {{ source.card.brand }} | ending in {{ source.card.last4 }} | expiry date {{ source.card.exp_month }}/{{ source.card.exp_year

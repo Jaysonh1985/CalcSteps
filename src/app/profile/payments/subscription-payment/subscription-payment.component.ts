@@ -20,6 +20,7 @@ export class SubscriptionPaymentComponent implements OnInit {
   loading: boolean;
   subscriptionTypes: string[] = ["Gold", "Enterprise"];
   subscriptionType: string;
+  subscriptionId: string;
   @Input()
   planId: string;
   @Input()
@@ -45,6 +46,12 @@ export class SubscriptionPaymentComponent implements OnInit {
           .subscribe(sub => {
             if (sub != null) {
               this.subscriptionStatus = sub.status;
+              if (sub.productId === "plan_DhxNzHjW9CQbZG") {
+                this.subscriptionId = "Gold";
+              }
+              if (sub.productId === "plan_DhqyWHUScOFd9e") {
+                this.subscriptionId = "Enterprise";
+              }
             }
           });
       }

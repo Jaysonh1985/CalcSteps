@@ -10,39 +10,80 @@
 <!-- User logged in -->
 <ng-template #authenticated>
   <ng-template [ngIf]="subscriptionStatus === 'active'">
-    <div>
-      <p>
-        If you wish to unsubscribe please click the below button, please note that your subscription will terminate at
-        the end of
-        your billing period.
-      </p>
-      <button mat-raised-button (click)="cancelHandler()">
-        Unsubscribe
-      </button>
-      <app-user-sources [canSelect]=false></app-user-sources>
-      <app-user-charges></app-user-charges>
-    </div>
+    <mat-card class="card">
+      <mat-card-header>
+        <h3>
+          {{subscriptionId}} Standard subscription
+        </h3>
+      </mat-card-header>
+      <mat-card-content>
+        <div>
+          <p>
+            If you wish to unsubscribe please click the below button, please note that your subscription will terminate
+            at
+            the end of
+            your billing period.
+          </p>
+          <button mat-raised-button (click)="cancelHandler()">
+            Unsubscribe
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="card">
+      <mat-card-header>
+        <h3>Card History</h3>
+      </mat-card-header>
+      <mat-card-content>
+        <app-user-sources [canSelect]=false></app-user-sources>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="card">
+      <mat-card-header>
+        <h3>Payment History</h3>
+      </mat-card-header>
+      <mat-card-content>
+        <app-user-charges></app-user-charges>
+      </mat-card-content>
+    </mat-card>
+    <br />
   </ng-template>
   <ng-template [ngIf]="subscriptionStatus === 'cancelled'">
-    <div>
-      <p>
-        You have cancelled your subscription with us, or you have a failed payment we are sorry to see you go.
-      </p>
-      <p>
-        If you would like to reactivate your subscription please apply your new card details below to reactivate.
-      </p>
-      <app-payment-form [totalAmount]="0"></app-payment-form>
-    </div>
+    <mat-card>
+      <mat-card-header>
+        <h3>Cancelled</h3>
+      </mat-card-header>
+      <mat-card-content>
+        <div>
+          <p>
+            You have cancelled your {{subscriptionId}} Standard subscription with us, or you have a failed payment we are sorry to see you go.
+          </p>
+          <p>
+            If you would like to reactivate your subscription please apply your new card details below to reactivate.
+          </p>
+          <app-payment-form [totalAmount]="0"></app-payment-form>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <br/>
   </ng-template>
   <ng-template [ngIf]="subscriptionStatus === 'pastDue' || subscriptionStatus === 'unpaid' ">
-    <div>
-      <p>
-        Your latest payment has failed if you wish to delete your account please do so above, alternatively, please
-        click update
-        your card details below to reactivate.
-      </p>
-      <app-payment-form [totalAmount]="0"></app-payment-form>
-    </div>
+    <mat-card>
+      <mat-card-header>
+        <h3>Payment Due</h3>
+      </mat-card-header>
+      <mat-card-content>
+          <div>
+              <p>
+                Your latest payment has failed if you wish to delete your account please do so above, alternatively, please
+                click update
+                your card details below to reactivate.
+              </p>
+              <app-payment-form [totalAmount]="0"></app-payment-form>
+            </div>
+      </mat-card-content>
+    </mat-card>
+    <br/>
   </ng-template>
   <ng-template [ngIf]="subscriptionStatus === null">
     <h3 style="text-align: center;">Subscriptions</h3>
@@ -162,13 +203,13 @@
           </mat-radio-button>
         </mat-radio-group>
         <div *ngIf="subscriptionType === 'Gold'">
-            <app-payment-form [totalAmount]="0" [subscriptionType]="subscriptionType" [subscriptionFee]="5.00"></app-payment-form>
+          <app-payment-form [totalAmount]="0" [subscriptionType]="subscriptionType" [subscriptionFee]="5.00"></app-payment-form>
         </div>
         <div *ngIf="subscriptionType === 'Enterprise'">
-            <app-payment-form [totalAmount]="0" [subscriptionType]="subscriptionType" [subscriptionFee]="10.00"></app-payment-form>
+          <app-payment-form [totalAmount]="0" [subscriptionType]="subscriptionType" [subscriptionFee]="10.00"></app-payment-form>
         </div>
       </mat-card-content>
     </mat-card>
-    <br/>
+    <br />
   </ng-template>
 </ng-template>

@@ -5,6 +5,7 @@ import {
   MatCardModule,
   MatChipsModule,
   MatDialogModule,
+  MatGridListModule,
   MatNativeDateModule,
   MatIconModule,
   MatInputModule,
@@ -16,7 +17,8 @@ import {
   MatTabsModule,
   MatToolbarModule,
   MatProgressBarModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatRadioModule
 } from "@angular/material";
 
 @NgModule({
@@ -30,6 +32,7 @@ import {
     MatCardModule,
     MatChipsModule,
     MatDialogModule,
+    MatGridListModule,
     MatSnackBarModule,
     MatInputModule,
     MatSelectModule,
@@ -38,6 +41,7 @@ import {
     MatNativeDateModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
+    MatRadioModule
   ],
   exports: [
     MatAutocompleteModule,
@@ -49,6 +53,7 @@ import {
     MatChipsModule,
     MatCardModule,
     MatDialogModule,
+    MatGridListModule,
     MatSnackBarModule,
     MatInputModule,
     MatSelectModule,
@@ -57,6 +62,7 @@ import {
     MatNativeDateModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
+    MatRadioModule
   ]
 })
 export class MaterialModule {}

@@ -1,8 +1,7 @@
 <fieldset>
   <form #paymentForm="ngForm" (ngSubmit)="formHandler()" class="checkout">
     <div class="form-row">
-      <label for="card-info">Pay with Credit or Debit Card</label>
- {{loading}}
+      <label for="card-info">Pay with Credit or Debit Card - {{subscriptionType}} £ {{subscriptionFee}} Per Month</label>
       <div id="card-element" #cardElement></div>
       <div id="card-errors" class="help is-danger" role="alert" *ngIf="formError">{{ formError }}</div>
     </div>

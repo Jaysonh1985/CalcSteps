@@ -9,16 +9,11 @@
 
 <!-- User logged in -->
 <ng-template #authenticated>
-  <div>
-    <h3>CalcSteps Gold Standard Subscription</h3>
-  </div>
-  <div>
-    Status: {{subscriptionStatus}}
-  </div>
   <ng-template [ngIf]="subscriptionStatus === 'active'">
     <div>
       <p>
-        If you wish to unsubscribe please click the below button, please note that your subscription will terminate at the end of
+        If you wish to unsubscribe please click the below button, please note that your subscription will terminate at
+        the end of
         your billing period.
       </p>
       <button mat-raised-button (click)="cancelHandler()">
@@ -36,63 +31,144 @@
       <p>
         If you would like to reactivate your subscription please apply your new card details below to reactivate.
       </p>
-    <app-payment-form [totalAmount]="0"></app-payment-form>
+      <app-payment-form [totalAmount]="0"></app-payment-form>
     </div>
   </ng-template>
   <ng-template [ngIf]="subscriptionStatus === 'pastDue' || subscriptionStatus === 'unpaid' ">
     <div>
       <p>
-        Your latest payment has failed if you wish to delete your account please do so above, alternatively, please click update
+        Your latest payment has failed if you wish to delete your account please do so above, alternatively, please
+        click update
         your card details below to reactivate.
       </p>
       <app-payment-form [totalAmount]="0"></app-payment-form>
     </div>
   </ng-template>
   <ng-template [ngIf]="subscriptionStatus === null">
-    <div class="billing-summary">
-      <h3>
-        <span>Monthly Plan Summary</span>
-      </h3>
-      <table>
-        <tbody>
-          <tr>
-            <td>
-              <span>
-                <span>1 Gold License</span>
-              </span>
-              <span>
-                <span> 25% saving with this plan</span>
-              </span>
-            </td>
-            <td> </td>
-            <td>
-              <strong>£15.00</strong>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <span> Sales Tax</span>
-            </td>
-            <td> </td>
-            <td>
-              <strong>£0.00</strong>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td>
-              <span>Total</span>
-            </td>
-            <td> </td>
-            <td>
-              <strong class="price">£15.00</strong>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
+    <h3 style="text-align: center;">Subscriptions</h3>
+    <mat-card class="card">
+      <mat-card-title>
+        <h2>Gold Standard Subscription</h2>
+      </mat-card-title>
+      <mat-card-content>
+        <p>The gold standard allows you to add up to 10 users who can access the calculation that has been built.
+          These users can be added in the configuration screen and require a user account in Calc-Steps to be
+          added.</p>
+        <br>
+        <p>Benefits:</p>
+        <ul>
+          <li>Create an unlimited amount of calculations</li>
+          <li>Add in up to 10 users who can use the calculation</li>
+          <li>Access to the test management facility</li>
+        </ul>
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <span>
+                  <span>1 Gold License</span>
+                </span>
+              </td>
+              <td> </td>
+              <td>
+                <strong>£5.00 Per Month</strong>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span> Sales Tax</span>
+              </td>
+              <td> </td>
+              <td>
+                <strong>£0.00</strong>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>
+                <span>Total</span>
+              </td>
+              <td> </td>
+              <td>
+                <strong class="price">£5.00 Per Month</strong>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="card">
+      <mat-card-title>
+        <h2>Enterprise Standard Subscription</h2>
+      </mat-card-title>
+      <mat-card-content>
+        <p>The Enterprise standard allows you to add an unlimited amount of users who can access the calculation
+          that has been built.
+          These users can be added in the configuration screen and require a user account in Calc-Steps to be
+          added.
+        </p>
+        <p>The calculation can also be embedded in a website of your chosing by copying a url.
+        </p>
+        <p>Benefits:</p>
+        <ul>
+          <li>Create an unlimited amount of calculations</li>
+          <li>Add in unlimited amount users who can use the calculation</li>
+          <li>Access to the test management facility</li>
+          <li>Calculation is available on a website of your choosing.</li>
+        </ul>
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <span>
+                  <span>1 Enterprise License</span>
+                </span>
+              </td>
+              <td> </td>
+              <td>
+                <strong>£10.00 Per Month</strong>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span> Sales Tax</span>
+              </td>
+              <td> </td>
+              <td>
+                <strong>£0.00</strong>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>
+                <span>Total</span>
+              </td>
+              <td> </td>
+              <td>
+                <strong class="price">£10.00 Per Month</strong>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="card">
+      <mat-card-content>
+        <mat-radio-group class="example-radio-group" [(ngModel)]="subscriptionType">
+          <mat-radio-button class="example-radio-button" *ngFor="let type of subscriptionTypes" [value]="type">
+            {{type}}
+          </mat-radio-button>
+        </mat-radio-group>
+        <div *ngIf="subscriptionType === 'Gold'">
+            <app-payment-form [totalAmount]="0" [subscriptionType]="subscriptionType" [subscriptionFee]="5.00"></app-payment-form>
+        </div>
+        <div *ngIf="subscriptionType === 'Enterprise'">
+            <app-payment-form [totalAmount]="0" [subscriptionType]="subscriptionType" [subscriptionFee]="10.00"></app-payment-form>
+        </div>
+      </mat-card-content>
+    </mat-card>
     <br/>
-    <app-payment-form [totalAmount]="0" ></app-payment-form>
   </ng-template>
 </ng-template>

@@ -22,6 +22,8 @@ export class PaymentFormComponent implements AfterViewInit, OnDestroy {
   // Total amount of the charge
   @Input() totalAmount: number;
   @Input() sourceId: any;
+  @Input() subscriptionType: string;
+  @Input() subscriptionFee: string;
   // Emit result of operation to other components
   @Output() stripeResult = new EventEmitter<Charge | Source>();
 
@@ -73,8 +75,15 @@ export class PaymentFormComponent implements AfterViewInit, OnDestroy {
         this.card = data.card;
         this.stripeResult.emit(data);
         this.loading = false;
+        let selectedPlan = "";
+        if (this.subscriptionType === "Gold") {
+          selectedPlan = "plan_DhxNzHjW9CQbZG";
+        }
+        if (this.subscriptionType === "Enterprise") {
+          selectedPlan = "plan_DhqyWHUScOFd9e";
+        }
         this.pmt
-          .attachSubscription(data.id, "plan_Cwi9mPWRIyMUEp")
+          .attachSubscription(data.id, selectedPlan)
           .subscribe(data1 => {
             this.loading = false;
           });
@@ -87,7 +96,7 @@ export class PaymentFormComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.card) {
+    if (this.card) {
       this.card.destroy();
     }
   }

@@ -3,20 +3,20 @@
   <mat-sidenav #sidenav mode="side" opened="true" style="background: #353535; color: white;" class="example-sidenav">
     <app-sidenav [sideNav]="config.sideNav"></app-sidenav>
   </mat-sidenav>
-  <mat-sidenav-content style="height:90%">
+  <mat-sidenav-content style="height:100%">
     <div class="centre">
       <mat-card class="card">
         <mat-card-header>
           <h3>Account Details</h3>
         </mat-card-header>
         <mat-card-content>
-          <br/>
+          <br />
           Name: {{name}}
-          <br/>
-          <br/>
+          <br />
+          <br />
           Email: {{email}}
-          <br/>
-          <br/>
+          <br />
+          <br />
           Account Reference: {{accountReference}}
         </mat-card-content>
         <mat-card-actions>
@@ -24,11 +24,7 @@
           <button mat-button (click)="deleteAccount()">Delete Account</button>
         </mat-card-actions>
       </mat-card>
-      <mat-card class="card">
-        <mat-card-content>
-          <app-subscription-payment></app-subscription-payment>
-        </mat-card-content>
-      </mat-card>
-    </div>  
+      <app-subscription-payment></app-subscription-payment>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

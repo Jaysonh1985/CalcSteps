@@ -18,8 +18,12 @@ export class SubscriptionPaymentComponent implements OnInit {
   uid: string;
   email: string;
   loading: boolean;
-  @Input() planId: string;
-  @Input() sourceId: string;
+  subscriptionTypes: string[] = ["Gold", "Enterprise"];
+  subscriptionType: string;
+  @Input()
+  planId: string;
+  @Input()
+  sourceId: string;
 
   constructor(
     public pmt: PaymentsService,

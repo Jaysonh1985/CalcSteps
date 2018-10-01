@@ -20,6 +20,9 @@ import { CalculationService } from "../shared/services/calculation.service";
 import { LookupService } from "../shared/services/lookup.service";
 import { ReleaseService } from "../shared/services/release.service";
 import { CalculationComponent } from "../calculation.component";
+import { PaymentsService } from "../../profile/payments/payments.service";
+import { map } from "rxjs/operators";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-release",
@@ -46,6 +49,7 @@ export class ReleaseComponent implements OnInit {
   private CalculationConfigurationComponent: CalculationConfigurationComponent;
   public loading: boolean;
   public loadingProgress: number;
+  displayName: string;
   constructor(
     private route: ActivatedRoute,
     private releaseService: ReleaseService,
@@ -57,33 +61,75 @@ export class ReleaseComponent implements OnInit {
     private http: HttpClient,
     private lookupService: LookupService,
     private authService: AuthService,
-    private calculateService: CalculateService
+    private calculateService: CalculateService,
+    private paymentService: PaymentsService
   ) {
     this.errors = [];
   }
 
   ngOnInit() {
-    const key = this.route.snapshot.params["key"];
-    this.isInput = true;
-    this.releaseService
-      .getRelease(key)
-      .snapshotChanges()
-      .map(changes => {
-        return changes.map(c => ({
-          key: c.payload.key,
-          ...c.payload.val()
-        }));
-      })
-      .subscribe(calculations => {
-        this.calculation = calculations[0];
-        this.calculationInput = calculations[0].calculationInputs;
-        this.calculationConfiguration =
-          calculations[0].calculationConfigurations;
-        this.calculationOutput = calculations[0].calculationOutputs;
-        this.calculationName = calculations[0].name;
-        this.calculationGroup = calculations[0].group;
-        this.calculationInputNodes = calculations[0].calculationInputs;
-      });
+    this.authService.userFirebase.subscribe(auth => {
+      if (auth) {
+        this.displayName = auth.displayName;
+        const key = this.route.snapshot.params["key"];
+        this.isInput = true;
+        this.releaseService
+          .getRelease(key)
+          .snapshotChanges()
+          .map(changes => {
+            return changes.map(c => ({
+              key: c.payload.key,
+              ...c.payload.val()
+            }));
+          })
+          .subscribe(calculations => {
+            this.calculation = calculations[0];
+            this.paymentService
+              .getSubscriptions(this.calculation.userid)
+              .snapshotChanges()
+              .map(changes => {
+                return changes.payload.val();
+              })
+              .subscribe(sub => {
+                this.calculation = calculations[0];
+                if (
+                  sub.productId === "plan_Cwi9mPWRIyMUEp" &&
+                  sub.status === "active"
+                ) {
+                  this.calcService
+                    .getCalculation(this.calculation.calculationKey)
+                    .snapshotChanges()
+                    .map(changes => {
+                      return changes.map(c => ({
+                        key: c.payload.key,
+                        ...c.payload.val()
+                      }));
+                    })
+                    .subscribe(configurations => {
+                      if (
+                        this.onCheckUserId(auth.uid, configurations[0].users)
+                      ) {
+                        this.calculationInput =
+                          calculations[0].calculationInputs;
+                        this.calculationConfiguration =
+                          calculations[0].calculationConfigurations;
+                        this.calculationOutput =
+                          calculations[0].calculationOutputs;
+                        this.calculationName = calculations[0].name;
+                        this.calculationGroup = calculations[0].group;
+                        this.calculationInputNodes =
+                          calculations[0].calculationInputs;
+                      } else {
+                        this.router.navigate(["release-error"]);
+                      }
+                    });
+                } else {
+                  this.router.navigate(["release-error"]);
+                }
+              });
+          });
+      }
+    });
   }
   onReset() {
     this.CalculationInputComponent.onDeleteAllInputs();
@@ -91,6 +137,14 @@ export class ReleaseComponent implements OnInit {
   }
   onExit() {
     this.router.navigate(["dashboard"]);
+  }
+  onCheckUserId(uid, array) {
+    for (const element of array) {
+      if (uid === element.uid) {
+        return true;
+      }
+    }
+    return false;
   }
   async onCalc() {
     this.loading = true;
@@ -137,11 +191,19 @@ export class ReleaseComponent implements OnInit {
       }, 2000);
     }
     if (isErrorInput === false && isErrorConfiguration === false) {
-      await calculationComponent.calculateConfiguration(calculationConfiguration, autoCompleteInputs);
-      this.CalculationConfigurationComponent.setTableData(calculationConfiguration);
+      await calculationComponent.calculateConfiguration(
+        calculationConfiguration,
+        autoCompleteInputs
+      );
+      this.CalculationConfigurationComponent.setTableData(
+        calculationConfiguration
+      );
       this.loadingProgress = 70;
       let calculationOutput = this.CalculationOutputComponent.getAllRows();
-      calculationOutput = calculationComponent.calculateOutput(calculationOutput, calculationConfiguration);
+      calculationOutput = calculationComponent.calculateOutput(
+        calculationOutput,
+        calculationConfiguration
+      );
       this.CalculationOutputComponent.setTableData(calculationOutput);
       this.loadingProgress = 100;
       this.loading = false;

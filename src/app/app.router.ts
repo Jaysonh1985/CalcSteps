@@ -14,6 +14,7 @@ import { SignupComponent } from "./profile/signup/signup.component";
 import { UserManagementComponent } from "./calculation/user-management/user-management.component";
 import { TestManagementComponent } from "./calculation/test-management/test-management.component";
 import { HelpComponent } from "./calculation/help/help.component";
+import { ReleaseErrorComponent } from "./calculation/release/release-error/release-error.component";
 
 export const router: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -30,6 +31,7 @@ export const router: Routes = [
   { path: "user-management/:key", component: UserManagementComponent },
   { path: "test-management/:key", component: TestManagementComponent },
   { path: "help", component: HelpComponent },
+  { path: "release-error", component: ReleaseErrorComponent },
 ];
 
 export const RouteModule: ModuleWithProviders = RouterModule.forRoot(router);

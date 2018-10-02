@@ -1,6 +1,6 @@
 <app-toolbar [title]="'User Management'"></app-toolbar>
 <br>
-<div class="container">
+<div class="container" *ngIf="subscriptionStatus === 'active'">
   <button mat-raised-button (click)="routerCalculation()">Back to Calculation</button>
   <h3>Add a New User</h3>
   <p>Please enter an email below of a user who has an account with CalcSteps.</p>
@@ -28,4 +28,8 @@
       </tr>
     </tbody>
   </table>
+</div>
+<div *ngIf="subscriptionStatus !== 'active'">
+  <h3>Please Upgrade</h3>
+  <p>As you currently do not have a subscription please sign up to our premium services to be able to add users to a calculation.</p>
 </div>

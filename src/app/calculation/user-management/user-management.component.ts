@@ -10,6 +10,7 @@ import { AngularFireDatabase } from "angularfire2/database";
 import { CalculationService } from "../shared/services/calculation.service";
 import { MatDialog } from "@angular/material";
 import { ConfirmationDialogComponent } from "../../shared/components/confirmation-dialog/confirmation-dialog.component";
+import { PaymentsService } from "../../profile/payments/payments.service";
 
 @Component({
   selector: "app-user-management",
@@ -17,6 +18,8 @@ import { ConfirmationDialogComponent } from "../../shared/components/confirmatio
   styleUrls: ["./user-management.component.css"]
 })
 export class UserManagementComponent implements OnInit {
+  subscriptionStatus: any;
+  subscriptionId: any;
   constructor(
     private fb: FormBuilder,
     private db: AngularFireDatabase,
@@ -24,6 +27,7 @@ export class UserManagementComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
+    public paymentService: PaymentsService
   ) {}
   public users: any[];
   public calculation: any;
@@ -43,57 +47,93 @@ export class UserManagementComponent implements OnInit {
         }));
       })
       .subscribe(calculations => {
-        this.calculation = calculations;
+        this.calculation = calculations[0];
         this.users = calculations[0].users;
+        this.paymentService
+          .getSubscriptions(this.calculation.userid)
+          .snapshotChanges()
+          .map(changes => {
+            return changes.payload.val();
+          })
+          .subscribe(sub => {
+            if (sub != null) {
+              this.subscriptionStatus = sub.status;
+              if (sub.productId === "plan_DhxNzHjW9CQbZG") {
+                this.subscriptionId = "Gold";
+              }
+              if (sub.productId === "plan_DhqyWHUScOFd9e") {
+                this.subscriptionId = "Enterprise";
+              }
+            }
+          });
       });
   }
 
   addUser(form) {
-    return this.db
-      .list("/users", ref => ref.orderByChild("email").equalTo(form.email))
-      .snapshotChanges()
-      .map(arr => {
-        return arr.map(c => ({
-          key: c.payload.key,
-          email: "",
-          name: "",
-          ...c.payload.val()
-        }));
-      })
-      .subscribe(releases => {
-        if (releases.length === 0) {
-          this.userForm.controls["email"].setErrors({
-            userDoesNotExists: true
-          });
-          return null;
-        }
-        this.userExists = false;
-        if (this.users) {
-          this.users.forEach(element => {
-            if (element.email === this.userForm.controls["email"].value) {
-              this.userExists = true;
+    if (this.subscriptionStatus === "active") {
+      let isEligble: boolean;
+      isEligble = false;
+      if (
+        this.subscriptionId === "Gold" &&
+        this.calculation.users.length <= 10
+      ) {
+        isEligble = true;
+      }
+      if (this.subscriptionId === "Enterprise") {
+        isEligble = true;
+      }
+      if (isEligble === true) {
+        return this.db
+          .list("/users", ref => ref.orderByChild("email").equalTo(form.email))
+          .snapshotChanges()
+          .map(arr => {
+            return arr.map(c => ({
+              key: c.payload.key,
+              email: "",
+              name: "",
+              ...c.payload.val()
+            }));
+          })
+          .subscribe(releases => {
+            if (releases.length === 0) {
               this.userForm.controls["email"].setErrors({
-                userInList: true
+                userDoesNotExists: true
               });
               return null;
             }
+            this.userExists = false;
+            if (this.users) {
+              this.users.forEach(element => {
+                if (element.email === this.userForm.controls["email"].value) {
+                  this.userExists = true;
+                  this.userForm.controls["email"].setErrors({
+                    userInList: true
+                  });
+                  return null;
+                }
+              });
+            }
+            if (this.userExists === false) {
+              if (!this.calculation.users) {
+                this.calculation.users = [];
+              }
+              this.calculation.users.push({
+                email: releases[0].email,
+                name: releases[0].name,
+                uid: releases[0].key
+              });
+              this.calcService.updateCalculation(
+                this.route.snapshot.params["key"],
+                this.calculation
+              );
+            }
           });
-        }
-        if (this.userExists === false) {
-          if (!this.calculation[0].users) {
-            this.calculation[0].users = [];
-          }
-          this.calculation[0].users.push({
-            email: releases[0].email,
-            name: releases[0].name,
-            uid: releases[0].key
-          });
-          this.calcService.updateCalculation(
-            this.route.snapshot.params["key"],
-            this.calculation[0]
-          );
-        }
-      });
+      } else {
+        this.userForm.controls["email"].setErrors({
+          isNotEligble: true
+        });
+      }
+    }
   }
   deleteUser(index) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -109,7 +149,6 @@ export class UserManagementComponent implements OnInit {
         );
       }
     });
-
   }
   routerCalculation(calculation) {
     this.router.navigate(["calculation", this.route.snapshot.params["key"]]);
@@ -126,6 +165,8 @@ export class UserManagementComponent implements OnInit {
           ? "User does not exist"
           : this.userForm.controls["email"].hasError("userInList")
             ? "User already added"
-            : "";
+            : this.userForm.controls["email"].hasError("isNotEligble")
+              ? "You do not have the ability to add any further users"
+              : "";
   }
 }

@@ -1,35 +1,62 @@
-<div layout-padding style="height: 1080px; overflow: auto; padding-bottom: 500px;">
-  <h3>Overview</h3>
-  <p>
-    The factor tables are stored on the server as .CSV files, these files can be used directly from a scheme’s factor
-    tables by converting them to a .CSV file.
-    To access the factor maintenance screen select Maintenance on the header menu.
-  </p>
-</div>
-<div layout-padding style="height: 1080px; overflow: auto; padding-bottom: 500px;">
-  <h3>Overview</h3>
-  <p>
-    Text
-  </p>
-  <mat-divider></mat-divider>
-  <h3>Download Table</h3>
-  <p>
-    The Download Table section provides a list of factor tables available in the application; this enables the user to
-    view the factor tables on the server. This can be used to update these factors in the future or view the tables to
-    configure the factors function in the configuration builder.
-    Select the table you want to view, and click download to download the .CSV to the browser.
-
-  </p>
-  <mat-divider></mat-divider>
-  <h3>Upload Table</h3>
-  <p>
-    The Upload Table section allows the user to select a .CSV file from the user’s desktop to upload the .CSV to the
-    application. If a table exists currently this will be overwritten.
-  </p>
-  <mat-divider></mat-divider>
-  <h3>Delete Table</h3>
-  <p>
-    The Delete Table section allows the user to delete a .CSV file from the application.
-  </p>
-  <mat-divider></mat-divider>
-</div>
+<mat-tab-group>
+  <mat-tab label="Overview">
+    <h3>Overview</h3>
+    <p>
+      The lookup tables are stored against the user account. On creation of a new one the user can access a blank table
+      which can create the relevant columns and rows which can be looked up as part of the calculation. The user can
+      add in values of a table by importing a CSV file.
+    </p>
+    <br />
+    <img class=".header-image" src="../../../../../assets/images/help/lookupmaintenance/Lookup-Maintenance-Main.JPG"
+      class="center">
+    <br />
+    <mat-divider></mat-divider>
+    <h3>Add Column</h3>
+    <p>
+      The first thing to do is to add a column, so click the add column button on the top row which will display the
+      following input box to the user:
+    </p>
+    <br />
+    <img class=".header-image" src="../../../../../assets/images/help/lookupmaintenance/Lookup-Maintenance-Add-Column.JPG"
+      class="center">
+    <br />
+    <p>
+      Add in a name for the column, this will be selectable from the configuration so ensure that a name is used to
+      identify the column you need.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Add Row</h3>
+    <p>
+      Once a column has been added in a new row is required, add in a new row of data required for the lookup.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Delete All</h3>
+    <p>
+      Selecting this will remove all values within the table.
+    </p>
+  </mat-tab>
+  <mat-tab label="Import/Export CSV">
+    <h3>Overview</h3>
+    <p>
+      The Lookup Maintenance table has the ability to import the lookup values from a .CSV file or export the table
+      contents to a .CSV file.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Export CSV</h3>
+    <p>
+      The lookup table can be exported to a CSV file, this function is used so that a lookup table can be amended in a
+      CSV file before being imported back into the Lookup Table. Click the button and the .csv file will go into the
+      download queue from you web browser.
+    </p>
+    <br />
+    <img class=".header-image" src="../../../../../assets/images/help/lookupmaintenance/Lookup-Maintenance-Export-CSV.JPG"
+      class="center">
+    <br />
+    <mat-divider></mat-divider>
+    <h3>Import CSV</h3>
+    <p>
+      The user can import the lookup table from a CSV file by clicking the Choose File button and selecting a CSV file.
+      This will use the column headings from the first row of the file as the column headings in the lookup table.
+    </p>
+  </mat-tab>
+</mat-tab-group>

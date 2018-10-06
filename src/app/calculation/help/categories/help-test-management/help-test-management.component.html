@@ -1,59 +1,128 @@
-<div>
-  <h3>Overview</h3>
-  <p>
-    A regression facility is associated with every calculation; this is to be used to store calculation results at a
-    specific point in time. The idea is that if any adjustment is made in the future to the configuration, then the
-    outputs remain the same or don’t change to protect the members used in test.
-    The way to use this is to add one member to regression at a time rather than multiple members, so build the
-    configuration for the first member then when the expected results match for the test member in test the test
-    member should be added to regression. The next member should be picked up and configured in the builder before
-    adding into regression and testing against the previous member(s) to ensure that they still match.
-  </p>
-  <mat-divider></mat-divider>
-  <h3>Adding Member to Regression</h3>
-  <p>
-    Once the configuration has been built in the builder and the expected results match, this configuration must be
-    saved in order to access the Regression facility. Access Regression by clicking the Regression button.
-  </p>
-  <p>
-    To add a new saved calculation in click the Add button, insert a reference number for the member and if a comment
-    is required this can be used for defining the scenario for this member.
-    Then click the cog to add in the Inputs for the regression, this will then create all the inputs available in the
-    builder. Click the Use Current Inputs button to take the inputs from the current builder and click save.
+<mat-tab-group>
+  <mat-tab label="Overview">
+    <h3>
+      Overview
+    </h3>
+    <p>
+      A Test Management function is associated with every calculation; this is to be used to store calculation results
+      at a
+      specific point in time for a particular set of inputs, to ensure that if any changes are made to the
+      configuration then the previous tests are unaffected.
+    </p>
+    <br />
+    <img class=".header-image" src="../../../../../assets/images/help/testmanagement/Test-Management-Main.JPG" class="center">
+    <br />
+    <mat-divider></mat-divider>
+    <h3>Add Test</h3>
+    <p>
+      In order to create a test click the Add Test button this will create a blank new test to use.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>View Test</h3>
+    <p>
+      To view the test either a new or a previous test click the View Test button on the relevant test which will take
+      the user into the Test Manager for that test.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Running Test</h3>
+    <p>
+      Each test must be run individually, the user must enter each of the tests in their specific Test Manager and
+      click the Calculate button on the footer row, this will then calculate whether the test has passed or failed with
+      the new configuration of the calculation. If the tests have all passed after the changes you have made then that
+      means you have not introduced any defects to the calculation so that this can be released.
+    </p>
+  </mat-tab>
+  <mat-tab label="Test-Manager Information">
+    <h3>
+      Overview
+    </h3>
+    <p>
+      On opening the Test Manager on a specific test this displays the information about the test.
+    </p>
+    <br />
+    <img class=".header-image" src="../../../../../assets/images/help/testmanagement/Test-Management-Test-Manager-Information.JPG"
+      class="center">
+    <br />
+    <mat-divider></mat-divider>
+    <h3>Input Fields</h3>
+    <p>
+      The following descriptions define what all of the input fields are for:
+    </p>
+    <ul>
+      <li>
+        Group - Add a Group name for the tests to allow the user to organise the tests into specific groups of tests
+      </li>
+      <li>
+        Name - Allows the user to Name the tests
+      </li>
+      <li>
+        Description - Allows the user to add additional details about the test as a description
+      </li>
+      <li>
+        Pass - Displays to the user if the test is in a current Pass state, this should be used in conjunction with
+        Last Update Date to see when the test was last run, if this has been before recent changes to the calculation
+        have been made then please run the test again
+      </li>
+      <li>
+        Owner - Displays to the user the owner of the calculation
+      </li>
+      <li>
+        Last Update Date - Displays to the user the last time the test was ran
+      </li>
+    </ul>
+    <mat-divider></mat-divider>
+    <h3>Calculate</h3>
+    <p>In the footer row there is a button for Calculate, please click this to update the test and see if this Test has passed or failed.</p>
+  </mat-tab>
+  <mat-tab label="Test-Manager Input">
+    <h3>
+      Overview
+    </h3>
+    <p>
+      This screen will show the user the Calculation Inputs required for the specific test, these will be mapped from
+      the current inputs
+      in the calculation if there are new ones then these will be available in the list of inputs and will be blank as
+      an input. The inputs are what drives the scenarios under test and each test in test manager will need their own
+      specific inputs in order to perform the tests.
 
-  </p>
-  <mat-divider></mat-divider>
-  <h3>Running Regression</h3>
-  <p>
-    Once the member has been added with the inputs, click Run All this will then create an baseline value in the old
-    column and will display a button to view this output. If you click the old button this will display all of the
-    outputs from the baseline run in the outputs screen. You can also search the outputs for specific outputs.
-  </p>
-  <mat-divider></mat-divider>
-  <h3>Encountering a Fail in Regression</h3>
-  <p>
-    If a change has been made to the configuration and this creates a difference against the previous result in the
-    regression for the member, this will then create a new output in the new column which can be clicked and
-    displayed to the user. The Pass/Fail will then be displayed as red and this must be investigated. The user will
-    be displayed with the differences which will be contained in the Differences column, click this button and it
-    will show the differences between the old result and the new result.
-    The user will then have to decide whether the new results are correct or not. If the results are not correct then
-    click Reject All; this will keep the Old results. If the results are correct and these are now the baseline
-    regression results select Accept All this will replace the Old results with the New and set the Pass/Fail to
-    green.
-    To investigate these results click the two opposing arrows on the row to investigate, this should populate the
-    builder with these inputs for quick debugging.
-
-  </p>
-  <mat-divider></mat-divider>
-  <h3>Exporting Regression Results</h3>
-  <p>
-    Text
-  </p>
-  <mat-divider></mat-divider>
-  <h3>Moving Member from Regression to Builder</h3>
-  <p>
-    Text
-  </p>
-  <mat-divider></mat-divider>
-</div>
+    </p>
+    <br />
+    <img class=".header-image" src="../../../../../assets/images/help/testmanagement/Test-Management-Test-Manager-Inputs.JPG"
+      class="center">
+    <br />
+    <mat-divider></mat-divider>
+    <h3>Inputs</h3>
+    <p>
+      Please complete the inputs you need in order to test the calculations.
+    </p>
+  </mat-tab>
+  <mat-tab label="Test-Manager Output">
+    <h3>
+      Overview
+    </h3>
+    <p>
+      This screen will show the user the Calculation Outputs that will be result from the calculation being run and
+      that are required for the specific test. The user needs to complete the Expected Results field only the other
+      fields will be readonly. The Expected Result is what is saved for the test so that the calculation can compare
+      the output on that field against the expected result of that test in Test Manager.
+    </p>
+    <br />
+    <img class=".header-image" src="../../../../../assets/images/help/testmanagement/Test-Management-Test-Manager-Outputs.JPG"
+      class="center">
+    <br />
+    <mat-divider></mat-divider>
+    <h3>Output</h3>
+    <p>
+      Please complete the Expected Result field in here in order to ensure that the calculation checks the output
+      against your expected result in order to test that this is working correctly.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Pass/Fail</h3>
+    <p>
+      The calculation will assess each expected result in the Calculation Output against the Expected Results and will
+      populate the Pass/Fail column with True for Pass and False for Fail. If the calculation has passed all expected
+      results then the Test in Test Management will be set to Pass and however, if there is a Fail then the user must
+      take the inputs back into the calculation configuration and find out why the test has failed.
+    </p>
+  </mat-tab>
+</mat-tab-group>

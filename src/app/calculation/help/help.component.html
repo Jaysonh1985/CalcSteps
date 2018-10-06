@@ -2,6 +2,9 @@
 <mat-sidenav-container class="example-container">
   <mat-sidenav mode="side" opened="true" style="background: #353535; color: white;">
     <mat-nav-list>
+      <mat-list-item style="color: white" (click)="onChangeScreen('Index')">
+        <h3 matLine>Index</h3>
+      </mat-list-item>
       <mat-list-item style="color: white" (click)="onChangeScreen('CalculationConfiguration')">
         <h3 matLine>Calculation Configuration</h3>
       </mat-list-item>
@@ -21,14 +24,94 @@
         <h3 matLine>User Management</h3>
       </mat-list-item>
       <mat-list-item style="color: white" (click)="onRouteDashboard()">
-          <h3 matLine>Back to Calculations</h3>
-        </mat-list-item>
+        <h3 matLine>Back to Calculations</h3>
+      </mat-list-item>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <ng-template [ngIf]="screen === 'Index'">
       <div>
-        This is the help screen
+        <h3>Help</h3>
+        <p>
+          This page is to assist the user with the Calc-Steps website. The Calc-Steps website allows a user to build a
+          calculation of their requirements that can be used at any time online. The user builds their own calculations
+          which with using Release/User Management can be shared with other users to use a Released version of the
+          calculation that doesn't have any configuration available to edit. This Release is auditable and has the
+          ability to be rolled back.
+        </p>
+        <p>
+          Calc-Steps also allows the user to Test their own calculations and gives a Test-Management harness in order
+          to manage any changes in the calculation to ensure that no defects are introduced.
+        </p>
+        <mat-divider></mat-divider>
+        <h3>Dashboard</h3>
+        <p>On successful sign in or log in to the website the user will be presented with the dashboard below of their
+          Calculations. These calculations will be owned by the logged in user and can be configured only by them</p>
+        <img class=".header-image" src="../../../assets//images/help/index/Dashboard-Main.JPG" class="center">
+        <h3>Add Calculation</h3>
+        <p>
+          In order to get started the user must click the Add button, this will then show a popup box to input the
+          Group and Name of the calculation. This will then add this to the list of calculations you own.
+        </p>
+        <img class=".header-image" src="../../../assets//images/help/index/Dashboard-Add-Calculation.JPG" class="center">
+        <h3>View Calculation</h3>
+        <p>
+          In order to view the Released calculation that other users can access, once the configured calculation has
+          been released then please click the View Calculation.
+        </p>
+        <h3>Edit Calculation</h3>
+        <p>
+          In order to build or update a calculation click the Edit Calculation button on the relevant calculation to
+          gain access to the Calculation Configuration screen for the Calculation.
+        </p>
+        <h3>View Calculation</h3>
+        <p>
+          In order to view the Released calculation that other users can access, once the configured calculation has
+          been released then please click the View Calculation.
+        </p>
+        <mat-divider></mat-divider>
+        <h3>Navigation</h3>
+        <p>Please see below where to access all arears of the website.</p>
+        <h4>
+          Calculation Configuration
+        </h4>
+        <p>
+          This is available on the calculation clicked from the Dashboard and the Edit Calculation button.
+        </p>
+        <h4>
+          Calculation Functions
+        </h4>
+        <p>
+          This is available within the Calculation Configuration screen and on each row of the Calculation
+          Configuration section of that screen the relevant function to use will be displayed.
+        </p>
+        <h4>
+          Lookup Maintenance
+        </h4>
+        <p>
+          This is available from the Dashboard sidebar, click Lookup Table
+        </p>
+        <h4>
+          Test Management
+        </h4>
+        <p>
+          This is available from within Calculation Configuration on each calculation, please see the sidebar in the
+          Calculation Configuration builder
+        </p>
+        <h4>
+          Release Management
+        </h4>
+        <p>
+          This is available from within Calculation Configuration on each calculation, please see the sidebar in the
+          Calculation Configuration builder
+        </p>
+        <h4>
+          User Management
+        </h4>
+        <p>
+          This is available from within Calculation Configuration on each calculation, please see the sidebar in the
+          Calculation Configuration builder
+        </p>
       </div>
     </ng-template>
     <ng-template [ngIf]="screen === 'CalculationConfiguration'">

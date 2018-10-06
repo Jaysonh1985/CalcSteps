@@ -1,25 +1,43 @@
-<div>
-  <h3>Overview</h3>
-  <p>
-      Text
-  </p>
-  <mat-divider></mat-divider>
-  <h3>Releasing Configuration</h3>
-  <p>
-      Each time the configuration is saved it creates a new sub version, when we are looking to release this to the run time environment, select the Release button on the Configuration menu.
-      This will then upgrade the version to a full version and release this to the new environment.
-  </p>
-  <mat-divider></mat-divider>
-  <h3>Running Calculations</h3>
-  <p>
-      This will then be available in the Release Environment; this menu also allows the user to search for particular released calculations and sorting on the Scheme, Name and Updated columns.  To access this click on the row to view.
-      The main page on the release shows as below, Calculation Bulk which will be covered in a later section.  Calculation Input shows the dynamic input form from the configuration builder and allows the user to Input the data for the calculations and Calculation Output will show the results of the calculation. Calculation Input
-      The Calculation Input shows an input form and has the same validations as in the builder so that Dates and Decimals are validated to make sure that they are correct before submitting the calculations.
-
-  </p>
-  <mat-divider></mat-divider>
-  <h3>Running Bulk Calculations</h3>
-  <p>
-      All calculations can be run in bulk, using the Calculation Bulk section of the calculation.  The user can click the export template; this will provide a .csv file where a user can input the data for multiple members.  Once the file has been created and member information has been added the user should then select the file to Import by clicking the Choose Files button. Once this has been found the click the download to perform the calculation and produce the output csv file.
-  </p>
-</div>
+<mat-tab-group>
+  <mat-tab label="Overview">
+    <h3>
+      Overview
+    </h3>
+    <p>
+      Once you are happy with the calculation you have built and you want other users to be able to access and use this
+      then the release management section of the system handles the release of the configuration to a usable
+      environment for other users to access.
+      This is setup so that if you are making changes to the configuration then the calculation can still be used in
+      it's previous state whilst updates are being made. The release management system allows the user to also roll
+      back any releases where the calculation has been broken as part of the release and allows this to go back to the
+      previous version.
+      The current version of the release will be the version that other users will use, the system determines this when
+      routing to the calculation.
+    </p>
+    <br />
+    <img class=".header-image" src="../../../../../assets/images/help/releasemanagement/Release-Management-Main.JPG"
+      class="center">
+    <br />
+    <mat-divider></mat-divider>
+    <h3>Releasing Calculation</h3>
+    <p>
+      Before releasing the calculation it is advised that you test the calculation before releasing to other users.
+      To create a released calculation please click the Add Release button on the table, this will then create a new
+      release on the bottom of the table will set the current version and set a comment of new.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Rollback Calculation</h3>
+    <p>
+      In the event that you have released a calculation and it has broken the calculation you can roll the version back
+      to a previous version that worked by locating the row that you want to revert back and select the rollback
+      button.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Delete Released Calculation</h3>
+    <p>
+      To delete a released calculation find the version of the calculation that requires deletion and click the delete
+      button. This is useful for housekeeping old calculations that will never be required any more. The system will
+      set the column Available to equal false on the relevant calculation.
+    </p>
+  </mat-tab>
+</mat-tab-group>

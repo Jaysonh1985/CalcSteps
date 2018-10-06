@@ -1,243 +1,280 @@
-<div layout-padding style="height: 1080px; overflow: auto; padding-bottom: 500px;">
-  <h3>Overview</h3>
-  <p>The Calculation Builder produces the relevant steps to build a calculation this will consist of the inputs used in
-    the calculation, the configuration of the steps and the functions to build the calculation.</p>
-  <mat-divider></mat-divider>
-  <h3>
-    Configuration Builder
-  </h3>
-  <p>
-    The Configuration Builder is where the calculations are configured; this section aims to demonstrate the features
-    available within the builder itself.
-  </p>
-  <mat-divider></mat-divider>
-  <h3>
-    Input
-  </h3>
-  <p>
-    The user will be initially shown an Input category - this category is a requirement for each configuration; the
-    functions displayed in the Inputs category are different to the functions displayed on the other rows, as later on
-    in the system the program looks for the Input category name. The Input Function will be covered in a later section.
-    Category
-  </p>
-  <mat-divider></mat-divider>
-  <h3>
-    Groups
-  </h3>
-  <p>
-    Categories should be created to group similar types of calculations together for ease of reference later, for
-    example all Dates, Ages and Factors or a Service Calculation can be a category. To add a new Category select the
-    plus sign on the top row of the Input category, this is not currently restricted to certain users within the
-    builder however, only certain users can access the configurations.
-    This should display a popup window to the user to input the Name and Description for the category.
-  </p>
-  <p>
-    The Name will be displayed on the header of the category and the Description should be used to document what the
-    Category is doing so that if the configuration requires maintaining in the future this will help to understand what
-    the category is trying to achieve. Click OK then the category is added to the builder.
-    The categories can be moved to the category below by clicking the down arrow on the category header row. There an
-    arrow that points a down or right, down signals the category is open and right that the category is closed.
-  </p>
-  <p>
-    All categories in the builder can be opened or closed at the same time by clicking the UI button and selecting the
-    Open All or Close All options.
-  </p>
-  <mat-divider></mat-divider>
-  <h3>
-    Results
-  </h3>
-  <p>
-    Text for results
-  </p>
-  <mat-divider></mat-divider>
-  <h3>
-    Functions
-  </h3>
-  <p>
-    Text for functions
-  </p>
-  <mat-divider></mat-divider>
-  <h3>
-    UI
-  </h3>
-  <h4>
-    Add, Copy, Paste and Delete rows
-  </h4>
-  <p>
-    The user can Add (Plus Icon), Copy (Copy Icon) or Delete (Cross Icon) the category if required. The Name and
-    Description of the category can be changed by clicking the three dots which will bring up the pop up window. The
-    logic on the category as to whether it should be run can be opened by clicking the Wrench icon. Upon deletion of a
-    category the remaining categories underneath will move up a level.
-    Rows - Add, Copy, Paste and Delete rows
-  </p>
-  <p>
-    Each row enables the user to add a new row directly below the current row by clicking the Plus icon on that row. A
-    row can be added to the bottom of the current category of rows if the Plus icon is clicked on the header row of the
-    table.
-    To delete a single row press the Cross icon on the relevant row, the user will be displayed a message to confirm
-    the deletion before deleting the row.
-  </p>
-  <p>
-    A row can be copied and pasted by clicking the Copy icon, then select the destination row where the items need to
-    be pasted below press the paste icon. The copy and paste feature also works in a new browser window if opened; rows
-    can be copied and pasted from one browser window to the other, providing the same browser type has been used
-    (Chrome and I.E). This feature should assist where configuration is used elsewhere which can be used in your
-    current configuration.
-  </p>
-  <h4>
-    Multiple Row Select - Add, Copy, Paste and Delete rows
-  </h4>
-  <p>
-    The Add, Copy, Paste and Delete functionality can be used on multiple rows; to select multiple rows press shift and
-    select a range of rows by clicking the top and bottom cells in the range required like in excel. Alternatively,
-    press ctrl and click, this will highlight specific rows being clicked. Once the items are highlighted, the Add
-    functionality will add the same number of blank rows underneath the bottom most highlighted row. The Delete
-    functionality will delete all of the highlighted rows. The copy and paste still requires the user to select one row
-    for the configuration to be pasted underneath.
-  </p>
-  <h4>
-    Rows - Sorting
-  </h4>
-  <p>
-    The user can move rows up and down within the category and into a different category if required by pressing and
-    holding the sort icon on the builder
-  </p>
-  <mat-divider></mat-divider>
-  <h3>
-    Building Calculation
-  </h3>
-  <p>
-    The configuration is done row by row; the calculation is built up by using a combination of functions which need to
-    correspond with each other to build up the calculation. Principally the way this is executed in the application is
-    to create variables of a specific data type which can then be referenced at various points in the configuration to
-    utilise those values within the functions.
-    In order to do this the user can create inputs in the Inputs category which is a mandatory category in each
-    configuration, to define these variables within the configuration which can then be used e.g. DOB (Date of Birth).
-    Typeahead Function
-  </p>
-  <p>
-    To reference these variables in additional functions there is a typeahead feature available, which should assist
-    completing the variables correctly as they are being typed. Say for instance we’ve created two input fields for DOB
-    and DOL in the Input category; these can be amended for each calculation that is run.
-    The calculation we require is to find the period between these two dates, so create a new function run for Period
-    and click the cog to open the inputs for that function. The function requires a date field to be added into Start
-    Date and End Date, you can hard code a date value in here, alternatively, the user can reference the variable
-    string value in the field which will then be replace. Once the use begins typing this value a drop down list will
-    appear, this list will contain the available Date data type variables in the rows and categories above the current
-    row. If this is selected then the value of DOB variable will be used in the calculation of this function in this
-    case 05/08/1985. The configuration is then validated to make sure that these are actual variables and can be
-    replaced see the Configuration Validation section for further information on this process.
-
-  </p>
-  <p>
-    Once the value has been configured the user is required to create a new variable to house the result of this
-    function, Period_DOB_DOL variable name, the output data type will be decimal from this function and will always be
-    populated as part of the calculation. This variable can then be used wherever there is a function that requires a
-    Decimal data type. The same typeahead functionality will be shown on these variables also.
-  </p>
-  <p>
-    Each function creates an output; the accumulation of all of these outputs creates the calculation in full. A
-    reasonable variable name should be used in all cases in order to reference any changes in the future. Variables
-    names can be reused and overwritten within the calculation later on bare this in mind when configuring the
-    calculations.
-
-  </p>
-  <mat-divider></mat-divider>
-  <h3>
-    Applying If Statements
-  </h3>
-  <p>
-    Logic (See Appendix for Function description) can be applied at row level and category level, the logic determines
-    whether the row will be run or not by using a logical determiner, if the logic is placed at category level all rows
-    within that category will be ignored. The logic can be applied by clicking the wrench icon on the various levels.
-    If logic is met or blank then the Pass column will show white, if the logic is not met then the Pass column will
-    show grey as it is being ignored. It is good practice to have as few variables names as possible in the
-    configuration. If a calculation is done differently for male and female for example, create two variables with the
-    same name and put logic on each of these to determine which one is to be run by Gender. If the logic is not met on
-    a variable value that has an output already as the variable has been used previously, the calculation will retain
-    the value where it has been calculated.
-    To illustrate this the example below uses the same variable name for the calculation but the two calculations are
-    slightly different one is to be run for a gender of male (first row) and one is to be run if gender is a
-    female(second row). The first row has been run and has a value of 20, the second row has been ignored and has a
-    grey in the Pass column, the calculation has ignored this function in the configuration and retained the value
-    previously calculated.
-  </p>
-  <mat-divider></mat-divider>
-  <h3>
-    Arrays
-  </h3>
-  <p>
-    Arrays can be used in the configuration; an array of data can be input into each of the functions and the function
-    will repeat for each item in the array and produce a further array of the results. An array can be defined by a “~”
-    symbol with no spaces in between the data.
-    As can be seen in the example below an input of two dates with a “~” symbol constitutes an array for both start
-    date and end date.
-  </p>
-  <p>
-    Then we apply these two variables into the Period calculation, this will produce an array output with the period
-    values.
-  </p>
-  <p>
-    In this scenario the array has to be aligned so the first loop will look at the first two values in each array for
-    start date and end date (Start Date) 05/08/1985 – (End Date) 05/08/2001, it then calculates the period of Years and
-    Days between these two dates 16 years. Then It loops to the next items in the array (SD) 08/08/1999 – (ED)
-    05/09/2005. It then outputs the periods of 6 years 29 days and combines it with the first item in the array of
-    16~6.029 and should relate to the array inputs. In this example we may want to combine these periods into one
-    summed up value whilst looking at a certain period, there is a function in the array functions that can sum these
-    values up eg. Pre 97 Service.
-    If in an instance where an array may have three values in the start date and two values in the end date the array
-    will still run, however. it will use the final array value in the end date as the third value in the array.
-    This is especially good for a service calculation where it may take an inifinite amount of start and end dates
-    based on the record one can have 2 service lines another 20, if the user were to have an input for each potential
-    start and end dates for every record the input form would contain lots of fields. The array functionality allows
-    one input field that can contain an inifinite amount of data.
-    Validation should work on each of the array values so if one of the arrays for a date is in an incorrect format
-    then the validation will trigger and display to the user.
-  </p>
-  <mat-divider></mat-divider>
-  <h3>
-    Validation
-  </h3>
-  <p>
-    The builder contains various validations to ensure that the calculation is run successfully. The configuration
-    validates continuously in order to speed up the correction of the builder in the configuration. The validation is
-    triggered on exiting a pop up window when configuring a function or selecting a new line - please bear this in mind
-    if a validation has not disappeared after correcting, this can be remedied by clicking on a new row.
-    Input Fields
-  </p>
-  <mat-divider></mat-divider>
-  <h3>
-    Typeahead List
-  </h3>
-  <p>
-    When setting the variable name the variable should contain no spaces or special characters, the only special
-    character that can be used is “_” for cosmetic purposes. The user will be displayed with the below message if this
-    validation is hit.
-    Previously Set Variables
-  </p>
-  <p>
-    The configuration takes the variables that are declared in the lines above and replaces them with the values that
-    are associated with the variable. There is a suite of validations created that check that the function has
-    variables that exist previously, which helps with misspelling and changing of variable names, to ensure the correct
-    variable is used
-    If a variable contained in a function or logic does not match a previously created variable then the below message
-    will be displayed to the user.
-  </p>
-  <p>
-    The user should then go in and check that the variable is a correct one and change where required.
-  </p>
-  <mat-divider></mat-divider>
-  <h3>
-    Debugging
-  </h3>
-  <p>
-    Configuration should be built line by line and tested as such, the more lines that are built the harder it becomes
-    to debug. The recommended approach is to write a few lines then calculate to get the result of the calculation, the
-    calculations should run quick enough for this process to remain efficient.
-    In order to ensure that the outputs from the calculation are correct there is a checking facility built in which
-    can be used within the builder. The user is able to add in an expected result for each line, if the expected result
-    is met then the row will show green in the pass column. However, if the result isn’t as expected the row will show
-    red in the pass column. This must then be understood which result is correct and the function or expected result
-    should be amended as such.
-  </p>
-</div>
+<div>
+  <mat-tab-group>
+    <mat-tab label="Overview">
+      <h3>Overview</h3>
+      <p>The Calculation Builder produces the relevant steps to build a calculation this will consist of the inputs
+        used in the calculation, the configuration of the steps and the functions to build the calculation. Then the
+        outputs that will be made available from the calculation after this has been run.
+      </p>
+      <br />
+      <img class=".header-image" src="../../../../../assets/images/help//configuration/Calculation-Builder-Main.JPG"
+        class="center">
+      <br />
+      <mat-divider></mat-divider>
+      <h3>
+        Building Calculation
+      </h3>
+      <p>
+        The configuration is done row by row; the calculation is built up by using a combination of functions which
+        need to
+        correspond with each other to build up the calculation. Principally the way this is executed in the application
+        is
+        to create rows of a specific data type which can then be referenced at various points in the configuration
+        to
+        utilise those values within the functions and reuse the values.
+        In order to do this the user can create inputs in the Calculation Inputs, to define these variables within the
+        Calculation Configuration which can then be used e.g. DOB (Date of
+        Birth). The Calculation Configuration then takes these inputs and manipulates them to produce some new values,
+        which then pass into the Calculation Output. The Calculation Output selects various Calculation Configuration
+        values and uses them to output a list of values.
+      </p>
+      <mat-divider></mat-divider>
+      <h3>
+        Using Chips
+      </h3>
+      <p>
+        On each function in the Calculation Configuration builder the user will able to drag a set of chips which
+        should be previously set values for example Date of Birth to use within that function to manipulate this.
+        Say for instance we’ve created two input fields for
+        Date of Birth and Date of Marriage in the Input category; these can be amended for each calculation that is run
+        with a value that the user can add in.
+        For a particular function we require to find the date duration between these two dates, so the user will create
+        a new function run for
+        Date Duration. The function requires two date field to be added in, the user can either add in a date value in
+        here by typing this in, alternatively, the user can reference the previously set value for Date of Birth/Date
+        of Marriage as a
+        Chip within the function which can be dragged into the input fields for use. The calculation will then replace
+        the value of Date of Birth/Date of Marriage with the date value that has been assigned to it.
+      </p>
+      <br />
+      <img class=".header-image" src="../../../../../assets/images/help//configuration/Calculation-Builder-Chips.JPG"
+        class="center">
+      <br />
+      <p>
+        Each function creates an output; the accumulation of all of these outputs creates the calculation in full. A
+        reasonable variable name should be used in all cases in order to reference any changes in the future. Variables
+        names can be reused and overwritten within the calculation later on bare this in mind when configuring the
+        calculations.
+      </p>
+    </mat-tab>
+    <mat-tab label="Side Navigation">
+      <h3>
+        Side Navigation
+      </h3>
+      <div class="row">
+        <div class="column">
+          <img class=".header-image" src="../../../../../assets/images/help//configuration/Calculation-Builder-SideNav.JPG">
+        </div>
+        <div class="column">
+          <p>
+            On click of the three rows icon at the top left of the builder the Side Navigation panel will be displayed
+            to the user. Please see below description of all actions.
+          </p>
+          <ul>
+            <li>
+              Calculate - Performs calculation of the configuration
+            </li>
+            <li>
+              Save - Initiates the save function of the calculation for use at a later date
+            </li>
+            <li>
+              Test Management - Enables the user to create tests to ensure that the calculation is still performing the
+              correct results on a set of example calculations
+            </li>
+            <li>
+              Release Management - Enables the user to release the calculation for use by a wider audience the
+              additional users will not be able to reconfigure the calculation but to run the end result which will be
+              the released version of this calculation.
+            </li>
+            <li>
+              User Management - Enables the user to define who can access the released calculation
+            </li>
+            <li>
+              Delete Calculation - Perfoms the delete function on the calculation to remove this from the dashboard
+            </li>
+            <li>
+              Exit - Navigates the user back to the dashboard
+            </li>
+          </ul>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Top Bar Buttons">
+      <h3>Top Bar Buttons</h3>
+      <p>On the top row of the builder there are some shortcut icons available to the user, the actions are in the
+        following order: Calculate - Save - Exit
+      </p>
+      <br />
+      <img class=".header-image" src="../../../../../assets/images/help//configuration/Calculation-Builder-Nav-Bar-Buttons.JPG"
+        class="center">
+      <br />
+    </mat-tab>
+    <mat-tab label="Calculation Input">
+      <h3>Overview</h3>
+      <p>The Calculation Input section defines all inputs used within the calculation that can be changed by a user
+        based on the reasons for running the calculation. These inputs are then used within the calculation
+        configuration section to configure the calculation.
+      </p>
+      <br />
+      <img class=".header-image" src="../../../../../assets/images/help//configuration/Calculation-Builder-Input.JPG"
+        class="center">
+      <br />
+      <mat-divider></mat-divider>
+      <h3>Columns</h3>
+      <p>Please see below details of all of the columns within this table.
+      </p>
+      <ul>
+        <li>
+          Name - The Name of the input which can be used to pick up as part of the calculation configuration
+        </li>
+        <li>
+          Data - The Data type of the input to ensure that the input value is correct going into the calculation,
+          validations will appear if the incorrect data is input
+        </li>
+        <li>
+          Input - The value of the input to be used in the calculation
+        </li>
+        <li>
+          Drop Down List? - If the input should be a drop down list of values for example Yes/No then select true in
+          this field
+        </li>
+        <li>
+          Drop Down Value - If the input is a drop down list of values then please put a comma seperated list of the
+          values needed to be in the drop down
+        </li>
+        <li>
+          Required - If the input is required to make the calculation work then select true in this field and
+          validations will check if this is populated before allowing the user to calculate.
+        </li>
+      </ul>
+    </mat-tab>
+    <mat-tab label="Calculation Configuration">
+      <h3>Overview</h3>
+      <p>The Calculation Configuration section is for the user to create a suite of functions for the calculation to
+        manipulate the inputs to calculate the outputs.
+        On adding a new row the user must select a Name and Data type and Function in order to do the configuration. In
+        order to access the function the user needs to click a row and the function will be displayed below the row.
+      </p>
+      <br />
+      <img class=".header-image" src="../../../../../assets/images/help//configuration/Calculation-Builder-Configuration.JPG"
+        class="center">
+      <br />
+      <mat-divider></mat-divider>
+      <h3>Columns</h3>
+      <p>Please see below details of all of the columns within this table.
+      </p>
+      <ul>
+          <li>
+              Group - The name of the group this is to help organise the configuration
+            </li>
+            <li>
+                Function - The name of the function that the row will use, please see help on calculation functions to understand what each of the functions should do.
+              </li>
+        <li>
+          Name - The Name of the row which can be used to pick up as part of the Calculation Output
+        </li>
+        <li>
+          Data - The Data type of the row
+        </li>
+        <li>
+          Output - The value of the output field after the calculation has been run
+        </li>
+      </ul>
+    </mat-tab>
+    <mat-tab label="Calculation Output">
+      <h3>Overview</h3>
+      <p>The Calculation Output section is for the user to create a suite of outputs from the calculation that will be
+        presented to the user after the calculation has been run successfully.
+        On adding a new row the user must select a Name and Data type which will allow the user to select a Name from
+        the Calculation Configuration menu and will then use this as a value for the output.
+      </p>
+      <br />
+      <img class=".header-image" src="../../../../../assets/images/help//configuration/Calculation-Builder-Output.JPG"
+        class="center">
+      <br />
+      <mat-divider></mat-divider>
+      <h3>Columns</h3>
+      <p>Please see below details of all of the columns within this table.
+      </p>
+      <ul>
+        <li>
+          Name - The Name of the output which can be used to pick up as part of the Calculation Configuration
+        </li>
+        <li>
+          Data - The Data type of the output to ensure that the Output can pick up a date value from the Calculation
+          Configuration
+        </li>
+        <li>
+          Variable - The name of the row the output will use from the Calculation Configuration
+        </li>
+        <li>
+          Output - The value of the output field after the calculation has been run
+        </li>
+        <li>
+          Expected Results- This will be used for testing the output is as expected for this calculation
+        </li>
+        <li>
+          Pass - This will show as true if the output is equal to the expected result, otherwise it will show false
+        </li>
+      </ul>
+    </mat-tab>
+    <mat-tab label="Calculate">
+      <h3>
+        Overview
+      </h3>
+      <p>
+        On calculation the system will check that all rows have passed validation before proceeding to calculate this
+        according, this is to ensure that the calculation will successfully run and not error. Once the calculation
+        button has been clicked a popup will show that the calculation is in progress.
+      </p>
+      <mat-divider></mat-divider>
+      <h3>
+        Validation
+      </h3>
+      <p>
+        The builder contains various validations to ensure that the calculation is run successfully. In the event of a
+        calculation error the row in the builder that has been affected will display as red and must be clicked in
+        order to show the validation error message.
+      </p>
+      <mat-divider></mat-divider>
+      <h3>Success</h3>
+      <p>
+        On successfully calculation a further pop up will be shown to the user to inform that the calculation has been
+        successfully run and the new figures will be displayed to the user.
+      </p>
+    </mat-tab>
+    <mat-tab label="UI">
+      <h3>
+        Overview
+      </h3>
+      <p>
+        On the builder there are various functions to allow the user to interact with the builder.
+      </p>
+      <mat-divider></mat-divider>
+      <h3>
+        Add and Delete Rows
+      </h3>
+      <p>
+        The user can Add (Plus Icon) Delete (Cross Icon) the rows on the builder if required. The user must highlight
+        the relevant row in the Calculation Input, Calculation Configuration, Calculation Output and select the
+        relevant place to Add the row or Delete the Row.
+      </p>
+      <mat-divider></mat-divider>
+      <h3>
+        Rows - Filtering
+      </h3>
+      <p>
+        The user can filter the rows based on a criteria on the top row under the column headings there is an input
+        field, the user should type in the text of the required filter and the relevant tables will filter based on
+        these values.
+      </p>
+      <mat-divider></mat-divider>
+      <h3>
+        Rows - Movable
+      </h3>
+      <p>
+        The user can move each row within the builder by clicking the grid of dots in the first column on each row to
+        move them up or down.
+      </p>
+    </mat-tab>
+  </mat-tab-group>

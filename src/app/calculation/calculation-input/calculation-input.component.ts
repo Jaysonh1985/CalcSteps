@@ -137,7 +137,7 @@ export class CalculationInputComponent implements OnInit {
     this.autocompleteService.editAutocomplete(this.getAllRowsNodes());
   }
   onAddRow() {
-    const newItem = new CalculationInput(this.getGuid(), "", "", "", [], "", false);
+    const newItem = new CalculationInput(this.getGuid(), "", "", "", [], "False", "False");
     const res = this.gridApi.updateRowData({ add: [newItem] });
     const rowNode = this.gridApi.getRowNode(res.add[0].id);
     rowNode.id = rowNode.data.id;
@@ -232,10 +232,12 @@ export class CalculationInputComponent implements OnInit {
   }
   public setRowOuput(id, rowData) {
     const rowNode = this.gridApi.getRowNode(id);
-    let data = rowNode.data;
-    data = rowData;
-    rowNode.setData(data);
-    this.autocompleteService.editAutocomplete(this.getAllRowsNodes());
+    if (rowNode !== undefined) {
+      let data = rowNode.data;
+      data = rowData;
+      rowNode.setData(data);
+      this.autocompleteService.editAutocomplete(this.getAllRowsNodes());
+    }
   }
   errorCheck(input): CalculationError[] {
     this.errorArray = [];

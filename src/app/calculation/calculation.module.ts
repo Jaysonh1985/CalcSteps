@@ -40,7 +40,7 @@ import { HelpTestManagementComponent } from "./help/categories/help-test-managem
 import { HelpCalculationFunctionsComponent } from "./help/categories/help-calculation-functions/help-calculation-functions.component";
 import { HelpLookupMaintenanceComponent } from "./help/categories/help-lookup-maintenance/help-lookup-maintenance.component";
 import { HelpUserMaintenanceComponent } from "./help/categories/help-user-maintenance/help-user-maintenance.component";
-import { ReleaseErrorComponent } from './release/release-error/release-error.component';
+import { ReleaseErrorComponent } from "./release/release-error/release-error.component";
 
 @NgModule({
   imports: [

@@ -1,11 +1,5 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  Output,
-  EventEmitter
-} from "@angular/core";
-import { GridOptions} from "ag-grid";
+import { Component, Input, OnInit, Output, EventEmitter } from "@angular/core";
+import { GridOptions } from "ag-grid";
 
 import { DateAdjustment } from "../functions/function-date-adjustment/function-date-adjustment.component";
 import { DateDuration } from "../functions/function-date-duration/function-date-duration.component";
@@ -165,18 +159,20 @@ export class CalculationConfigurationComponent implements OnInit {
     this.onDataChanged();
   }
   getGuid() {
-    return this.s4() +
-    this.s4() +
-    "-" +
-    this.s4() +
-    "-" +
-    this.s4() +
-    "-" +
-    this.s4() +
-    "-" +
-    this.s4() +
-    this.s4() +
-    this.s4();
+    return (
+      this.s4() +
+      this.s4() +
+      "-" +
+      this.s4() +
+      "-" +
+      this.s4() +
+      "-" +
+      this.s4() +
+      "-" +
+      this.s4() +
+      this.s4() +
+      this.s4()
+    );
   }
 
   s4() {
@@ -308,7 +304,7 @@ export class CalculationConfigurationComponent implements OnInit {
   setTableData(calculationConfiguration) {
     let selectedData = this.gridApi.selectAll();
     selectedData = this.gridApi.getSelectedRows();
-    const res = this.gridApi.updateRowData({ remove: selectedData});
+    const res = this.gridApi.updateRowData({ remove: selectedData });
     calculationConfiguration.forEach(element => {
       const res2 = this.gridApi.updateRowData({ add: [element] });
     });

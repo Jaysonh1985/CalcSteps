@@ -7,6 +7,7 @@ import { Chip } from "../../shared/models/chip";
 
 export class Maths {
   formula: string[];
+  rounding: string;
   constructor(formula) {
     this.formula = formula;
   }
@@ -123,7 +124,11 @@ export class FunctionMathsComponent implements OnInit {
         number
       );
     });
-    return mathJs.eval(mathString);
+    const evalulation = mathJs.eval(mathString);
+    if (maths.rounding === undefined) {
+      maths.rounding = 2;
+    }
+    return mathJs.round(evalulation, maths.rounding);
   }
 
   errorCheck(maths, autoComplete): CalculationError[] {

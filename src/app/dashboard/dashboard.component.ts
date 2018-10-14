@@ -82,11 +82,11 @@ export class DashboardComponent implements OnInit {
             this.calculation.userid = auth.uid;
             this.calculation.calculationInputs = [];
             this.calculation.calculationInputs.push(
-              new CalculationInput(this.getGuid(), "", "", "", [], "", false)
+              new CalculationInput(this.getGuid(), "", "", "", [], "False", "False")
             );
             this.calculation.calculationOutputs = [];
             this.calculation.calculationOutputs.push(
-              new CalculationOutput(this.getGuid(), "", "", "", "", "", false)
+              new CalculationOutput(this.getGuid(), "", "", "", "", "False", "False")
             );
             this.calculation.calculationConfigurations = [];
             this.calculation.calculationConfigurations.push(

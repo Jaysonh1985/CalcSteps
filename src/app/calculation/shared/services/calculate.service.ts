@@ -18,6 +18,7 @@ import { DragulaService } from "ng2-dragula";
 @Injectable()
 export class CalculateService {
   readonly api = `${environment.functionsURL}/app`;
+  errorArray: any[];
   constructor(private http: HttpClient, private dragulaService: DragulaService) {}
 
   async getDistanceMatrix(origin: string, destination: string): Promise<any> {
@@ -155,27 +156,56 @@ export class CalculateService {
   }
 
   runError(row, autocomplete, authService, lookupService): CalculationError[] {
+    this.errorArray = [];
+    if (row.name === "") {
+      this.errorArray.push(
+        new CalculationError(
+          row.rowIndex,
+          "Error",
+          "Row Name is missing"
+        )
+      );
+    }
+    if (row.data === "") {
+      this.errorArray.push(
+        new CalculationError(
+          row.rowIndex,
+          "Error",
+          "Row Data Type is missing"
+        )
+      );
+    }
+    if (row.functionType === "") {
+      this.errorArray.push(
+        new CalculationError(
+          row.rowIndex,
+          "Error",
+          "Row Function Type is missing"
+        )
+      );
+      return this.errorArray;
+    }
     if (row.functionType === "Maths") {
       const math = new FunctionMathsComponent(this.dragulaService);
-      return math.errorCheck(row.maths, autocomplete);
+      return this.errorArray.concat(math.errorCheck(row.maths, autocomplete));
     } else if (row.functionType === "Date Adjustment") {
       const dateAdjustment = new FunctionDateAdjustmentComponent();
-      return dateAdjustment.errorCheck(row.dateAdjustment, autocomplete);
+      return this.errorArray.concat(dateAdjustment.errorCheck(row.dateAdjustment, autocomplete));
     } else if (row.functionType === "Date Duration") {
       const dateDuration = new FunctionDateDurationComponent();
-      return dateDuration.errorCheck(row.dateDuration, autocomplete);
+      return this.errorArray.concat(dateDuration.errorCheck(row.dateDuration, autocomplete));
     } else if (row.functionType === "If Logic") {
       const ifLogic = new FunctionIfLogicComponent(this.dragulaService);
-      return ifLogic.errorCheck(row.ifLogic, autocomplete);
+      return this.errorArray.concat(ifLogic.errorCheck(row.ifLogic, autocomplete));
     } else if (row.functionType === "Distance") {
       const distance = new FunctionDistanceComponent();
-      return distance.errorCheck(row.distance, autocomplete);
+      return this.errorArray.concat(distance.errorCheck(row.distance, autocomplete));
     } else if (row.functionType === "Lookup Table") {
       const lookupTable = new FunctionLookupTableComponent(
         authService,
         lookupService
       );
-      return lookupTable.errorCheck(row.lookupTable, autocomplete);
+      return this.errorArray.concat(lookupTable.errorCheck(row.lookupTable, autocomplete));
     } else {
       return [];
     }

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { GridOptions } from "ag-grid";
 
 import { CalculationOutput } from "../shared/models/calculation-output";
+import { CalculationError } from "../shared/models/calculation-error";
 
 @Component({
   selector: "app-calculation-output",
@@ -15,14 +16,23 @@ export class CalculationOutputComponent implements OnInit {
   public rowSelection;
   private gridApi;
   private gridColumnApi;
-  @Output() messageEvent = new EventEmitter();
-  @Output() dataChangeEvent = new EventEmitter();
-  @Input() calculationOutput: string[];
-  @Input() configOutputsNumber: string[];
-  @Input() configOutputsDate: string[];
-  @Input() configOutputsLogic: string[];
-  @Input() configOutputsText: string[];
-  @Input() release: boolean;
+  @Output()
+  messageEvent = new EventEmitter();
+  @Output()
+  dataChangeEvent = new EventEmitter();
+  @Input()
+  calculationOutput: string[];
+  @Input()
+  configOutputsNumber: string[];
+  @Input()
+  configOutputsDate: string[];
+  @Input()
+  configOutputsLogic: string[];
+  @Input()
+  configOutputsText: string[];
+  @Input()
+  release: boolean;
+  errorArray: any[];
   constructor() {
     this.outputGridOptions = <GridOptions>{};
     this.rowSelection = "single";
@@ -96,18 +106,24 @@ export class CalculationOutputComponent implements OnInit {
         editable: false,
         suppressFilter: true
       }
-
     ];
     this.outputGridOptions.floatingFilter = true;
+    this.outputGridOptions.getRowStyle = function(params) {
+      if (params.data.errors !== undefined) {
+        if (params.data.errors.length > 0) {
+          return { background: "lightcoral" };
+        }
+        if (params.data.errors.length === 0) {
+          return { background: "" };
+        }
+      }
+    };
   }
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     if (this.release === true) {
-      this.outputGridOptions.columnApi.setColumnsVisible(
-        ["variable"],
-        false
-      );
+      this.outputGridOptions.columnApi.setColumnsVisible(["variable"], false);
     }
     const allColumnIds = [];
     this.gridColumnApi.getAllColumns().forEach(function(column) {
@@ -115,22 +131,33 @@ export class CalculationOutputComponent implements OnInit {
     });
   }
   onAddRow() {
-    const newItem = new CalculationOutput(this.getGuid(), "", "", "", "", "", false);
+    const newItem = new CalculationOutput(
+      this.getGuid(),
+      "",
+      "",
+      "",
+      "",
+      "",
+      false,
+      []
+    );
     const res = this.gridApi.updateRowData({ add: [newItem] });
   }
   getGuid() {
-    return this.s4() +
-    this.s4() +
-    "-" +
-    this.s4() +
-    "-" +
-    this.s4() +
-    "-" +
-    this.s4() +
-    "-" +
-    this.s4() +
-    this.s4() +
-    this.s4();
+    return (
+      this.s4() +
+      this.s4() +
+      "-" +
+      this.s4() +
+      "-" +
+      this.s4() +
+      "-" +
+      this.s4() +
+      "-" +
+      this.s4() +
+      this.s4() +
+      this.s4()
+    );
   }
 
   s4() {
@@ -158,7 +185,8 @@ export class CalculationOutputComponent implements OnInit {
         output: node.data.output,
         data: node.data.data,
         eresult: node.data.eresult,
-        pass: node.data.pass
+        pass: node.data.pass,
+        errors: node.data.errors
       };
       arr.push(Row);
     });
@@ -175,7 +203,7 @@ export class CalculationOutputComponent implements OnInit {
   public setTableData(calculationOutput) {
     let selectedData = this.gridApi.selectAll();
     selectedData = this.gridApi.getSelectedRows();
-    const res = this.gridApi.updateRowData({ remove: selectedData});
+    const res = this.gridApi.updateRowData({ remove: selectedData });
     calculationOutput.forEach(element => {
       const res2 = this.gridApi.updateRowData({ add: [element] });
     });
@@ -187,7 +215,29 @@ export class CalculationOutputComponent implements OnInit {
     rowNode.setData(data);
     this.gridApi.flashCells({ rowNodes: [rowNode], columns: ["output"] });
   }
+  private getVariableExist(InputValue, array): any {
+    for (const value of array) {
+      if (value.name === InputValue) {
+        return true;
+      }
+    }
+    return false;
+  }
   ngOnInit() {
     this.outputGridOptions.rowData = this.calculationOutput;
+  }
+  errorCheck(output, autoComplete): CalculationError[] {
+    this.errorArray = [];
+    const outputValue = this.getVariableExist(output.variable, autoComplete);
+    if (outputValue === false) {
+      this.errorArray.push(
+        new CalculationError(
+          output.rowIndex,
+          "Error",
+          "Variable does not exist"
+        )
+      );
+    }
+    return this.errorArray;
   }
 }

@@ -20,6 +20,7 @@ import { CalculationInput } from "./shared/models/calculation-input";
 import { CalculationOutput } from "./shared/models/calculation-output";
 import { AutoCompleteService } from "./shared/services/auto-complete.service";
 import { CalculationService } from "./shared/services/calculation.service";
+import { CalculationError } from "./shared/models/calculation-error";
 
 @Component({
   selector: "app-calculation",
@@ -59,6 +60,7 @@ export class CalculationComponent implements OnInit {
       { name: "Help", routerLink: "../account", icon: "help_outline" }
     ]
   };
+  errorArray: any[];
   constructor(
     private route: ActivatedRoute,
     private calcService: CalculationService,
@@ -151,18 +153,37 @@ export class CalculationComponent implements OnInit {
     });
     this.loadingProgress = 0;
     const calculationInput = this.CalculationInputComponent.getAllRows();
-    const getErrorsInput: CalculationInput[] = this.getErrorsInput(calculationInput);
+    const getErrorsInput: CalculationInput[] = this.getErrorsInput(
+      calculationInput
+    );
     const isErrorInput = this.errorExists(getErrorsInput);
     this.CalculationInputComponent.setTableData(calculationInput);
     this.loadingProgress = 30;
     let autoCompleteInputs = [];
     autoCompleteInputs = this.CalculationInputComponent.getAllRows();
     const calculationConfiguration = this.CalculationConfigurationComponent.getAllRows();
-    const getErrorsConfiguration: CalculationConfiguration[] = this.getErrorsConfiguration(calculationConfiguration, autoCompleteInputs);
+    const getErrorsConfiguration: CalculationConfiguration[] = this.getErrorsConfiguration(
+      calculationConfiguration,
+      autoCompleteInputs
+    );
     const isErrorConfiguration = this.errorExists(getErrorsConfiguration);
-    this.CalculationConfigurationComponent.setTableData(calculationConfiguration);
+    this.CalculationConfigurationComponent.setTableData(
+      calculationConfiguration
+    );
+    let calculationOutput = this.CalculationOutputComponent.getAllRows();
+    const getErrorsOutput: CalculationOutput[] = this.getErrorsOutput(
+      calculationOutput,
+      autoCompleteInputs,
+      calculationConfiguration
+    );
+    const isErrorOutput = this.errorExists(getErrorsOutput);
+    this.CalculationOutputComponent.setTableData(calculationOutput);
     this.loadingProgress = 50;
-    if (isErrorInput === true || isErrorConfiguration === true) {
+    if (
+      isErrorInput === true ||
+      isErrorConfiguration === true ||
+      isErrorOutput === true
+    ) {
       this.snackBar.open("Calculation Failed", "Failed", {
         duration: 2000
       });
@@ -172,11 +193,19 @@ export class CalculationComponent implements OnInit {
       }, 2000);
     }
     if (isErrorInput === false && isErrorConfiguration === false) {
-      await this.calculateConfiguration(calculationConfiguration, autoCompleteInputs);
-      this.CalculationConfigurationComponent.setTableData(calculationConfiguration);
+      await this.calculateConfiguration(
+        calculationConfiguration,
+        autoCompleteInputs
+      );
+      this.CalculationConfigurationComponent.setTableData(
+        calculationConfiguration
+      );
       this.loadingProgress = 70;
-      let calculationOutput = this.CalculationOutputComponent.getAllRows();
-      calculationOutput = this.calculateOutput(calculationOutput, calculationConfiguration);
+      calculationOutput = this.CalculationOutputComponent.getAllRows();
+      calculationOutput = this.calculateOutput(
+        calculationOutput,
+        calculationConfiguration
+      );
       this.CalculationOutputComponent.setTableData(calculationOutput);
       this.loadingProgress = 100;
       this.loading = false;
@@ -196,7 +225,10 @@ export class CalculationComponent implements OnInit {
     }
     return calculationInput;
   }
-  getErrorsConfiguration(calculationConfiguration, autoCompleteInputs): CalculationConfiguration[] {
+  getErrorsConfiguration(
+    calculationConfiguration,
+    autoCompleteInputs
+  ): CalculationConfiguration[] {
     let rowIndex = 0;
     for (const configuration of calculationConfiguration) {
       let autoCompleteConfig = [];
@@ -213,9 +245,43 @@ export class CalculationComponent implements OnInit {
         this.authService,
         this.lookupService
       );
-      rowIndex ++;
+      rowIndex++;
     }
     return calculationConfiguration;
+  }
+  getErrorsOutput(
+    calculationOutput,
+    autoCompleteInputs,
+    calculationConfiguration
+  ): CalculationOutput[] {
+    let rowIndex = 0;
+    this.errorArray = [];
+    for (const output of calculationOutput) {
+      if (output.name === "" || output.name === undefined) {
+        this.errorArray.push(
+          new CalculationError(output.rowIndex, "Error", "Name is missing")
+        );
+      }
+      if (output.data === "" || output.data === undefined) {
+        this.errorArray.push(
+          new CalculationError(output.rowIndex, "Error", "Data is missing")
+        );
+      }
+      if (output.variable === "" || output.name === undefined) {
+        this.errorArray.push(
+          new CalculationError(output.rowIndex, "Error", "Variable is missing")
+        );
+      }
+      output.errors = [];
+      if (output.variable !== "" || output.name !== undefined) {
+        const outputs = new CalculationOutputComponent();
+        output.errors = this.errorArray.concat(outputs.errorCheck(output, calculationConfiguration));
+      } else {
+        output.errors = this.errorArray;
+      }
+      rowIndex++;
+    }
+    return calculationOutput;
   }
   errorExists(array) {
     for (const row of array) {
@@ -293,18 +359,18 @@ export class CalculationComponent implements OnInit {
             this.calcService
           );
         }
-        rowIndex ++;
+        rowIndex++;
       }
     }
     return calculationConfiguration;
   }
-  calculateOutput(calculationOutput, calculationConfiguration): CalculationOutput[] {
+  calculateOutput(
+    calculationOutput,
+    calculationConfiguration
+  ): CalculationOutput[] {
     for (const output of calculationOutput) {
       let arr: CalculationConfiguration;
-      arr = this.getFinalRowNodes(
-        output.variable,
-        calculationConfiguration
-      );
+      arr = this.getFinalRowNodes(output.variable, calculationConfiguration);
       output.output = arr.output.toString();
       if (output.output === output.eresult) {
         output.pass = true;

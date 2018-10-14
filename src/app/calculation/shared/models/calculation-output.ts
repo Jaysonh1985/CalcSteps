@@ -1,3 +1,5 @@
+import { CalculationError } from "./calculation-error";
+
 export class CalculationOutput {
   id: string;
   name: string;
@@ -6,7 +8,8 @@ export class CalculationOutput {
   output: string;
   eresult: string;
   pass: boolean;
-  constructor(id, name, data, output, variable, eresult, pass) {
+  errors: CalculationError[];
+  constructor(id, name, data, output, variable, eresult, pass, errors) {
     this.id = id;
     this.name = name;
     this.data = data;
@@ -14,5 +17,6 @@ export class CalculationOutput {
     this.output = output;
     this.eresult = eresult;
     this.pass = pass;
+    this.errors = errors;
   }
 }

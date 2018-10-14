@@ -211,6 +211,23 @@ export class CalculationConfigurationComponent implements OnInit {
       this.autocompleteService.cast.subscribe(autocomplete => {
         this.autoCompleteArray = autocomplete.concat(this.autoCompleteArray);
       });
+      const autoCompleteArrayUnique = [];
+      this.autoCompleteArray.forEach(element => {
+        const name = element.data.name;
+        if (autoCompleteArrayUnique.length > 0) {
+          const nameList = [];
+          for (const row of autoCompleteArrayUnique) {
+            nameList.push(row.data.name);
+          }
+          const nameExists = nameList.indexOf(name);
+          if (nameExists === -1) {
+            autoCompleteArrayUnique.push(element);
+          }
+        } else {
+          autoCompleteArrayUnique.push(element);
+        }
+      });
+      this.autoCompleteArray = autoCompleteArrayUnique;
       this.getLogicArray();
     }
   }

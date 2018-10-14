@@ -133,6 +133,15 @@ export class FunctionMathsComponent implements OnInit {
 
   errorCheck(maths, autoComplete): CalculationError[] {
     this.errorArray = [];
+    if (maths.formula === "") {
+      this.errorArray.push(
+        new CalculationError(
+          maths.rowIndex,
+          "Error",
+          "No formula in builder"
+        )
+      );
+    }
     maths.formula.forEach(element => {
       if (element.type === "variable") {
         const Number1 = this.getAutoCompleteOutput(element.name, autoComplete);

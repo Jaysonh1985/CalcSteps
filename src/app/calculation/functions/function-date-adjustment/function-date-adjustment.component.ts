@@ -230,59 +230,63 @@ export class FunctionDateAdjustmentComponent implements OnInit {
         autoComplete
       );
     }
-    let Period = dateAdjustment.period[0].name;
-    if (dateAdjustment.period[0].type === "variable") {
-      Period = this.getAutoCompleteNumber(
-        dateAdjustment.period[0].name,
-        autoComplete
-      );
-    }
-    if (dateAdjustment.type === "Add") {
-      if (dateAdjustment.periodType === "Years") {
-        return moment(Date1, "DD/MM/YYYY")
-          .add(Period, "y")
-          .format("L");
-      } else if (dateAdjustment.periodType === "Months") {
-        return moment(Date1, "DD/MM/YYYY")
-          .add(Period, "M")
-          .format("L");
-      } else if (dateAdjustment.periodType === "Days") {
-        return moment(Date1, "DD/MM/YYYY")
-          .add(Period, "d")
-          .format("L");
+    if (dateAdjustment.type === "Add" || dateAdjustment.type === "Subtract") {
+      let Period = dateAdjustment.period[0].name;
+      if (dateAdjustment.period[0].type === "variable") {
+        Period = this.getAutoCompleteNumber(
+          dateAdjustment.period[0].name,
+          autoComplete
+        );
       }
-    } else if (dateAdjustment.type === "Subtract") {
-      if (dateAdjustment.periodType === "Years") {
-        return moment(Date1, "DD/MM/YYYY")
-          .subtract(Period, "y")
-          .format("L");
-      } else if (dateAdjustment.periodType === "Months") {
-        return moment(Date1, "DD/MM/YYYY")
-          .subtract(Period, "M")
-          .format("L");
-      } else if (dateAdjustment.periodType === "Days") {
-        return moment(Date1, "DD/MM/YYYY")
-          .subtract(Period, "d")
-          .format("L");
+      if (dateAdjustment.type === "Add") {
+        if (dateAdjustment.periodType === "Years") {
+          return moment(Date1, "DD/MM/YYYY")
+            .add(Period, "y")
+            .format("L");
+        } else if (dateAdjustment.periodType === "Months") {
+          return moment(Date1, "DD/MM/YYYY")
+            .add(Period, "M")
+            .format("L");
+        } else if (dateAdjustment.periodType === "Days") {
+          return moment(Date1, "DD/MM/YYYY")
+            .add(Period, "d")
+            .format("L");
+        }
+      } else if (dateAdjustment.type === "Subtract") {
+        if (dateAdjustment.periodType === "Years") {
+          return moment(Date1, "DD/MM/YYYY")
+            .subtract(Period, "y")
+            .format("L");
+        } else if (dateAdjustment.periodType === "Months") {
+          return moment(Date1, "DD/MM/YYYY")
+            .subtract(Period, "M")
+            .format("L");
+        } else if (dateAdjustment.periodType === "Days") {
+          return moment(Date1, "DD/MM/YYYY")
+            .subtract(Period, "d")
+            .format("L");
+        }
       }
-    } else if (dateAdjustment.type === "Earlier") {
-      const date1 = moment(Date1, "DD/MM/YYYY");
-      const date2 = moment(Date2, "DD/MM/YYYY");
-      return moment.min(date1, date2).format("L");
-    } else if (dateAdjustment.type === "Later") {
-      const date1 = moment(Date1, "DD/MM/YYYY");
-      const date2 = moment(Date2, "DD/MM/YYYY");
-      return moment.max(date1, date2).format("L");
-    } else if (dateAdjustment.type === "FirstDayMonth") {
-      return moment(Date1, "DD/MM/YYYY")
-        .startOf("month")
-        .format("L");
-    } else if (dateAdjustment.type === "LastDayMonth") {
-      return moment(Date1, "DD/MM/YYYY")
-        .endOf("month")
-        .format("L");
-    } else if (dateAdjustment.type === "Today") {
-      return moment().format("L");
+    } else {
+      if (dateAdjustment.type === "Earlier") {
+        const date1 = moment(Date1, "DD/MM/YYYY");
+        const date2 = moment(Date2, "DD/MM/YYYY");
+        return moment.min(date1, date2).format("L");
+      } else if (dateAdjustment.type === "Later") {
+        const date1 = moment(Date1, "DD/MM/YYYY");
+        const date2 = moment(Date2, "DD/MM/YYYY");
+        return moment.max(date1, date2).format("L");
+      } else if (dateAdjustment.type === "FirstDayMonth") {
+        return moment(Date1, "DD/MM/YYYY")
+          .startOf("month")
+          .format("L");
+      } else if (dateAdjustment.type === "LastDayMonth") {
+        return moment(Date1, "DD/MM/YYYY")
+          .endOf("month")
+          .format("L");
+      } else if (dateAdjustment.type === "Today") {
+        return moment().format("L");
+      }
     }
     return "";
   }
@@ -332,7 +336,10 @@ export class FunctionDateAdjustmentComponent implements OnInit {
         )
       );
     }
-    if ((dateAdjustment.type === "Add" || dateAdjustment.type === "Subtract") && (dateAdjustment.period.length === 0 )) {
+    if (
+      (dateAdjustment.type === "Add" || dateAdjustment.type === "Subtract") &&
+      dateAdjustment.period.length === 0
+    ) {
       this.errorArray.push(
         new CalculationError(
           dateAdjustment.rowIndex,
@@ -392,8 +399,9 @@ export class FunctionDateAdjustmentComponent implements OnInit {
     }
     if (
       (dateAdjustment.type === "Earlier" ||
-      dateAdjustment.type === "Later" ||
-      dateAdjustment.type === "DatesBetween") && dateAdjustment.date2.length > 0
+        dateAdjustment.type === "Later" ||
+        dateAdjustment.type === "DatesBetween") &&
+      dateAdjustment.date2.length > 0
     ) {
       let Date2 = dateAdjustment.date2[0].name;
       if (dateAdjustment.date2[0].type === "variable") {
@@ -413,8 +421,10 @@ export class FunctionDateAdjustmentComponent implements OnInit {
         );
       }
     }
-    if ((dateAdjustment.type === "Add" || dateAdjustment.type === "Subtract") && dateAdjustment.period.length > 0) {
-
+    if (
+      (dateAdjustment.type === "Add" || dateAdjustment.type === "Subtract") &&
+      dateAdjustment.period.length > 0
+    ) {
       let Period = dateAdjustment.period[0].name;
       if (dateAdjustment.period[0].type === "variable") {
         Period = this.getAutoCompleteNumber(

@@ -220,15 +220,17 @@ export class FunctionDateDurationComponent implements OnInit {
           autoComplete
         );
       }
-      const a = moment(Date1, "DD/MM/YYYY", true);
-      if (a.isValid() === false) {
-        this.errorArray.push(
-          new CalculationError(
-            dateDuration.rowIndex,
-            "Error",
-            "Date 1 - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
-          )
-        );
+      if (Date1 !== "") {
+        const a = moment(Date1, "DD/MM/YYYY", true);
+        if (a.isValid() === false) {
+          this.errorArray.push(
+            new CalculationError(
+              dateDuration.rowIndex,
+              "Error",
+              "Date 1 - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
+            )
+          );
+        }
       }
     }
 
@@ -240,15 +242,17 @@ export class FunctionDateDurationComponent implements OnInit {
           autoComplete
         );
       }
-      const b = moment(Date2, "DD/MM/YYYY", true);
-      if (b.isValid() === false) {
-        this.errorArray.push(
-          new CalculationError(
-            dateDuration.rowIndex,
-            "Error",
-            "Date 2 - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
-          )
-        );
+      if (Date2 !== "") {
+        const b = moment(Date2, "DD/MM/YYYY", true);
+        if (b.isValid() === false) {
+          this.errorArray.push(
+            new CalculationError(
+              dateDuration.rowIndex,
+              "Error",
+              "Date 2 - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
+            )
+          );
+        }
       }
     }
 

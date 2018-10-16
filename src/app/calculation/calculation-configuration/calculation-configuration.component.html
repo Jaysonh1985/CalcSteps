@@ -1,52 +1,59 @@
-<div>
-  <div class="button-row">
-    <h4>
-      Configuration
-    </h4>
-    <button mat-icon-button (click)="onAddRow()">
-      <mat-icon aria-label="add config">add</mat-icon>
-    </button>
-    <button mat-icon-button (click)="onRemoveSelected()">
-      <mat-icon aria-label="delete config">delete</mat-icon>
-    </button>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-evenly stretch" fxLayoutGap="0px" fxLayoutGap.xs="0" style="height:90%">
+    <div id="left"class="item item-1" fxFlex="45%">
+        <div class="button-row">
+            <h4>
+              Configuration
+            </h4>
+            <button mat-icon-button (click)="onAddRow()">
+              <mat-icon aria-label="add config">add</mat-icon>
+            </button>
+            <button mat-icon-button (click)="onRemoveSelected()">
+              <mat-icon aria-label="delete config">delete</mat-icon>
+            </button>
+          </div>
+          <ag-grid-angular #agGrid style="height:80vh; width: 99.5%" class="ag-theme-balham" [gridOptions]="gridOptions" [rowSelection]="rowSelection"
+            [rowMultiSelectWithClick]="true" [rowDragManaged]="true" [animateRows]="true" [enableColResize]="true" (selectionChanged)="onSelectionChanged($event)"
+            (gridReady)="onGridReady($event)" [stopEditingWhenGridLosesFocus]="true" [rowClassRules]="rowClassRules" [defaultColDef]="defaultColDef" (cellValueChanged)="onDataChanged()" (rowDragEnd)="onDataChanged()">
+          </ag-grid-angular>
+    </div>
+    <div id="right" fxFlex="45%">
+        <div *ngFor="let row of selectedRows"  style="height: 80vh; width: 99.5%; overflow-x:hidden; overflow-y: auto">
+            <ol>
+              <li *ngFor="let error of row.errors">{{error.errorText}}</li>
+            </ol>
+            <mat-card-header>
+              <mat-card-title>
+                <h4 style="text-align: center">
+                    {{row.functionType}}
+                </h4> 
+                <mat-form-field>
+                  <input matInput placeholder="If Logic" [(ngModel)]="row.condition" style="font-size: small" [matAutocomplete]="auto">
+                </mat-form-field>
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div>
+                <form>
+                  <app-function-maths [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'Maths'"></app-function-maths>
+                  <app-function-date-adjustment [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'Date Adjustment'"></app-function-date-adjustment>
+                  <app-function-date-duration [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'Date Duration'">
+                  </app-function-date-duration>
+                  <app-function-if-logic [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'If Logic'"></app-function-if-logic>
+                  <app-function-distance [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'Distance'"></app-function-distance>
+                  <app-function-lookup-table [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'Lookup Table'"></app-function-lookup-table>
+                </form>
+              </div>
+            </mat-card-content>
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let option of autoCompleteOptions" [value]="option">
+                {{ option }}
+              </mat-option>
+            </mat-autocomplete>
+          </div>       
+    </div>
   </div>
-  <ag-grid-angular #agGrid style="height:45vh; width: 99.5%" class="ag-theme-balham" [gridOptions]="gridOptions" [rowSelection]="rowSelection"
-    [rowMultiSelectWithClick]="true" [rowDragManaged]="true" [animateRows]="true" [enableColResize]="true" (selectionChanged)="onSelectionChanged($event)"
-    (gridReady)="onGridReady($event)" [stopEditingWhenGridLosesFocus]="true" [rowClassRules]="rowClassRules" [defaultColDef]="defaultColDef" (cellValueChanged)="onDataChanged()" (rowDragEnd)="onDataChanged()">
-  </ag-grid-angular>
+<div>
+  
 </div>
 
-  <div *ngFor="let row of selectedRows"  style="height: 45vh; overflow: auto">
-    <ol>
-      <li *ngFor="let error of row.errors">{{error.errorText}}</li>
-    </ol>
-    <mat-card-header>
-      <mat-card-title>
-        <h4 style="text-align: center">
-            {{row.functionType}}
-        </h4> 
-        <mat-form-field>
-          <input matInput placeholder="If Logic" [(ngModel)]="row.condition" style="font-size: small" [matAutocomplete]="auto">
-        </mat-form-field>
-      </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <div>
-        <form>
-          <app-function-maths [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'Maths'"></app-function-maths>
-          <app-function-date-adjustment [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'Date Adjustment'"></app-function-date-adjustment>
-          <app-function-date-duration [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'Date Duration'">
-          </app-function-date-duration>
-          <app-function-if-logic [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'If Logic'"></app-function-if-logic>
-          <app-function-distance [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'Distance'"></app-function-distance>
-          <app-function-lookup-table [selectedRow]="selectedRows" [autoCompleteArray]="autoCompleteArray" *ngIf="row.functionType == 'Lookup Table'"></app-function-lookup-table>
-        </form>
-      </div>
-    </mat-card-content>
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let option of autoCompleteOptions" [value]="option">
-        {{ option }}
-      </mat-option>
-    </mat-autocomplete>
-  </div>
-
+  

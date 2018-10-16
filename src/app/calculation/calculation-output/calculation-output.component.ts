@@ -113,6 +113,9 @@ export class CalculationOutputComponent implements OnInit {
         if (params.data.errors.length > 0) {
           return { background: "lightcoral" };
         }
+        if (params.data.pass === true) {
+          return { background: "#80B280" };
+        }
         if (params.data.errors.length === 0) {
           return { background: "" };
         }
@@ -197,6 +200,7 @@ export class CalculationOutputComponent implements OnInit {
       const rowNode = node;
       const data = rowNode.data;
       data.output = "";
+      data.eresult = "";
       rowNode.setData(data);
     });
   }

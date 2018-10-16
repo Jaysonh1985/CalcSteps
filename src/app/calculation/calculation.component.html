@@ -1,96 +1,98 @@
-<form name="calc-form" #calculationForm="ngForm" >
-   <mat-toolbar style="background: darkslateblue;
+<form name="calc-form" #calculationForm="ngForm">
+  <mat-toolbar style="background: darkslateblue;
     color: white;">
-  <button mat-icon-button (click)="sidenav.toggle()" style="background: darkslateblue; color: white;">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <h4>{{calculationName}}</h4>
-  <div class="button-row" style="position: fixed; right: 52px;">
-    <button mat-icon-button (click)="onCalc()" style="color: white">
-      <mat-icon matListIcon>apps</mat-icon>
+    <button mat-icon-button (click)="sidenav.toggle()" style="background: darkslateblue; color: white;">
+      <mat-icon>menu</mat-icon>
     </button>
-    <button mat-icon-button (click)="onSave()" style="color: white">
-      <mat-icon matListIcon>save</mat-icon>
-    </button>
-    <button mat-icon-button (click)="onExit()" style="color: white">
-      <mat-icon matListIcon>exit_to_app</mat-icon>
-    </button>
-  </div>
-</mat-toolbar>
-<mat-sidenav-container class="example-container">
-  <mat-sidenav #sidenav mode="over" style="background: #353535; color: white;">
+    <h4>{{calculationName}}</h4>
+    <div class="button-row" style="position: fixed; right: 52px;">
+      <button mat-icon-button (click)="onCalc()" style="color: white">
+        <mat-icon matListIcon>apps</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onSave()" style="color: white">
+        <mat-icon matListIcon>save</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onExit()" style="color: white">
+        <mat-icon matListIcon>exit_to_app</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+  <mat-sidenav-container class="example-container">
+    <mat-sidenav #sidenav mode="over" style="background: #353535; color: white;">
 
-    <mat-nav-list>
-      <!-- <mat-list-item style="color: white">
+      <mat-nav-list>
+        <!-- <mat-list-item style="color: white">
         <mat-icon matListIcon>home</mat-icon>
         <h3 matLine> Home</h3>
       </mat-list-item> -->
-      <mat-list-item (click)="onCalc()" style="color: white">
-        <mat-icon matListIcon>apps</mat-icon>
-        <h3 matLine> Calculate</h3>
-      </mat-list-item>
-      <mat-list-item (click)="onSave()" style="color: white">
-        <mat-icon matListIcon>save</mat-icon>
-        <h3 matLine> Save </h3>
-      </mat-list-item>
-      <mat-list-item style="color: white" (click)=routerTestManagement()  *ngIf="calculationForm.dirty !== true">
-        <mat-icon matListIcon>done_all</mat-icon>
-        <h3 matLine> Test-Management </h3>
-      </mat-list-item>
-      <mat-list-item style="color: white" (click)=routerReleaseManagement() *ngIf="calculationForm.dirty !== true">
-        <mat-icon matListIcon>history</mat-icon>
-        <h3 matLine> Release-Management </h3>
-      </mat-list-item>
-      <mat-list-item style="color: white" (click)=routerUserManagement() *ngIf="calculationForm.dirty !== true">
-        <mat-icon matListIcon>person_pin</mat-icon>
-        <h3 matLine> User-Management </h3>
-      </mat-list-item>
-      <!-- <mat-list-item style="color: white">
+        <mat-list-item (click)="onCalc()" style="color: white">
+          <mat-icon matListIcon>apps</mat-icon>
+          <h3 matLine> Calculate</h3>
+        </mat-list-item>
+        <mat-list-item (click)="onSave()" style="color: white">
+          <mat-icon matListIcon>save</mat-icon>
+          <h3 matLine> Save </h3>
+        </mat-list-item>
+        <mat-list-item style="color: white" (click)=routerTestManagement() *ngIf="calculationForm.dirty !== true">
+          <mat-icon matListIcon>done_all</mat-icon>
+          <h3 matLine> Test-Management </h3>
+        </mat-list-item>
+        <mat-list-item style="color: white" (click)=routerReleaseManagement() *ngIf="calculationForm.dirty !== true">
+          <mat-icon matListIcon>history</mat-icon>
+          <h3 matLine> Release-Management </h3>
+        </mat-list-item>
+        <mat-list-item style="color: white" (click)=routerUserManagement() *ngIf="calculationForm.dirty !== true">
+          <mat-icon matListIcon>person_pin</mat-icon>
+          <h3 matLine> User-Management </h3>
+        </mat-list-item>
+        <!-- <mat-list-item style="color: white">
         <mat-icon matListIcon>history</mat-icon>
         <h3 matLine> History </h3>
       </mat-list-item> -->
-      <!-- <mat-list-item style="color: white">
+        <!-- <mat-list-item style="color: white">
         <mat-icon matListIcon>description</mat-icon>
         <h3 matLine> Specification </h3>
       </mat-list-item> -->
-      <mat-list-item (click)="onDelete()" style="color: white">
-        <mat-icon matListIcon>delete</mat-icon>
-        <h3 matLine> Delete Calculation </h3>
-      </mat-list-item>
-      <mat-list-item (click)="onExit()" style="color: white">
-        <mat-icon matListIcon>exit_to_app</mat-icon>
-        <h3 matLine> Exit </h3>
-      </mat-list-item>
-      <mat-list-item style="color: white">
-        <mat-form-field>
-          <input matInput placeholder="Group" [(ngModel)]="calculationGroup" [ngModelOptions]="{standalone: true}" style="color: white">
-          <mat-icon matSuffix>mode_edit</mat-icon>
-        </mat-form-field>
-      </mat-list-item>
-      <mat-list-item style="color: white">
-        <mat-form-field>
-          <input matInput placeholder="Name" [(ngModel)]="calculationName" [ngModelOptions]="{standalone: true}" style="color: white">
-          <mat-icon matSuffix>mode_edit</mat-icon>
-        </mat-form-field>
-      </mat-list-item>
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-progress-bar mode="determinate" value="{{this.loadingProgress}}"></mat-progress-bar>
-      <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-evenly stretch" fxLayoutGap="0px" fxLayoutGap.xs="0" style="height:90%">
-        <div id="left" *ngIf='calculationInput' class="item item-1" fxFlex="30%">
+        <mat-list-item (click)="onDelete()" style="color: white">
+          <mat-icon matListIcon>delete</mat-icon>
+          <h3 matLine> Delete Calculation </h3>
+        </mat-list-item>
+        <mat-list-item (click)="onExit()" style="color: white">
+          <mat-icon matListIcon>exit_to_app</mat-icon>
+          <h3 matLine> Exit </h3>
+        </mat-list-item>
+        <mat-list-item style="color: white">
+          <mat-form-field>
+            <input matInput placeholder="Group" [(ngModel)]="calculationGroup" [ngModelOptions]="{standalone: true}"
+              style="color: white">
+            <mat-icon matSuffix>mode_edit</mat-icon>
+          </mat-form-field>
+        </mat-list-item>
+        <mat-list-item style="color: white">
+          <mat-form-field>
+            <input matInput placeholder="Name" [(ngModel)]="calculationName" [ngModelOptions]="{standalone: true}"
+              style="color: white">
+            <mat-icon matSuffix>mode_edit</mat-icon>
+          </mat-form-field>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <mat-progress-bar mode="determinate" value="{{this.loadingProgress}}"></mat-progress-bar>
+      <mat-tab-group>
+        <mat-tab label="Input" *ngIf='calculationInput'>
           <app-calculation-input [calculationInput]="calculationInput" (dataChangeEvent)="setFormDirty()"></app-calculation-input>
-        </div>
-        <div id="middle" *ngIf='calculationConfiguration' fxFlex="40%">
+        </mat-tab>
+        <mat-tab label="Configuration" *ngIf='calculationConfiguration'>
           <app-calculation-configuration [calculationConfiguration]="calculationConfiguration" (dataChangeEvent)="setFormDirty()"></app-calculation-configuration>
-        </div>
-        <div id="right" *ngIf='calculationOutput' fxFlex="30%">
-          <app-calculation-output [configOutputsNumber]=configOutputsNumber [configOutputsDate]=configOutputsDate [configOutputsLogic]=configOutputsLogic
-            [configOutputsText]=configOutputsText [calculationOutput]="calculationOutput" (messageEvent)="getConfigOutputLists()" (dataChangeEvent)="setFormDirty()"></app-calculation-output>
-        </div>
-      </div>
-
-  </mat-sidenav-content>
-</mat-sidenav-container>
+        </mat-tab>
+        <mat-tab label="Output" *ngIf='calculationOutput'>
+          <app-calculation-output [configOutputsNumber]=configOutputsNumber [configOutputsDate]=configOutputsDate
+            [configOutputsLogic]=configOutputsLogic [configOutputsText]=configOutputsText [calculationOutput]="calculationOutput"
+            (messageEvent)="getConfigOutputLists()" (dataChangeEvent)="setFormDirty()"></app-calculation-output>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 
 </form>

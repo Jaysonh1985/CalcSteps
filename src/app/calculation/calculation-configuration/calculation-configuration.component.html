@@ -27,7 +27,11 @@
                     {{row.functionType}}
                 </h4> 
                 <mat-form-field>
-                  <input matInput placeholder="If Logic" [(ngModel)]="row.condition" style="font-size: small" [matAutocomplete]="auto">
+                  <mat-select placeholder="If Logic" [(ngModel)]="row.condition">
+                    <mat-option *ngFor="let option of autoCompleteOptions" [value]="option">
+                      {{option}}
+                    </mat-option>
+                  </mat-select>
                 </mat-form-field>
               </mat-card-title>
             </mat-card-header>
@@ -44,11 +48,6 @@
                 </form>
               </div>
             </mat-card-content>
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let option of autoCompleteOptions" [value]="option">
-                {{ option }}
-              </mat-option>
-            </mat-autocomplete>
           </div>       
     </div>
   </div>

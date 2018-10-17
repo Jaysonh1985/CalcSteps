@@ -19,7 +19,10 @@ import { DragulaService } from "ng2-dragula";
 export class CalculateService {
   readonly api = `${environment.functionsURL}/app`;
   errorArray: any[];
-  constructor(private http: HttpClient, private dragulaService: DragulaService) {}
+  constructor(
+    private http: HttpClient,
+    private dragulaService: DragulaService
+  ) {}
 
   async getDistanceMatrix(origin: string, destination: string): Promise<any> {
     let params = new HttpParams();
@@ -46,7 +49,7 @@ export class CalculateService {
     const distance = new FunctionDistanceComponent();
     let Origin = "";
     if (row.distance.origin[0].type === "variable") {
-       Origin = distance.getAutoCompleteOutput(
+      Origin = distance.getAutoCompleteOutput(
         row.distance.origin[0].name,
         autocomplete
       );
@@ -79,11 +82,18 @@ export class CalculateService {
     );
     let LookupValue: string;
     LookupValue = row.lookupTable.LookupValue[0].name;
-    if (row.lookupTable.LookupType === "Date" && row.lookupTable.LookupValue[0].type === "variable") {
+    if (
+      row.lookupTable.LookupType === "Date" &&
+      row.lookupTable.LookupValue[0].type === "variable"
+    ) {
       LookupValue = lookupTable.getAutoCompleteOutputDate(
         row.lookupTable.LookupValue[0].name,
-        autocomplete);
-    } else if (row.lookupTable.LookupType === "Number" && row.lookupTable.LookupValue[0].type === "variable") {
+        autocomplete
+      );
+    } else if (
+      row.lookupTable.LookupType === "Number" &&
+      row.lookupTable.LookupValue[0].type === "variable"
+    ) {
       LookupValue = lookupTable.getAutoCompleteNumber(
         row.lookupTable.LookupValue[0].name,
         autocomplete
@@ -125,8 +135,8 @@ export class CalculateService {
     let input: boolean;
     input = row.condition;
     autocomplete.forEach(value => {
-      if (value.data.name === row.condition) {
-        input = value.data.output;
+      if (value.name === row.condition && value.data === "Logic") {
+        input = value.output;
       }
     });
     if (row.condition === undefined) {
@@ -135,15 +145,11 @@ export class CalculateService {
     if (row.condition === "") {
       return true;
     } else if (
-      row.condition === "true" ||
-      row.condition === "True" ||
-      row.condition === "TRUE"
+      row.condition === "True"
     ) {
       return true;
     } else if (
-      row.condition === "false" ||
-      row.condition === "False" ||
-      row.condition === "FALSE"
+      row.condition === "False"
     ) {
       return false;
     } else {
@@ -159,20 +165,12 @@ export class CalculateService {
     this.errorArray = [];
     if (row.name === "") {
       this.errorArray.push(
-        new CalculationError(
-          row.rowIndex,
-          "Error",
-          "Row Name is missing"
-        )
+        new CalculationError(row.rowIndex, "Error", "Row Name is missing")
       );
     }
     if (row.data === "") {
       this.errorArray.push(
-        new CalculationError(
-          row.rowIndex,
-          "Error",
-          "Row Data Type is missing"
-        )
+        new CalculationError(row.rowIndex, "Error", "Row Data Type is missing")
       );
     }
     if (row.functionType === "") {
@@ -190,22 +188,32 @@ export class CalculateService {
       return this.errorArray.concat(math.errorCheck(row.maths, autocomplete));
     } else if (row.functionType === "Date Adjustment") {
       const dateAdjustment = new FunctionDateAdjustmentComponent();
-      return this.errorArray.concat(dateAdjustment.errorCheck(row.dateAdjustment, autocomplete));
+      return this.errorArray.concat(
+        dateAdjustment.errorCheck(row.dateAdjustment, autocomplete)
+      );
     } else if (row.functionType === "Date Duration") {
       const dateDuration = new FunctionDateDurationComponent();
-      return this.errorArray.concat(dateDuration.errorCheck(row.dateDuration, autocomplete));
+      return this.errorArray.concat(
+        dateDuration.errorCheck(row.dateDuration, autocomplete)
+      );
     } else if (row.functionType === "If Logic") {
       const ifLogic = new FunctionIfLogicComponent(this.dragulaService);
-      return this.errorArray.concat(ifLogic.errorCheck(row.ifLogic, autocomplete));
+      return this.errorArray.concat(
+        ifLogic.errorCheck(row.ifLogic, autocomplete)
+      );
     } else if (row.functionType === "Distance") {
       const distance = new FunctionDistanceComponent();
-      return this.errorArray.concat(distance.errorCheck(row.distance, autocomplete));
+      return this.errorArray.concat(
+        distance.errorCheck(row.distance, autocomplete)
+      );
     } else if (row.functionType === "Lookup Table") {
       const lookupTable = new FunctionLookupTableComponent(
         authService,
         lookupService
       );
-      return this.errorArray.concat(lookupTable.errorCheck(row.lookupTable, autocomplete));
+      return this.errorArray.concat(
+        lookupTable.errorCheck(row.lookupTable, autocomplete)
+      );
     } else {
       return [];
     }

@@ -236,6 +236,8 @@ export class CalculationConfigurationComponent implements OnInit {
   }
   getLogicArray() {
     this.autoCompleteOptions = [];
+    this.autoCompleteOptions.push("True");
+    this.autoCompleteOptions.push("False");
     this.autoCompleteArray.forEach(element => {
       if (element.data.data === "Logic") {
         if (element.data.name !== "") {

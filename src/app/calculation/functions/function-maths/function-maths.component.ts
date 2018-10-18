@@ -106,6 +106,9 @@ export class FunctionMathsComponent implements OnInit {
           input = value.output;
         }
       });
+      if (isNaN(Number(input))) {
+        input = 0;
+      }
     } else {
       input = InputValue;
     }
@@ -120,9 +123,7 @@ export class FunctionMathsComponent implements OnInit {
       if (element.type === "variable") {
         number = this.getAutoCompleteOutput(element.name, autoComplete);
       }
-      mathString = mathString.concat(
-        number
-      );
+      mathString = mathString.concat(number);
     });
     const evalulation = mathJs.eval(mathString);
     if (maths.rounding === undefined) {
@@ -135,11 +136,7 @@ export class FunctionMathsComponent implements OnInit {
     this.errorArray = [];
     if (maths.formula === "") {
       this.errorArray.push(
-        new CalculationError(
-          maths.rowIndex,
-          "Error",
-          "No formula in builder"
-        )
+        new CalculationError(maths.rowIndex, "Error", "No formula in builder")
       );
     }
     maths.formula.forEach(element => {
@@ -157,6 +154,26 @@ export class FunctionMathsComponent implements OnInit {
         }
       }
     });
+    let mathString: string;
+    mathString = "";
+    maths.formula.forEach(element => {
+      let number = element.name;
+      if (element.type === "variable") {
+        number = this.getAutoCompleteOutput(element.name, autoComplete);
+      }
+      mathString = mathString.concat(number);
+    });
+    try {
+      const evalulation = mathJs.eval(mathString);
+    } catch (error) {
+      this.errorArray.push(
+        new CalculationError(
+          maths.rowIndex,
+          "Error",
+          "Formula is invalid please check this and rearrange"
+        )
+      );
+    }
     return this.errorArray;
   }
 }

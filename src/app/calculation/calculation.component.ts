@@ -359,8 +359,8 @@ export class CalculationComponent implements OnInit {
             this.calcService
           );
         }
-        rowIndex++;
       }
+      rowIndex++;
     }
     return calculationConfiguration;
   }

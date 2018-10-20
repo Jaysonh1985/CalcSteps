@@ -1,7 +1,7 @@
 <mat-form-field style="width:100%">
   <mat-chip-list>
     <div class="container" dragula="formula" [(dragulaModel)]="autoCompleteOptions" id="options">
-        <mat-chip class="draggable" *ngFor="let chip of autoCompleteOptions" selected>
+        <mat-chip class="draggable" *ngFor="let chip of autoCompleteOptions" (dblclick)="onAddChipByDblClick(chip)" selected>
         {{chip.name}}
       </mat-chip>
     </div>
@@ -19,13 +19,13 @@
   <mat-chip-list #selectedChips2>
     <div class="container" dragula="formula" [(dragulaModel)]="selectedRow[0].maths.formula" id="formula">
       <mat-chip *ngFor="let chips of selectedRow[0].maths.formula; let i=index" [removable]="removable"
-        (removed)="remove(i)" class="draggable">
+        (removed)="remove(i)" class="draggable" >
         {{chips.name}}
         <mat-icon matChipRemove>cancel</mat-icon>
       </mat-chip>
     </div>
   </mat-chip-list>
-  <input [matChipInputFor]="selectedChips2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+  <input [matChipInputFor]="selectedChips2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" readonly>
 </mat-form-field>
 <mat-form-field  style="width:100%" *ngIf="selectedRow[0].maths.formula.length === 0">
     <div class="container" dragula="formula" [(dragulaModel)]="selectedRow[0].maths.formula" id="formula">

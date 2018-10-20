@@ -1,6 +1,6 @@
 <br>
 <mat-form-field>
-  <mat-select matInput placeholder="Logic Data Type" [(ngModel)]="selectedRow[0].ifLogic.datatype">
+  <mat-select matInput placeholder="Logic Data Type" [(ngModel)]="selectedRow[0].ifLogic.datatype" (ngModelChange)="clearFormula()">
     <mat-option value="Date">Date</mat-option>
     <mat-option value="Number">Number</mat-option>
     <mat-option value="Text">Text</mat-option>
@@ -10,28 +10,28 @@
 <mat-form-field style="width:100%" *ngIf="selectedRow[0].ifLogic.datatype !== ''">
   <mat-chip-list>
     <div class="container" dragula="formula" [(dragulaModel)]="autoCompleteOptions" id="options">
-      <mat-chip *ngFor="let chip of autoCompleteOptions" selected class="draggable">
+      <mat-chip *ngFor="let chip of autoCompleteOptions" selected class="draggable" (dblclick)="onAddChipByDblClick(chip)">
         {{chip.name}}
       </mat-chip>
     </div>
   </mat-chip-list>
   <mat-chip-list *ngIf="selectedRow[0].ifLogic.datatype === 'Number'">
     <div class="container" dragula="formula" [(dragulaModel)]="autoCompleteOptionsNumber" id="options">
-      <mat-chip *ngFor="let chip of autoCompleteOptionsNumber" selected class="draggable">
+      <mat-chip *ngFor="let chip of autoCompleteOptionsNumber" selected class="draggable" (dblclick)="onAddChipByDblClick(chip)">
         {{chip.name}}
       </mat-chip>
     </div>
   </mat-chip-list>
   <mat-chip-list *ngIf="selectedRow[0].ifLogic.datatype === 'Date'">
     <div class="container" dragula="formula" [(dragulaModel)]="autoCompleteOptionsDate" id="options">
-      <mat-chip *ngFor="let chip of autoCompleteOptionsDate" selected class="draggable">
+      <mat-chip *ngFor="let chip of autoCompleteOptionsDate" selected class="draggable" (dblclick)="onAddChipByDblClick(chip)">
         {{chip.name}}
       </mat-chip>
     </div>
   </mat-chip-list>
   <mat-chip-list *ngIf="selectedRow[0].ifLogic.datatype === 'Text'">
     <div class="container" dragula="formula" [(dragulaModel)]="autoCompleteOptionsText" id="options">
-      <mat-chip *ngFor="let chip of autoCompleteOptionsText" selected class="draggable">
+      <mat-chip *ngFor="let chip of autoCompleteOptionsText" selected class="draggable" (dblclick)="onAddChipByDblClick(chip)">
         {{chip.name}}
       </mat-chip>
     </div>

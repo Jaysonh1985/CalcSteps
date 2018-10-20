@@ -91,6 +91,14 @@ export class FunctionMathsComponent implements OnInit {
     }
   }
 
+  onAddChipByDblClick(data) {
+    this.selectedRow[0].maths.formula.push({
+      name: data.name,
+      type: data.type,
+      datatype: data.datatype
+    });
+  }
+
   remove(index): void {
     if (index >= 0) {
       this.selectedRow[0].maths.formula.splice(index, 1);
@@ -154,17 +162,8 @@ export class FunctionMathsComponent implements OnInit {
         }
       }
     });
-    let mathString: string;
-    mathString = "";
-    maths.formula.forEach(element => {
-      let number = element.name;
-      if (element.type === "variable") {
-        number = this.getAutoCompleteOutput(element.name, autoComplete);
-      }
-      mathString = mathString.concat(number);
-    });
     try {
-      const evalulation = mathJs.eval(mathString);
+      const evalulation = this.calculate(maths, autoComplete);
     } catch (error) {
       this.errorArray.push(
         new CalculationError(

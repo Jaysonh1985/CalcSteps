@@ -155,7 +155,9 @@ export class FunctionIfLogicComponent implements OnInit {
       this.selectedRow[0].ifLogic.formula.splice(index, 1);
     }
   }
-
+  clearFormula(): void {
+    this.selectedRow[0].ifLogic.formula = [];
+  }
   addEventLookup(type: string, event: MatDatepickerInputEvent<Date>) {
     moment.locale("en-GB");
     this.selectedRow[0].ifLogic.formula.push({
@@ -175,6 +177,14 @@ export class FunctionIfLogicComponent implements OnInit {
       });
       event.target.value = null;
     }
+  }
+
+  onAddChipByDblClick(data) {
+    this.selectedRow[0].ifLogic.formula.push({
+      name: data.name,
+      type: data.type,
+      datatype: data.datatype
+    });
   }
 
   public calculate(ifLogic, autoComplete): any {
@@ -241,6 +251,17 @@ export class FunctionIfLogicComponent implements OnInit {
         }
       }
     });
+    try {
+      const evalulation = this.calculate(ifLogic, autoComplete);
+    } catch (error) {
+      this.errorArray.push(
+        new CalculationError(
+          ifLogic.rowIndex,
+          "Error",
+          "Formula is invalid please check this and rearrange"
+        )
+      );
+    }
     return this.errorArray;
   }
 }

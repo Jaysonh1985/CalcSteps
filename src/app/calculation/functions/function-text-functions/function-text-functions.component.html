@@ -1,0 +1,51 @@
+<mat-form-field style="width:100%">
+  <mat-chip-list>
+    <mat-chip *ngFor="let chip of autoCompleteOptions" selected draggable [dragData]="chip" id="options">
+      {{chip.name}}
+    </mat-chip>
+  </mat-chip-list>
+  <br>
+</mat-form-field>
+<mat-form-field>
+  <mat-select [(ngModel)]="selectedRow[0].textFunctions.type" placeholder="Type">
+    <mat-option value="AddText">Create Text</mat-option>
+    <mat-option value="Length">Length</mat-option>
+    <mat-option value="Concatenate">Concatenate</mat-option>
+  </mat-select>
+</mat-form-field>
+<table class="example-full-width" cellspacing="0" *ngIf="selectedRow[0].textFunctions.type !== ''">
+  <tr>
+    <td>
+      <p>Text 1 <p>
+          <mat-form-field style="width:100%">
+            <mat-chip-list #selectedChips1>
+              <mat-chip [removable]="removable" *ngFor="let chips of selectedRow[0].textFunctions.text1; let i = index"
+                (removed)="removeText1(i)">
+                {{chips.name}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-list>
+            <div style="width:100%" droppable (onDrop)="onText1Drop($event)">
+              <input [matChipInputFor]="selectedChips1" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="addText1($event)" [matChipInputAddOnBlur]="addOnBlur">
+            </div>
+          </mat-form-field>
+    </td>
+    <td *ngIf="selectedRow[0].textFunctions.type === 'Concatenate'">
+      <p>Text 2<p>
+          <mat-form-field style="width:100%">
+            <mat-chip-list #selectedChips2>
+              <mat-chip [removable]="removable" *ngFor="let chips of selectedRow[0].textFunctions.text2; let i=index"
+                (removed)="removeText2(i)">
+                {{chips.name}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-list>
+            <div style="width:100%" droppable (onDrop)="onText2Drop($event)">
+              <input [matChipInputFor]="selectedChips2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="addText2($event)" [matChipInputAddOnBlur]="addOnBlur">
+            </div>
+          </mat-form-field>
+    </td>
+  </tr>
+</table>

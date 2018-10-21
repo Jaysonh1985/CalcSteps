@@ -5,6 +5,8 @@ import { IfLogic } from "../../functions/function-if-logic/function-if-logic.com
 import { LookupTable } from "../../functions/function-lookup-table/function-lookup-table.component";
 import { Maths } from "../../functions/function-maths/function-maths.component";
 import { CalculationError } from "./calculation-error";
+import { NumberFunctions } from "../../functions/function-number-functions/function-number-functions.component";
+import { TextFunctions } from "../../functions/function-text-functions/function-text-functions.component";
 
 export class CalculationConfiguration {
   id: string;
@@ -22,6 +24,8 @@ export class CalculationConfiguration {
   lookupTable: LookupTable;
   condition: string;
   conditionResult: boolean;
+  numberFunctions: NumberFunctions;
+  textFunctions: TextFunctions;
   constructor(
     id,
     group,
@@ -37,7 +41,9 @@ export class CalculationConfiguration {
     errors,
     lookupTable,
     condition,
-    conditionResult
+    conditionResult,
+    numberFunctions,
+    textFunctions
   ) {
     this.id = id;
     this.group = group;
@@ -54,5 +60,7 @@ export class CalculationConfiguration {
     this.lookupTable = lookupTable;
     this.condition = condition;
     this.conditionResult = conditionResult;
+    this.numberFunctions = numberFunctions;
+    this.textFunctions = textFunctions;
   }
 }

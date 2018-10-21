@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { HelpCalculationFunctionsComponent } from './help-calculation-functions.component';
+import { HelpCalculationFunctionsComponent } from "./help-calculation-functions.component";
 
-describe('HelpCalculationFunctionsComponent', () => {
+describe("HelpCalculationFunctionsComponent", () => {
   let component: HelpCalculationFunctionsComponent;
   let fixture: ComponentFixture<HelpCalculationFunctionsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HelpCalculationFunctionsComponent ]
-    })
-    .compileComponents();
+      declarations: [HelpCalculationFunctionsComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('HelpCalculationFunctionsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

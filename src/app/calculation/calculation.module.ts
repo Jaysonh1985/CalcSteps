@@ -41,6 +41,8 @@ import { HelpCalculationFunctionsComponent } from "./help/categories/help-calcul
 import { HelpLookupMaintenanceComponent } from "./help/categories/help-lookup-maintenance/help-lookup-maintenance.component";
 import { HelpUserMaintenanceComponent } from "./help/categories/help-user-maintenance/help-user-maintenance.component";
 import { ReleaseErrorComponent } from "./release/release-error/release-error.component";
+import { FunctionNumberFunctionsComponent } from "./functions/function-number-functions/function-number-functions.component";
+import { FunctionTextFunctionsComponent } from "./functions/function-text-functions/function-text-functions.component";
 
 @NgModule({
   imports: [
@@ -81,7 +83,9 @@ import { ReleaseErrorComponent } from "./release/release-error/release-error.com
     HelpCalculationFunctionsComponent,
     HelpLookupMaintenanceComponent,
     HelpUserMaintenanceComponent,
-    ReleaseErrorComponent
+    ReleaseErrorComponent,
+    FunctionNumberFunctionsComponent,
+    FunctionTextFunctionsComponent
   ],
   entryComponents: [LookupDialogComponent, TestDialogComponent],
   providers: [

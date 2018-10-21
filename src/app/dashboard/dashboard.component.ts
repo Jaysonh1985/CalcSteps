@@ -14,6 +14,8 @@ import { CalculationService } from "../calculation/shared/services/calculation.s
 import { ReleaseService } from "../calculation/shared/services/release.service";
 import { InputDialogComponent } from "../shared/components/input-dialog/input-dialog.component";
 import { AuthService } from "../shared/services/auth.service";
+import { NumberFunctions } from "../calculation/functions/function-number-functions/function-number-functions.component";
+import { TextFunctions } from "../calculation/functions/function-text-functions/function-text-functions.component";
 
 @Component({
   selector: "app-dashboard",
@@ -105,7 +107,9 @@ export class DashboardComponent implements OnInit {
                 [],
                 new LookupTable("", "", "", "", "", "", "", "", "", ""),
                 "",
-                true
+                true,
+                new NumberFunctions("", "", ""),
+                new TextFunctions("", "", "")
               )
             );
             this.calculation.users = [];

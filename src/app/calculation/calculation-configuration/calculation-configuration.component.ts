@@ -9,6 +9,8 @@ import { CalculationConfiguration } from "../shared/models/calculation-configura
 import { AutoCompleteService } from "../shared/services/auto-complete.service";
 import { Maths } from "../functions/function-maths/function-maths.component";
 import { IfLogic } from "../functions/function-if-logic/function-if-logic.component";
+import { NumberFunctions } from "../functions/function-number-functions/function-number-functions.component";
+import { TextFunctions } from "../functions/function-text-functions/function-text-functions.component";
 
 @Component({
   selector: "app-calculation-configuration",
@@ -59,7 +61,9 @@ export class CalculationConfigurationComponent implements OnInit {
             "Distance",
             "If Logic",
             "Lookup Table",
-            "Maths"
+            "Maths",
+            "Number Functions",
+            "Text Functions"
           ]
         }
       },
@@ -96,6 +100,12 @@ export class CalculationConfigurationComponent implements OnInit {
           } else if (params.data.functionType === "Lookup Table") {
             params.data.data = params.data.lookupTable.OutputType;
             return params.data.lookupTable.OutputType;
+          } else if (params.data.functionType === "Number Functions") {
+            params.data.data = "Number";
+            return "Number";
+          } else if (params.data.functionType === "Text Functions") {
+            params.data.data = "Text";
+            return "Text";
           }
         }
       },
@@ -150,7 +160,9 @@ export class CalculationConfigurationComponent implements OnInit {
       [],
       new LookupTable("", "", "", "", "", "", "", "", "", ""),
       "",
-      true
+      true,
+      new NumberFunctions("", "", ""),
+      new TextFunctions("", "", "")
     );
     const res = this.gridApi.updateRowData({ add: [newItem] });
     const rowNode = this.gridApi.getRowNode(res.add[0].id);
@@ -265,7 +277,9 @@ export class CalculationConfigurationComponent implements OnInit {
         lookupTable: node.data.lookupTable,
         errors: node.data.errors,
         condition: node.data.condition,
-        conditionResult: node.data.conditionResult
+        conditionResult: node.data.conditionResult,
+        numberFunctions: node.data.numberFunctions,
+        textFunctions: node.data.textFunctions
       };
       arr.push(row);
     });

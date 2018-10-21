@@ -1,0 +1,55 @@
+<mat-form-field style="width:100%">
+  <mat-chip-list>
+    <mat-chip *ngFor="let chip of autoCompleteOptions" selected draggable [dragData]="chip" id="options">
+      {{chip.name}}
+    </mat-chip>
+  </mat-chip-list>
+  <br>
+</mat-form-field>
+<mat-form-field>
+  <mat-select [(ngModel)]="selectedRow[0].numberFunctions.type" placeholder="Type">
+    <mat-option value="Abs">Abs</mat-option>
+    <mat-option value="Ceiling">Ceiling</mat-option>
+    <mat-option value="DecimalPart">Decimal Part</mat-option>
+    <mat-option value="Floor">Floor</mat-option>
+    <mat-option value="Max">Max</mat-option>
+    <mat-option value="Min">Min</mat-option>
+    <mat-option value="Truncate">Truncate</mat-option>
+  </mat-select>
+</mat-form-field>
+<table class="example-full-width" cellspacing="0" *ngIf="selectedRow[0].numberFunctions.type !== ''">
+  <tr>
+    <td>
+      <p>Number 1 <p>
+          <mat-form-field style="width:100%">
+            <mat-chip-list #selectedChips1>
+              <mat-chip [removable]="removable" *ngFor="let chips of selectedRow[0].numberFunctions.number1; let i = index"
+                (removed)="removeNumber1(i)">
+                {{chips.name}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-list>
+            <div style="width:100%" droppable (onDrop)="onNumber1Drop($event)">
+              <input [matChipInputFor]="selectedChips1" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="addNumber1($event)" [matChipInputAddOnBlur]="addOnBlur" type="number">
+            </div>
+          </mat-form-field>
+    </td>
+    <td *ngIf="selectedRow[0].numberFunctions.type === 'Max' || selectedRow[0].numberFunctions.type === 'Min'">
+      <p>Number 2<p>
+          <mat-form-field style="width:100%">
+            <mat-chip-list #selectedChips2>
+              <mat-chip [removable]="removable" *ngFor="let chips of selectedRow[0].numberFunctions.number2; let i=index"
+                (removed)="removeNumber2(i)">
+                {{chips.name}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-list>
+            <div style="width:100%" droppable (onDrop)="onNumber2Drop($event)">
+              <input [matChipInputFor]="selectedChips2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="addNumber2($event)" [matChipInputAddOnBlur]="addOnBlur" type="number">
+            </div>
+          </mat-form-field>
+    </td>
+  </tr>
+</table>

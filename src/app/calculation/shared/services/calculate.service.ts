@@ -14,6 +14,8 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import { environment } from "../../../../environments/environment";
 import { DragulaService } from "ng2-dragula";
+import { FunctionNumberFunctionsComponent } from "../../functions/function-number-functions/function-number-functions.component";
+import { FunctionTextFunctionsComponent } from "../../functions/function-text-functions/function-text-functions.component";
 
 @Injectable()
 export class CalculateService {
@@ -128,6 +130,12 @@ export class CalculateService {
     } else if (row.functionType === "If Logic") {
       const ifLogic = new FunctionIfLogicComponent(this.dragulaService);
       return ifLogic.calculate(row.ifLogic, autocomplete);
+    } else if (row.functionType === "Number Functions") {
+      const numberFunctions = new FunctionNumberFunctionsComponent();
+      return numberFunctions.calculate(row.numberFunctions, autocomplete);
+    } else if (row.functionType === "Text Functions") {
+      const textFunctions = new FunctionTextFunctionsComponent();
+      return textFunctions.calculate(row.textFunctions, autocomplete);
     }
     return "";
   }
@@ -213,6 +221,16 @@ export class CalculateService {
       );
       return this.errorArray.concat(
         lookupTable.errorCheck(row.lookupTable, autocomplete)
+      );
+    } else if (row.functionType === "Number Functions") {
+      const numberFunctions = new FunctionNumberFunctionsComponent();
+      return this.errorArray.concat(
+        numberFunctions.errorCheck(row.numberFunctions, autocomplete)
+      );
+    } else if (row.functionType === "Text Functions") {
+      const testFunctions = new FunctionTextFunctionsComponent();
+      return this.errorArray.concat(
+        testFunctions.errorCheck(row.textFunctions, autocomplete)
       );
     } else {
       return [];

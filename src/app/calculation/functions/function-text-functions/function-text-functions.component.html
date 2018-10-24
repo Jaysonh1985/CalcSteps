@@ -8,9 +8,9 @@
 </mat-form-field>
 <mat-form-field>
   <mat-select [(ngModel)]="selectedRow[0].textFunctions.type" placeholder="Type">
-    <mat-option value="AddText">Create Text</mat-option>
-    <mat-option value="Length">Length</mat-option>
+    <mat-option value="AddText">Add Text</mat-option>
     <mat-option value="Concatenate">Concatenate</mat-option>
+    <mat-option value="Length">Length</mat-option>
   </mat-select>
 </mat-form-field>
 <table class="example-full-width" cellspacing="0" *ngIf="selectedRow[0].textFunctions.type !== ''">

@@ -118,4 +118,126 @@ export class FunctionNumberFunctionsComponent implements OnInit {
   removeNumber2() {
     this.selectedRow[0].numberFunctions.number2 = [];
   }
+  private getAutoCompleteOutput(InputValue, array): any {
+    let input = 0;
+    if (isNaN(Number(InputValue))) {
+      input = InputValue;
+      array.forEach(value => {
+        if (value.name === InputValue && value.data === "Number") {
+          input = value.output;
+        }
+      });
+      if (isNaN(Number(input))) {
+        input = 0;
+      }
+    } else {
+      input = InputValue;
+    }
+    return input;
+  }
+
+  calculate(numberFunctions, autoComplete): any {
+    let Number1 = numberFunctions.number1[0].name;
+    if (numberFunctions.number1[0].type === "variable") {
+      Number1 = this.getAutoCompleteOutput(
+        numberFunctions.number1[0].name,
+        autoComplete
+      );
+    }
+    if (numberFunctions.type === "Max" || numberFunctions.type === "Min") {
+      let Number2 = numberFunctions.number2[0].name;
+      if (numberFunctions.number2[0].type === "variable") {
+        Number2 = this.getAutoCompleteOutput(
+          numberFunctions.number2[0].name,
+          autoComplete
+        );
+      }
+      if (numberFunctions.type === "Max") {
+        if (Number1 > Number2) {
+          return Number1;
+        } else {
+          return Number2;
+        }
+      } else if (numberFunctions.type === "Min") {
+        if (Number1 < Number2) {
+          return Number1;
+        } else {
+          return Number2;
+        }
+      }
+    } else {
+      if (numberFunctions.type === "Abs") {
+        return Math.abs(Number1);
+      } else if (numberFunctions.type === "Ceiling") {
+        return Math.ceil(Number1);
+      } else if (numberFunctions.type === "DecimalPart") {
+        return Number1 - Math.trunc(Number1);
+      } else if (numberFunctions.type === "Floor") {
+        return Math.floor(Number1);
+      } else if (numberFunctions.type === "Truncate") {
+        return Math.trunc(Number1);
+      }
+    }
+    return "";
+  }
+  errorCheck(numberFunctions, autoComplete): CalculationError[] {
+    this.errorArray = [];
+    if (numberFunctions.number1.length === 0) {
+      this.errorArray.push(
+        new CalculationError(
+          numberFunctions.rowIndex,
+          "Error",
+          "Number 1 is missing and is a required field"
+        )
+      );
+    }
+    if (numberFunctions.number1.length > 0) {
+      let Number1 = numberFunctions.number1[0].name;
+      if (numberFunctions.number1[0].type === "variable") {
+        Number1 = this.getAutoCompleteOutput(
+          numberFunctions.number1[0].name,
+          autoComplete
+        );
+      }
+      if (isNaN(Number(Number1))) {
+        this.errorArray.push(
+          new CalculationError(
+            numberFunctions.rowIndex,
+            "Error",
+            "Number 1 - Variable mismatch error - this could be a missing variable or a Number in an incorrect format"
+          )
+        );
+      }
+    }
+    if (numberFunctions.type === "Max" || numberFunctions.type === "Min") {
+      if (numberFunctions.number2.length === 0) {
+        this.errorArray.push(
+          new CalculationError(
+            numberFunctions.rowIndex,
+            "Error",
+            "Number 2 is missing and is a required field"
+          )
+        );
+      }
+      if (numberFunctions.number2.length > 0) {
+        let Number2 = numberFunctions.number2[0].name;
+        if (numberFunctions.number2[0].type === "variable") {
+          Number2 = this.getAutoCompleteOutput(
+            numberFunctions.number2[0].name,
+            autoComplete
+          );
+        }
+        if (isNaN(Number(Number2))) {
+          this.errorArray.push(
+            new CalculationError(
+              numberFunctions.rowIndex,
+              "Error",
+              "Number 2 - Variable mismatch error - this could be a missing variable or a Number in an incorrect format"
+            )
+          );
+        }
+      }
+    }
+    return this.errorArray;
+  }
 }

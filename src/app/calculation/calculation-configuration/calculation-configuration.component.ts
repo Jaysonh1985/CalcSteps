@@ -42,7 +42,7 @@ export class CalculationConfigurationComponent implements OnInit {
     this.gridOptions.columnDefs = [
       {
         headerName: "Group",
-        width: 100,
+        width: 150,
         field: "group",
         editable: true,
         rowDrag: true

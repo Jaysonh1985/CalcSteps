@@ -4,10 +4,12 @@ import { COMMA, ENTER } from "@angular/cdk/keycodes";
 import { CalculationError } from "../../shared/models/calculation-error";
 import { DragulaService } from "ng2-dragula";
 import { Chip } from "../../shared/models/chip";
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from "constants";
 
 export class Maths {
   formula: string[];
   rounding: string;
+  roundingMethod: string;
   constructor(formula) {
     this.formula = formula;
   }
@@ -111,7 +113,11 @@ export class FunctionMathsComponent implements OnInit {
       input = InputValue;
       array.forEach(value => {
         if (value.name === InputValue && value.data === "Number") {
-          input = value.output;
+          if (value.output === "") {
+            input = 0;
+          } else {
+            input = value.output;
+          }
         }
       });
       if (isNaN(Number(input))) {
@@ -121,6 +127,62 @@ export class FunctionMathsComponent implements OnInit {
       input = InputValue;
     }
     return input;
+  }
+  private getAutoCompleteOutputError(InputValue, array): any {
+    let input = 0;
+    if (isNaN(Number(InputValue))) {
+      input = InputValue;
+      array.forEach(value => {
+        if (value.name === InputValue && value.data === "Number") {
+          if (value.output === "") {
+            input = 0;
+          } else {
+            input = value.output;
+          }
+        }
+      });
+      if (isNaN(Number(input))) {
+        input = input;
+      }
+    } else {
+      input = InputValue;
+    }
+    return input;
+  }
+  public RoundingRoundUp(Rounding, Value) {
+    if (Rounding === 1 || Rounding === 2) {
+      return mathJs.round(mathJs.ceil(Value * 100) / 100, Rounding);
+    } else if (Rounding === 3) {
+      return mathJs.round(mathJs.ceil(Value * 1000) / 1000, Rounding);
+    } else if (Rounding === 4) {
+      return mathJs.round(mathJs.ceil(Value * 10000) / 10000, Rounding);
+    } else if (Rounding === 5) {
+      return mathJs.round(mathJs.ceil(Value * 100000) / 100000, Rounding);
+    } else if (Rounding === 6) {
+      return mathJs.round(mathJs.ceil(Value * 100000) / 1000000, Rounding);
+    } else {
+      return mathJs.round(mathJs.ceil(Value * 1000) / 1000, Rounding);
+    }
+  }
+
+  public RoundingRoundDown(Rounding, Value) {
+    if (Rounding === 1 || Rounding === 2) {
+      return mathJs.round(mathJs.floor(Value * 100) / 100, Rounding);
+    } else if (Rounding === 3) {
+      return mathJs.round(mathJs.floor(Value * 1000) / 1000, Rounding);
+    } else if (Rounding === 4) {
+      return mathJs.round(mathJs.floor(Value * 10000) / 10000, Rounding);
+    } else if (Rounding === 5) {
+      return mathJs.round(mathJs.floor(Value * 100000) / 100000, Rounding);
+    } else if (Rounding === 6) {
+      return mathJs.round(mathJs.floor(Value * 100000) / 1000000, Rounding);
+    } else {
+      return mathJs.round(mathJs.floor(Value * 1000) / 1000, Rounding);
+    }
+  }
+
+  public RoundingDecimalPlaces(Rounding, Value) {
+      return Value.toFixed(Rounding);
   }
 
   public calculate(maths, autoComplete): any {
@@ -137,7 +199,24 @@ export class FunctionMathsComponent implements OnInit {
     if (maths.rounding === undefined) {
       maths.rounding = 2;
     }
-    return mathJs.round(evalulation, maths.rounding);
+    if (maths.roundingMethod === "Up") {
+      return this.RoundingRoundUp(maths.rounding, evalulation).toFixed(maths.rounding);
+    } else if (maths.roundingMethod === "Down") {
+      if (maths.rounding === 0) {
+        return mathJs.Truncate(evalulation);
+      } else {
+        return this.RoundingRoundDown(maths.rounding, evalulation).toFixed(maths.rounding);
+      }
+    } else {
+      if (maths.rounding !== "") {
+        return this.RoundingDecimalPlaces(
+          maths.rounding,
+            mathJs.round(evalulation, maths.rounding)
+          );
+      } else {
+        return this.RoundingDecimalPlaces(maths.rounding, mathJs.round(evalulation, 2));
+      }
+    }
   }
 
   errorCheck(maths, autoComplete): CalculationError[] {
@@ -149,7 +228,7 @@ export class FunctionMathsComponent implements OnInit {
     }
     maths.formula.forEach(element => {
       if (element.type === "variable") {
-        const Number1 = this.getAutoCompleteOutput(element.name, autoComplete);
+        const Number1 = this.getAutoCompleteOutputError(element.name, autoComplete);
         if (isNaN(Number(Number1))) {
           this.errorArray.push(
             new CalculationError(

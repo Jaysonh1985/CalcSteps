@@ -195,14 +195,21 @@ export class FunctionIfLogicComponent implements OnInit {
       if (element.type === "variable") {
         if (element.datatype === "Date") {
           output = this.getAutoCompleteOutputDate(element.name, autoComplete);
+          output = "'" + output + "'";
         } else if (element.datatype === "Number") {
           output = this.getAutoCompleteNumber(element.name, autoComplete);
         } else {
           output = this.getAutoCompleteOutput(element.name, autoComplete);
+          output = "'" + output + "'";
         }
-        output = "'" + output + "'";
       } else if (element.type === "hardcoded") {
-        output = " '" + element.name + "'";
+        if (element.datatype === "Date") {
+          output = " '" + element.name + "'";
+        } else if (element.datatype === "Number") {
+          output = element.name;
+        } else {
+          output = " '" + element.name + "'";
+        }
       }
       ifLogicString = ifLogicString.concat(output);
     });

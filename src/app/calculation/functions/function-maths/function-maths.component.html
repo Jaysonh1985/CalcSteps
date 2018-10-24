@@ -40,5 +40,12 @@
 </mat-form-field>
 <mat-form-field style="width:100%">
   <p>Rounding (Decimal Places)</p>
-  <input matInput type="number" [(ngModel)]="selectedRow[0].maths.rounding">
+  <input matInput type="number" [(ngModel)]="selectedRow[0].maths.rounding" max="6">
+</mat-form-field>
+<mat-form-field style="width:100%">
+  <mat-select placeholder="Rounding Method" [(ngModel)]="selectedRow[0].maths.roundingMethod">
+    <mat-option value=""></mat-option>
+    <mat-option value="Up">Up</mat-option>
+    <mat-option value="Down">Down</mat-option>
+  </mat-select>
 </mat-form-field>

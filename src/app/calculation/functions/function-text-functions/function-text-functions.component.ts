@@ -19,7 +19,6 @@ export class TextFunctions {
   styleUrls: ["./function-text-functions.component.css"]
 })
 export class FunctionTextFunctionsComponent implements OnInit {
-
   @Input()
   selectedRow: any[];
   @Input()
@@ -119,5 +118,35 @@ export class FunctionTextFunctionsComponent implements OnInit {
   }
   removeText2() {
     this.selectedRow[0].textFunctions.text2 = [];
+  }
+  calculate(textFunctions, autoComplete): any {
+    const Text1 = textFunctions.text1[0].name;
+    const Text2 = textFunctions.text2[0].name;
+    return "";
+  }
+  errorCheck(textFunctions, autoComplete): CalculationError[] {
+    this.errorArray = [];
+    if (textFunctions.text1.length === 0) {
+      this.errorArray.push(
+        new CalculationError(
+          textFunctions.rowIndex,
+          "Error",
+          "Text 1 is missing and is a required field"
+        )
+      );
+    }
+    if (textFunctions.type === "Concatenate") {
+      if (textFunctions.text2.length === 0) {
+        this.errorArray.push(
+          new CalculationError(
+            textFunctions.rowIndex,
+            "Error",
+            "Text 2 is missing and is a required field"
+          )
+        );
+      }
+    }
+
+    return this.errorArray;
   }
 }

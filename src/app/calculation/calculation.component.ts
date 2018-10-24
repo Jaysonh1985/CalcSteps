@@ -374,6 +374,8 @@ export class CalculationComponent implements OnInit {
       output.output = arr.output.toString();
       if (output.output === output.eresult) {
         output.pass = true;
+      } else if (output.eresult === "") {
+        output.pass = "";
       } else {
         output.pass = false;
       }

@@ -241,6 +241,8 @@ export class FunctionTextFunctionsComponent implements OnInit {
       return Text1.substring(Text1.length - Number(Number1), Text1.length);
     } else if (textFunctions.type === "StripNumber") {
       return Text1.replace(/[0-9]/g, "");
+    } else if (textFunctions.type === "StripText") {
+      return Text1.replace(/[A-Z]/g, "");
     } else if (textFunctions.type === "Trim") {
       return Text1.trim();
     }

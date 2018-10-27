@@ -100,6 +100,14 @@ export class CalculateService {
         row.lookupTable.LookupValue[0].name,
         autocomplete
       );
+    } else if (
+      row.lookupTable.LookupType === "Text" &&
+      row.lookupTable.LookupValue[0].type === "variable"
+    ) {
+      LookupValue = lookupTable.getAutoCompleteText(
+        row.lookupTable.LookupValue[0].name,
+        autocomplete
+      );
     }
     if (row.lookupTable.TableName) {
       const dataType = row.lookupTable.LookupType;

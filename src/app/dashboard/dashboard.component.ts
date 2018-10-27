@@ -109,7 +109,7 @@ export class DashboardComponent implements OnInit {
                 "",
                 true,
                 new NumberFunctions("", "", ""),
-                new TextFunctions("", "", "")
+                new TextFunctions("", "", "", "")
               )
             );
             this.calculation.users = [];

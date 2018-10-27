@@ -6,10 +6,12 @@ export class TextFunctions {
   type: string;
   text1: string[];
   text2: string[];
-  constructor(type, text1, text2) {
+  number1: string[];
+  constructor(type, text1, text2, number1) {
     this.type = "";
     this.text1 = [];
     this.text2 = [];
+    this.number1 = [];
   }
 }
 
@@ -23,7 +25,8 @@ export class FunctionTextFunctionsComponent implements OnInit {
   selectedRow: any[];
   @Input()
   autoCompleteArray: any[];
-  public autoCompleteOptions: any[];
+  public autoCompleteOptionsText: any[];
+  public autoCompleteOptionsNumber: any[];
   public errorArray: CalculationError[];
   public error: CalculationError;
   visible = true;
@@ -44,19 +47,30 @@ export class FunctionTextFunctionsComponent implements OnInit {
     if (this.selectedRow[0].textFunctions.text2 == null) {
       this.selectedRow[0].textFunctions.text2 = [];
     }
-    this.autoCompleteOptions = [];
+
+    this.autoCompleteOptionsText = [];
+    this.autoCompleteOptionsNumber = [];
     this.autoCompleteArray.forEach(element => {
       if (element.data.data === "Text") {
         if (element.data.name !== "") {
-          this.autoCompleteOptions.push({
+          this.autoCompleteOptionsText.push({
             name: element.data.name,
             type: "variable",
             datatype: "Text"
           });
         }
+      } else if (element.data.data === "Number") {
+        if (element.data.name !== "") {
+          this.autoCompleteOptionsNumber.push({
+            name: element.data.name,
+            type: "variable",
+            datatype: "Number"
+          });
+        }
       }
     });
   }
+
   addText1(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
@@ -75,6 +89,7 @@ export class FunctionTextFunctionsComponent implements OnInit {
       input.value = "";
     }
   }
+
   addText2(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
@@ -95,6 +110,25 @@ export class FunctionTextFunctionsComponent implements OnInit {
     }
   }
 
+  addNumber1(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    if ((value || "").trim()) {
+      this.selectedRow[0].textFunctions.number1 = [];
+      this.selectedRow[0].textFunctions.number1.push({
+        name: value.trim(),
+        type: "hardcoded",
+        datatype: "Number"
+      });
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = "";
+    }
+  }
+
   onText1Drop(data: any) {
     // Get the dropped data here
     this.selectedRow[0].textFunctions.text1 = [];
@@ -104,6 +138,7 @@ export class FunctionTextFunctionsComponent implements OnInit {
       datatype: data.dragData.datatype
     });
   }
+
   onText2Drop(data: any) {
     // Get the dropped data here
     this.selectedRow[0].textFunctions.text2 = [];
@@ -113,19 +148,116 @@ export class FunctionTextFunctionsComponent implements OnInit {
       datatype: data.dragData.datatype
     });
   }
+
+  onNumber1Drop(data: any) {
+    // Get the dropped data here
+    this.selectedRow[0].textFunctions.number1 = [];
+    this.selectedRow[0].textFunctions.number1.push({
+      name: data.dragData.name,
+      type: data.dragData.type,
+      datatype: data.dragData.datatype
+    });
+  }
+
   removeText1() {
     this.selectedRow[0].textFunctions.text1 = [];
   }
+
   removeText2() {
     this.selectedRow[0].textFunctions.text2 = [];
   }
+
+  removeNumber1() {
+    this.selectedRow[0].textFunctions.number1 = [];
+  }
+
+  getAutoCompleteText(InputValue, array): any {
+    let input = InputValue;
+    array.forEach(value => {
+      if (value.name === InputValue) {
+        input = value.output;
+      }
+    });
+    return input;
+  }
+
+  private getAutoCompleteOutput(InputValue, array): any {
+    let input = 0;
+    if (isNaN(Number(InputValue))) {
+      input = InputValue;
+      array.forEach(value => {
+        if (value.name === InputValue && value.data === "Number") {
+          input = value.output;
+        }
+      });
+      if (isNaN(Number(input))) {
+        input = 0;
+      }
+    } else {
+      input = InputValue;
+    }
+    return input;
+  }
+
   calculate(textFunctions, autoComplete): any {
-    const Text1 = textFunctions.text1[0].name;
-    const Text2 = textFunctions.text2[0].name;
+    let Text1 = textFunctions.text1[0].name;
+    if (textFunctions.text1[0].type === "variable") {
+      Text1 = this.getAutoCompleteText(
+        textFunctions.text1[0].name,
+        autoComplete
+      );
+    }
+
+    if (textFunctions.type === "AddText") {
+      return Text1;
+    } else if (textFunctions.type === "Concatenate") {
+      let Text2 = textFunctions.text2[0].name;
+      if (textFunctions.text2[0].type === "variable") {
+        Text2 = this.getAutoCompleteText(
+          textFunctions.text2[0].name,
+          autoComplete
+        );
+      }
+      return Text1 + Text2;
+    } else if (textFunctions.type === "Length") {
+      return Text1.length;
+    } else if (textFunctions.type === "Left") {
+      let Number1 = textFunctions.number1[0].name;
+      if (textFunctions.number1[0].type === "variable") {
+        Number1 = this.getAutoCompleteOutput(
+          textFunctions.number1[0].name,
+          autoComplete
+        );
+      }
+      return Text1.substring(0, Number(Number1));
+    } else if (textFunctions.type === "Right") {
+      let Number1 = textFunctions.number1[0].name;
+      if (textFunctions.number1[0].type === "variable") {
+        Number1 = this.getAutoCompleteOutput(
+          textFunctions.number1[0].name,
+          autoComplete
+        );
+      }
+      return Text1.substring(Text1.length - Number(Number1), Text1.length);
+    } else if (textFunctions.type === "StripNumber") {
+      return Text1.replace(/[0-9]/g, "");
+    } else if (textFunctions.type === "Trim") {
+      return Text1.trim();
+    }
     return "";
   }
+
   errorCheck(textFunctions, autoComplete): CalculationError[] {
     this.errorArray = [];
+    if (textFunctions.type === "") {
+      this.errorArray.push(
+        new CalculationError(
+          textFunctions.rowIndex,
+          "Error",
+          "Type is missing and is a required field"
+        )
+      );
+    }
     if (textFunctions.text1.length === 0) {
       this.errorArray.push(
         new CalculationError(
@@ -134,6 +266,24 @@ export class FunctionTextFunctionsComponent implements OnInit {
           "Text 1 is missing and is a required field"
         )
       );
+    } else {
+      let Text1 = textFunctions.text1[0].name;
+      if (textFunctions.text1[0].type === "variable") {
+        Text1 = this.getAutoCompleteText(
+          textFunctions.text1[0].name,
+          autoComplete
+        );
+        if (textFunctions.text1[0].name === Text1) {
+          this.errorArray.push(
+            new CalculationError(
+              textFunctions.rowIndex,
+              "Error",
+              Text1 +
+                " - Text - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
+            )
+          );
+        }
+      }
     }
     if (textFunctions.type === "Concatenate") {
       if (textFunctions.text2.length === 0) {
@@ -144,9 +294,55 @@ export class FunctionTextFunctionsComponent implements OnInit {
             "Text 2 is missing and is a required field"
           )
         );
+      } else {
+        let Text2 = textFunctions.text2[0].name;
+        if (textFunctions.text2[0].type === "variable") {
+          Text2 = this.getAutoCompleteText(
+            textFunctions.text2[0].name,
+            autoComplete
+          );
+          if (textFunctions.text2[0].name === Text2) {
+            this.errorArray.push(
+              new CalculationError(
+                textFunctions.rowIndex,
+                "Error",
+                Text2 +
+                  " - Text - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
+              )
+            );
+          }
+        }
+      }
+      if (textFunctions.type === "Left" || textFunctions.type === "Right") {
+        if (textFunctions.number1.length === 0) {
+          this.errorArray.push(
+            new CalculationError(
+              textFunctions.rowIndex,
+              "Error",
+              "Number 1 is missing and is a required field"
+            )
+          );
+        }
+        if (textFunctions.number1.length > 0) {
+          let Number1 = textFunctions.number1[0].name;
+          if (textFunctions.number1[0].type === "variable") {
+            Number1 = this.getAutoCompleteOutput(
+              textFunctions.number1[0].name,
+              autoComplete
+            );
+          }
+          if (isNaN(Number(Number1))) {
+            this.errorArray.push(
+              new CalculationError(
+                textFunctions.rowIndex,
+                "Error",
+                "Number 1 - Variable mismatch error - this could be a missing variable or a Number in an incorrect format"
+              )
+            );
+          }
+        }
       }
     }
-
     return this.errorArray;
   }
 }

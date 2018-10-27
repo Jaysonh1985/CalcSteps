@@ -104,8 +104,13 @@ export class CalculationConfigurationComponent implements OnInit {
             params.data.data = "Number";
             return "Number";
           } else if (params.data.functionType === "Text Functions") {
-            params.data.data = "Text";
-            return "Text";
+            if (params.data.textFunctions.type === "Length") {
+              params.data.data = "Number";
+              return "Number";
+            } else {
+              params.data.data = "Text";
+              return "Text";
+            }
           }
         }
       },
@@ -162,7 +167,7 @@ export class CalculationConfigurationComponent implements OnInit {
       "",
       true,
       new NumberFunctions("", "", ""),
-      new TextFunctions("", "", "")
+      new TextFunctions("", "", "", "")
     );
     const res = this.gridApi.updateRowData({ add: [newItem] });
     const rowNode = this.gridApi.getRowNode(res.add[0].id);
@@ -192,11 +197,13 @@ export class CalculationConfigurationComponent implements OnInit {
       .toString(16)
       .substring(1);
   }
+
   onRemoveSelected() {
     const selectedData = this.gridApi.getSelectedRows();
     const res = this.gridApi.updateRowData({ remove: selectedData });
     this.onDataChanged();
   }
+
   onSetAllRowID() {
     const array = this.getAllRowsNodes();
     array.forEach(row => {
@@ -211,6 +218,7 @@ export class CalculationConfigurationComponent implements OnInit {
       }
     });
   }
+
   onSelectionChanged(event, myRows: CalculationConfiguration) {
     this.selectedRow = this.gridApi.getSelectedNodes();
     if (this.selectedRow.length > 0) {
@@ -243,9 +251,11 @@ export class CalculationConfigurationComponent implements OnInit {
       this.getLogicArray();
     }
   }
+
   onDataChanged() {
     this.dataChangeEvent.emit();
   }
+
   getLogicArray() {
     this.autoCompleteOptions = [];
     this.autoCompleteOptions.push("True");
@@ -259,6 +269,7 @@ export class CalculationConfigurationComponent implements OnInit {
       }
     });
   }
+
   getAllRows(): CalculationConfiguration[] {
     const arr: Array<CalculationConfiguration> = [];
     this.gridApi.forEachNode(function(node, index) {
@@ -285,6 +296,7 @@ export class CalculationConfigurationComponent implements OnInit {
     });
     return arr;
   }
+
   getAllRowsNodes(): any[] {
     const arr: Array<any> = [];
     this.gridApi.forEachNode(function(node, index) {
@@ -292,6 +304,7 @@ export class CalculationConfigurationComponent implements OnInit {
     });
     return arr;
   }
+
   getAllRowsNodesbyIndex(index): any[] {
     const arr: Array<any> = [];
     this.gridApi.forEachNode(function(node) {
@@ -308,6 +321,7 @@ export class CalculationConfigurationComponent implements OnInit {
     });
     return arr;
   }
+
   getFinalRowNodesbyDataIndex(data, index): any[] {
     const arr: Array<any> = [];
     this.gridApi.forEachNode(function(node) {
@@ -324,6 +338,7 @@ export class CalculationConfigurationComponent implements OnInit {
     });
     return arr[arr.length - 1];
   }
+
   public setRowOuput(id, rowData, flash) {
     const rowNode = this.gridApi.getRowNode(id);
     const oldData = rowNode.data;
@@ -334,6 +349,7 @@ export class CalculationConfigurationComponent implements OnInit {
       this.gridApi.flashCells({ rowNodes: [rowNode], columns: ["output"] });
     }
   }
+
   setTableData(calculationConfiguration) {
     let selectedData = this.gridApi.selectAll();
     selectedData = this.gridApi.getSelectedRows();
@@ -342,6 +358,7 @@ export class CalculationConfigurationComponent implements OnInit {
       const res2 = this.gridApi.updateRowData({ add: [element] });
     });
   }
+
   ngOnInit() {
     this.gridOptions.rowData = this.calculationConfiguration;
   }

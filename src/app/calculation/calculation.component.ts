@@ -330,7 +330,7 @@ export class CalculationComponent implements OnInit {
             configuration.output = "";
           }
         } else {
-          configuration.output = output.toString();
+          configuration.output = output.output;
         }
       }
       if (configuration.conditionResult === true) {
@@ -423,14 +423,14 @@ export class CalculationComponent implements OnInit {
     });
     return arr;
   }
-  getFinalRowNodesbyNameIndex(name, rowIndex, array): any[] {
+  getFinalRowNodesbyNameIndex(name, rowIndex, array): CalculationConfiguration {
     const arr: Array<any> = [];
     array.forEach(function(node, index) {
-      if (node.data.name === name && index < rowIndex) {
+      if (node.name === name && index < rowIndex) {
         arr.push(node);
       }
       if (index === rowIndex) {
-        if ((arr.length = 0)) {
+        if ((arr.length === 0)) {
           return null;
         } else {
           return arr[arr.length - 1];

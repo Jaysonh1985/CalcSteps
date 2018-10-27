@@ -25,7 +25,7 @@
       </mat-chip>
     </div>
   </mat-chip-list>
-  <input [matChipInputFor]="selectedChips2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" readonly>
+  <input [matChipInputFor]="selectedChips2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" disabled>
 </mat-form-field>
 <mat-form-field  style="width:100%" *ngIf="selectedRow[0].maths.formula.length === 0">
     <div class="container" dragula="formula" [(dragulaModel)]="selectedRow[0].maths.formula" id="formula">

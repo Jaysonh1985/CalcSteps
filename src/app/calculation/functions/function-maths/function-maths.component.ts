@@ -4,7 +4,6 @@ import { COMMA, ENTER } from "@angular/cdk/keycodes";
 import { CalculationError } from "../../shared/models/calculation-error";
 import { DragulaService } from "ng2-dragula";
 import { Chip } from "../../shared/models/chip";
-import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from "constants";
 
 export class Maths {
   formula: string[];

@@ -33,6 +33,7 @@ export class FunctionIfLogicComponent implements OnInit {
   public autoCompleteOptionsNumber: any[];
   public autoCompleteOptionsText: any[];
   public autoCompleteOptionsDate: any[];
+  public autoCompleteOptionsLogic: any[];
   visible = true;
   selectable = true;
   removable = true;
@@ -81,6 +82,9 @@ export class FunctionIfLogicComponent implements OnInit {
     this.autoCompleteOptionsNumber = [];
     this.autoCompleteOptionsText = [];
     this.autoCompleteOptionsDate = [];
+    this.autoCompleteOptionsLogic = [];
+    this.autoCompleteOptionsLogic.push({ name: "true", type: "hardcoded", datatype: "Logic" });
+    this.autoCompleteOptionsLogic.push({ name: "false", type: "hardcoded", datatype: "Logic"  });
     this.autoCompleteArray.forEach(element => {
       if (element.data.name !== "") {
         if (element.data.data === "Number") {
@@ -97,6 +101,12 @@ export class FunctionIfLogicComponent implements OnInit {
           });
         } else if (element.data.data === "Text") {
           this.autoCompleteOptionsText.push({
+            name: element.data.name,
+            type: "variable",
+            datatype: element.data.data
+          });
+        } else if (element.data.data === "Logic") {
+          this.autoCompleteOptionsLogic.push({
             name: element.data.name,
             type: "variable",
             datatype: element.data.data
@@ -150,6 +160,36 @@ export class FunctionIfLogicComponent implements OnInit {
     }
     return input;
   }
+
+  getAutoCompleteText(InputValue, array): any {
+    let input = InputValue;
+    array.forEach(value => {
+      if (value.name === InputValue) {
+        input = value.output;
+      }
+    });
+    return input;
+  }
+
+  getAutoCompleteLogic(InputValue, array): any {
+    let input = false;
+    if (InputValue !== "true" && InputValue !== "false") {
+      input = InputValue;
+      array.forEach(value => {
+        if (value.name === InputValue && value.data === "Logic") {
+          if (value.output === "") {
+            input = false;
+          } else {
+            input = value.output;
+          }
+        }
+      });
+    } else {
+      input = InputValue;
+    }
+    return input;
+  }
+
   remove(index): void {
     if (index >= 0) {
       this.selectedRow[0].ifLogic.formula.splice(index, 1);
@@ -198,6 +238,11 @@ export class FunctionIfLogicComponent implements OnInit {
           output = "'" + output + "'";
         } else if (element.datatype === "Number") {
           output = this.getAutoCompleteNumber(element.name, autoComplete);
+        } else if (element.datatype === "Text") {
+          output = this.getAutoCompleteText(element.name, autoComplete);
+          output = "'" + output + "'";
+        } else if (element.datatype === "Logic") {
+          output = this.getAutoCompleteLogic(element.name, autoComplete);
         } else {
           output = this.getAutoCompleteOutput(element.name, autoComplete);
           output = "'" + output + "'";
@@ -206,6 +251,8 @@ export class FunctionIfLogicComponent implements OnInit {
         if (element.datatype === "Date") {
           output = " '" + element.name + "'";
         } else if (element.datatype === "Number") {
+          output = element.name;
+        } else if (element.datatype === "Logic") {
           output = element.name;
         } else {
           output = " '" + element.name + "'";
@@ -254,6 +301,38 @@ export class FunctionIfLogicComponent implements OnInit {
                   " - Number 2 - Variable mismatch error - this could be a missing variable or a number in an incorrect format"
               )
             );
+          }
+        }
+        if (element.datatype === "Text") {
+          let Text1 = element.name;
+          if (element.type === "variable") {
+            Text1 = this.getAutoCompleteText(element.name, autoComplete);
+            if (element.name === Text1) {
+              this.errorArray.push(
+                new CalculationError(
+                  ifLogic.rowIndex,
+                  "Error",
+                  Text1 +
+                    " - Text - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
+                )
+              );
+            }
+          }
+        }
+        if (element.datatype === "Logic") {
+          let Logic1 = element.name;
+          if (element.type === "variable") {
+            Logic1 = this.getAutoCompleteLogic(element.name, autoComplete);
+            if (Logic1 !== true && Logic1 !== false) {
+              this.errorArray.push(
+                new CalculationError(
+                  ifLogic.rowIndex,
+                  "Error",
+                  Logic1 +
+                    " - If Logic - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
+                )
+              );
+            }
           }
         }
       }

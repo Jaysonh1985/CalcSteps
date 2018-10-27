@@ -4,6 +4,7 @@
     <mat-option value="Date">Date</mat-option>
     <mat-option value="Number">Number</mat-option>
     <mat-option value="Text">Text</mat-option>
+    <mat-option value="Logic">If Logic</mat-option>
   </mat-select>
 </mat-form-field>
 
@@ -36,12 +37,19 @@
       </mat-chip>
     </div>
   </mat-chip-list>
+  <mat-chip-list *ngIf="selectedRow[0].ifLogic.datatype === 'Logic'">
+    <div class="container" dragula="formula" [(dragulaModel)]="autoCompleteOptionsLogic" id="options">
+      <mat-chip *ngFor="let chip of autoCompleteOptionsLogic" selected class="draggable" (dblclick)="onAddChipByDblClick(chip)">
+        {{chip.name}}
+      </mat-chip>
+    </div>
+  </mat-chip-list>
   <br>
 </mat-form-field>
 
 <mat-form-field style="width:100%" *ngIf="selectedRow[0].ifLogic.datatype !== ''">
   <p>Add {{selectedRow[0].ifLogic.datatype}} Input</p>
-  <div  *ngIf="selectedRow[0].ifLogic.datatype === 'Date'">
+  <div *ngIf="selectedRow[0].ifLogic.datatype === 'Date'">
     <input matInput [matDatepicker]="picker" (dateInput)="addEventLookup('input', $event)">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
@@ -51,6 +59,9 @@
   </div>
   <div *ngIf="selectedRow[0].ifLogic.datatype === 'Text'">
     <input matInput (blur)="onAddInput('Text',$event)">
+  </div>
+  <div *ngIf="selectedRow[0].ifLogic.datatype === 'Logic'">
+      <input matInput (blur)="onAddInput('Text',$event)" readonly>
   </div>
 </mat-form-field>
 
@@ -66,7 +77,7 @@
             </mat-chip>
           </div>
         </mat-chip-list>
-        <input [matChipInputFor]="selectedChips2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" readonly>
+        <input [matChipInputFor]="selectedChips2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" disabled>
       </mat-form-field>
       <mat-form-field style="width:100%" *ngIf="selectedRow[0].ifLogic.formula.length === 0">
         <div class="container" dragula="formula" [(dragulaModel)]="selectedRow[0].ifLogic.formula" id="formula">

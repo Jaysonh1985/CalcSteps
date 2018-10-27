@@ -103,6 +103,7 @@ export class FunctionNumberFunctionsComponent implements OnInit {
       datatype: data.dragData.datatype
     });
   }
+
   onNumber2Drop(data: any) {
     // Get the dropped data here
     this.selectedRow[0].numberFunctions.number2 = [];

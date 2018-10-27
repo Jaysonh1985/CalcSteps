@@ -196,6 +196,7 @@ export class CalculationInputComponent implements OnInit {
     this.onDataChanged();
   }
   onDataChanged() {
+    this.autocompleteService.editAutocomplete(this.getAllRowsNodes());
     this.dataChangeEvent.emit();
   }
   getAllRows(): CalculationInput[] {

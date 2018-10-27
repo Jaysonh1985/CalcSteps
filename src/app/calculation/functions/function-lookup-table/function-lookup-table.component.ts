@@ -125,7 +125,9 @@ export class FunctionLookupTableComponent implements OnInit {
           })
           .subscribe(customers => {
             this.lookups = customers;
-            this.setColumnList(customers[0].key);
+            if (this.selectedRow[0].lookupTable.TableName !== "") {
+              this.setColumnList(this.selectedRow[0].lookupTable.TableName);
+            }
           });
       }
     });
@@ -181,6 +183,17 @@ export class FunctionLookupTableComponent implements OnInit {
     }
     return input;
   }
+
+  getAutoCompleteText(InputValue, array): any {
+    let input = InputValue;
+    array.forEach(value => {
+      if (value.name === InputValue) {
+        input = value.output;
+      }
+    });
+    return input;
+  }
+
   addValue(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
@@ -285,6 +298,7 @@ export class FunctionLookupTableComponent implements OnInit {
           new CalculationError(
             lookupTable.rowIndex,
             "Error",
+            Date1 +
             "Lookup Value - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
           )
         );
@@ -305,9 +319,28 @@ export class FunctionLookupTableComponent implements OnInit {
             lookupTable.rowIndex,
             "Error",
             Number2 +
-              " - Number 2 - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
+              " - Lookup Value - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
           )
         );
+      }
+
+    } else {
+      let Text1 = lookupTable.LookupValue[0].name;
+      if (lookupTable.LookupValue[0].type === "variable") {
+        Text1 = this.getAutoCompleteText(
+          lookupTable.LookupValue[0].name,
+          autoComplete
+        );
+        if (lookupTable.LookupValue[0].name === Text1) {
+          this.errorArray.push(
+            new CalculationError(
+              lookupTable.rowIndex,
+              "Error",
+              Text1 +
+                " - Text - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
+            )
+          );
+        }
       }
     }
     return this.errorArray;

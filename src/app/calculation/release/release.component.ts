@@ -68,80 +68,71 @@ export class ReleaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.userFirebase.subscribe(auth => {
-      if (auth) {
-        this.displayName = auth.displayName;
-        const key = this.route.snapshot.params["key"];
-        this.isInput = true;
-        this.releaseService
-          .getRelease(key)
+    const key = this.route.snapshot.params["key"];
+    this.isInput = true;
+    this.releaseService
+      .getRelease(key)
+      .snapshotChanges()
+      .map(changes => {
+        return changes.map(c => ({
+          key: c.payload.key,
+          ...c.payload.val()
+        }));
+      })
+      .subscribe(calculations => {
+        this.calculation = calculations[0];
+        this.paymentService
+          .getSubscriptions(this.calculation.userid)
           .snapshotChanges()
           .map(changes => {
-            return changes.map(c => ({
-              key: c.payload.key,
-              ...c.payload.val()
-            }));
+            return changes.payload.val();
           })
-          .subscribe(calculations => {
+          .subscribe(sub => {
             this.calculation = calculations[0];
-            this.paymentService
-              .getSubscriptions(this.calculation.userid)
-              .snapshotChanges()
-              .map(changes => {
-                return changes.payload.val();
-              })
-              .subscribe(sub => {
-                this.calculation = calculations[0];
-                if (
-                  sub.productId === "plan_Cwi9mPWRIyMUEp" &&
-                  sub.status === "active"
-                ) {
-                  this.calcService
-                    .getCalculation(this.calculation.calculationKey)
-                    .snapshotChanges()
-                    .map(changes => {
-                      return changes.map(c => ({
-                        key: c.payload.key,
-                        ...c.payload.val()
-                      }));
-                    })
-                    .subscribe(configurations => {
-                      if (
-                        this.onCheckUserId(auth.uid, configurations[0].users)
-                      ) {
-                        this.calculationInput =
-                          calculations[0].calculationInputs;
-                        this.calculationConfiguration =
-                          calculations[0].calculationConfigurations;
-                        this.calculationOutput =
-                          calculations[0].calculationOutputs;
-                        this.calculationName = calculations[0].name;
-                        this.calculationGroup = calculations[0].group;
-                        this.calculationInputNodes =
-                          calculations[0].calculationInputs;
-                      } else {
-                        this.router.navigate(["release-error"]);
-                      }
-                    });
-                } else if (
-                  sub.productId === "plan_DhqyWHUScOFd9e" &&
-                  sub.status === "active"
-                ) {
-                  this.calculationInput = calculations[0].calculationInputs;
-                  this.calculationConfiguration =
-                    calculations[0].calculationConfigurations;
-                  this.calculationOutput = calculations[0].calculationOutputs;
-                  this.calculationName = calculations[0].name;
-                  this.calculationGroup = calculations[0].group;
-                  this.calculationInputNodes =
-                    calculations[0].calculationInputs;
-                } else {
-                  this.router.navigate(["release-error"]);
-                }
-              });
+            if (
+              sub.productId === "plan_Cwi9mPWRIyMUEp" &&
+              sub.status === "active"
+            ) {
+              this.calcService
+                .getCalculation(this.calculation.calculationKey)
+                .snapshotChanges()
+                .map(changes => {
+                  return changes.map(c => ({
+                    key: c.payload.key,
+                    ...c.payload.val()
+                  }));
+                })
+                .subscribe(configurations => {
+                  this.calculation = calculations[0];
+                  if (this.onCheckUserId(this.calculation.userid, configurations[0].users)) {
+                    this.calculationInput = calculations[0].calculationInputs;
+                    this.calculationConfiguration =
+                      calculations[0].calculationConfigurations;
+                    this.calculationOutput = calculations[0].calculationOutputs;
+                    this.calculationName = calculations[0].name;
+                    this.calculationGroup = calculations[0].group;
+                    this.calculationInputNodes =
+                      calculations[0].calculationInputs;
+                  } else {
+                    this.router.navigate(["release-error"]);
+                  }
+                });
+            } else if (
+              sub.productId === "plan_DhqyWHUScOFd9e" &&
+              sub.status === "active"
+            ) {
+              this.calculationInput = calculations[0].calculationInputs;
+              this.calculationConfiguration =
+                calculations[0].calculationConfigurations;
+              this.calculationOutput = calculations[0].calculationOutputs;
+              this.calculationName = calculations[0].name;
+              this.calculationGroup = calculations[0].group;
+              this.calculationInputNodes = calculations[0].calculationInputs;
+            } else {
+              this.router.navigate(["release-error"]);
+            }
           });
-      }
-    });
+      });
   }
   onReset() {
     this.CalculationInputComponent.onDeleteAllInputs();

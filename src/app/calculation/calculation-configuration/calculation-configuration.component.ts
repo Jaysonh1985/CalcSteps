@@ -42,7 +42,7 @@ export class CalculationConfigurationComponent implements OnInit {
     this.gridOptions.columnDefs = [
       {
         headerName: "Group",
-        width: 150,
+        width: 250,
         field: "group",
         editable: true,
         rowDrag: true
@@ -70,7 +70,7 @@ export class CalculationConfigurationComponent implements OnInit {
       {
         headerName: "Name",
         field: "name",
-        width: 200,
+        width: 250,
         filter: "agTextColumnFilter",
         editable: true
       },
@@ -117,7 +117,7 @@ export class CalculationConfigurationComponent implements OnInit {
       {
         headerName: "Output",
         field: "output",
-        width: 125,
+        width: 200,
         editable: false,
         suppressFilter: true,
         enableCellChangeFlash: true

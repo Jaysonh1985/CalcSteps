@@ -40,7 +40,7 @@ export class CalculationOutputComponent implements OnInit {
       {
         headerName: "Name",
         field: "name",
-        width: 180,
+        width: 250,
         cellEditor: "agPopupTextCellEditor",
         editable: params => {
           if (this.release === true) {
@@ -69,7 +69,7 @@ export class CalculationOutputComponent implements OnInit {
       {
         headerName: "Variable",
         field: "variable",
-        width: 110,
+        width: 250,
         cellEditor: "agSelectCellEditor",
         cellEditorParams: config => {
           if (config.data.data === "Number") {
@@ -88,7 +88,7 @@ export class CalculationOutputComponent implements OnInit {
       {
         headerName: "Output",
         field: "output",
-        width: 110,
+        width: 250,
         editable: false,
         suppressFilter: true
       },

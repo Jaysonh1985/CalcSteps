@@ -45,7 +45,7 @@ export class CalculationInputComponent implements OnInit {
             return true;
           }
         },
-        width: 200
+        width: 250
       },
       {
         headerName: "Data",
@@ -65,7 +65,7 @@ export class CalculationInputComponent implements OnInit {
       {
         headerName: "Input",
         field: "output",
-        width: 135,
+        width: 250,
         cellEditorSelector: function(params) {
           if (params.data.dropDownList === "True") {
             return {
@@ -81,7 +81,7 @@ export class CalculationInputComponent implements OnInit {
       {
         headerName: "Drop Down List?",
         field: "dropDownList",
-        width: 50,
+        width: 115,
         editable: true,
         suppressFilter: true,
         cellEditor: "agSelectCellEditor",
@@ -97,7 +97,7 @@ export class CalculationInputComponent implements OnInit {
       {
         headerName: "Required",
         field: "required",
-        width: 50,
+        width: 100,
         cellEditor: "agSelectCellEditor",
         cellEditorParams: { values: ["True", "False"] },
         editable: true,
@@ -133,6 +133,9 @@ export class CalculationInputComponent implements OnInit {
     this.gridColumnApi.getAllColumns().forEach(column => {
       allColumnIds.push(column.colId);
     });
+    if (this.release === true) {
+      this.onDeleteAllInputs();
+    }
     this.onSetAllRowID();
     this.autocompleteService.editAutocomplete(this.getAllRowsNodes());
   }

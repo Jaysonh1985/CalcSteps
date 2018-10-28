@@ -127,6 +127,8 @@ export class CalculationOutputComponent implements OnInit {
     this.gridColumnApi = params.columnApi;
     if (this.release === true) {
       this.outputGridOptions.columnApi.setColumnsVisible(["variable"], false);
+      this.outputGridOptions.columnApi.setColumnsVisible(["eresult"], false);
+      this.outputGridOptions.columnApi.setColumnsVisible(["pass"], false);
     }
     const allColumnIds = [];
     this.gridColumnApi.getAllColumns().forEach(function(column) {

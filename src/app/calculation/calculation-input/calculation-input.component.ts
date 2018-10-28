@@ -45,7 +45,7 @@ export class CalculationInputComponent implements OnInit {
             return true;
           }
         },
-        width: 190
+        width: 200
       },
       {
         headerName: "Data",
@@ -81,7 +81,7 @@ export class CalculationInputComponent implements OnInit {
       {
         headerName: "Drop Down List?",
         field: "dropDownList",
-        width: 135,
+        width: 50,
         editable: true,
         suppressFilter: true,
         cellEditor: "agSelectCellEditor",
@@ -97,7 +97,7 @@ export class CalculationInputComponent implements OnInit {
       {
         headerName: "Required",
         field: "required",
-        width: 135,
+        width: 50,
         cellEditor: "agSelectCellEditor",
         cellEditorParams: { values: ["True", "False"] },
         editable: true,

@@ -127,26 +127,14 @@ export class ReleaseComponent implements OnInit {
                   sub.productId === "plan_DhqyWHUScOFd9e" &&
                   sub.status === "active"
                 ) {
-                  this.calcService
-                    .getCalculation(this.calculation.calculationKey)
-                    .snapshotChanges()
-                    .map(changes => {
-                      return changes.map(c => ({
-                        key: c.payload.key,
-                        ...c.payload.val()
-                      }));
-                    })
-                    .subscribe(configurations => {
-                      this.calculationInput = calculations[0].calculationInputs;
-                      this.calculationConfiguration =
-                        calculations[0].calculationConfigurations;
-                      this.calculationOutput =
-                        calculations[0].calculationOutputs;
-                      this.calculationName = calculations[0].name;
-                      this.calculationGroup = calculations[0].group;
-                      this.calculationInputNodes =
-                        calculations[0].calculationInputs;
-                    });
+                  this.calculationInput = calculations[0].calculationInputs;
+                  this.calculationConfiguration =
+                    calculations[0].calculationConfigurations;
+                  this.calculationOutput = calculations[0].calculationOutputs;
+                  this.calculationName = calculations[0].name;
+                  this.calculationGroup = calculations[0].group;
+                  this.calculationInputNodes =
+                    calculations[0].calculationInputs;
                 } else {
                   this.router.navigate(["release-error"]);
                 }

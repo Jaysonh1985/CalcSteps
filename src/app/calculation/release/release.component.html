@@ -10,8 +10,8 @@
         color: white;">Calculate</button>
         <button mat-raised-button (click)="onReset()" style="background: darkslateblue;
         color: white;">Reset</button>
-        <button mat-raised-button (click)="onExit()" style="background: darkslateblue;
-        color: white;">Exit</button>
+        <!-- <button mat-raised-button (click)="onExit()" style="background: darkslateblue;
+        color: white;">Exit</button> -->
       </mat-toolbar-row>
     </mat-toolbar>
     <mat-progress-bar mode="determinate" value="{{this.loadingProgress}}"></mat-progress-bar>
@@ -39,7 +39,7 @@
           </h4>
           <span class="example-spacer"></span>
            <button mat-raised-button (click)="routeInput()" style="background: darkslateblue;
-           color: white;">Go Back</button>
+           color: white;">Go Back to Input</button>
         </mat-toolbar-row>
       </mat-toolbar>
     <mat-card>

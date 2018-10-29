@@ -14,9 +14,20 @@
   <button mat-icon-button (click)="onExportCSV()">
     Export CSV
   </button>
+  <button mat-icon-button (click)="onExit()">
+    Exit
+  </button>
   <input type="file" mat-icon-button accept=".csv" (change)="onUploadCSV($event)" />
 </div>
 <ag-grid-angular #agGrid class="ag-theme-balham" style="display:inline-block; height:85vh; width:100%" [gridOptions]="gridOptions"
   [rowMultiSelectWithClick]="true" [stopEditingWhenGridLosesFocus]="true" [rowDragManaged]="true" [animateRows]="true" [enableColResize]="true"
   (gridReady)="onGridReady($event)">
 </ag-grid-angular>
+<mat-form-field>
+  <input matInput placeholder="Group" [(ngModel)]="lookupGroup" [ngModelOptions]="{standalone: true}">
+  <mat-icon matSuffix>mode_edit</mat-icon>
+</mat-form-field>
+<mat-form-field>
+  <input matInput placeholder="Name" [(ngModel)]="lookupName" [ngModelOptions]="{standalone: true}">
+  <mat-icon matSuffix>mode_edit</mat-icon>
+</mat-form-field>

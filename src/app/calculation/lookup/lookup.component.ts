@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { MatDialog, MatSnackBar } from "@angular/material";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { GridApi, GridOptions } from "ag-grid";
 
 import { Lookup } from "../shared/models/lookup";
@@ -17,11 +17,15 @@ export class LookupComponent implements OnInit {
   private gridApi: GridApi;
   private fileReaded;
   public lookup: Lookup;
+  lookupName: any;
+  lookupGroup: any;
+
   constructor(
     public dialog: MatDialog,
     private lookupService: LookupService,
     public snackBar: MatSnackBar,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.gridOptions = <GridOptions>{};
     this.gridOptions.columnDefs = [];
@@ -40,6 +44,8 @@ export class LookupComponent implements OnInit {
       })
       .subscribe(lookups => {
         this.lookup = lookups[0];
+        this.lookupName = lookups[0].name;
+        this.lookupGroup = lookups[0].group;
         this.gridOptions.columnDefs = [];
         lookups[0].headerRow.forEach(header => {
           // tslint:disable-next-line:quotemark
@@ -90,6 +96,8 @@ export class LookupComponent implements OnInit {
   onSave() {
     this.lookup.headerRow = this.gridOptions.columnDefs;
     this.lookup.lookup = this.getAllRowsNodes();
+    this.lookup.group = this.lookupGroup;
+    this.lookup.name = this.lookupName;
     this.lookupService.updateLookup(
       this.route.snapshot.params["key"],
       JSON.parse(JSON.stringify(this.lookup))
@@ -97,11 +105,15 @@ export class LookupComponent implements OnInit {
     this.snackBar.open("Lookup Tables Saved", "Saved", {
       duration: 2000
     });
+    this.router.navigate(["lookup-maintenance"]);
   }
   onRemoveSelected() {
     this.gridApi.setColumnDefs([]);
     this.gridOptions.columnDefs = [];
     this.gridApi.setRowData([]);
+  }
+  onExit() {
+    this.router.navigate(["lookup-maintenance"]);
   }
   getAllRowsNodes(): any[] {
     const arr: Array<any> = [];

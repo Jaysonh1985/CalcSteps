@@ -78,29 +78,28 @@ export class CalculationComponent implements OnInit {
     this.authService.userFirebase.subscribe(auth => {
       if (auth) {
         this.calcService
-        .getCalculation(key)
-        .snapshotChanges()
-        .map(changes => {
-          return changes.map(c => ({
-            key: c.payload.key,
-            ...c.payload.val()
-          }));
-        })
-        .subscribe(calculations => {
-          this.calculation = calculations[0];
-          this.calculationInput = calculations[0].calculationInputs;
-          this.calculationConfiguration =
-            calculations[0].calculationConfigurations;
-          this.calculationOutput = calculations[0].calculationOutputs;
-          this.calculationName = calculations[0].name;
-          this.calculationGroup = calculations[0].group;
-          this.calculationInputNodes = calculations[0].calculationInputs;
-        });
+          .getCalculation(key)
+          .snapshotChanges()
+          .map(changes => {
+            return changes.map(c => ({
+              key: c.payload.key,
+              ...c.payload.val()
+            }));
+          })
+          .subscribe(calculations => {
+            this.calculation = calculations[0];
+            this.calculationInput = calculations[0].calculationInputs;
+            this.calculationConfiguration =
+              calculations[0].calculationConfigurations;
+            this.calculationOutput = calculations[0].calculationOutputs;
+            this.calculationName = calculations[0].name;
+            this.calculationGroup = calculations[0].group;
+            this.calculationInputNodes = calculations[0].calculationInputs;
+          });
       } else {
         this.router.navigate(["home"]);
       }
     });
-
   }
   onSave() {
     this.loading = true;
@@ -282,7 +281,9 @@ export class CalculationComponent implements OnInit {
       output.errors = [];
       if (output.variable !== "" || output.name !== undefined) {
         const outputs = new CalculationOutputComponent();
-        output.errors = this.errorArray.concat(outputs.errorCheck(output, calculationConfiguration));
+        output.errors = this.errorArray.concat(
+          outputs.errorCheck(output, calculationConfiguration)
+        );
       } else {
         output.errors = this.errorArray;
       }
@@ -437,7 +438,7 @@ export class CalculationComponent implements OnInit {
         arr.push(node);
       }
       if (index === rowIndex) {
-        if ((arr.length === 0)) {
+        if (arr.length === 0) {
           return null;
         } else {
           return arr[arr.length - 1];

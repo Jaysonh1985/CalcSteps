@@ -257,37 +257,37 @@ export class CalculationInputComponent implements OnInit {
   errorCheck(input): CalculationError[] {
     this.errorArray = [];
     if (
-      input.data.required === "True" &&
-      (!input.data.output || input.data.output === "")
+      input.required === "True" &&
+      (!input.output || input.output === "")
     ) {
       this.errorArray.push(
         new CalculationError(
           input.rowIndex,
           "Error",
-          input.data.name + " - Input is Required Field"
+          input.name + " - Input is Required Field"
         )
       );
     }
-    if (input.data.data === "Date") {
+    if (input.data === "Date") {
       moment.locale("en-GB");
-      const a = moment(input.data.output, "DD/MM/YYYY", true);
+      const a = moment(input.output, "DD/MM/YYYY", true);
       if (a.isValid() === false) {
         this.errorArray.push(
           new CalculationError(
             input.rowIndex,
             "Error",
-            input.data.name + " - Date is not a valid date value"
+            input.name + " - Date is not a valid date value"
           )
         );
       }
     }
-    if (input.data.data === "Number") {
-      if (isNaN(Number(input.data.output))) {
+    if (input.data === "Number") {
+      if (isNaN(Number(input.output))) {
         this.errorArray.push(
           new CalculationError(
             input.rowIndex,
             "Error",
-            input.data.name + " - Number is not a valid numeric value"
+            input.name + " - Number is not a valid numeric value"
           )
         );
       }

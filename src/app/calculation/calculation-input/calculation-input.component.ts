@@ -25,6 +25,8 @@ export class CalculationInputComponent implements OnInit {
   calculationInput: string[];
   @Input()
   release: boolean;
+  @Input()
+  test: boolean;
   @Output()
   messageEvent = new EventEmitter();
   @Output()
@@ -122,12 +124,7 @@ export class CalculationInputComponent implements OnInit {
   }
   onGridReady(params) {
     this.gridApi = params.api;
-    if (this.release === true) {
-      this.inputGridOptions.columnApi.setColumnsVisible(
-        ["required", "dropDownList", "dropDownValues"],
-        false
-      );
-    }
+
     this.gridColumnApi = params.columnApi;
     const allColumnIds = [];
     this.gridColumnApi.getAllColumns().forEach(column => {
@@ -135,6 +132,20 @@ export class CalculationInputComponent implements OnInit {
     });
     if (this.release === true) {
       this.onDeleteAllInputs();
+    }
+    this.gridColumnApi.sizeColumnsToFit(1423);
+    if (this.release === true || this.test === true) {
+      this.inputGridOptions.columnApi.setColumnsVisible(
+        ["required", "dropDownList", "dropDownValues"],
+        false
+      );
+      if (this.release === true || this.test === true) {
+        this.inputGridOptions.columnApi.setColumnsVisible(
+          ["required", "dropDownList", "dropDownValues"],
+          false
+        );
+        this.gridColumnApi.sizeColumnsToFit(532);
+      }
     }
     this.onSetAllRowID();
     this.autocompleteService.editAutocomplete(this.getAllRowsNodes());

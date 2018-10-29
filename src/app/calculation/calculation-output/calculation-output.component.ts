@@ -32,6 +32,8 @@ export class CalculationOutputComponent implements OnInit {
   configOutputsText: string[];
   @Input()
   release: boolean;
+  @Input()
+  test: boolean;
   errorArray: any[];
   constructor() {
     this.outputGridOptions = <GridOptions>{};
@@ -125,15 +127,22 @@ export class CalculationOutputComponent implements OnInit {
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
+
+    const allColumnIds = [];
+    this.gridColumnApi.getAllColumns().forEach(function(column) {
+      allColumnIds.push(column.colId);
+    });
+    this.gridColumnApi.sizeColumnsToFit(1423);
     if (this.release === true) {
       this.outputGridOptions.columnApi.setColumnsVisible(["variable"], false);
       this.outputGridOptions.columnApi.setColumnsVisible(["eresult"], false);
       this.outputGridOptions.columnApi.setColumnsVisible(["pass"], false);
     }
-    const allColumnIds = [];
-    this.gridColumnApi.getAllColumns().forEach(function(column) {
-      allColumnIds.push(column.colId);
-    });
+    if (this.test === true) {
+      this.outputGridOptions.columnApi.setColumnsVisible(["variable"], false);
+      this.outputGridOptions.columnApi.setColumnsVisible(["data"], false);
+      this.gridColumnApi.sizeColumnsToFit(532);
+    }
   }
   onAddRow() {
     const newItem = new CalculationOutput(

@@ -41,7 +41,10 @@ export class FunctionIfLogicComponent implements OnInit {
   removable = true;
   addOnBlur = true;
   droppedData: string;
-  constructor(private dragulaService: DragulaService, private _autoCompleteService: AutoCompleteService) {
+  constructor(
+    private dragulaService: DragulaService,
+    private _autoCompleteService: AutoCompleteService
+  ) {
     this.dragulaService.destroy("formula");
     this.dragulaService.createGroup("formula", {
       revertOnSpill: true,
@@ -85,33 +88,45 @@ export class FunctionIfLogicComponent implements OnInit {
     this.autoCompleteOptionsText = [];
     this.autoCompleteOptionsDate = [];
     this.autoCompleteOptionsLogic = [];
-    this.autoCompleteOptionsLogic.push({ name: "true", type: "hardcoded", datatype: "Logic" });
-    this.autoCompleteOptionsLogic.push({ name: "false", type: "hardcoded", datatype: "Logic"  });
+    this.autoCompleteOptionsLogic.push({
+      name: "true",
+      type: "hardcoded",
+      datatype: "Logic"
+    });
+    this.autoCompleteOptionsLogic.push({
+      name: "false",
+      type: "hardcoded",
+      datatype: "Logic"
+    });
     this.autoCompleteArray.forEach(element => {
       if (element.data.name !== "") {
         if (element.data.data === "Number") {
           this.autoCompleteOptionsNumber.push({
             name: element.data.name,
             type: "variable",
-            datatype: element.data.data
+            datatype: element.data.data,
+            value: element.data.output
           });
         } else if (element.data.data === "Date") {
           this.autoCompleteOptionsDate.push({
             name: element.data.name,
             type: "variable",
-            datatype: element.data.data
+            datatype: element.data.data,
+            value: element.data.output
           });
         } else if (element.data.data === "Text") {
           this.autoCompleteOptionsText.push({
             name: element.data.name,
             type: "variable",
-            datatype: element.data.data
+            datatype: element.data.data,
+            value: element.data.output
           });
         } else if (element.data.data === "Logic") {
           this.autoCompleteOptionsLogic.push({
             name: element.data.name,
             type: "variable",
-            datatype: element.data.data
+            datatype: element.data.data,
+            value: element.data.output
           });
         }
       }
@@ -162,17 +177,32 @@ export class FunctionIfLogicComponent implements OnInit {
       let output = element.name;
       if (element.type === "variable") {
         if (element.datatype === "Date") {
-          output = this._autoCompleteService.getDate(element.name, autoComplete);
+          output = this._autoCompleteService.getDate(
+            element.name,
+            autoComplete
+          );
           output = "'" + output + "'";
         } else if (element.datatype === "Number") {
-          output = this._autoCompleteService.getNumber(element.name, autoComplete);
+          output = this._autoCompleteService.getNumber(
+            element.name,
+            autoComplete
+          );
         } else if (element.datatype === "Text") {
-          output = this._autoCompleteService.getText(element.name, autoComplete);
+          output = this._autoCompleteService.getText(
+            element.name,
+            autoComplete
+          );
           output = "'" + output + "'";
         } else if (element.datatype === "Logic") {
-          output = this._autoCompleteService.getLogic(element.name, autoComplete);
+          output = this._autoCompleteService.getLogic(
+            element.name,
+            autoComplete
+          );
         } else {
-          output = this._autoCompleteService.getText(element.name, autoComplete);
+          output = this._autoCompleteService.getText(
+            element.name,
+            autoComplete
+          );
           output = "'" + output + "'";
         }
       } else if (element.type === "hardcoded") {
@@ -201,7 +231,10 @@ export class FunctionIfLogicComponent implements OnInit {
         if (element.datatype === "Date") {
           let Date1 = element.name;
           if (element.type === "variable") {
-            Date1 = this._autoCompleteService.getDate(element.name, autoComplete);
+            Date1 = this._autoCompleteService.getDate(
+              element.name,
+              autoComplete
+            );
           }
           const a = moment(Date1, "DD/MM/YYYY", true);
           if (a.isValid() === false) {
@@ -218,7 +251,10 @@ export class FunctionIfLogicComponent implements OnInit {
         if (element.datatype === "Number") {
           let Number2 = element.name;
           if (element.type === "variable") {
-            Number2 = this._autoCompleteService.getNumber(element.name, autoComplete);
+            Number2 = this._autoCompleteService.getNumber(
+              element.name,
+              autoComplete
+            );
           }
           if (isNaN(Number(Number2))) {
             this.errorArray.push(
@@ -234,7 +270,10 @@ export class FunctionIfLogicComponent implements OnInit {
         if (element.datatype === "Text") {
           let Text1 = element.name;
           if (element.type === "variable") {
-            Text1 = this._autoCompleteService.getText(element.name, autoComplete);
+            Text1 = this._autoCompleteService.getText(
+              element.name,
+              autoComplete
+            );
             if (element.name === Text1) {
               this.errorArray.push(
                 new CalculationError(
@@ -250,7 +289,10 @@ export class FunctionIfLogicComponent implements OnInit {
         if (element.datatype === "Logic") {
           let Logic1 = element.name;
           if (element.type === "variable") {
-            Logic1 = this._autoCompleteService.getLogic(element.name, autoComplete);
+            Logic1 = this._autoCompleteService.getLogic(
+              element.name,
+              autoComplete
+            );
             if (Logic1 !== true && Logic1 !== false) {
               this.errorArray.push(
                 new CalculationError(

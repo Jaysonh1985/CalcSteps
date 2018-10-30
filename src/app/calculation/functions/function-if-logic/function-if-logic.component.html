@@ -11,35 +11,40 @@
 <mat-form-field style="width:100%" *ngIf="selectedRow[0].ifLogic.datatype !== ''">
   <mat-chip-list>
     <div class="container" dragula="formula" [(dragulaModel)]="autoCompleteOptions" id="options">
-      <mat-chip *ngFor="let chip of autoCompleteOptions" selected class="draggable" (dblclick)="onAddChipByDblClick(chip)">
+      <mat-chip *ngFor="let chip of autoCompleteOptions" selected class="draggable" (dblclick)="onAddChipByDblClick(chip)"
+        matTooltip="{{chip.value}}" [matTooltipShowDelay]="1000">
         {{chip.name}}
       </mat-chip>
     </div>
   </mat-chip-list>
   <mat-chip-list *ngIf="selectedRow[0].ifLogic.datatype === 'Number'">
     <div class="container" dragula="formula" [(dragulaModel)]="autoCompleteOptionsNumber" id="options">
-      <mat-chip *ngFor="let chip of autoCompleteOptionsNumber" selected class="draggable" (dblclick)="onAddChipByDblClick(chip)">
+      <mat-chip *ngFor="let chip of autoCompleteOptionsNumber" selected class="draggable" (dblclick)="onAddChipByDblClick(chip)"
+        matTooltip="{{chip.value}}" [matTooltipShowDelay]="1000">
         {{chip.name}}
       </mat-chip>
     </div>
   </mat-chip-list>
   <mat-chip-list *ngIf="selectedRow[0].ifLogic.datatype === 'Date'">
     <div class="container" dragula="formula" [(dragulaModel)]="autoCompleteOptionsDate" id="options">
-      <mat-chip *ngFor="let chip of autoCompleteOptionsDate" selected class="draggable" (dblclick)="onAddChipByDblClick(chip)">
+      <mat-chip *ngFor="let chip of autoCompleteOptionsDate" selected class="draggable" (dblclick)="onAddChipByDblClick(chip)"
+        matTooltip="{{chip.value}}" [matTooltipShowDelay]="1000">
         {{chip.name}}
       </mat-chip>
     </div>
   </mat-chip-list>
   <mat-chip-list *ngIf="selectedRow[0].ifLogic.datatype === 'Text'">
     <div class="container" dragula="formula" [(dragulaModel)]="autoCompleteOptionsText" id="options">
-      <mat-chip *ngFor="let chip of autoCompleteOptionsText" selected class="draggable" (dblclick)="onAddChipByDblClick(chip)">
+      <mat-chip *ngFor="let chip of autoCompleteOptionsText" selected class="draggable" (dblclick)="onAddChipByDblClick(chip)"
+        matTooltip="{{chip.value}}" [matTooltipShowDelay]="1000">
         {{chip.name}}
       </mat-chip>
     </div>
   </mat-chip-list>
   <mat-chip-list *ngIf="selectedRow[0].ifLogic.datatype === 'Logic'">
     <div class="container" dragula="formula" [(dragulaModel)]="autoCompleteOptionsLogic" id="options">
-      <mat-chip *ngFor="let chip of autoCompleteOptionsLogic" selected class="draggable" (dblclick)="onAddChipByDblClick(chip)">
+      <mat-chip *ngFor="let chip of autoCompleteOptionsLogic" selected class="draggable" (dblclick)="onAddChipByDblClick(chip)"
+        matTooltip="{{chip.value}}" [matTooltipShowDelay]="1000">
         {{chip.name}}
       </mat-chip>
     </div>
@@ -61,7 +66,7 @@
     <input matInput (blur)="onAddInput('Text',$event)">
   </div>
   <div *ngIf="selectedRow[0].ifLogic.datatype === 'Logic'">
-      <input matInput (blur)="onAddInput('Text',$event)" readonly>
+    <input matInput (blur)="onAddInput('Text',$event)" readonly>
   </div>
 </mat-form-field>
 

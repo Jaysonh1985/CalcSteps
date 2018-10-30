@@ -18,7 +18,10 @@ export class Distance {
 @Component({
   selector: "app-function-distance",
   templateUrl: "./function-distance.component.html",
-  styleUrls: ["./function-distance.component.css", "../../shared/css/drag-chip.css"]
+  styleUrls: [
+    "./function-distance.component.css",
+    "../../shared/css/drag-chip.css"
+  ]
 })
 export class FunctionDistanceComponent implements OnInit {
   @Input()
@@ -55,7 +58,8 @@ export class FunctionDistanceComponent implements OnInit {
           this.autoCompleteOptions.push({
             name: element.data.name,
             type: "variable",
-            datatype: "Text"
+            datatype: "Text",
+            value: element.data.output
           });
         }
       }

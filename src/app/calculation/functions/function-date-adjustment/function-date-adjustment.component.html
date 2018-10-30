@@ -1,7 +1,8 @@
 <mat-form-field style="width:100%">
   <p>Dates</p>
   <mat-chip-list>
-    <mat-chip *ngFor="let chip of autoCompleteOptionsDate" selected draggable [dragData]="chip" id="options">
+    <mat-chip *ngFor="let chip of autoCompleteOptionsDate" selected draggable [dragData]="chip" matTooltip="{{chip.value}}"
+      [matTooltipShowDelay]="1000" id="options">
       {{chip.name}}
     </mat-chip>
   </mat-chip-list>
@@ -70,7 +71,8 @@
 <mat-form-field style="width:100%" *ngIf="selectedRow[0].dateAdjustment.type == 'Add'|| selectedRow[0].dateAdjustment.type =='Subtract' || selectedRow[0].dateAdjustment.type == 'Adjust'|| selectedRow[0].dateAdjustment.type =='AdjustDay' || selectedRow[0].dateAdjustment.type =='DatesBetween' || selectedRow[0].dateAdjustment.type =='MonthsBetween'">
   <p>Numbers</p>
   <mat-chip-list>
-    <mat-chip *ngFor="let chip of autoCompleteOptionsNumber" selected draggable [dragData]="chip" id="options">
+    <mat-chip *ngFor="let chip of autoCompleteOptionsNumber" selected draggable [dragData]="chip" matTooltip="{{chip.value}}"
+      [matTooltipShowDelay]="1000" id="options">
       {{chip.name}}
     </mat-chip>
   </mat-chip-list>
@@ -92,18 +94,18 @@
   </tr>
   <tr *ngIf="selectedRow[0].dateAdjustment.periodType !== ''">
     <td>
-      <mat-form-field  style="width:100%">
+      <mat-form-field style="width:100%">
         <p>Period</p>
         <mat-chip-list #periodList>
-          <mat-chip *ngFor="let chips of selectedRow[0].dateAdjustment.period" [removable]="removable"
-            (removed)="removePeriod()">
+          <mat-chip *ngFor="let chips of selectedRow[0].dateAdjustment.period" [removable]="removable" (removed)="removePeriod()">
             {{chips.name}}
             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
           </mat-chip>
         </mat-chip-list>
         <div style="width:100%" droppable (onDrop)="onPeriodDrop($event)">
-            <input [matChipInputFor]="periodList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"  (matChipInputTokenEnd)="addEventPeriod($event)" [matChipInputAddOnBlur]="addOnBlur" type="number">
-          </div>
+          <input [matChipInputFor]="periodList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="addEventPeriod($event)" [matChipInputAddOnBlur]="addOnBlur" type="number">
+        </div>
       </mat-form-field>
     </td>
   </tr>

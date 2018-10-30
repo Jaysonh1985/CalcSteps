@@ -93,19 +93,22 @@ export class FunctionDateAdjustmentComponent implements OnInit {
           this.autoCompleteOptionsNumber.push({
             name: element.data.name,
             type: "variable",
-            datatype: element.data.data
+            datatype: element.data.data,
+            value: element.data.output
           });
         } else if (element.data.data === "Date") {
           this.autoCompleteOptionsDate.push({
             name: element.data.name,
             type: "variable",
-            datatype: element.data.data
+            datatype: element.data.data,
+            value: element.data.output
           });
         } else if (element.data.data === "Text") {
           this.autoCompleteOptionsText.push({
             name: element.data.name,
             type: "variable",
-            datatype: element.data.data
+            datatype: element.data.data,
+            value: element.data.output
           });
         }
       }
@@ -398,7 +401,7 @@ export class FunctionDateAdjustmentComponent implements OnInit {
     ) {
       let Period = dateAdjustment.period[0].name;
       if (dateAdjustment.period[0].type === "variable") {
-        Period =  this._autoCompleteService.getNumber(
+        Period = this._autoCompleteService.getNumber(
           dateAdjustment.period[0].name,
           autoComplete
         );

@@ -16,6 +16,7 @@ import {
   MatDatepickerModule,
   MatTabsModule,
   MatToolbarModule,
+  MatTooltipModule,
   MatProgressBarModule,
   MatProgressSpinnerModule,
   MatRadioModule
@@ -41,7 +42,8 @@ import {
     MatNativeDateModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
-    MatRadioModule
+    MatRadioModule,
+    MatTooltipModule
   ],
   exports: [
     MatAutocompleteModule,
@@ -62,7 +64,8 @@ import {
     MatNativeDateModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
-    MatRadioModule
+    MatRadioModule,
+    MatTooltipModule
   ]
 })
 export class MaterialModule {}

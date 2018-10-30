@@ -58,12 +58,17 @@ export class LookupTable {
 @Component({
   selector: "app-function-lookup-table",
   templateUrl: "./function-lookup-table.component.html",
-  styleUrls: ["./function-lookup-table.component.css", "../../shared/css/drag-chip.css"],
+  styleUrls: [
+    "./function-lookup-table.component.css",
+    "../../shared/css/drag-chip.css"
+  ],
   providers: [AutoCompleteService]
 })
 export class FunctionLookupTableComponent implements OnInit {
-  @Input() selectedRow: any[];
-  @Input() autoCompleteArray: any[];
+  @Input()
+  selectedRow: any[];
+  @Input()
+  autoCompleteArray: any[];
   public lookupTable: LookupTable;
   public autoCompleteOptionsNumber: any[];
   public autoCompleteOptionsText: any[];
@@ -98,19 +103,22 @@ export class FunctionLookupTableComponent implements OnInit {
           this.autoCompleteOptionsNumber.push({
             name: element.data.name,
             type: "variable",
-            datatype: element.data.data
+            datatype: element.data.data,
+            value: element.data.output
           });
-        } else if ( element.data.data === "Date") {
+        } else if (element.data.data === "Date") {
           this.autoCompleteOptionsDate.push({
             name: element.data.name,
             type: "variable",
-            datatype: element.data.data
+            datatype: element.data.data,
+            value: element.data.output
           });
-        } else if ( element.data.data === "Text") {
+        } else if (element.data.data === "Text") {
           this.autoCompleteOptionsText.push({
             name: element.data.name,
             type: "variable",
-            datatype: element.data.data
+            datatype: element.data.data,
+            value: element.data.output
           });
         }
       }
@@ -246,8 +254,10 @@ export class FunctionLookupTableComponent implements OnInit {
         )
       );
     }
-    if (lookupTable.LookupType === "Date"  && lookupTable.LookupValue.length > 0) {
-
+    if (
+      lookupTable.LookupType === "Date" &&
+      lookupTable.LookupValue.length > 0
+    ) {
       let Date1 = lookupTable.LookupValue[0].name;
       if (lookupTable.LookupValue[0].type === "variable") {
         Date1 = this._autoCompleteService.getDate(
@@ -263,12 +273,14 @@ export class FunctionLookupTableComponent implements OnInit {
             lookupTable.rowIndex,
             "Error",
             Date1 +
-            "Lookup Value - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
+              "Lookup Value - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
           )
         );
       }
-    } else if (lookupTable.LookupType === "Number" && lookupTable.LookupValue.length > 0) {
-
+    } else if (
+      lookupTable.LookupType === "Number" &&
+      lookupTable.LookupValue.length > 0
+    ) {
       let Number1 = lookupTable.LookupValue[0].name;
       if (lookupTable.LookupValue[0].type === "variable") {
         Number1 = this._autoCompleteService.getNumber(
@@ -287,7 +299,6 @@ export class FunctionLookupTableComponent implements OnInit {
           )
         );
       }
-
     } else {
       let Text1 = lookupTable.LookupValue[0].name;
       if (lookupTable.LookupValue[0].type === "variable") {

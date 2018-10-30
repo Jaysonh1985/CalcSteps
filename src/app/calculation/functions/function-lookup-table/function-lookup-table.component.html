@@ -1,16 +1,19 @@
 <mat-form-field style="width:100%" *ngIf="selectedRow[0].lookupTable.LookupType !== ''">
   <mat-chip-list *ngIf="selectedRow[0].lookupTable.LookupType === 'Number'">
-    <mat-chip *ngFor="let chip of autoCompleteOptionsNumber" selected draggable [dragData]="chip" id="options">
+    <mat-chip *ngFor="let chip of autoCompleteOptionsNumber" selected draggable [dragData]="chip" matTooltip="{{chip.value}}"
+      [matTooltipShowDelay]="1000" id="options">
       {{chip.name}}
     </mat-chip>
   </mat-chip-list>
   <mat-chip-list *ngIf="selectedRow[0].lookupTable.LookupType === 'Date'">
-    <mat-chip *ngFor="let chip of autoCompleteOptionsDate" selected draggable [dragData]="chip" id="options">
+    <mat-chip *ngFor="let chip of autoCompleteOptionsDate" selected draggable [dragData]="chip" matTooltip="{{chip.value}}"
+      [matTooltipShowDelay]="1000" id="options">
       {{chip.name}}
     </mat-chip>
   </mat-chip-list>
   <mat-chip-list *ngIf="selectedRow[0].lookupTable.LookupType === 'Text'">
-    <mat-chip *ngFor="let chip of autoCompleteOptionsText" selected draggable [dragData]="chip" id="options">
+    <mat-chip *ngFor="let chip of autoCompleteOptionsText" selected draggable [dragData]="chip" matTooltip="{{chip.value}}"
+      [matTooltipShowDelay]="1000" id="options">
       {{chip.name}}
     </mat-chip>
   </mat-chip-list>
@@ -42,12 +45,12 @@
   <div style="width:100%" droppable (onDrop)="onValueDrop($event)">
     <div *ngIf="selectedRow[0].lookupTable.LookupType === 'Date'">
       <div *ngIf="selectedRow[0].lookupTable.LookupValue.length === 0">
-          <input matInput [matDatepicker]="picker" (dateInput)="addEventLookup('input', $event)" (dateChange)="addEventLookup('change', $event)">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+        <input matInput [matDatepicker]="picker" (dateInput)="addEventLookup('input', $event)" (dateChange)="addEventLookup('change', $event)">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
       </div>
       <input [matChipInputFor]="selectedChips2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" id="dates2" *ngIf="selectedRow[0].lookupTable.LookupValue.length > 0"
-      disabled>
+        disabled>
     </div>
 
     <div *ngIf="selectedRow[0].lookupTable.LookupType === 'Number'">

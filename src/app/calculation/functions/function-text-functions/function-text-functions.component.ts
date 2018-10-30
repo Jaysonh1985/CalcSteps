@@ -19,7 +19,10 @@ export class TextFunctions {
 @Component({
   selector: "app-function-text-functions",
   templateUrl: "./function-text-functions.component.html",
-  styleUrls: ["./function-text-functions.component.css", "../../shared/css/drag-chip.css"],
+  styleUrls: [
+    "./function-text-functions.component.css",
+    "../../shared/css/drag-chip.css"
+  ],
   providers: [AutoCompleteService]
 })
 export class FunctionTextFunctionsComponent implements OnInit {
@@ -58,7 +61,8 @@ export class FunctionTextFunctionsComponent implements OnInit {
           this.autoCompleteOptionsText.push({
             name: element.data.name,
             type: "variable",
-            datatype: "Text"
+            datatype: "Text",
+            value: element.data.output
           });
         }
       } else if (element.data.data === "Number") {
@@ -66,7 +70,8 @@ export class FunctionTextFunctionsComponent implements OnInit {
           this.autoCompleteOptionsNumber.push({
             name: element.data.name,
             type: "variable",
-            datatype: "Number"
+            datatype: "Number",
+            value: element.data.output
           });
         }
       }
@@ -174,7 +179,6 @@ export class FunctionTextFunctionsComponent implements OnInit {
   }
 
   calculate(textFunctions, autoComplete): any {
-
     let Text1 = textFunctions.text1[0].name;
     if (textFunctions.text1[0].type === "variable") {
       Text1 = this._autoCompleteService.getText(

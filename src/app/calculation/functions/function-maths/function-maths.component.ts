@@ -36,7 +36,10 @@ export class FunctionMathsComponent implements OnInit {
   addOnBlur = true;
   droppedData: string;
 
-  constructor(private dragulaService: DragulaService, private _autoCompleteService: AutoCompleteService) {
+  constructor(
+    private dragulaService: DragulaService,
+    private _autoCompleteService: AutoCompleteService
+  ) {
     this.dragulaService.destroy("formula");
     this.dragulaService.createGroup("formula", {
       revertOnSpill: true,
@@ -76,7 +79,8 @@ export class FunctionMathsComponent implements OnInit {
           this.autoCompleteOptions.push({
             name: element.data.name,
             type: "variable",
-            datatype: "Number"
+            datatype: "Number",
+            value: element.data.output
           });
         }
       }
@@ -108,8 +112,7 @@ export class FunctionMathsComponent implements OnInit {
     }
   }
 
-
-   public RoundingRoundUp(Rounding, Value) {
+  public RoundingRoundUp(Rounding, Value) {
     if (Rounding === 1 || Rounding === 2) {
       return mathJs.round(mathJs.ceil(Value * 100) / 100, Rounding);
     } else if (Rounding === 3) {
@@ -142,7 +145,7 @@ export class FunctionMathsComponent implements OnInit {
   }
 
   public RoundingDecimalPlaces(Rounding, Value) {
-      return Value.toFixed(Rounding);
+    return Value.toFixed(Rounding);
   }
 
   public calculate(maths, autoComplete): any {
@@ -151,7 +154,10 @@ export class FunctionMathsComponent implements OnInit {
     maths.formula.forEach(element => {
       let number = element.name;
       if (element.type === "variable") {
-        number = this._autoCompleteService.getNumber(element.name, autoComplete);
+        number = this._autoCompleteService.getNumber(
+          element.name,
+          autoComplete
+        );
       }
       mathString = mathString.concat(number);
     });
@@ -160,21 +166,28 @@ export class FunctionMathsComponent implements OnInit {
       maths.rounding = 2;
     }
     if (maths.roundingMethod === "Up") {
-      return this.RoundingRoundUp(maths.rounding, evalulation).toFixed(maths.rounding);
+      return this.RoundingRoundUp(maths.rounding, evalulation).toFixed(
+        maths.rounding
+      );
     } else if (maths.roundingMethod === "Down") {
       if (maths.rounding === 0) {
         return mathJs.Truncate(evalulation);
       } else {
-        return this.RoundingRoundDown(maths.rounding, evalulation).toFixed(maths.rounding);
+        return this.RoundingRoundDown(maths.rounding, evalulation).toFixed(
+          maths.rounding
+        );
       }
     } else {
       if (maths.rounding !== "") {
         return this.RoundingDecimalPlaces(
           maths.rounding,
-            mathJs.round(evalulation, maths.rounding)
-          );
+          mathJs.round(evalulation, maths.rounding)
+        );
       } else {
-        return this.RoundingDecimalPlaces(maths.rounding, mathJs.round(evalulation, 2));
+        return this.RoundingDecimalPlaces(
+          maths.rounding,
+          mathJs.round(evalulation, 2)
+        );
       }
     }
   }
@@ -188,7 +201,10 @@ export class FunctionMathsComponent implements OnInit {
     }
     maths.formula.forEach(element => {
       if (element.type === "variable") {
-        const Number1 = this._autoCompleteService.getNumberError(element.name, autoComplete);
+        const Number1 = this._autoCompleteService.getNumberError(
+          element.name,
+          autoComplete
+        );
         if (isNaN(Number(Number1))) {
           this.errorArray.push(
             new CalculationError(

@@ -1,6 +1,7 @@
 <mat-form-field style="width:100%">
   <mat-chip-list>
-    <mat-chip *ngFor="let chip of autoCompleteOptions" selected draggable [dragData]="chip" id="options">
+    <mat-chip *ngFor="let chip of autoCompleteOptions" selected draggable [dragData]="chip" matTooltip="{{chip.value}}"
+      [matTooltipShowDelay]="1000" id="options">
       {{chip.name}}
     </mat-chip>
   </mat-chip-list>

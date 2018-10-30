@@ -362,4 +362,15 @@ export class CalculationConfigurationComponent implements OnInit {
   ngOnInit() {
     this.gridOptions.rowData = this.calculationConfiguration;
   }
+  public getSelectedRow() {
+    return this.gridApi.getSelectedNodes();
+  }
+  public setSelectedRow(selectedRow) {
+    this.gridOptions.api.forEachNode(function(node) {
+      const id = "0";
+      if (selectedRow.data.id === node.data.id) {
+        node.setSelected(true);
+      }
+    });
+  }
 }

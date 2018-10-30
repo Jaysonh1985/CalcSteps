@@ -154,6 +154,7 @@ export class CalculationComponent implements OnInit {
   }
   async onCalc() {
     this.loading = true;
+    const selectedRow = this.CalculationConfigurationComponent.getSelectedRow();
     this.snackBar.open("Calculation in progress...", "Please wait", {
       duration: 500
     });
@@ -218,6 +219,9 @@ export class CalculationComponent implements OnInit {
       this.snackBar.open("Calculated Successfully", "Success", {
         duration: 2000
       });
+      if (selectedRow.length > 0) {
+        this.CalculationConfigurationComponent.setSelectedRow(selectedRow[0]);
+      }
       setTimeout(() => {
         this.loadingProgress = 0;
       }, 2000);

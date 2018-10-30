@@ -57,7 +57,7 @@ export class LookupTable {
 @Component({
   selector: "app-function-lookup-table",
   templateUrl: "./function-lookup-table.component.html",
-  styleUrls: ["./function-lookup-table.component.css"]
+  styleUrls: ["./function-lookup-table.component.css", "../../shared/css/drag-chip.css"]
 })
 export class FunctionLookupTableComponent implements OnInit {
   @Input() selectedRow: any[];

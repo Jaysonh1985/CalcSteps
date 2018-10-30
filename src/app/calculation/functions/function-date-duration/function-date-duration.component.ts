@@ -38,7 +38,7 @@ export class DateDuration {
 @Component({
   selector: "app-function-date-duration",
   templateUrl: "./function-date-duration.component.html",
-  styleUrls: ["./function-date-duration.component.css"],
+  styleUrls: ["./function-date-duration.component.css", "../../shared/css/drag-chip.css"],
   providers: [
     // `MomentDateAdapter` and `MAT_MOMENT_DATE_FORMATS` can be automatically provided by importing
     // `MatMomentDateModule` in your applications root module. We provide it at the component level

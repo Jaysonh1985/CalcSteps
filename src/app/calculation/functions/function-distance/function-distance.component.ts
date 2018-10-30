@@ -18,7 +18,7 @@ export class Distance {
 @Component({
   selector: "app-function-distance",
   templateUrl: "./function-distance.component.html",
-  styleUrls: ["./function-distance.component.css"]
+  styleUrls: ["./function-distance.component.css", "../../shared/css/drag-chip.css"]
 })
 export class FunctionDistanceComponent implements OnInit {
   @Input()

@@ -1,0 +1,30 @@
+  .drag-border {
+    border: #ff525b dashed 2px;
+  }
+  
+  .drag-handle {
+    cursor: move;
+    /* fallback if grab cursor is unsupported */
+  }
+  
+  .drag-handle:active {
+    cursor: move;
+  }
+  
+  /* Droppable */
+  
+  .drag-hint-border {
+    border: #3c763d dashed 2px;
+  }
+  
+  .drag-over-border {
+    border: #fbbc05 dashed 2px;
+  }
+  
+  .drag-transit {
+    border: #3500FF dashed 2px;
+    opacity: 0.8;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
+  }
+  

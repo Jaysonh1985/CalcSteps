@@ -15,7 +15,7 @@ export class NumberFunctions {
 @Component({
   selector: "app-function-number-functions",
   templateUrl: "./function-number-functions.component.html",
-  styleUrls: ["./function-number-functions.component.css"]
+  styleUrls: ["./function-number-functions.component.css", "../../shared/css/drag-chip.css"]
 })
 export class FunctionNumberFunctionsComponent implements OnInit {
   @Input()

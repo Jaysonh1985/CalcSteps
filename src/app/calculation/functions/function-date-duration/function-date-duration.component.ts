@@ -19,6 +19,7 @@ import {
   MAT_DATE_FORMATS,
   MAT_DATE_LOCALE
 } from "@angular/material/core";
+import { AutoCompleteService } from "../../shared/services/auto-complete.service";
 
 export class DateDuration {
   type: string;
@@ -68,7 +69,7 @@ export class FunctionDateDurationComponent implements OnInit {
   addOnBlur = true;
   droppedData: string;
 
-  constructor() {}
+  constructor(private _autoCompleteService: AutoCompleteService) {}
   ngOnInit() {
     if (this.selectedRow[0].dateDuration == null) {
       this.selectedRow[0].dateDuration = this.dateDuration;
@@ -135,27 +136,11 @@ export class FunctionDateDurationComponent implements OnInit {
     });
   }
 
-  private getAutoCompleteOutputDate(InputValue, array): any {
-    let input = 0;
-    const date = moment(InputValue, "DD/MM/YYYY");
-    if (date.isValid() === false) {
-      input = InputValue;
-      array.forEach(value => {
-        if (value.name === InputValue && value.data === "Date") {
-          input = value.output;
-        }
-      });
-    } else {
-      input = InputValue;
-    }
-    return input;
-  }
-
   calculate(dateDuration, autoComplete): any {
     moment.locale("en-GB");
     let Date1 = dateDuration.date1[0].name;
     if (dateDuration.date1[0].type === "variable") {
-      Date1 = this.getAutoCompleteOutputDate(
+      Date1 = this._autoCompleteService.getDate(
         dateDuration.date1[0].name,
         autoComplete
       );
@@ -163,7 +148,7 @@ export class FunctionDateDurationComponent implements OnInit {
 
     let Date2 = dateDuration.date2[0].name;
     if (dateDuration.date2[0].type === "variable") {
-      Date2 = this.getAutoCompleteOutputDate(
+      Date2 = this._autoCompleteService.getDate(
         dateDuration.date2[0].name,
         autoComplete
       );
@@ -215,7 +200,7 @@ export class FunctionDateDurationComponent implements OnInit {
     if (dateDuration.date1.length > 0) {
       let Date1 = dateDuration.date1[0].name;
       if (dateDuration.date1[0].type === "variable") {
-        Date1 = this.getAutoCompleteOutputDate(
+        Date1 = this._autoCompleteService.getDate(
           dateDuration.date1[0].name,
           autoComplete
         );
@@ -237,7 +222,7 @@ export class FunctionDateDurationComponent implements OnInit {
     if (dateDuration.date2.length > 0) {
       let Date2 = dateDuration.date2[0].name;
       if (dateDuration.date2[0].type === "variable") {
-        Date2 = this.getAutoCompleteOutputDate(
+        Date2 = this._autoCompleteService.getDate(
           dateDuration.date2[0].name,
           autoComplete
         );

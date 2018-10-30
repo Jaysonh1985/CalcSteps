@@ -123,16 +123,6 @@ export class FunctionDistanceComponent implements OnInit {
   removeDestination() {
     this.selectedRow[0].distance.destination = [];
   }
-  public getAutoCompleteOutput(InputValue, array): string {
-    let input = "";
-    input = InputValue;
-    array.forEach(value => {
-      if (value.name === InputValue && value.data === "Text") {
-        input = value.output;
-      }
-    });
-    return input;
-  }
 
   errorCheck(distance, autoComplete): CalculationError[] {
     this.errorArray = [];

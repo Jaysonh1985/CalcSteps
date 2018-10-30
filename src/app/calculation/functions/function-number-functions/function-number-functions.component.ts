@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { MatChipInputEvent } from "@angular/material";
 import { CalculationError } from "../../shared/models/calculation-error";
+import { AutoCompleteService } from "../../shared/services/auto-complete.service";
 
 export class NumberFunctions {
   type: string;
@@ -15,7 +16,8 @@ export class NumberFunctions {
 @Component({
   selector: "app-function-number-functions",
   templateUrl: "./function-number-functions.component.html",
-  styleUrls: ["./function-number-functions.component.css", "../../shared/css/drag-chip.css"]
+  styleUrls: ["./function-number-functions.component.css", "../../shared/css/drag-chip.css"],
+  providers: [AutoCompleteService]
 })
 export class FunctionNumberFunctionsComponent implements OnInit {
   @Input()
@@ -31,7 +33,7 @@ export class FunctionNumberFunctionsComponent implements OnInit {
   addOnBlur = true;
   droppedData: string;
 
-  constructor() {}
+  constructor(private _autoCompleteService: AutoCompleteService) {}
 
   ngOnInit() {
     if (this.selectedRow[0].numberFunctions == null) {
@@ -119,28 +121,11 @@ export class FunctionNumberFunctionsComponent implements OnInit {
   removeNumber2() {
     this.selectedRow[0].numberFunctions.number2 = [];
   }
-  private getAutoCompleteOutput(InputValue, array): any {
-    let input = 0;
-    if (isNaN(Number(InputValue))) {
-      input = InputValue;
-      array.forEach(value => {
-        if (value.name === InputValue && value.data === "Number") {
-          input = value.output;
-        }
-      });
-      if (isNaN(Number(input))) {
-        input = 0;
-      }
-    } else {
-      input = InputValue;
-    }
-    return input;
-  }
 
   calculate(numberFunctions, autoComplete): any {
     let Number1 = numberFunctions.number1[0].name;
     if (numberFunctions.number1[0].type === "variable") {
-      Number1 = this.getAutoCompleteOutput(
+      Number1 = this._autoCompleteService.getNumber(
         numberFunctions.number1[0].name,
         autoComplete
       );
@@ -148,7 +133,7 @@ export class FunctionNumberFunctionsComponent implements OnInit {
     if (numberFunctions.type === "Max" || numberFunctions.type === "Min") {
       let Number2 = numberFunctions.number2[0].name;
       if (numberFunctions.number2[0].type === "variable") {
-        Number2 = this.getAutoCompleteOutput(
+        Number2 = this._autoCompleteService.getNumber(
           numberFunctions.number2[0].name,
           autoComplete
         );
@@ -195,7 +180,7 @@ export class FunctionNumberFunctionsComponent implements OnInit {
     if (numberFunctions.number1.length > 0) {
       let Number1 = numberFunctions.number1[0].name;
       if (numberFunctions.number1[0].type === "variable") {
-        Number1 = this.getAutoCompleteOutput(
+        Number1 = this._autoCompleteService.getNumber(
           numberFunctions.number1[0].name,
           autoComplete
         );
@@ -223,7 +208,7 @@ export class FunctionNumberFunctionsComponent implements OnInit {
       if (numberFunctions.number2.length > 0) {
         let Number2 = numberFunctions.number2[0].name;
         if (numberFunctions.number2[0].type === "variable") {
-          Number2 = this.getAutoCompleteOutput(
+          Number2 = this._autoCompleteService.getNumber(
             numberFunctions.number2[0].name,
             autoComplete
           );

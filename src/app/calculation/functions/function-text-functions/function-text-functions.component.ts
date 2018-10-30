@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { MatChipInputEvent } from "@angular/material";
 import { CalculationError } from "../../shared/models/calculation-error";
+import { AutoCompleteService } from "../../shared/services/auto-complete.service";
 
 export class TextFunctions {
   type: string;
@@ -18,7 +19,8 @@ export class TextFunctions {
 @Component({
   selector: "app-function-text-functions",
   templateUrl: "./function-text-functions.component.html",
-  styleUrls: ["./function-text-functions.component.css", "../../shared/css/drag-chip.css"]
+  styleUrls: ["./function-text-functions.component.css", "../../shared/css/drag-chip.css"],
+  providers: [AutoCompleteService]
 })
 export class FunctionTextFunctionsComponent implements OnInit {
   @Input()
@@ -35,7 +37,7 @@ export class FunctionTextFunctionsComponent implements OnInit {
   addOnBlur = true;
   droppedData: string;
 
-  constructor() {}
+  constructor(private _autoCompleteService: AutoCompleteService) {}
 
   ngOnInit() {
     if (this.selectedRow[0].textFunctions == null) {
@@ -171,38 +173,10 @@ export class FunctionTextFunctionsComponent implements OnInit {
     this.selectedRow[0].textFunctions.number1 = [];
   }
 
-  getAutoCompleteText(InputValue, array): any {
-    let input = InputValue;
-    array.forEach(value => {
-      if (value.name === InputValue) {
-        input = value.output;
-      }
-    });
-    return input;
-  }
-
-  private getAutoCompleteOutput(InputValue, array): any {
-    let input = 0;
-    if (isNaN(Number(InputValue))) {
-      input = InputValue;
-      array.forEach(value => {
-        if (value.name === InputValue && value.data === "Number") {
-          input = value.output;
-        }
-      });
-      if (isNaN(Number(input))) {
-        input = 0;
-      }
-    } else {
-      input = InputValue;
-    }
-    return input;
-  }
-
   calculate(textFunctions, autoComplete): any {
     let Text1 = textFunctions.text1[0].name;
     if (textFunctions.text1[0].type === "variable") {
-      Text1 = this.getAutoCompleteText(
+      Text1 = this._autoCompleteService.getText(
         textFunctions.text1[0].name,
         autoComplete
       );
@@ -213,7 +187,7 @@ export class FunctionTextFunctionsComponent implements OnInit {
     } else if (textFunctions.type === "Concatenate") {
       let Text2 = textFunctions.text2[0].name;
       if (textFunctions.text2[0].type === "variable") {
-        Text2 = this.getAutoCompleteText(
+        Text2 = this._autoCompleteService.getText(
           textFunctions.text2[0].name,
           autoComplete
         );
@@ -224,7 +198,7 @@ export class FunctionTextFunctionsComponent implements OnInit {
     } else if (textFunctions.type === "Left") {
       let Number1 = textFunctions.number1[0].name;
       if (textFunctions.number1[0].type === "variable") {
-        Number1 = this.getAutoCompleteOutput(
+        Number1 = this._autoCompleteService.getText(
           textFunctions.number1[0].name,
           autoComplete
         );
@@ -233,7 +207,7 @@ export class FunctionTextFunctionsComponent implements OnInit {
     } else if (textFunctions.type === "Right") {
       let Number1 = textFunctions.number1[0].name;
       if (textFunctions.number1[0].type === "variable") {
-        Number1 = this.getAutoCompleteOutput(
+        Number1 = this._autoCompleteService.getNumber(
           textFunctions.number1[0].name,
           autoComplete
         );
@@ -271,7 +245,7 @@ export class FunctionTextFunctionsComponent implements OnInit {
     } else {
       let Text1 = textFunctions.text1[0].name;
       if (textFunctions.text1[0].type === "variable") {
-        Text1 = this.getAutoCompleteText(
+        Text1 = this._autoCompleteService.getText(
           textFunctions.text1[0].name,
           autoComplete
         );
@@ -299,7 +273,7 @@ export class FunctionTextFunctionsComponent implements OnInit {
       } else {
         let Text2 = textFunctions.text2[0].name;
         if (textFunctions.text2[0].type === "variable") {
-          Text2 = this.getAutoCompleteText(
+          Text2 = this._autoCompleteService.getText(
             textFunctions.text2[0].name,
             autoComplete
           );
@@ -328,7 +302,7 @@ export class FunctionTextFunctionsComponent implements OnInit {
         if (textFunctions.number1.length > 0) {
           let Number1 = textFunctions.number1[0].name;
           if (textFunctions.number1[0].type === "variable") {
-            Number1 = this.getAutoCompleteOutput(
+            Number1 = this._autoCompleteService.getNumber(
               textFunctions.number1[0].name,
               autoComplete
             );

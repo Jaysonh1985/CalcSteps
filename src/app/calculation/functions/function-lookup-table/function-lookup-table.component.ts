@@ -18,6 +18,7 @@ import {
   MAT_DATE_FORMATS,
   MAT_DATE_LOCALE
 } from "@angular/material/core";
+import { AutoCompleteService } from "../../shared/services/auto-complete.service";
 
 export class LookupTable {
   TableName: string;
@@ -57,7 +58,8 @@ export class LookupTable {
 @Component({
   selector: "app-function-lookup-table",
   templateUrl: "./function-lookup-table.component.html",
-  styleUrls: ["./function-lookup-table.component.css", "../../shared/css/drag-chip.css"]
+  styleUrls: ["./function-lookup-table.component.css", "../../shared/css/drag-chip.css"],
+  providers: [AutoCompleteService]
 })
 export class FunctionLookupTableComponent implements OnInit {
   @Input() selectedRow: any[];
@@ -76,7 +78,8 @@ export class FunctionLookupTableComponent implements OnInit {
   droppedData: string;
   constructor(
     private authService: AuthService,
-    private lookupService: LookupService
+    private lookupService: LookupService,
+    private _autoCompleteService: AutoCompleteService
   ) {}
 
   ngOnInit() {
@@ -153,45 +156,6 @@ export class FunctionLookupTableComponent implements OnInit {
           });
         });
     }
-  }
-  getAutoCompleteOutputDate(InputValue, array): any {
-    let input = 0;
-    const date = moment(InputValue, "DD/MM/YYYY", true);
-    if (date.isValid() === false) {
-      input = InputValue;
-      array.forEach(value => {
-        if (value.name === InputValue && value.data === "Date") {
-          input = value.output;
-        }
-      });
-    } else {
-      input = InputValue;
-    }
-    return input;
-  }
-  getAutoCompleteNumber(InputValue, array): any {
-    let input = 0;
-    if (isNaN(Number(InputValue))) {
-      input = InputValue;
-      array.forEach(value => {
-        if (value.name === InputValue) {
-          input = value.output;
-        }
-      });
-    } else {
-      input = InputValue;
-    }
-    return input;
-  }
-
-  getAutoCompleteText(InputValue, array): any {
-    let input = InputValue;
-    array.forEach(value => {
-      if (value.name === InputValue) {
-        input = value.output;
-      }
-    });
-    return input;
   }
 
   addValue(event: MatChipInputEvent): void {
@@ -286,7 +250,7 @@ export class FunctionLookupTableComponent implements OnInit {
 
       let Date1 = lookupTable.LookupValue[0].name;
       if (lookupTable.LookupValue[0].type === "variable") {
-        Date1 = this.getAutoCompleteOutputDate(
+        Date1 = this._autoCompleteService.getDate(
           lookupTable.LookupValue[0].name,
           autoComplete
         );
@@ -305,20 +269,20 @@ export class FunctionLookupTableComponent implements OnInit {
       }
     } else if (lookupTable.LookupType === "Number" && lookupTable.LookupValue.length > 0) {
 
-      let Number2 = lookupTable.LookupValue[0].name;
+      let Number1 = lookupTable.LookupValue[0].name;
       if (lookupTable.LookupValue[0].type === "variable") {
-        Number2 = this.getAutoCompleteNumber(
+        Number1 = this._autoCompleteService.getNumber(
           lookupTable.LookupValue[0].name,
           autoComplete
         );
       }
 
-      if (isNaN(Number(Number2))) {
+      if (isNaN(Number(Number1))) {
         this.errorArray.push(
           new CalculationError(
             lookupTable.rowIndex,
             "Error",
-            Number2 +
+            Number1 +
               " - Lookup Value - Variable mismatch error - this could be a missing variable or a date in an incorrect format"
           )
         );
@@ -327,7 +291,7 @@ export class FunctionLookupTableComponent implements OnInit {
     } else {
       let Text1 = lookupTable.LookupValue[0].name;
       if (lookupTable.LookupValue[0].type === "variable") {
-        Text1 = this.getAutoCompleteText(
+        Text1 = this._autoCompleteService.getText(
           lookupTable.LookupValue[0].name,
           autoComplete
         );

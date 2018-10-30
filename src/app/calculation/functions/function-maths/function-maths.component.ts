@@ -4,6 +4,7 @@ import { COMMA, ENTER } from "@angular/cdk/keycodes";
 import { CalculationError } from "../../shared/models/calculation-error";
 import { DragulaService } from "ng2-dragula";
 import { Chip } from "../../shared/models/chip";
+import { AutoCompleteService } from "../../shared/services/auto-complete.service";
 
 export class Maths {
   formula: string[];
@@ -17,7 +18,8 @@ export class Maths {
 @Component({
   selector: "app-function-maths",
   templateUrl: "./function-maths.component.html",
-  styleUrls: ["./function-maths.component.css"]
+  styleUrls: ["./function-maths.component.css"],
+  providers: [AutoCompleteService]
 })
 export class FunctionMathsComponent implements OnInit {
   errorArray: any[];
@@ -34,7 +36,7 @@ export class FunctionMathsComponent implements OnInit {
   addOnBlur = true;
   droppedData: string;
 
-  constructor(private dragulaService: DragulaService) {
+  constructor(private dragulaService: DragulaService, private _autoCompleteService: AutoCompleteService) {
     this.dragulaService.destroy("formula");
     this.dragulaService.createGroup("formula", {
       revertOnSpill: true,
@@ -106,49 +108,8 @@ export class FunctionMathsComponent implements OnInit {
     }
   }
 
-  private getAutoCompleteOutput(InputValue, array): any {
-    let input = 0;
-    if (isNaN(Number(InputValue))) {
-      input = InputValue;
-      array.forEach(value => {
-        if (value.name === InputValue && value.data === "Number") {
-          if (value.output === "") {
-            input = 0;
-          } else {
-            input = value.output;
-          }
-        }
-      });
-      if (isNaN(Number(input))) {
-        input = 0;
-      }
-    } else {
-      input = InputValue;
-    }
-    return input;
-  }
-  private getAutoCompleteOutputError(InputValue, array): any {
-    let input = 0;
-    if (isNaN(Number(InputValue))) {
-      input = InputValue;
-      array.forEach(value => {
-        if (value.name === InputValue && value.data === "Number") {
-          if (value.output === "") {
-            input = 0;
-          } else {
-            input = value.output;
-          }
-        }
-      });
-      if (isNaN(Number(input))) {
-        input = input;
-      }
-    } else {
-      input = InputValue;
-    }
-    return input;
-  }
-  public RoundingRoundUp(Rounding, Value) {
+
+   public RoundingRoundUp(Rounding, Value) {
     if (Rounding === 1 || Rounding === 2) {
       return mathJs.round(mathJs.ceil(Value * 100) / 100, Rounding);
     } else if (Rounding === 3) {
@@ -190,7 +151,7 @@ export class FunctionMathsComponent implements OnInit {
     maths.formula.forEach(element => {
       let number = element.name;
       if (element.type === "variable") {
-        number = this.getAutoCompleteOutput(element.name, autoComplete);
+        number = this._autoCompleteService.getNumber(element.name, autoComplete);
       }
       mathString = mathString.concat(number);
     });
@@ -227,7 +188,7 @@ export class FunctionMathsComponent implements OnInit {
     }
     maths.formula.forEach(element => {
       if (element.type === "variable") {
-        const Number1 = this.getAutoCompleteOutputError(element.name, autoComplete);
+        const Number1 = this._autoCompleteService.getNumberError(element.name, autoComplete);
         if (isNaN(Number(Number1))) {
           this.errorArray.push(
             new CalculationError(

@@ -15,6 +15,7 @@ import {
   MAT_DATE_FORMATS,
   MAT_DATE_LOCALE
 } from "@angular/material/core";
+import { AutoCompleteService } from "../../shared/services/auto-complete.service";
 
 export class DateAdjustment {
   type: string;
@@ -63,7 +64,7 @@ export class FunctionDateAdjustmentComponent implements OnInit {
   public autoCompleteOptionsText: any[];
   public autoCompleteOptionsDate: any[];
   public errorArray: CalculationError[];
-  constructor() {}
+  constructor(private _autoCompleteService: AutoCompleteService) {}
   filteredOptions: Observable<string[]>;
   visible = true;
   selectable = true;
@@ -110,36 +111,6 @@ export class FunctionDateAdjustmentComponent implements OnInit {
       }
     });
   }
-  getAutoCompleteOutputDate(InputValue, array): any {
-    let input = 0;
-    const date = moment(InputValue, "DD/MM/YYYY", true);
-    if (date.isValid() === false) {
-      input = InputValue;
-      array.forEach(value => {
-        if (value.name === InputValue && value.data === "Date") {
-          input = value.output;
-        }
-      });
-    } else {
-      input = InputValue;
-    }
-    return input;
-  }
-  getAutoCompleteNumber(InputValue, array): any {
-    let input = 0;
-    if (isNaN(Number(InputValue))) {
-      input = InputValue;
-      array.forEach(value => {
-        if (value.name === InputValue) {
-          input = value.output;
-        }
-      });
-    } else {
-      input = InputValue;
-    }
-    return input;
-  }
-
   onDate1Drop(data: any) {
     // Get the dropped data here
     this.selectedRow[0].dateAdjustment.date1 = [];
@@ -218,14 +189,14 @@ export class FunctionDateAdjustmentComponent implements OnInit {
     moment.locale("en-GB");
     let Date1 = dateAdjustment.date1[0].name;
     if (dateAdjustment.date1[0].type === "variable") {
-      Date1 = this.getAutoCompleteOutputDate(
+      Date1 = this._autoCompleteService.getDate(
         dateAdjustment.date1[0].name,
         autoComplete
       );
     }
     let Date2 = dateAdjustment.date2[0].name;
     if (dateAdjustment.date2[0].type === "variable") {
-      Date2 = this.getAutoCompleteOutputDate(
+      Date2 = this._autoCompleteService.getDate(
         dateAdjustment.date2[0].name,
         autoComplete
       );
@@ -233,7 +204,7 @@ export class FunctionDateAdjustmentComponent implements OnInit {
     if (dateAdjustment.type === "Add" || dateAdjustment.type === "Subtract") {
       let Period = dateAdjustment.period[0].name;
       if (dateAdjustment.period[0].type === "variable") {
-        Period = this.getAutoCompleteNumber(
+        Period = this._autoCompleteService.getNumber(
           dateAdjustment.period[0].name,
           autoComplete
         );
@@ -381,7 +352,7 @@ export class FunctionDateAdjustmentComponent implements OnInit {
     if (dateAdjustment.type !== "Today" && dateAdjustment.date1.length > 0) {
       let Date1 = dateAdjustment.date1[0].name;
       if (dateAdjustment.date1[0].type === "variable") {
-        Date1 = this.getAutoCompleteOutputDate(
+        Date1 = this._autoCompleteService.getDate(
           dateAdjustment.date1[0].name,
           autoComplete
         );
@@ -405,7 +376,7 @@ export class FunctionDateAdjustmentComponent implements OnInit {
     ) {
       let Date2 = dateAdjustment.date2[0].name;
       if (dateAdjustment.date2[0].type === "variable") {
-        Date2 = this.getAutoCompleteOutputDate(
+        Date2 = this._autoCompleteService.getDate(
           dateAdjustment.date2[0].name,
           autoComplete
         );
@@ -427,7 +398,7 @@ export class FunctionDateAdjustmentComponent implements OnInit {
     ) {
       let Period = dateAdjustment.period[0].name;
       if (dateAdjustment.period[0].type === "variable") {
-        Period = this.getAutoCompleteNumber(
+        Period =  this._autoCompleteService.getNumber(
           dateAdjustment.period[0].name,
           autoComplete
         );

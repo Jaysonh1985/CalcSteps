@@ -16,6 +16,7 @@ import { environment } from "../../../../environments/environment";
 import { DragulaService } from "ng2-dragula";
 import { FunctionNumberFunctionsComponent } from "../../functions/function-number-functions/function-number-functions.component";
 import { FunctionTextFunctionsComponent } from "../../functions/function-text-functions/function-text-functions.component";
+import { AutoCompleteService } from "./auto-complete.service";
 
 @Injectable()
 export class CalculateService {
@@ -23,7 +24,8 @@ export class CalculateService {
   errorArray: any[];
   constructor(
     private http: HttpClient,
-    private dragulaService: DragulaService
+    private dragulaService: DragulaService,
+    private autoCompleteService: AutoCompleteService
   ) {}
 
   async getDistanceMatrix(origin: string, destination: string): Promise<any> {
@@ -51,14 +53,14 @@ export class CalculateService {
     const distance = new FunctionDistanceComponent();
     let Origin = "";
     if (row.distance.origin[0].type === "variable") {
-      Origin = distance.getAutoCompleteOutput(
+      Origin = this.autoCompleteService.getText(
         row.distance.origin[0].name,
         autocomplete
       );
     }
     let Destination = "";
     if (row.distance.destination[0].type === "variable") {
-      Destination = distance.getAutoCompleteOutput(
+      Destination = this.autoCompleteService.getText(
         row.distance.destination[0].name,
         autocomplete
       );
@@ -80,7 +82,8 @@ export class CalculateService {
   ) {
     const lookupTable = new FunctionLookupTableComponent(
       authService,
-      lookupService
+      lookupService,
+      this.autoCompleteService
     );
     let LookupValue: string;
     LookupValue = row.lookupTable.LookupValue[0].name;
@@ -88,7 +91,7 @@ export class CalculateService {
       row.lookupTable.LookupType === "Date" &&
       row.lookupTable.LookupValue[0].type === "variable"
     ) {
-      LookupValue = lookupTable.getAutoCompleteOutputDate(
+      LookupValue = this.autoCompleteService.getDate(
         row.lookupTable.LookupValue[0].name,
         autocomplete
       );
@@ -96,7 +99,7 @@ export class CalculateService {
       row.lookupTable.LookupType === "Number" &&
       row.lookupTable.LookupValue[0].type === "variable"
     ) {
-      LookupValue = lookupTable.getAutoCompleteNumber(
+      LookupValue = this.autoCompleteService.getNumber(
         row.lookupTable.LookupValue[0].name,
         autocomplete
       );
@@ -104,7 +107,7 @@ export class CalculateService {
       row.lookupTable.LookupType === "Text" &&
       row.lookupTable.LookupValue[0].type === "variable"
     ) {
-      LookupValue = lookupTable.getAutoCompleteText(
+      LookupValue = this.autoCompleteService.getText(
         row.lookupTable.LookupValue[0].name,
         autocomplete
       );
@@ -127,22 +130,22 @@ export class CalculateService {
     calcService
   ): string {
     if (row.functionType === "Maths") {
-      const math = new FunctionMathsComponent(this.dragulaService);
+      const math = new FunctionMathsComponent(this.dragulaService, this.autoCompleteService);
       return math.calculate(row.maths, autocomplete);
     } else if (row.functionType === "Date Adjustment") {
-      const dateAdjustment = new FunctionDateAdjustmentComponent();
+      const dateAdjustment = new FunctionDateAdjustmentComponent(this.autoCompleteService);
       return dateAdjustment.calculate(row.dateAdjustment, autocomplete);
     } else if (row.functionType === "Date Duration") {
-      const dateDuration = new FunctionDateDurationComponent();
+      const dateDuration = new FunctionDateDurationComponent(this.autoCompleteService);
       return dateDuration.calculate(row.dateDuration, autocomplete);
     } else if (row.functionType === "If Logic") {
-      const ifLogic = new FunctionIfLogicComponent(this.dragulaService);
+      const ifLogic = new FunctionIfLogicComponent(this.dragulaService, this.autoCompleteService);
       return ifLogic.calculate(row.ifLogic, autocomplete);
     } else if (row.functionType === "Number Functions") {
-      const numberFunctions = new FunctionNumberFunctionsComponent();
+      const numberFunctions = new FunctionNumberFunctionsComponent(this.autoCompleteService);
       return numberFunctions.calculate(row.numberFunctions, autocomplete);
     } else if (row.functionType === "Text Functions") {
-      const textFunctions = new FunctionTextFunctionsComponent();
+      const textFunctions = new FunctionTextFunctionsComponent(this.autoCompleteService);
       return textFunctions.calculate(row.textFunctions, autocomplete);
     }
     return "";
@@ -200,20 +203,20 @@ export class CalculateService {
       return this.errorArray;
     }
     if (row.functionType === "Maths") {
-      const math = new FunctionMathsComponent(this.dragulaService);
+      const math = new FunctionMathsComponent(this.dragulaService, this.autoCompleteService);
       return this.errorArray.concat(math.errorCheck(row.maths, autocomplete));
     } else if (row.functionType === "Date Adjustment") {
-      const dateAdjustment = new FunctionDateAdjustmentComponent();
+      const dateAdjustment = new FunctionDateAdjustmentComponent(this.autoCompleteService);
       return this.errorArray.concat(
         dateAdjustment.errorCheck(row.dateAdjustment, autocomplete)
       );
     } else if (row.functionType === "Date Duration") {
-      const dateDuration = new FunctionDateDurationComponent();
+      const dateDuration = new FunctionDateDurationComponent(this.autoCompleteService);
       return this.errorArray.concat(
         dateDuration.errorCheck(row.dateDuration, autocomplete)
       );
     } else if (row.functionType === "If Logic") {
-      const ifLogic = new FunctionIfLogicComponent(this.dragulaService);
+      const ifLogic = new FunctionIfLogicComponent(this.dragulaService, this.autoCompleteService);
       return this.errorArray.concat(
         ifLogic.errorCheck(row.ifLogic, autocomplete)
       );
@@ -225,18 +228,19 @@ export class CalculateService {
     } else if (row.functionType === "Lookup Table") {
       const lookupTable = new FunctionLookupTableComponent(
         authService,
-        lookupService
+        lookupService,
+        this.autoCompleteService
       );
       return this.errorArray.concat(
         lookupTable.errorCheck(row.lookupTable, autocomplete)
       );
     } else if (row.functionType === "Number Functions") {
-      const numberFunctions = new FunctionNumberFunctionsComponent();
+      const numberFunctions = new FunctionNumberFunctionsComponent(this.autoCompleteService);
       return this.errorArray.concat(
         numberFunctions.errorCheck(row.numberFunctions, autocomplete)
       );
     } else if (row.functionType === "Text Functions") {
-      const testFunctions = new FunctionTextFunctionsComponent();
+      const testFunctions = new FunctionTextFunctionsComponent(this.autoCompleteService);
       return this.errorArray.concat(
         testFunctions.errorCheck(row.textFunctions, autocomplete)
       );

@@ -7,6 +7,7 @@ import { Chip } from "../../shared/models/chip";
 import { CalculationError } from "../../shared/models/calculation-error";
 import * as moment from "moment";
 import { MatDatepickerInputEvent } from "@angular/material";
+import { AutoCompleteService } from "../../shared/services/auto-complete.service";
 
 export class IfLogic {
   datatype: string;
@@ -19,7 +20,8 @@ export class IfLogic {
 @Component({
   selector: "app-function-if-logic",
   templateUrl: "./function-if-logic.component.html",
-  styleUrls: ["./function-if-logic.component.css"]
+  styleUrls: ["./function-if-logic.component.css"],
+  providers: [AutoCompleteService]
 })
 export class FunctionIfLogicComponent implements OnInit {
   errorArray: any[];
@@ -39,7 +41,7 @@ export class FunctionIfLogicComponent implements OnInit {
   removable = true;
   addOnBlur = true;
   droppedData: string;
-  constructor(private dragulaService: DragulaService) {
+  constructor(private dragulaService: DragulaService, private _autoCompleteService: AutoCompleteService) {
     this.dragulaService.destroy("formula");
     this.dragulaService.createGroup("formula", {
       revertOnSpill: true,
@@ -116,80 +118,6 @@ export class FunctionIfLogicComponent implements OnInit {
     });
   }
 
-  getAutoCompleteOutputDate(InputValue, array): any {
-    let input = 0;
-    const date = moment(InputValue, "DD/MM/YYYY", true);
-    if (date.isValid() === false) {
-      input = InputValue;
-      array.forEach(value => {
-        if (value.name === InputValue && value.data === "Date") {
-          input = value.output;
-        }
-      });
-    } else {
-      input = InputValue;
-    }
-    return input;
-  }
-  getAutoCompleteNumber(InputValue, array): any {
-    let input = 0;
-    if (isNaN(Number(InputValue))) {
-      input = InputValue;
-      array.forEach(value => {
-        if (value.name === InputValue) {
-          input = value.output;
-        }
-      });
-    } else {
-      input = InputValue;
-    }
-    return input;
-  }
-
-  private getAutoCompleteOutput(InputValue, array): any {
-    let input = 0;
-    if (isNaN(Number(InputValue))) {
-      input = InputValue;
-      array.forEach(value => {
-        if (value.name === InputValue) {
-          input = value.output;
-        }
-      });
-    } else {
-      input = InputValue;
-    }
-    return input;
-  }
-
-  getAutoCompleteText(InputValue, array): any {
-    let input = InputValue;
-    array.forEach(value => {
-      if (value.name === InputValue) {
-        input = value.output;
-      }
-    });
-    return input;
-  }
-
-  getAutoCompleteLogic(InputValue, array): any {
-    let input = false;
-    if (InputValue !== "true" && InputValue !== "false") {
-      input = InputValue;
-      array.forEach(value => {
-        if (value.name === InputValue && value.data === "Logic") {
-          if (value.output === "") {
-            input = false;
-          } else {
-            input = value.output;
-          }
-        }
-      });
-    } else {
-      input = InputValue;
-    }
-    return input;
-  }
-
   remove(index): void {
     if (index >= 0) {
       this.selectedRow[0].ifLogic.formula.splice(index, 1);
@@ -234,17 +162,17 @@ export class FunctionIfLogicComponent implements OnInit {
       let output = element.name;
       if (element.type === "variable") {
         if (element.datatype === "Date") {
-          output = this.getAutoCompleteOutputDate(element.name, autoComplete);
+          output = this._autoCompleteService.getDate(element.name, autoComplete);
           output = "'" + output + "'";
         } else if (element.datatype === "Number") {
-          output = this.getAutoCompleteNumber(element.name, autoComplete);
+          output = this._autoCompleteService.getNumber(element.name, autoComplete);
         } else if (element.datatype === "Text") {
-          output = this.getAutoCompleteText(element.name, autoComplete);
+          output = this._autoCompleteService.getText(element.name, autoComplete);
           output = "'" + output + "'";
         } else if (element.datatype === "Logic") {
-          output = this.getAutoCompleteLogic(element.name, autoComplete);
+          output = this._autoCompleteService.getLogic(element.name, autoComplete);
         } else {
-          output = this.getAutoCompleteOutput(element.name, autoComplete);
+          output = this._autoCompleteService.getText(element.name, autoComplete);
           output = "'" + output + "'";
         }
       } else if (element.type === "hardcoded") {
@@ -273,7 +201,7 @@ export class FunctionIfLogicComponent implements OnInit {
         if (element.datatype === "Date") {
           let Date1 = element.name;
           if (element.type === "variable") {
-            Date1 = this.getAutoCompleteOutputDate(element.name, autoComplete);
+            Date1 = this._autoCompleteService.getDate(element.name, autoComplete);
           }
           const a = moment(Date1, "DD/MM/YYYY", true);
           if (a.isValid() === false) {
@@ -290,7 +218,7 @@ export class FunctionIfLogicComponent implements OnInit {
         if (element.datatype === "Number") {
           let Number2 = element.name;
           if (element.type === "variable") {
-            Number2 = this.getAutoCompleteNumber(element.name, autoComplete);
+            Number2 = this._autoCompleteService.getNumber(element.name, autoComplete);
           }
           if (isNaN(Number(Number2))) {
             this.errorArray.push(
@@ -306,7 +234,7 @@ export class FunctionIfLogicComponent implements OnInit {
         if (element.datatype === "Text") {
           let Text1 = element.name;
           if (element.type === "variable") {
-            Text1 = this.getAutoCompleteText(element.name, autoComplete);
+            Text1 = this._autoCompleteService.getText(element.name, autoComplete);
             if (element.name === Text1) {
               this.errorArray.push(
                 new CalculationError(
@@ -322,7 +250,7 @@ export class FunctionIfLogicComponent implements OnInit {
         if (element.datatype === "Logic") {
           let Logic1 = element.name;
           if (element.type === "variable") {
-            Logic1 = this.getAutoCompleteLogic(element.name, autoComplete);
+            Logic1 = this._autoCompleteService.getLogic(element.name, autoComplete);
             if (Logic1 !== true && Logic1 !== false) {
               this.errorArray.push(
                 new CalculationError(

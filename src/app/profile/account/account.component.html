@@ -10,19 +10,40 @@
           <h3>Account Details</h3>
         </mat-card-header>
         <mat-card-content>
-          <br />
-          Name: {{name}}
-          <br />
-          <br />
-          Email: {{email}}
-          <br />
-          <br />
-          Account Reference: {{accountReference}}
+          <mat-tab-group>
+            <mat-tab label="Information">
+              <br />
+              Name: {{name}}
+              <br />
+              <br />
+              Email: {{email}}
+              <br />
+              <br />
+              Account Reference: {{accountReference}}
+              <br />
+              <br />
+              <button mat-raised-button (click)="logout()">Logout</button>
+              <br />
+              <br />
+            </mat-tab>
+            <mat-tab label="Delete Account">
+              <br />
+              If you wish to delete your account please do so by entering your password below and click the button.
+              <br />
+              <br />
+              Please note that on deletion of your account any work created will be removed together with payment history.  If you wish to rejoin again then a new account will need to be setup.
+              <br />
+              <br />
+              <form [formGroup]="formdata" (ngSubmit)="deleteAccount(formdata.value)">
+                <mat-form-field>
+                  <input type="password" matInput name="password" placeholder="Password" formControlName="password"
+                    autocomplete="off">
+                </mat-form-field>
+                <button type="submit" [disabled]="!formdata.valid" mat-button>Confirm Delete Account</button>
+              </form>
+            </mat-tab>
+          </mat-tab-group>
         </mat-card-content>
-        <mat-card-actions>
-          <button mat-button (click)="logout()">Logout</button>
-          <button mat-button (click)="deleteAccount()">Delete Account</button>
-        </mat-card-actions>
       </mat-card>
       <app-subscription-payment></app-subscription-payment>
     </div>

@@ -174,6 +174,7 @@ export class FunctionTextFunctionsComponent implements OnInit {
   }
 
   calculate(textFunctions, autoComplete): any {
+
     let Text1 = textFunctions.text1[0].name;
     if (textFunctions.text1[0].type === "variable") {
       Text1 = this._autoCompleteService.getText(

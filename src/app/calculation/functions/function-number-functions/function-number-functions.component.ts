@@ -168,6 +168,15 @@ export class FunctionNumberFunctionsComponent implements OnInit {
   }
   errorCheck(numberFunctions, autoComplete): CalculationError[] {
     this.errorArray = [];
+    if (numberFunctions.type === "") {
+      this.errorArray.push(
+        new CalculationError(
+          numberFunctions.rowIndex,
+          "Error",
+          "Type is missing and is a required field"
+        )
+      );
+    }
     if (numberFunctions.number1.length === 0) {
       this.errorArray.push(
         new CalculationError(

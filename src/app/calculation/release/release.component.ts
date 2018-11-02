@@ -89,6 +89,12 @@ export class ReleaseComponent implements OnInit {
           })
           .subscribe(sub => {
             this.calculation = calculations[0];
+            this.authService.userFirebase.subscribe(auth => {
+              if (auth) {
+              } else {
+                this.authService.anonymousLogin();
+              }
+            });
             if (
               sub.productId === "plan_Cwi9mPWRIyMUEp" &&
               sub.status === "active"

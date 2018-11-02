@@ -7,6 +7,7 @@ import { Observable } from "rxjs";
 import { fromPromise } from "rxjs/observable/fromPromise";
 import { CalculationService } from "../../calculation/shared/services/calculation.service";
 import { ReleaseService } from "../../calculation/shared/services/release.service";
+import { retry } from "rxjs/operators";
 
 export class User {
   uid: string;
@@ -55,6 +56,10 @@ export class AuthService {
   }
   login(email: string, password: string) {
     return this.firebaseAuth.auth.signInWithEmailAndPassword(email, password);
+  }
+  anonymousLogin() {
+    return this.firebaseAuth.auth.signInAnonymously().then(() => console.log("successful login") )
+    .catch(error => console.log(error));
   }
   signInWithGoogle() {
     return this.firebaseAuth.auth

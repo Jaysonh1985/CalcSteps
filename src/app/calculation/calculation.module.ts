@@ -44,6 +44,7 @@ import { ReleaseErrorComponent } from "./release/release-error/release-error.com
 import { FunctionNumberFunctionsComponent } from "./functions/function-number-functions/function-number-functions.component";
 import { FunctionTextFunctionsComponent } from "./functions/function-text-functions/function-text-functions.component";
 import { MoveableChipListComponent } from "./shared/components/moveable-chip-list/moveable-chip-list.component";
+import { DroppableChipListComponent } from './shared/components/droppable-chip-list/droppable-chip-list.component';
 
 @NgModule({
   imports: [
@@ -87,7 +88,8 @@ import { MoveableChipListComponent } from "./shared/components/moveable-chip-lis
     ReleaseErrorComponent,
     FunctionNumberFunctionsComponent,
     FunctionTextFunctionsComponent,
-    MoveableChipListComponent
+    MoveableChipListComponent,
+    DroppableChipListComponent
   ],
   entryComponents: [LookupDialogComponent, TestDialogComponent],
   providers: [

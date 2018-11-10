@@ -114,77 +114,25 @@ export class FunctionDateAdjustmentComponent implements OnInit {
       }
     });
   }
-  onDate1Drop(data: any) {
-    // Get the dropped data here
-    this.selectedRow[0].dateAdjustment.date1 = [];
-    this.selectedRow[0].dateAdjustment.date1.push({
-      name: data.dragData.name,
-      type: data.dragData.type,
-      datatype: data.dragData.datatype
-    });
-  }
-  onDate2Drop(data: any) {
-    // Get the dropped data here
-    this.selectedRow[0].dateAdjustment.date2 = [];
-    this.selectedRow[0].dateAdjustment.date2.push({
-      name: data.dragData.name,
-      type: data.dragData.type,
-      datatype: data.dragData.datatype
-    });
-  }
-  onPeriodDrop(data: any) {
-    // Get the dropped data here
-    this.selectedRow[0].dateAdjustment.period = [];
-    this.selectedRow[0].dateAdjustment.period.push({
-      name: data.dragData.name,
-      type: data.dragData.type,
-      datatype: data.dragData.datatype
-    });
-  }
-  removeDates1() {
-    this.selectedRow[0].dateAdjustment.date1 = [];
-  }
-  removeDates2() {
-    this.selectedRow[0].dateAdjustment.date2 = [];
-  }
-  removePeriod() {
-    this.selectedRow[0].dateAdjustment.period = [];
-  }
-  addEventDate1(type: string, event: MatDatepickerInputEvent<Date>) {
-    moment.locale("en-GB");
-    this.selectedRow[0].dateAdjustment.date1 = [];
-    this.selectedRow[0].dateAdjustment.date1.push({
-      name: moment(event.value).format("DD/MM/YYYY"),
-      type: "hardcoded",
-      datatype: "Date"
-    });
-  }
-  addEventDate2(type: string, event: MatDatepickerInputEvent<Date>) {
-    moment.locale("en-GB");
-    this.selectedRow[0].dateAdjustment.date2 = [];
-    this.selectedRow[0].dateAdjustment.date2.push({
-      name: moment(event.value).format("DD/MM/YYYY"),
-      type: "hardcoded",
-      datatype: "Date"
-    });
-  }
-  addEventPeriod(event: MatChipInputEvent) {
-    const input = event.input;
-    const value = event.value;
-    if (!isNaN(Number(value))) {
-      // Add our fruit
-      if ((value || "").trim()) {
-        this.selectedRow[0].dateAdjustment.period = [];
-        this.selectedRow[0].dateAdjustment.period.push({
-          name: event.value,
-          type: "hardcoded",
-          datatype: "Number"
-        });
-      }
+  removeChip(array, field) {
+    if (field === "date1") {
+      this.selectedRow[0].dateAdjustment.date1 = [];
+    } else if (field === "date2") {
+      this.selectedRow[0].dateAdjustment.date2 = [];
+    } else if (field === "period") {
+      this.selectedRow[0].dateAdjustment.period = [];
     }
-    // Reset the input value
-    if (input) {
-      input.value = "";
+  }
+  dropChip(array, field) {
+    if (field === "date1") {
+      this.selectedRow[0].dateAdjustment.date1 = [];
+      this.selectedRow[0].dateAdjustment.date1 = array;
+    } else if (field === "date2") {
+      this.selectedRow[0].dateAdjustment.date2 = [];
+      this.selectedRow[0].dateAdjustment.date2 = array;
+    } else if (field === "period") {
+      this.selectedRow[0].dateAdjustment.period = [];
+      this.selectedRow[0].dateAdjustment.period = array;
     }
   }
 

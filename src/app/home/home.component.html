@@ -3,10 +3,10 @@
 	<div class="centered">Calc Steps</div>
 	<div class="subheadercentered">Automation made simple</div>
 	<div class="subheadercentered1">
-		<a *ngIf="authService.userFirebase | async" mat-button routerLink="../dashboard">
+		<a *ngIf="loggedIn" mat-button routerLink="../dashboard">
 			Dashboard
 		</a>
-		<a mat-button routerLink="../login">
+		<a *ngIf="!loggedIn" mat-button routerLink="../login">
 			Sign Up / Login
 		</a>
 	</div>

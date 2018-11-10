@@ -9,7 +9,18 @@ import { AuthService } from "../shared/services/auth.service";
 })
 export class HomeComponent implements OnInit {
   constructor(public authService: AuthService) {}
-
-  ngOnInit() {}
+  displayName: string;
+  loggedIn: boolean;
+  ngOnInit() {
+    this.loggedIn = false;
+    this.authService.userFirebase.subscribe(auth => {
+      if (auth) {
+        this.loggedIn = true;
+        if (auth.isAnonymous) {
+          this.authService.logout();
+        }
+      }
+    });
+  }
 
 }

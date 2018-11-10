@@ -52,30 +52,16 @@ export class FunctionTextFunctionsComponent implements OnInit {
     if (this.selectedRow[0].textFunctions.number1 == null) {
       this.selectedRow[0].textFunctions.number1 = [];
     }
-
-    this.autoCompleteOptionsText = [];
     this.autoCompleteOptionsNumber = [];
-    this.autoCompleteArray.forEach(element => {
-      if (element.data.data === "Text") {
-        if (element.data.name !== "") {
-          this.autoCompleteOptionsText.push({
-            name: element.data.name,
-            type: "variable",
-            datatype: "Text",
-            value: element.data.output
-          });
-        }
-      } else if (element.data.data === "Number") {
-        if (element.data.name !== "") {
-          this.autoCompleteOptionsNumber.push({
-            name: element.data.name,
-            type: "variable",
-            datatype: "Number",
-            value: element.data.output
-          });
-        }
-      }
-    });
+    this.autoCompleteOptionsNumber = this._autoCompleteService.getAutoCompleteArray(
+      this.autoCompleteArray,
+      "Number"
+    );
+    this.autoCompleteOptionsText = [];
+    this.autoCompleteOptionsText = this._autoCompleteService.getAutoCompleteArray(
+      this.autoCompleteArray,
+      "Text"
+    );
   }
   removeChip(array, field) {
     if (field === "text1") {

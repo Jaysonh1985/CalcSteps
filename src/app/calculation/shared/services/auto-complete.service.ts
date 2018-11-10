@@ -104,4 +104,16 @@ export class AutoCompleteService {
     return input;
   }
 
+  getAutoCompleteArray(array, datatype): any[] {
+    const autoComplete = [];
+    array.filter(x => x.data.data === datatype).forEach(element => {
+      autoComplete.push({
+        name: element.data.name,
+        type: "variable",
+        datatype: element.data.data,
+        value: element.data.output
+      });
+    });
+    return autoComplete;
+  }
 }

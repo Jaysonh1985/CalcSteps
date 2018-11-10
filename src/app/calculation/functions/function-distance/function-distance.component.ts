@@ -3,6 +3,7 @@ import { Observable } from "rxjs";
 
 import { MatChipInputEvent } from "@angular/material";
 import { CalculationError } from "../../shared/models/calculation-error";
+import { AutoCompleteService } from "../../shared/services/auto-complete.service";
 
 export class Distance {
   origin: string[];
@@ -23,7 +24,7 @@ export class FunctionDistanceComponent implements OnInit {
   selectedRow: any[];
   @Input()
   autoCompleteArray: any[];
-  public autoCompleteOptions: any[];
+  public autoCompleteOptionsText: any[];
   filteredOptions: Observable<string[]>;
   public distance: Distance;
   public errorArray: CalculationError[];
@@ -34,7 +35,7 @@ export class FunctionDistanceComponent implements OnInit {
   addOnBlur = true;
   droppedData: string;
 
-  constructor() {}
+  constructor(private _autoCompleteService: AutoCompleteService) {}
 
   ngOnInit() {
     if (this.selectedRow[0].distance == null) {
@@ -46,19 +47,11 @@ export class FunctionDistanceComponent implements OnInit {
     if (this.selectedRow[0].distance.destination == null) {
       this.selectedRow[0].distance.destination = [];
     }
-    this.autoCompleteOptions = [];
-    this.autoCompleteArray.forEach(element => {
-      if (element.data.data === "Text") {
-        if (element.data.name !== "") {
-          this.autoCompleteOptions.push({
-            name: element.data.name,
-            type: "variable",
-            datatype: "Text",
-            value: element.data.output
-          });
-        }
-      }
-    });
+    this.autoCompleteOptionsText = [];
+    this.autoCompleteOptionsText = this._autoCompleteService.getAutoCompleteArray(
+      this.autoCompleteArray,
+      "Text"
+    );
   }
 
   removeChip(array, field) {

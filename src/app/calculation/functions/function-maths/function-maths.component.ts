@@ -73,18 +73,13 @@ export class FunctionMathsComponent implements OnInit {
     this.autoCompleteOptions.push({ name: "*", type: "" });
     this.autoCompleteOptions.push({ name: "/", type: "" });
     this.autoCompleteOptions.push({ name: "^", type: "" });
-    this.autoCompleteArray.forEach(element => {
-      if (element.data.data === "Number") {
-        if (element.data.name !== "") {
-          this.autoCompleteOptions.push({
-            name: element.data.name,
-            type: "variable",
-            datatype: "Number",
-            value: element.data.output
-          });
-        }
-      }
-    });
+
+    this.autoCompleteOptions = this.autoCompleteOptions.concat(
+      this._autoCompleteService.getAutoCompleteArray(
+        this.autoCompleteArray,
+        "Number"
+      )
+    );
   }
 
   onAddInput(type, event) {

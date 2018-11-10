@@ -80,35 +80,21 @@ export class FunctionLookupTableComponent implements OnInit {
     if (this.selectedRow[0].lookupTable.LookupValue == null) {
       this.selectedRow[0].lookupTable.LookupValue = [];
     }
-    this.autoCompleteOptionsNumber = [];
-    this.autoCompleteOptionsText = [];
     this.autoCompleteOptionsDate = [];
-    this.autoCompleteArray.forEach(element => {
-      if (element.data.name !== "") {
-        if (element.data.data === "Number") {
-          this.autoCompleteOptionsNumber.push({
-            name: element.data.name,
-            type: "variable",
-            datatype: element.data.data,
-            value: element.data.output
-          });
-        } else if (element.data.data === "Date") {
-          this.autoCompleteOptionsDate.push({
-            name: element.data.name,
-            type: "variable",
-            datatype: element.data.data,
-            value: element.data.output
-          });
-        } else if (element.data.data === "Text") {
-          this.autoCompleteOptionsText.push({
-            name: element.data.name,
-            type: "variable",
-            datatype: element.data.data,
-            value: element.data.output
-          });
-        }
-      }
-    });
+    this.autoCompleteOptionsDate = this._autoCompleteService.getAutoCompleteArray(
+      this.autoCompleteArray,
+      "Date"
+    );
+    this.autoCompleteOptionsNumber = [];
+    this.autoCompleteOptionsNumber = this._autoCompleteService.getAutoCompleteArray(
+      this.autoCompleteArray,
+      "Number"
+    );
+    this.autoCompleteOptionsText = [];
+    this.autoCompleteOptionsText = this._autoCompleteService.getAutoCompleteArray(
+      this.autoCompleteArray,
+      "Text"
+    );
     this.authService.userFirebase.subscribe(auth => {
       if (auth) {
         this.lookupService

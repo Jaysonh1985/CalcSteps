@@ -26,8 +26,8 @@ export class LookupMaintenanceComponent implements OnInit {
     sideNav: [
       { name: "Home", routerLink: "../", icon: "home" },
       { name: "Dashboard", routerLink: "../dashboard", icon: "dashboard" },
-      { name: "Account", routerLink: "../account", icon: "account_circle" },
       { name: "Help", routerLink: "../help", icon: "help_outline" },
+      { name: "Account", routerLink: "../account", icon: "account_circle" }
     ]
   };
   ngOnInit() {

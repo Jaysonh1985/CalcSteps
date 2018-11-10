@@ -54,7 +54,7 @@ export class FunctionDateDurationComponent implements OnInit {
   @Input()
   autoCompleteArray: any[];
   public dateDuration: DateDuration;
-  public autoCompleteOptions: any[];
+  public autoCompleteOptionsDate: any[];
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   public errorArray: CalculationError[];
   public error: CalculationError;
@@ -76,19 +76,11 @@ export class FunctionDateDurationComponent implements OnInit {
     if (this.selectedRow[0].dateDuration.date2 == null) {
       this.selectedRow[0].dateDuration.date2 = [];
     }
-    this.autoCompleteOptions = [];
-    this.autoCompleteArray.forEach(element => {
-      if (element.data.data === "Date") {
-        if (element.data.name !== "") {
-          this.autoCompleteOptions.push({
-            name: element.data.name,
-            type: "variable",
-            datatype: "Date",
-            value: element.data.output
-          });
-        }
-      }
-    });
+    this.autoCompleteOptionsDate = [];
+    this.autoCompleteOptionsDate = this._autoCompleteService.getAutoCompleteArray(
+      this.autoCompleteArray,
+      "Date"
+    );
   }
   removeChip(array, field) {
     if (field === "date1") {

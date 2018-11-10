@@ -50,7 +50,7 @@ export class CalculateService {
     lookupService,
     calcService
   ): Promise<any> {
-    const distance = new FunctionDistanceComponent();
+    const distance = new FunctionDistanceComponent(autocomplete);
     let Origin = "";
     if (row.distance.origin[0].type === "variable") {
       Origin = this.autoCompleteService.getText(
@@ -130,22 +130,36 @@ export class CalculateService {
     calcService
   ): string {
     if (row.functionType === "Maths") {
-      const math = new FunctionMathsComponent(this.dragulaService, this.autoCompleteService);
+      const math = new FunctionMathsComponent(
+        this.dragulaService,
+        this.autoCompleteService
+      );
       return math.calculate(row.maths, autocomplete);
     } else if (row.functionType === "Date Adjustment") {
-      const dateAdjustment = new FunctionDateAdjustmentComponent(this.autoCompleteService);
+      const dateAdjustment = new FunctionDateAdjustmentComponent(
+        this.autoCompleteService
+      );
       return dateAdjustment.calculate(row.dateAdjustment, autocomplete);
     } else if (row.functionType === "Date Duration") {
-      const dateDuration = new FunctionDateDurationComponent(this.autoCompleteService);
+      const dateDuration = new FunctionDateDurationComponent(
+        this.autoCompleteService
+      );
       return dateDuration.calculate(row.dateDuration, autocomplete);
     } else if (row.functionType === "If Logic") {
-      const ifLogic = new FunctionIfLogicComponent(this.dragulaService, this.autoCompleteService);
+      const ifLogic = new FunctionIfLogicComponent(
+        this.dragulaService,
+        this.autoCompleteService
+      );
       return ifLogic.calculate(row.ifLogic, autocomplete);
     } else if (row.functionType === "Number Functions") {
-      const numberFunctions = new FunctionNumberFunctionsComponent(this.autoCompleteService);
+      const numberFunctions = new FunctionNumberFunctionsComponent(
+        this.autoCompleteService
+      );
       return numberFunctions.calculate(row.numberFunctions, autocomplete);
     } else if (row.functionType === "Text Functions") {
-      const textFunctions = new FunctionTextFunctionsComponent(this.autoCompleteService);
+      const textFunctions = new FunctionTextFunctionsComponent(
+        this.autoCompleteService
+      );
       return textFunctions.calculate(row.textFunctions, autocomplete);
     }
     return "";
@@ -163,13 +177,9 @@ export class CalculateService {
     }
     if (row.condition === "") {
       return true;
-    } else if (
-      row.condition === "True"
-    ) {
+    } else if (row.condition === "True") {
       return true;
-    } else if (
-      row.condition === "False"
-    ) {
+    } else if (row.condition === "False") {
       return false;
     } else {
       if (input === true) {
@@ -203,25 +213,35 @@ export class CalculateService {
       return this.errorArray;
     }
     if (row.functionType === "Maths") {
-      const math = new FunctionMathsComponent(this.dragulaService, this.autoCompleteService);
+      const math = new FunctionMathsComponent(
+        this.dragulaService,
+        this.autoCompleteService
+      );
       return this.errorArray.concat(math.errorCheck(row.maths, autocomplete));
     } else if (row.functionType === "Date Adjustment") {
-      const dateAdjustment = new FunctionDateAdjustmentComponent(this.autoCompleteService);
+      const dateAdjustment = new FunctionDateAdjustmentComponent(
+        this.autoCompleteService
+      );
       return this.errorArray.concat(
         dateAdjustment.errorCheck(row.dateAdjustment, autocomplete)
       );
     } else if (row.functionType === "Date Duration") {
-      const dateDuration = new FunctionDateDurationComponent(this.autoCompleteService);
+      const dateDuration = new FunctionDateDurationComponent(
+        this.autoCompleteService
+      );
       return this.errorArray.concat(
         dateDuration.errorCheck(row.dateDuration, autocomplete)
       );
     } else if (row.functionType === "If Logic") {
-      const ifLogic = new FunctionIfLogicComponent(this.dragulaService, this.autoCompleteService);
+      const ifLogic = new FunctionIfLogicComponent(
+        this.dragulaService,
+        this.autoCompleteService
+      );
       return this.errorArray.concat(
         ifLogic.errorCheck(row.ifLogic, autocomplete)
       );
     } else if (row.functionType === "Distance") {
-      const distance = new FunctionDistanceComponent();
+      const distance = new FunctionDistanceComponent(autocomplete);
       return this.errorArray.concat(
         distance.errorCheck(row.distance, autocomplete)
       );
@@ -235,12 +255,16 @@ export class CalculateService {
         lookupTable.errorCheck(row.lookupTable, autocomplete)
       );
     } else if (row.functionType === "Number Functions") {
-      const numberFunctions = new FunctionNumberFunctionsComponent(this.autoCompleteService);
+      const numberFunctions = new FunctionNumberFunctionsComponent(
+        this.autoCompleteService
+      );
       return this.errorArray.concat(
         numberFunctions.errorCheck(row.numberFunctions, autocomplete)
       );
     } else if (row.functionType === "Text Functions") {
-      const testFunctions = new FunctionTextFunctionsComponent(this.autoCompleteService);
+      const testFunctions = new FunctionTextFunctionsComponent(
+        this.autoCompleteService
+      );
       return this.errorArray.concat(
         testFunctions.errorCheck(row.textFunctions, autocomplete)
       );

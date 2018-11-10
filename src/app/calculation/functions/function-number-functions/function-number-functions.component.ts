@@ -46,18 +46,10 @@ export class FunctionNumberFunctionsComponent implements OnInit {
       this.selectedRow[0].numberFunctions.number2 = [];
     }
     this.autoCompleteOptions = [];
-    this.autoCompleteArray.forEach(element => {
-      if (element.data.data === "Number") {
-        if (element.data.name !== "") {
-          this.autoCompleteOptions.push({
-            name: element.data.name,
-            type: "variable",
-            datatype: "Number",
-            value: element.data.output
-          });
-        }
-      }
-    });
+    this.autoCompleteOptions = this._autoCompleteService.getAutoCompleteArray(
+      this.autoCompleteArray,
+      "Number"
+    );
   }
 
   removeChip(array, field) {

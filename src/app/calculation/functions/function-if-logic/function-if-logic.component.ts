@@ -84,10 +84,26 @@ export class FunctionIfLogicComponent implements OnInit {
     this.autoCompleteOptions.push({ name: ")", type: "" });
     this.autoCompleteOptions.push({ name: "and", type: "" });
     this.autoCompleteOptions.push({ name: "or", type: "" });
-    this.autoCompleteOptionsNumber = [];
-    this.autoCompleteOptionsText = [];
     this.autoCompleteOptionsDate = [];
+    this.autoCompleteOptionsDate = this._autoCompleteService.getAutoCompleteArray(
+      this.autoCompleteArray,
+      "Date"
+    );
+    this.autoCompleteOptionsNumber = [];
+    this.autoCompleteOptionsNumber = this._autoCompleteService.getAutoCompleteArray(
+      this.autoCompleteArray,
+      "Number"
+    );
+    this.autoCompleteOptionsText = [];
+    this.autoCompleteOptionsText = this._autoCompleteService.getAutoCompleteArray(
+      this.autoCompleteArray,
+      "Text"
+    );
     this.autoCompleteOptionsLogic = [];
+    this.autoCompleteOptionsLogic = this._autoCompleteService.getAutoCompleteArray(
+      this.autoCompleteArray,
+      "Logic"
+    );
     this.autoCompleteOptionsLogic.push({
       name: "true",
       type: "hardcoded",
@@ -97,39 +113,6 @@ export class FunctionIfLogicComponent implements OnInit {
       name: "false",
       type: "hardcoded",
       datatype: "Logic"
-    });
-    this.autoCompleteArray.forEach(element => {
-      if (element.data.name !== "") {
-        if (element.data.data === "Number") {
-          this.autoCompleteOptionsNumber.push({
-            name: element.data.name,
-            type: "variable",
-            datatype: element.data.data,
-            value: element.data.output
-          });
-        } else if (element.data.data === "Date") {
-          this.autoCompleteOptionsDate.push({
-            name: element.data.name,
-            type: "variable",
-            datatype: element.data.data,
-            value: element.data.output
-          });
-        } else if (element.data.data === "Text") {
-          this.autoCompleteOptionsText.push({
-            name: element.data.name,
-            type: "variable",
-            datatype: element.data.data,
-            value: element.data.output
-          });
-        } else if (element.data.data === "Logic") {
-          this.autoCompleteOptionsLogic.push({
-            name: element.data.name,
-            type: "variable",
-            datatype: element.data.data,
-            value: element.data.output
-          });
-        }
-      }
     });
   }
 

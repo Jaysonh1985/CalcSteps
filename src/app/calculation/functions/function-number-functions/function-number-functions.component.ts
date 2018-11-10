@@ -59,68 +59,23 @@ export class FunctionNumberFunctionsComponent implements OnInit {
       }
     });
   }
-  addNumber1(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
 
-    if ((value || "").trim()) {
+  removeChip(array, field) {
+    if (field === "number1") {
       this.selectedRow[0].numberFunctions.number1 = [];
-      this.selectedRow[0].numberFunctions.number1.push({
-        name: value.trim(),
-        type: "hardcoded",
-        datatype: "Number"
-      });
-    }
-
-    // Reset the input value
-    if (input) {
-      input.value = "";
-    }
-  }
-  addNumber2(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-
-    // Add our fruit
-    if ((value || "").trim()) {
+    } else if (field === "number2") {
       this.selectedRow[0].numberFunctions.number2 = [];
-      this.selectedRow[0].numberFunctions.number2.push({
-        name: value.trim(),
-        type: "hardcoded",
-        datatype: "Number"
-      });
-    }
-
-    // Reset the input value
-    if (input) {
-      input.value = "";
     }
   }
 
-  onNumber1Drop(data: any) {
-    // Get the dropped data here
-    this.selectedRow[0].numberFunctions.number1 = [];
-    this.selectedRow[0].numberFunctions.number1.push({
-      name: data.dragData.name,
-      type: data.dragData.type,
-      datatype: data.dragData.datatype
-    });
-  }
-
-  onNumber2Drop(data: any) {
-    // Get the dropped data here
-    this.selectedRow[0].numberFunctions.number2 = [];
-    this.selectedRow[0].numberFunctions.number2.push({
-      name: data.dragData.name,
-      type: data.dragData.type,
-      datatype: data.dragData.datatype
-    });
-  }
-  removeNumber1() {
-    this.selectedRow[0].numberFunctions.number1 = [];
-  }
-  removeNumber2() {
-    this.selectedRow[0].numberFunctions.number2 = [];
+  dropChip(array, field) {
+    if (field === "number1") {
+      this.selectedRow[0].numberFunctions.number1 = [];
+      this.selectedRow[0].numberFunctions.number1 = array;
+    } else if (field === "number2") {
+      this.selectedRow[0].numberFunctions.number2 = [];
+      this.selectedRow[0].numberFunctions.number2 = array;
+    }
   }
 
   calculate(numberFunctions, autoComplete): any {

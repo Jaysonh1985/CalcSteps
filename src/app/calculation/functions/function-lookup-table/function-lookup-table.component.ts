@@ -162,46 +162,17 @@ export class FunctionLookupTableComponent implements OnInit {
         });
     }
   }
-
-  addValue(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-
-    // Add our fruit
-    if ((value || "").trim()) {
+  removeChip(array, field) {
+    if (field === "lookuptype") {
       this.selectedRow[0].lookupTable.LookupValue = [];
-      this.selectedRow[0].lookupTable.LookupValue.push({
-        name: value.trim(),
-        type: "hardcoded",
-        datatype: this.selectedRow[0].lookupTable.LookupType
-      });
     }
+  }
 
-    // Reset the input value
-    if (input) {
-      input.value = "";
+  dropChip(array, field) {
+    if (field === "lookuptype") {
+      this.selectedRow[0].lookupTable.LookupValue = [];
+      this.selectedRow[0].lookupTable.LookupValue = array;
     }
-  }
-  addEventLookup(type: string, event: MatDatepickerInputEvent<Date>) {
-    moment.locale("en-GB");
-    this.selectedRow[0].lookupTable.LookupValue = [];
-    this.selectedRow[0].lookupTable.LookupValue.push({
-      name: moment(event.value).format("DD/MM/YYYY"),
-      type: "hardcoded",
-      datatype: "Date"
-    });
-  }
-  onValueDrop(data: any) {
-    // Get the dropped data here
-    this.selectedRow[0].lookupTable.LookupValue = [];
-    this.selectedRow[0].lookupTable.LookupValue.push({
-      name: data.dragData.name,
-      type: data.dragData.type,
-      datatype: data.dragData.datatype
-    });
-  }
-  removeValue() {
-    this.selectedRow[0].lookupTable.LookupValue = [];
   }
 
   errorCheck(lookupTable, autoComplete): CalculationError[] {

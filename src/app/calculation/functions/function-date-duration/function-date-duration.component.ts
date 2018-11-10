@@ -94,47 +94,21 @@ export class FunctionDateDurationComponent implements OnInit {
       }
     });
   }
-  onDate1Drop(data: any) {
-    // Get the dropped data here
-    this.selectedRow[0].dateDuration.date1 = [];
-    this.selectedRow[0].dateDuration.date1.push({
-      name: data.dragData.name,
-      type: data.dragData.type,
-      datatype: data.dragData.datatype
-    });
+  removeChip(array, field) {
+    if (field === "date1") {
+      this.selectedRow[0].dateDuration.date1 = [];
+    } else if (field === "date2") {
+      this.selectedRow[0].dateDuration.date2 = [];
+    }
   }
-  onDate2Drop(data: any) {
-    // Get the dropped data here
-    this.selectedRow[0].dateDuration.date2 = [];
-    this.selectedRow[0].dateDuration.date2.push({
-      name: data.dragData.name,
-      type: data.dragData.type,
-      datatype: data.dragData.datatype
-    });
-  }
-  removeDates1() {
-    this.selectedRow[0].dateDuration.date1 = [];
-  }
-  removeDates2() {
-    this.selectedRow[0].dateDuration.date2 = [];
-  }
-  addEventDate1(type: string, event: MatDatepickerInputEvent<Date>) {
-    moment.locale("en-GB");
-    this.selectedRow[0].dateDuration.date1 = [];
-    this.selectedRow[0].dateDuration.date1.push({
-      name: moment(event.value).format("DD/MM/YYYY"),
-      type: "",
-      datatype: "Date"
-    });
-  }
-  addEventDate2(type: string, event: MatDatepickerInputEvent<Date>) {
-    moment.locale("en-GB");
-    this.selectedRow[0].dateDuration.date2 = [];
-    this.selectedRow[0].dateDuration.date2.push({
-      name: moment(event.value).format("DD/MM/YYYY"),
-      type: "",
-      datatype: "Date"
-    });
+  dropChip(array, field) {
+    if (field === "date1") {
+      this.selectedRow[0].dateDuration.date1 = [];
+      this.selectedRow[0].dateDuration.date1 = array;
+    } else if (field === "date2") {
+      this.selectedRow[0].dateDuration.date2 = [];
+      this.selectedRow[0].dateDuration.date2 = array;
+    }
   }
 
   calculate(dateDuration, autoComplete): any {

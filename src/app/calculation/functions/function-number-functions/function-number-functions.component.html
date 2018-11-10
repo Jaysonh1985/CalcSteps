@@ -13,36 +13,12 @@
 <table class="example-full-width" cellspacing="0" *ngIf="selectedRow[0].numberFunctions.type !== ''">
   <tr>
     <td>
-      <p>Number 1 <p>
-          <mat-form-field style="width:100%">
-            <mat-chip-list #selectedChips1>
-              <mat-chip [removable]="removable" *ngFor="let chips of selectedRow[0].numberFunctions.number1; let i = index"
-                (removed)="removeNumber1(i)">
-                {{chips.name}}
-                <mat-icon matChipRemove>cancel</mat-icon>
-              </mat-chip>
-            </mat-chip-list>
-            <div style="width:100%" droppable (onDrop)="onNumber1Drop($event)">
-              <input [matChipInputFor]="selectedChips1" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                (matChipInputTokenEnd)="addNumber1($event)" [matChipInputAddOnBlur]="addOnBlur" type="number">
-            </div>
-          </mat-form-field>
+      <app-droppable-chip-list [chipArray]=selectedRow[0].numberFunctions.number1 [name]="'Number 1'" [datatype]="'Number'"
+        (dropChip)="dropChip($event, 'number1')" (removeChip)="removeChip($event, 'number1')"></app-droppable-chip-list>
     </td>
     <td *ngIf="selectedRow[0].numberFunctions.type === 'Max' || selectedRow[0].numberFunctions.type === 'Min'">
-      <p>Number 2<p>
-          <mat-form-field style="width:100%">
-            <mat-chip-list #selectedChips2>
-              <mat-chip [removable]="removable" *ngFor="let chips of selectedRow[0].numberFunctions.number2; let i=index"
-                (removed)="removeNumber2(i)">
-                {{chips.name}}
-                <mat-icon matChipRemove>cancel</mat-icon>
-              </mat-chip>
-            </mat-chip-list>
-            <div style="width:100%" droppable (onDrop)="onNumber2Drop($event)">
-              <input [matChipInputFor]="selectedChips2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                (matChipInputTokenEnd)="addNumber2($event)" [matChipInputAddOnBlur]="addOnBlur" type="number">
-            </div>
-          </mat-form-field>
+      <app-droppable-chip-list [chipArray]=selectedRow[0].numberFunctions.number2 [name]="'Number 2'" [datatype]="'Number'"
+        (dropChip)="dropChip($event, 'number2')" (removeChip)="removeChip($event, 'number2')"></app-droppable-chip-list>
     </td>
   </tr>
 </table>

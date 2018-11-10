@@ -14,53 +14,17 @@
 <table class="example-full-width" cellspacing="0" *ngIf="selectedRow[0].textFunctions.type !== ''">
   <tr>
     <td>
-      <p>Text 1 <p>
-          <mat-form-field style="width:100%">
-            <mat-chip-list #selectedChips1>
-              <mat-chip [removable]="removable" *ngFor="let chips of selectedRow[0].textFunctions.text1; let i = index"
-                (removed)="removeText1(i)">
-                {{chips.name}}
-                <mat-icon matChipRemove>cancel</mat-icon>
-              </mat-chip>
-            </mat-chip-list>
-            <div style="width:100%" droppable (onDrop)="onText1Drop($event)">
-              <input [matChipInputFor]="selectedChips1" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                (matChipInputTokenEnd)="addText1($event)" [matChipInputAddOnBlur]="addOnBlur">
-            </div>
-          </mat-form-field>
+      <app-droppable-chip-list [chipArray]=selectedRow[0].textFunctions.text1 [name]="'Text 1'" [datatype]="'Text'"
+        (dropChip)="dropChip($event, 'text1')" (removeChip)="removeChip($event, 'text1')"></app-droppable-chip-list>
     </td>
     <td *ngIf="selectedRow[0].textFunctions.type === 'Concatenate'">
-      <p>Text 2<p>
-          <mat-form-field style="width:100%">
-            <mat-chip-list #selectedChips2>
-              <mat-chip [removable]="removable" *ngFor="let chips of selectedRow[0].textFunctions.text2; let i=index"
-                (removed)="removeText2(i)">
-                {{chips.name}}
-                <mat-icon matChipRemove>cancel</mat-icon>
-              </mat-chip>
-            </mat-chip-list>
-            <div style="width:100%" droppable (onDrop)="onText2Drop($event)">
-              <input [matChipInputFor]="selectedChips2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                (matChipInputTokenEnd)="addText2($event)" [matChipInputAddOnBlur]="addOnBlur">
-            </div>
-          </mat-form-field>
+      <app-droppable-chip-list [chipArray]=selectedRow[0].textFunctions.text2 [name]="'Text 2'" [datatype]="'Text'"
+        (dropChip)="dropChip($event, 'text2')" (removeChip)="removeChip($event, 'text2')"></app-droppable-chip-list>
     </td>
   </tr>
   <div *ngIf="selectedRow[0].textFunctions.type === 'Left' || selectedRow[0].textFunctions.type === 'Right'">
     <app-moveable-chip-list [chipArray]=autoCompleteOptionsNumber [name]="'Number'"></app-moveable-chip-list>
-    <p>Number 1 <p>
-        <mat-form-field style="width:100%">
-          <mat-chip-list #selectedChips1>
-            <mat-chip [removable]="removable" *ngFor="let chips of selectedRow[0].textFunctions.number1; let i = index"
-              (removed)="removeNumber1(i)">
-              {{chips.name}}
-              <mat-icon matChipRemove>cancel</mat-icon>
-            </mat-chip>
-          </mat-chip-list>
-          <div style="width:100%" droppable (onDrop)="onNumber1Drop($event)">
-            <input [matChipInputFor]="selectedChips1" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-              (matChipInputTokenEnd)="addNumber1($event)" [matChipInputAddOnBlur]="addOnBlur" type="number">
-          </div>
-        </mat-form-field>
+    <app-droppable-chip-list [chipArray]=selectedRow[0].textFunctions.number1 [name]="'Number 1'" [datatype]="'Number'"
+      (dropChip)="dropChip($event, 'number1')" (removeChip)="removeChip($event, 'number1')"></app-droppable-chip-list>
   </div>
 </table>

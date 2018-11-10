@@ -14,46 +14,12 @@
 <table class="example-full-width" cellspacing="0">
   <tr>
     <td>
-      <p>Date 1<p>
-          <mat-form-field style="width:100%">
-            <mat-chip-list #selectedChips1>
-              <mat-chip [color]="primary" [removable]="removable" *ngFor="let chips of selectedRow[0].dateDuration.date1; let i=index"
-                (removed)="removeDates1(i)">
-                {{chips.name}}
-                <mat-icon matChipRemove>cancel</mat-icon>
-              </mat-chip>
-            </mat-chip-list>
-            <div style="width:100%" droppable (onDrop)="onDate1Drop($event)">
-              <div *ngIf="selectedRow[0].dateDuration.date1.length === 0">
-                <input matInput [matDatepicker]="picker" (dateInput)="addEventDate1('input', $event)" (dateChange)="addEventDate1('change', $event)">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </div>
-              <input [matChipInputFor]="selectedChips2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" id="dates1"
-                *ngIf="selectedRow[0].dateDuration.date1.length > 0" disabled>
-            </div>
-          </mat-form-field>
+      <app-droppable-chip-list [chipArray]=selectedRow[0].dateDuration.date1 [name]="'Date 1'" [datatype]="'Date'"
+        (dropChip)="dropChip($event, 'date1')" (removeChip)="removeChip($event, 'date1')"></app-droppable-chip-list>
     </td>
     <td>
-      <p>Date 2<p>
-          <mat-form-field style="width:100%">
-            <mat-chip-list #selectedChips2>
-              <mat-chip [color]="primary" [removable]="removable" *ngFor="let chips of selectedRow[0].dateDuration.date2; let i=index"
-                (removed)="removeDates2(i)">
-                {{chips.name}}
-                <mat-icon matChipRemove>cancel</mat-icon>
-              </mat-chip>
-            </mat-chip-list>
-            <div style="width:100%" droppable (onDrop)="onDate2Drop($event)">
-              <div *ngIf="selectedRow[0].dateDuration.date2.length === 0">
-                <input matInput [matDatepicker]="picker" (dateInput)="addEventDate2('input', $event)" (dateChange)="addEventDate2('change', $event)">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </div>
-              <input [matChipInputFor]="selectedChips2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" id="dates2"
-                *ngIf="selectedRow[0].dateDuration.date2.length > 0" disabled>
-            </div>
-          </mat-form-field>
+      <app-droppable-chip-list [chipArray]=selectedRow[0].dateDuration.date2 [name]="'Date 2'" [datatype]="'Date'"
+        (dropChip)="dropChip($event, 'date2')" (removeChip)="removeChip($event, 'date2')"></app-droppable-chip-list>
     </td>
   </tr>
 </table>

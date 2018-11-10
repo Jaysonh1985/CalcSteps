@@ -63,66 +63,22 @@ export class FunctionDistanceComponent implements OnInit {
     });
   }
 
-  addOrigin(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-
-    if ((value || "").trim()) {
+  removeChip(array, field) {
+    if (field === "origin") {
       this.selectedRow[0].distance.origin = [];
-      this.selectedRow[0].distance.origin.push({
-        name: value.trim(),
-        type: "hardcoded",
-        datatype: "Text"
-      });
-    }
-
-    // Reset the input value
-    if (input) {
-      input.value = "";
-    }
-  }
-  addDestination(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-
-    // Add our fruit
-    if ((value || "").trim()) {
+    } else if (field === "destination") {
       this.selectedRow[0].distance.destination = [];
-      this.selectedRow[0].distance.destination.push({
-        name: value.trim(),
-        type: "hardcoded",
-        datatype: "Text"
-      });
     }
+  }
 
-    // Reset the input value
-    if (input) {
-      input.value = "";
+  dropChip(array, field) {
+    if (field === "origin") {
+      this.selectedRow[0].distance.origin = [];
+      this.selectedRow[0].distance.origin = array;
+    } else if (field === "destination") {
+      this.selectedRow[0].distance.destination = [];
+      this.selectedRow[0].distance.destination = array;
     }
-  }
-  onOriginDrop(data: any) {
-    // Get the dropped data here
-    this.selectedRow[0].distance.origin = [];
-    this.selectedRow[0].distance.origin.push({
-      name: data.dragData.name,
-      type: data.dragData.type,
-      datatype: data.dragData.datatype
-    });
-  }
-  onDestinationDrop(data: any) {
-    // Get the dropped data here
-    this.selectedRow[0].distance.destination = [];
-    this.selectedRow[0].distance.destination.push({
-      name: data.dragData.name,
-      type: data.dragData.type,
-      datatype: data.dragData.datatype
-    });
-  }
-  removeOrigin() {
-    this.selectedRow[0].distance.origin = [];
-  }
-  removeDestination() {
-    this.selectedRow[0].distance.destination = [];
   }
 
   errorCheck(distance, autoComplete): CalculationError[] {

@@ -16,11 +16,11 @@
 <table class="example-full-width" cellspacing="0" *ngIf="selectedRow[0].dateAdjustment.type !== ''">
   <tr>
     <td *ngIf="selectedRow[0].dateAdjustment.type != 'Today'">
-      <app-droppable-chip-list [chipArray]=selectedRow[0].dateAdjustment.date1 [name]="'Date 1'" [datatype]="'date'"
+      <app-droppable-chip-list [chipArray]=selectedRow[0].dateAdjustment.date1 [name]="'Date 1'" [datatype]="'Date'"
         (dropChip)="dropChip($event, 'date1')" (removeChip)="removeChip($event, 'date1')"></app-droppable-chip-list>
     </td>
     <td *ngIf="selectedRow[0].dateAdjustment.type == 'Earlier' || selectedRow[0].dateAdjustment.type == 'Later' || selectedRow[0].dateAdjustment.type == 'DatesBetween' || selectedRow[0].dateAdjustment.type== 'MonthsBetween'">
-      <app-droppable-chip-list [chipArray]=selectedRow[0].dateAdjustment.date2 [name]="'Date 2'" [datatype]="'date'"
+      <app-droppable-chip-list [chipArray]=selectedRow[0].dateAdjustment.date2 [name]="'Date 2'" [datatype]="'Date'"
         (dropChip)="dropChip($event, 'date2')" (removeChip)="removeChip($event, 'date2')"></app-droppable-chip-list>
     </td>
   </tr>
@@ -45,21 +45,8 @@
   </tr>
   <tr *ngIf="selectedRow[0].dateAdjustment.periodType !== ''">
     <td>
-      <!-- <mat-form-field style="width:100%">
-        <p>Period</p>
-        <mat-chip-list #periodList>
-          <mat-chip *ngFor="let chips of selectedRow[0].dateAdjustment.period" [removable]="removable" (removed)="removePeriod()">
-            {{chips.name}}
-            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-          </mat-chip>
-        </mat-chip-list>
-        <div style="width:100%" droppable (onDrop)="onPeriodDrop($event)">
-          <input [matChipInputFor]="periodList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            (matChipInputTokenEnd)="addEventPeriod($event)" [matChipInputAddOnBlur]="addOnBlur" type="number">
-        </div>
-      </mat-form-field> -->
-      <app-droppable-chip-list [chipArray]=selectedRow[0].dateAdjustment.period [name]="'Period'" [datatype]="'number'"
-      (dropChip)="dropChip($event, 'period')" (removeChip)="removeChip($event, 'period')"></app-droppable-chip-list>
+      <app-droppable-chip-list [chipArray]=selectedRow[0].dateAdjustment.period [name]="'Period'" [datatype]="'Number'"
+        (dropChip)="dropChip($event, 'period')" (removeChip)="removeChip($event, 'period')"></app-droppable-chip-list>
     </td>
   </tr>
 </table>

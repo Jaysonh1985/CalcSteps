@@ -97,4 +97,23 @@ export class DroppableChipListComponent implements OnInit {
     }
   }
 
+  addTextChip(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    if ((value || "").trim()) {
+      this.array = [];
+      this.array.push({
+        name: value.trim(),
+        type: "hardcoded",
+        datatype: "Text"
+      });
+      this.dropChip.emit(this.array);
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = "";
+    }
+  }
 }

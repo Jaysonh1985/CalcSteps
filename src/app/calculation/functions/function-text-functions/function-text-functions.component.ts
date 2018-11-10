@@ -49,6 +49,9 @@ export class FunctionTextFunctionsComponent implements OnInit {
     if (this.selectedRow[0].textFunctions.text2 == null) {
       this.selectedRow[0].textFunctions.text2 = [];
     }
+    if (this.selectedRow[0].textFunctions.number1 == null) {
+      this.selectedRow[0].textFunctions.number1 = [];
+    }
 
     this.autoCompleteOptionsText = [];
     this.autoCompleteOptionsNumber = [];
@@ -74,105 +77,27 @@ export class FunctionTextFunctionsComponent implements OnInit {
       }
     });
   }
-
-  addText1(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-
-    if ((value || "").trim()) {
+  removeChip(array, field) {
+    if (field === "text1") {
       this.selectedRow[0].textFunctions.text1 = [];
-      this.selectedRow[0].textFunctions.text1.push({
-        name: value.trim(),
-        type: "hardcoded",
-        datatype: "Text"
-      });
-    }
-
-    // Reset the input value
-    if (input) {
-      input.value = "";
-    }
-  }
-
-  addText2(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-
-    // Add our fruit
-    if ((value || "").trim()) {
+    } else if (field === "text2") {
       this.selectedRow[0].textFunctions.text2 = [];
-      this.selectedRow[0].textFunctions.text2.push({
-        name: value.trim(),
-        type: "hardcoded",
-        datatype: "Text"
-      });
-    }
-
-    // Reset the input value
-    if (input) {
-      input.value = "";
-    }
-  }
-
-  addNumber1(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-
-    if ((value || "").trim()) {
+    } else if (field === "number1") {
       this.selectedRow[0].textFunctions.number1 = [];
-      this.selectedRow[0].textFunctions.number1.push({
-        name: value.trim(),
-        type: "hardcoded",
-        datatype: "Number"
-      });
-    }
-
-    // Reset the input value
-    if (input) {
-      input.value = "";
     }
   }
 
-  onText1Drop(data: any) {
-    // Get the dropped data here
-    this.selectedRow[0].textFunctions.text1 = [];
-    this.selectedRow[0].textFunctions.text1.push({
-      name: data.dragData.name,
-      type: data.dragData.type,
-      datatype: data.dragData.datatype
-    });
-  }
-
-  onText2Drop(data: any) {
-    // Get the dropped data here
-    this.selectedRow[0].textFunctions.text2 = [];
-    this.selectedRow[0].textFunctions.text2.push({
-      name: data.dragData.name,
-      type: data.dragData.type,
-      datatype: data.dragData.datatype
-    });
-  }
-
-  onNumber1Drop(data: any) {
-    // Get the dropped data here
-    this.selectedRow[0].textFunctions.number1 = [];
-    this.selectedRow[0].textFunctions.number1.push({
-      name: data.dragData.name,
-      type: data.dragData.type,
-      datatype: data.dragData.datatype
-    });
-  }
-
-  removeText1() {
-    this.selectedRow[0].textFunctions.text1 = [];
-  }
-
-  removeText2() {
-    this.selectedRow[0].textFunctions.text2 = [];
-  }
-
-  removeNumber1() {
-    this.selectedRow[0].textFunctions.number1 = [];
+  dropChip(array, field) {
+    if (field === "text1") {
+      this.selectedRow[0].textFunctions.text1 = [];
+      this.selectedRow[0].textFunctions.text1 = array;
+    } else if (field === "text2") {
+      this.selectedRow[0].textFunctions.text2 = [];
+      this.selectedRow[0].textFunctions.text2 = array;
+    } else if (field === "number1") {
+      this.selectedRow[0].textFunctions.number1 = [];
+      this.selectedRow[0].textFunctions.number1 = array;
+    }
   }
 
   calculate(textFunctions, autoComplete): any {

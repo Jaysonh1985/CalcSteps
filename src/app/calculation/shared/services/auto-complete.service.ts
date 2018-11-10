@@ -20,88 +20,64 @@ export class AutoCompleteService {
   }
 
   getDate(InputValue, array): any {
-    let input = 0;
     const date = moment(InputValue, "DD/MM/YYYY", true);
     if (date.isValid() === false) {
-      input = InputValue;
-      array.forEach(value => {
-        if (value.name === InputValue && value.data === "Date") {
-          input = value.output;
-        }
-      });
+      let filterArray = [];
+      filterArray = array.filter(x => x.data === "Date" && x.name === InputValue);
+      return filterArray[filterArray.length - 1].output;
     } else {
-      input = InputValue;
+      return InputValue;
     }
-    return input;
   }
 
   getNumber(InputValue, array): any {
-    let input = 0;
     if (isNaN(Number(InputValue))) {
-      input = InputValue;
-      array.forEach(value => {
-        if (value.name === InputValue && value.data === "Number") {
-          input = value.output;
-        }
-      });
-      if (isNaN(Number(input))) {
-        input = 0;
+      let filterArray = [];
+      filterArray = array.filter(x => x.data === "Number" && x.name === InputValue);
+      if (isNaN(Number(filterArray[filterArray.length - 1].output))) {
+        return 0;
       }
+      return filterArray[filterArray.length - 1].output;
     } else {
-      input = InputValue;
+      return InputValue;
     }
-    return input;
   }
 
   getText(InputValue, array): any {
-    let input = InputValue;
-    array.forEach(value => {
-      if (value.name === InputValue && value.data === "Text") {
-        input = value.output;
-      }
-    });
-    return input;
+    let filterArray = [];
+    filterArray = array.filter(x => x.data === "Text" && x.name === InputValue);
+    return filterArray[filterArray.length - 1].output;
   }
 
   getLogic(InputValue, array): any {
     let input = false;
     if (InputValue !== "true" && InputValue !== "false") {
       input = InputValue;
-      array.forEach(value => {
-        if (value.name === InputValue && value.data === "Logic") {
-          if (value.output === "") {
-            input = false;
-          } else {
-            input = value.output;
-          }
-        }
-      });
+      let filterArray = [];
+      filterArray = array.filter(x => x.data === "Logic" && x.name === InputValue);
+      if (filterArray[filterArray.length - 1].output === "") {
+        return false;
+      }
+      return filterArray[filterArray.length - 1].output;
     } else {
-      input = InputValue;
+      return InputValue;
     }
-    return input;
   }
 
   getNumberError(InputValue, array): any {
-    let input = 0;
     if (isNaN(Number(InputValue))) {
-      input = InputValue;
-      array.forEach(value => {
-        if (value.name === InputValue && value.data === "Number") {
-          if (value.output === "") {
-            input = 0;
-          } else {
-            input = value.output;
-          }
-        }
-      });
-      if (isNaN(Number(input))) {
-        input = input;
+      let filterArray = [];
+      filterArray = array.filter(x => x.data === "Number" && x.name === InputValue);
+      if (isNaN(Number(filterArray[filterArray.length - 1].output))) {
+        return filterArray[filterArray.length - 1].output;
       }
+      if (filterArray[filterArray.length - 1].output === "") {
+        return 0;
+      }
+      return filterArray[filterArray.length - 1].output;
     } else {
-      input = InputValue;
+      return InputValue;
     }
-    return input;
   }
 
   getAutoCompleteArray(array, datatype): any[] {

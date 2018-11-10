@@ -303,18 +303,6 @@ export class CalculationComponent implements OnInit {
     }
     return false;
   }
-  getCalculationConfigurationAutoComplete(data, inputs, rowIndex): any[] {
-    let autoCompleteConfig = [];
-    autoCompleteConfig = this.CalculationConfigurationComponent.getFinalRowNodesbyDataIndex(
-      data,
-      rowIndex
-    );
-    if (autoCompleteConfig === undefined) {
-      return inputs;
-    } else {
-      return inputs.concat(autoCompleteConfig);
-    }
-  }
   async calculateConfiguration(calculationConfiguration, autoCompleteInputs) {
     let rowIndex = 0;
     for (const configuration of calculationConfiguration) {

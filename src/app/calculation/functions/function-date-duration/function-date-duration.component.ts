@@ -6,10 +6,6 @@ import { Observable } from "rxjs/Observable";
 import { COMMA, ENTER } from "@angular/cdk/keycodes";
 
 import { CalculationError } from "../../shared/models/calculation-error";
-import { DragulaService } from "ng2-dragula";
-import { Chip } from "../../shared/models/chip";
-import { DragAndDropModule } from "angular-draggable-droppable";
-import { MatDatepickerInputEvent } from "@angular/material/datepicker";
 import {
   MAT_MOMENT_DATE_FORMATS,
   MomentDateAdapter

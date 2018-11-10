@@ -7,17 +7,6 @@ import { AuthService } from "../../../shared/services/auth.service";
 import { CalculationError } from "../../shared/models/calculation-error";
 import { LookupService } from "../../shared/services/lookup.service";
 import { MatChipInputEvent } from "@angular/material";
-import { DragAndDropModule } from "angular-draggable-droppable";
-import { MatDatepickerInputEvent } from "@angular/material/datepicker";
-import {
-  MAT_MOMENT_DATE_FORMATS,
-  MomentDateAdapter
-} from "@angular/material-moment-adapter";
-import {
-  DateAdapter,
-  MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE
-} from "@angular/material/core";
 import { AutoCompleteService } from "../../shared/services/auto-complete.service";
 
 export class LookupTable {

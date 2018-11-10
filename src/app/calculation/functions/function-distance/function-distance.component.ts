@@ -1,8 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
 
-import { CalculationService } from "../../shared/services/calculation.service";
-import { DragAndDropModule } from "angular-draggable-droppable";
 import { MatChipInputEvent } from "@angular/material";
 import { CalculationError } from "../../shared/models/calculation-error";
 

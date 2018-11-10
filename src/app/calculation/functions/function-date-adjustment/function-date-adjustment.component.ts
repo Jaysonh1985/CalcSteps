@@ -4,8 +4,6 @@ import "moment/locale/pt-br";
 import { CalculationError } from "../../shared/models/calculation-error";
 import { Observable } from "rxjs";
 import { MatChipInputEvent, MatDatepickerInputEvent } from "@angular/material";
-import { COMMA, ENTER } from "@angular/cdk/keycodes";
-import { DragAndDropModule } from "angular-draggable-droppable";
 import {
   MAT_MOMENT_DATE_FORMATS,
   MomentDateAdapter

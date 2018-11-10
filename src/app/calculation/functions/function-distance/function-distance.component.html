@@ -1,13 +1,4 @@
-<mat-form-field style="width:100%">
-  <mat-chip-list>
-    <mat-chip *ngFor="let chip of autoCompleteOptions" selected draggable [dragData]="chip" matTooltip="{{chip.value}}"
-      [matTooltipShowDelay]="1000" id="options">
-      {{chip.name}}
-    </mat-chip>
-  </mat-chip-list>
-  <br>
-</mat-form-field>
-
+<app-moveable-chip-list [chipArray]=autoCompleteOptions [name]="'Text'"></app-moveable-chip-list>
 <table class="example-full-width" cellspacing="0">
   <tr>
     <td>

@@ -1,12 +1,4 @@
-<mat-form-field style="width:100%">
-  <mat-chip-list>
-    <mat-chip *ngFor="let chip of autoCompleteOptionsText" selected draggable [dragData]="chip" matTooltip="{{chip.value}}"
-      [matTooltipShowDelay]="1000" id="options">
-      {{chip.name}}
-    </mat-chip>
-  </mat-chip-list>
-  <br>
-</mat-form-field>
+<app-moveable-chip-list [chipArray]=autoCompleteOptionsText [name]="'Text'"></app-moveable-chip-list>
 <mat-form-field>
   <mat-select [(ngModel)]="selectedRow[0].textFunctions.type" placeholder="Type">
     <mat-option value="AddText">Add Text</mat-option>
@@ -55,15 +47,7 @@
     </td>
   </tr>
   <div *ngIf="selectedRow[0].textFunctions.type === 'Left' || selectedRow[0].textFunctions.type === 'Right'">
-    <mat-form-field style="width:100%">
-      <mat-chip-list>
-        <mat-chip *ngFor="let chip of autoCompleteOptionsNumber" selected draggable [dragData]="chip" matTooltip="{{chip.value}}"
-          [matTooltipShowDelay]="1000" id="options">
-          {{chip.name}}
-        </mat-chip>
-      </mat-chip-list>
-      <br>
-    </mat-form-field>
+    <app-moveable-chip-list [chipArray]=autoCompleteOptionsNumber [name]="'Number'"></app-moveable-chip-list>
     <p>Number 1 <p>
         <mat-form-field style="width:100%">
           <mat-chip-list #selectedChips1>

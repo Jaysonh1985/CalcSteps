@@ -1,12 +1,4 @@
-<mat-form-field style="width:100%">
-  <mat-chip-list>
-    <mat-chip *ngFor="let chip of autoCompleteOptions" selected draggable [dragData]="chip" matTooltip="{{chip.value}}"
-      [matTooltipShowDelay]="1000" id="options">
-      {{chip.name}}
-    </mat-chip>
-  </mat-chip-list>
-  <br>
-</mat-form-field>
+<app-moveable-chip-list [chipArray]=autoCompleteOptions [name]="'Dates'"></app-moveable-chip-list>
 <mat-form-field>
   <mat-select [(ngModel)]="selectedRow[0].dateDuration.type" placeholder="Type">
     <!-- <mat-option value="YearsDays">Years Days</mat-option>

@@ -43,6 +43,7 @@ import { HelpUserMaintenanceComponent } from "./help/categories/help-user-mainte
 import { ReleaseErrorComponent } from "./release/release-error/release-error.component";
 import { FunctionNumberFunctionsComponent } from "./functions/function-number-functions/function-number-functions.component";
 import { FunctionTextFunctionsComponent } from "./functions/function-text-functions/function-text-functions.component";
+import { MoveableChipListComponent } from "./shared/components/moveable-chip-list/moveable-chip-list.component";
 
 @NgModule({
   imports: [
@@ -85,7 +86,8 @@ import { FunctionTextFunctionsComponent } from "./functions/function-text-functi
     HelpUserMaintenanceComponent,
     ReleaseErrorComponent,
     FunctionNumberFunctionsComponent,
-    FunctionTextFunctionsComponent
+    FunctionTextFunctionsComponent,
+    MoveableChipListComponent
   ],
   entryComponents: [LookupDialogComponent, TestDialogComponent],
   providers: [

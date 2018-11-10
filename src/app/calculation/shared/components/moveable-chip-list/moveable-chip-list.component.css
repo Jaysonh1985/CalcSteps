@@ -1,17 +1,14 @@
-.example-full-width {
-  width: 100%;
+.drag-border {
+  border: #ff525b dashed 2px;
 }
 
-.draggable {
+.drag-handle {
   cursor: move;
+  /* fallback if grab cursor is unsupported */
 }
 
-.container {
-  flex: 1;
-}
-
-.container:not(:last-child) {
-  margin-right: 8px;
+.drag-handle:active {
+  cursor: move;
 }
 
 /* Droppable */

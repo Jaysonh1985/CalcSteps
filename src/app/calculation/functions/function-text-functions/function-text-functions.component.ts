@@ -19,10 +19,7 @@ export class TextFunctions {
 @Component({
   selector: "app-function-text-functions",
   templateUrl: "./function-text-functions.component.html",
-  styleUrls: [
-    "./function-text-functions.component.css",
-    "../../shared/css/drag-chip.css"
-  ],
+  styleUrls: ["./function-text-functions.component.css"],
   providers: [AutoCompleteService]
 })
 export class FunctionTextFunctionsComponent implements OnInit {

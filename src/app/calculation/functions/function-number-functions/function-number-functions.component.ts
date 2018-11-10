@@ -16,10 +16,7 @@ export class NumberFunctions {
 @Component({
   selector: "app-function-number-functions",
   templateUrl: "./function-number-functions.component.html",
-  styleUrls: [
-    "./function-number-functions.component.css",
-    "../../shared/css/drag-chip.css"
-  ],
+  styleUrls: ["./function-number-functions.component.css"],
   providers: [AutoCompleteService]
 })
 export class FunctionNumberFunctionsComponent implements OnInit {

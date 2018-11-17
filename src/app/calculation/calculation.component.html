@@ -33,6 +33,10 @@
           <mat-icon matListIcon>save</mat-icon>
           <h3 matLine> Save </h3>
         </mat-list-item>
+        <mat-list-item style="color: white" (click)=routerCalculationBulk() *ngIf="calculationForm.dirty !== true">
+          <mat-icon matListIcon>linear_scale</mat-icon>
+          <h3 matLine> Calculation Bulk</h3>
+        </mat-list-item>
         <mat-list-item style="color: white" (click)=routerTestManagement() *ngIf="calculationForm.dirty !== true">
           <mat-icon matListIcon>done_all</mat-icon>
           <h3 matLine> Test-Management </h3>

@@ -1,0 +1,49 @@
+<mat-toolbar style="background: darkslateblue;
+color: white;">
+  <button mat-icon-button (click)="sidenav.toggle()" style="background: darkslateblue; color: white;">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <h4>{{calculationName}}</h4>
+  <div class="button-row" style="position: fixed; right: 52px;">
+    <button mat-icon-button (click)="onCalculate()" style="color: white">
+      <mat-icon matListIcon>apps</mat-icon>
+    </button>
+    <button mat-icon-button (click)="routerCalculation()" style="color: white">
+      <mat-icon matListIcon>exit_to_app</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #sidenav mode="over" style="background: #353535; color: white;">
+    <mat-nav-list>
+      <mat-list-item style="color: white">
+      <mat-icon matListIcon>home</mat-icon>
+      <h3 matLine> Home</h3>
+    </mat-list-item>
+      <!-- <mat-list-item style="color: white">
+      <mat-icon matListIcon>history</mat-icon>
+      <h3 matLine> History </h3>
+    </mat-list-item> -->
+      <!-- <mat-list-item style="color: white">
+      <mat-icon matListIcon>description</mat-icon>
+      <h3 matLine> Specification </h3>
+    </mat-list-item> -->
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <app-calculation-bulk-input *ngIf="calculationInput" [calculationInput]="calculationInput"></app-calculation-bulk-input>
+    <mat-progress-bar mode="determinate" value="{{this.bulkLoadingProgress}}"></mat-progress-bar>
+    <div class="example-button-row" *ngIf="calculationCount > 0">
+      <h5>Calculations completed {{calculationCount}} / {{calculationTotalCount}} |</h5>
+      <br/>
+      <h5>| Time per calculation = {{calculationTime}} seconds | </h5>
+      <br/>
+      <h5>| Total Time = {{totalCalculationTimeSeconds}} seconds |</h5>
+      <br/>
+      <h5>| Total Time = {{totalCalculationTimeMinutes}} minutes |</h5>
+    </div>
+    <app-calculation-bulk-output *ngIf="calculationOutput" [calculationOutput]="calculationOutput"></app-calculation-bulk-output>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+

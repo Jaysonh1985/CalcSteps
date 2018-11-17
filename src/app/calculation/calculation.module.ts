@@ -45,6 +45,9 @@ import { FunctionNumberFunctionsComponent } from "./functions/function-number-fu
 import { FunctionTextFunctionsComponent } from "./functions/function-text-functions/function-text-functions.component";
 import { MoveableChipListComponent } from "./shared/components/moveable-chip-list/moveable-chip-list.component";
 import { DroppableChipListComponent } from "./shared/components/droppable-chip-list/droppable-chip-list.component";
+import { CalculationBulkComponent } from "./calculation-bulk/calculation-bulk.component";
+import { CalculationBulkInputComponent } from "./calculation-bulk/calculation-bulk-input/calculation-bulk-input.component";
+import { CalculationBulkOutputComponent } from "./calculation-bulk/calculation-bulk-output/calculation-bulk-output.component";
 
 @NgModule({
   imports: [
@@ -89,7 +92,10 @@ import { DroppableChipListComponent } from "./shared/components/droppable-chip-l
     FunctionNumberFunctionsComponent,
     FunctionTextFunctionsComponent,
     MoveableChipListComponent,
-    DroppableChipListComponent
+    DroppableChipListComponent,
+    CalculationBulkComponent,
+    CalculationBulkInputComponent,
+    CalculationBulkOutputComponent
   ],
   entryComponents: [LookupDialogComponent, TestDialogComponent],
   providers: [

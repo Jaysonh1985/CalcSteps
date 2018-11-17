@@ -457,6 +457,9 @@ export class CalculationComponent implements OnInit {
   routerTestManagement() {
     this.router.navigate(["test-management", this.calculation.key]);
   }
+  routerCalculationBulk() {
+    this.router.navigate(["calculation-bulk", this.calculation.key]);
+  }
   setFormDirty() {
     this.calculationForm.control.markAsDirty();
   }

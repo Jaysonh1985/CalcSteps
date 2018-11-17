@@ -1,0 +1,8 @@
+<h3>Outputs</h3>
+<button mat-icon-button (click)="onExportCSV()">
+  Export CSV
+</button>
+<ag-grid-angular #outputGrid class="ag-theme-balham" style="display:inline-block; height:35vh; width:100%"
+  [gridOptions]="outputGridOptions" [rowDragManaged]="true" [animateRows]="true" [enableColResize]="true" 
+  (gridReady)="onGridReady($event)">
+</ag-grid-angular>

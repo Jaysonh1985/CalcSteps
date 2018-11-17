@@ -1,0 +1,12 @@
+
+<h3>Inputs</h3>
+<div class="button-row">
+  <button mat-icon-button (click)="onExportCSV()">
+    Export CSV
+  </button>
+  <input type="file" mat-icon-button accept=".csv" (change)="onUploadCSV($event)" />
+</div>
+<ag-grid-angular #agGrid class="ag-theme-balham" style="display:inline-block; height:35vh; width:100%" [gridOptions]="gridOptions"
+  [rowMultiSelectWithClick]="true" [stopEditingWhenGridLosesFocus]="true" [rowDragManaged]="true" [animateRows]="true" [rowData]="rowData"
+  [enableColResize]="true" (gridReady)="onGridReady($event)">
+</ag-grid-angular>

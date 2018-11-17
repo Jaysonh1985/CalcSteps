@@ -132,7 +132,7 @@ export class LookupComponent implements OnInit {
     reader.readAsText(this.fileReaded);
     reader.onload = e => {
       this.onRemoveSelected();
-      const csvUpload: string = reader.result;
+      const csvUpload: string = reader.result.toString();
       const allTextLines = csvUpload.split(/\r|\n|\r/);
       const headers = allTextLines[0].split(",");
       const lines = [];

@@ -154,6 +154,9 @@ export class FunctionMathsComponent implements OnInit {
           autoComplete
         );
       }
+      if (number === "") {
+        number = 0;
+      }
       mathString = mathString.concat(number);
     });
     const evalulation = mathJs.eval(mathString);
@@ -196,17 +199,27 @@ export class FunctionMathsComponent implements OnInit {
     }
     maths.formula.forEach(element => {
       if (element.type === "variable") {
-        const Number1 = this._autoCompleteService.getNumberError(
-          element.name,
-          autoComplete
-        );
-        if (isNaN(Number(Number1))) {
+        try {
+          const Number1 = this._autoCompleteService.getNumberError(
+            element.name,
+            autoComplete
+          );
+          if (isNaN(Number(Number1))) {
+            this.errorArray.push(
+              new CalculationError(
+                maths.rowIndex,
+                "Error",
+                Number1 +
+                  " - Variable mismatch error - this could be a missing variable or a number in an incorrect format"
+              )
+            );
+          }
+        } catch (error) {
           this.errorArray.push(
             new CalculationError(
               maths.rowIndex,
               "Error",
-              Number1 +
-                " - Variable mismatch error - this could be a missing variable or a number in an incorrect format"
+               "Variable mismatch error - this could be a missing variable or a number in an incorrect format"
             )
           );
         }

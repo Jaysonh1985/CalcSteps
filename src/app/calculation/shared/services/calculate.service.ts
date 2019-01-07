@@ -9,9 +9,6 @@ import { FunctionDistanceComponent } from "../../functions/function-distance/fun
 import * as moment from "moment";
 import "moment/locale/pt-br";
 import { HttpParams, HttpClient } from "@angular/common/http";
-import "rxjs/add/operator/first";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/toPromise";
 import { environment } from "../../../../environments/environment";
 import { DragulaService } from "ng2-dragula";
 import { FunctionNumberFunctionsComponent } from "../../functions/function-number-functions/function-number-functions.component";

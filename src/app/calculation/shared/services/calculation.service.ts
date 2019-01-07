@@ -1,3 +1,4 @@
+import { map } from "rxjs/operators";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Calculation } from "../models/calculation";
@@ -41,12 +42,14 @@ export class CalculationService {
     this.releaseService
       .getReleaseListbycalculationKey(key)
       .snapshotChanges()
-      .map(newchanges => {
-        return newchanges.map(c => ({
-          key: c.payload.key,
-          ...c.payload.val()
-        }));
-      })
+      .pipe(
+        map(newchanges => {
+          return newchanges.map(c => ({
+            key: c.payload.key,
+            ...c.payload.val()
+          }));
+        })
+      )
       .subscribe(releases => {
         releases.forEach(elementR => {
           this.releaseService.deleteRelease(elementR.key);

@@ -1,3 +1,4 @@
+import { map } from "rxjs/operators";
 import { Component, OnInit, Input } from "@angular/core";
 import { MatDialog } from "@angular/material";
 
@@ -40,9 +41,11 @@ export class SubscriptionPaymentComponent implements OnInit {
         this.pmt
           .getSubscriptions(auth.uid)
           .snapshotChanges()
-          .map(changes => {
-            return changes.payload.val();
-          })
+          .pipe(
+            map(changes => {
+              return changes.payload.val();
+            })
+          )
           .subscribe(sub => {
             if (sub != null) {
               this.subscriptionStatus = sub.status;

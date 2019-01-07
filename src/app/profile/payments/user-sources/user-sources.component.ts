@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { PaymentsService } from "../payments.service";
 import { Source, Customer, StripeObject } from "../shared/models";
 

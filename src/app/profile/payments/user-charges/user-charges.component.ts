@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Charge } from "../shared/models";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { PaymentsService } from "../payments.service";
 
 @Component({

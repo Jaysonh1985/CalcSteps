@@ -1,3 +1,4 @@
+import { map } from "rxjs/operators";
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material";
 import { Router } from "@angular/router";
@@ -29,7 +30,11 @@ export class DashboardComponent implements OnInit {
   config = {
     sideNav: [
       { name: "Home", routerLink: "../", icon: "home" },
-      { name: "Lookup Table", routerLink: "../lookup-maintenance", icon: "folder" },
+      {
+        name: "Lookup Table",
+        routerLink: "../lookup-maintenance",
+        icon: "folder"
+      },
       { name: "Help", routerLink: "../help", icon: "help_outline" },
       { name: "Account", routerLink: "../account", icon: "account_circle" }
     ]
@@ -49,12 +54,14 @@ export class DashboardComponent implements OnInit {
         this.calcService
           .getCalculationListbyuid(auth.uid)
           .snapshotChanges()
-          .map(changes => {
-            return changes.map(c => ({
-              key: c.payload.key,
-              ...c.payload.val()
-            }));
-          })
+          .pipe(
+            map(changes => {
+              return changes.map(c => ({
+                key: c.payload.key,
+                ...c.payload.val()
+              }));
+            })
+          )
           .subscribe(customers => {
             this.calculations = customers;
           });
@@ -83,11 +90,28 @@ export class DashboardComponent implements OnInit {
             this.calculation.userid = auth.uid;
             this.calculation.calculationInputs = [];
             this.calculation.calculationInputs.push(
-              new CalculationInput(this.getGuid(), "", "", "", [], "False", "False")
+              new CalculationInput(
+                this.getGuid(),
+                "",
+                "",
+                "",
+                [],
+                "False",
+                "False"
+              )
             );
             this.calculation.calculationOutputs = [];
             this.calculation.calculationOutputs.push(
-              new CalculationOutput(this.getGuid(), "", "", "", "", "False", "False", [])
+              new CalculationOutput(
+                this.getGuid(),
+                "",
+                "",
+                "",
+                "",
+                "False",
+                "False",
+                []
+              )
             );
             this.calculation.calculationConfigurations = [];
             this.calculation.calculationConfigurations.push(
@@ -118,7 +142,7 @@ export class DashboardComponent implements OnInit {
               uid: auth.uid,
               owner: true
             }),
-            this.calcService.createCalculation(this.calculation);
+              this.calcService.createCalculation(this.calculation);
             this.calculation = new Calculation();
           }
         });
@@ -135,12 +159,14 @@ export class DashboardComponent implements OnInit {
     this.releaseService
       .getReleaseListbycalculationKey(calculation.key)
       .snapshotChanges()
-      .map(changes => {
-        return changes.map(c => ({
-          key: c.payload.key,
-          ...c.payload.val()
-        }));
-      })
+      .pipe(
+        map(changes => {
+          return changes.map(c => ({
+            key: c.payload.key,
+            ...c.payload.val()
+          }));
+        })
+      )
       .subscribe(customers => {
         let releaseRef = null;
         customers.forEach(customer => {
@@ -154,18 +180,20 @@ export class DashboardComponent implements OnInit {
       });
   }
   getGuid() {
-    return this.s4() +
-    this.s4() +
-    "-" +
-    this.s4() +
-    "-" +
-    this.s4() +
-    "-" +
-    this.s4() +
-    "-" +
-    this.s4() +
-    this.s4() +
-    this.s4();
+    return (
+      this.s4() +
+      this.s4() +
+      "-" +
+      this.s4() +
+      "-" +
+      this.s4() +
+      "-" +
+      this.s4() +
+      "-" +
+      this.s4() +
+      this.s4() +
+      this.s4()
+    );
   }
 
   s4() {

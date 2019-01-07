@@ -1,3 +1,4 @@
+import { map } from "rxjs/operators";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 
@@ -27,20 +28,21 @@ export class ReleaseManagementComponent implements OnInit {
     public releaseService: ReleaseService,
     private route: ActivatedRoute,
     private calcService: CalculationService,
-    private router: Router,
-
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.releaseService
       .getReleaseListbycalculationKey(this.route.snapshot.params["key"])
       .snapshotChanges()
-      .map(changes => {
-        return changes.map(c => ({
-          key: c.payload.key,
-          ...c.payload.val()
-        }));
-      })
+      .pipe(
+        map(changes => {
+          return changes.map(c => ({
+            key: c.payload.key,
+            ...c.payload.val()
+          }));
+        })
+      )
       .subscribe(customers => {
         this.releases = customers;
       });
@@ -49,12 +51,14 @@ export class ReleaseManagementComponent implements OnInit {
     this.calcService
       .getCalculation(this.route.snapshot.params["key"])
       .snapshotChanges()
-      .map(changes => {
-        return changes.map(c => ({
-          key: c.payload.key,
-          ...c.payload.val()
-        }));
-      })
+      .pipe(
+        map(changes => {
+          return changes.map(c => ({
+            key: c.payload.key,
+            ...c.payload.val()
+          }));
+        })
+      )
       .subscribe(releases => this.createRelease(releases, "New"));
   }
   createRelease(release, comment) {
@@ -78,12 +82,14 @@ export class ReleaseManagementComponent implements OnInit {
     this.releaseService
       .getRelease(release.key)
       .snapshotChanges()
-      .map(changes => {
-        return changes.map(c => ({
-          key: c.payload.key,
-          ...c.payload.val()
-        }));
-      })
+      .pipe(
+        map(changes => {
+          return changes.map(c => ({
+            key: c.payload.key,
+            ...c.payload.val()
+          }));
+        })
+      )
       .subscribe(releases => {
         this.createRelease(releases, "Rollback to " + release.key);
       });

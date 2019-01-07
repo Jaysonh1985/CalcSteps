@@ -1,13 +1,12 @@
+import { map, retry } from "rxjs/operators";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { AngularFireAuth } from "angularfire2/auth";
 import { AngularFireDatabase, AngularFireList } from "angularfire2/database";
 import * as firebase from "firebase/app";
-import { Observable } from "rxjs";
-import { fromPromise } from "rxjs/observable/fromPromise";
+import { Observable, from as fromPromise } from "rxjs";
 import { CalculationService } from "../../calculation/shared/services/calculation.service";
 import { ReleaseService } from "../../calculation/shared/services/release.service";
-import { retry } from "rxjs/operators";
 
 export class User {
   uid: string;
@@ -58,8 +57,10 @@ export class AuthService {
     return this.firebaseAuth.auth.signInWithEmailAndPassword(email, password);
   }
   anonymousLogin() {
-    return this.firebaseAuth.auth.signInAnonymously().then(() => console.log("successful login") )
-    .catch(error => console.log(error));
+    return this.firebaseAuth.auth
+      .signInAnonymously()
+      .then(() => console.log("successful login"))
+      .catch(error => console.log(error));
   }
   signInWithGoogle() {
     return this.firebaseAuth.auth
@@ -74,7 +75,7 @@ export class AuthService {
       })
       .catch(error => console.log(error));
   }
-  isLoggedIn() {
+  isLoggedIn(): boolean {
     this.firebaseAuth.auth.onAuthStateChanged(function(user) {
       if (user) {
         return true;
@@ -82,6 +83,7 @@ export class AuthService {
         return false;
       }
     });
+    return false;
   }
   logout() {
     this.firebaseAuth.auth.signOut().then(res => this.router.navigate(["/"]));
@@ -107,23 +109,27 @@ export class AuthService {
     this.calcService
       .getCalculationListbyuid(this.userDetails.uid)
       .snapshotChanges()
-      .map(changes => {
-        return changes.map(c => ({
-          key: c.payload.key,
-          ...c.payload.val()
-        }));
-      })
+      .pipe(
+        map(changes => {
+          return changes.map(c => ({
+            key: c.payload.key,
+            ...c.payload.val()
+          }));
+        })
+      )
       .subscribe(calculations => {
         calculations.forEach(element => {
           this.releaseService
             .getReleaseListbycalculationKey(element.key)
             .snapshotChanges()
-            .map(newchanges => {
-              return newchanges.map(c => ({
-                key: c.payload.key,
-                ...c.payload.val()
-              }));
-            })
+            .pipe(
+              map(newchanges => {
+                return newchanges.map(c => ({
+                  key: c.payload.key,
+                  ...c.payload.val()
+                }));
+              })
+            )
             .subscribe(releases => {
               releases.forEach(elementR => {
                 this.releaseService.deleteRelease(elementR.key);

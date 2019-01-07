@@ -1,8 +1,8 @@
+import { map, switchMap, tap } from "rxjs/operators";
 import { Component, OnInit } from "@angular/core";
 import { PaymentsService } from "../payments.service";
-import { switchMap, tap, map } from "rxjs/operators";
 import { AuthService } from "../../../shared/services/auth.service";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { SubscriptionPlan } from "../shared/models";
 
 @Component({
@@ -15,6 +15,8 @@ export class UserSubscriptionsComponent implements OnInit {
   constructor(public pmt: PaymentsService, public auth: AuthService) {}
 
   ngOnInit() {
-    this.subscriptions$ = this.pmt.getCustomer().map(user => user.subscriptions.data);
+    this.subscriptions$ = this.pmt
+      .getCustomer()
+      .pipe(map(user => user.subscriptions.data));
   }
 }

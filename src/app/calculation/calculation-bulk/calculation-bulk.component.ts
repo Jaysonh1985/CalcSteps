@@ -1,3 +1,4 @@
+import { map } from "rxjs/operators";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CalculationService } from "../shared/services/calculation.service";
@@ -92,12 +93,14 @@ export class CalculationBulkComponent implements OnInit {
         this.calcService
           .getCalculation(key)
           .snapshotChanges()
-          .map(changes => {
-            return changes.map(c => ({
-              key: c.payload.key,
-              ...c.payload.val()
-            }));
-          })
+          .pipe(
+            map(changes => {
+              return changes.map(c => ({
+                key: c.payload.key,
+                ...c.payload.val()
+              }));
+            })
+          )
           .subscribe(calculations => {
             this.calculation = calculations[0];
             this.calculationInput = calculations[0].calculationInputs;
@@ -166,9 +169,14 @@ export class CalculationBulkComponent implements OnInit {
           this.calculationNewOutputs = [];
         });
         this.calculationCount++;
-        this.bulkLoadingProgress = this.calculationCount / this.calculationTotalCount * 100;
-        this.totalCalculationTimeSeconds = Math.floor(this.totalCalculationTimeSeconds + this.calculationTime);
-        this.totalCalculationTimeMinutes = Math.floor(this.totalCalculationTimeSeconds / 60);
+        this.bulkLoadingProgress =
+          (this.calculationCount / this.calculationTotalCount) * 100;
+        this.totalCalculationTimeSeconds = Math.floor(
+          this.totalCalculationTimeSeconds + this.calculationTime
+        );
+        this.totalCalculationTimeMinutes = Math.floor(
+          this.totalCalculationTimeSeconds / 60
+        );
         if (this.calculationCount === this.calculationTotalCount) {
           this.snackBar.open("Bulk Calculation Finished", "Success", {
             duration: 2000

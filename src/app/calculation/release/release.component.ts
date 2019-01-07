@@ -1,3 +1,4 @@
+import { map } from "rxjs/operators";
 import "moment/locale/pt-br";
 
 import { HttpClient } from "@angular/common/http";
@@ -21,7 +22,6 @@ import { LookupService } from "../shared/services/lookup.service";
 import { ReleaseService } from "../shared/services/release.service";
 import { CalculationComponent } from "../calculation.component";
 import { PaymentsService } from "../../profile/payments/payments.service";
-import { map } from "rxjs/operators";
 import { Subscription } from "rxjs";
 
 @Component({
@@ -73,20 +73,24 @@ export class ReleaseComponent implements OnInit {
     this.releaseService
       .getRelease(key)
       .snapshotChanges()
-      .map(changes => {
-        return changes.map(c => ({
-          key: c.payload.key,
-          ...c.payload.val()
-        }));
-      })
+      .pipe(
+        map(changes => {
+          return changes.map(c => ({
+            key: c.payload.key,
+            ...c.payload.val()
+          }));
+        })
+      )
       .subscribe(calculations => {
         this.calculation = calculations[0];
         this.paymentService
           .getSubscriptions(this.calculation.userid)
           .snapshotChanges()
-          .map(changes => {
-            return changes.payload.val();
-          })
+          .pipe(
+            map(changes => {
+              return changes.payload.val();
+            })
+          )
           .subscribe(sub => {
             this.calculation = calculations[0];
             this.authService.userFirebase.subscribe(auth => {
@@ -102,15 +106,22 @@ export class ReleaseComponent implements OnInit {
               this.calcService
                 .getCalculation(this.calculation.calculationKey)
                 .snapshotChanges()
-                .map(changes => {
-                  return changes.map(c => ({
-                    key: c.payload.key,
-                    ...c.payload.val()
-                  }));
-                })
+                .pipe(
+                  map(changes => {
+                    return changes.map(c => ({
+                      key: c.payload.key,
+                      ...c.payload.val()
+                    }));
+                  })
+                )
                 .subscribe(configurations => {
                   this.calculation = calculations[0];
-                  if (this.onCheckUserId(this.calculation.userid, configurations[0].users)) {
+                  if (
+                    this.onCheckUserId(
+                      this.calculation.userid,
+                      configurations[0].users
+                    )
+                  ) {
                     this.calculationInput = calculations[0].calculationInputs;
                     this.calculationConfiguration =
                       calculations[0].calculationConfigurations;

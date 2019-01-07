@@ -1,13 +1,9 @@
-import "rxjs/add/operator/do";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/switchMap";
-import { switchMap } from "rxjs/operators";
-import { fromPromise } from "rxjs/observable/fromPromise";
+import { map, switchMap } from "rxjs/operators";
+import { from as fromPromise, Observable } from "rxjs";
 import { Injectable } from "@angular/core";
 import { AngularFireAuth } from "angularfire2/auth";
 import { AngularFireDatabase, AngularFireObject } from "angularfire2/database";
 import * as firebase from "firebase/app";
-import { Observable } from "rxjs";
 import {
   Customer,
   Source,
@@ -55,7 +51,7 @@ export class PaymentsService {
   // Get a list of charges
   getCharges(): Observable<Charge[]> {
     const url = `${this.api}/charges/`;
-    return this.http.get<StripeObject>(url).map(res => res.data);
+    return this.http.get<StripeObject>(url).pipe(map(res => res.data));
   }
   createCharge(card: any, amount: number): Observable<Charge> {
     const url = `${this.api}/charges/`;

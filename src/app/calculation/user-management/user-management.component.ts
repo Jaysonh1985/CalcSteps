@@ -1,3 +1,4 @@
+import { map } from "rxjs/operators";
 import { Component, OnInit } from "@angular/core";
 import {
   Validators,
@@ -40,21 +41,25 @@ export class UserManagementComponent implements OnInit {
     this.calcService
       .getCalculation(this.route.snapshot.params["key"])
       .snapshotChanges()
-      .map(changes => {
-        return changes.map(c => ({
-          key: c.payload.key,
-          ...c.payload.val()
-        }));
-      })
+      .pipe(
+        map(changes => {
+          return changes.map(c => ({
+            key: c.payload.key,
+            ...c.payload.val()
+          }));
+        })
+      )
       .subscribe(calculations => {
         this.calculation = calculations[0];
         this.users = calculations[0].users;
         this.paymentService
           .getSubscriptions(this.calculation.userid)
           .snapshotChanges()
-          .map(changes => {
-            return changes.payload.val();
-          })
+          .pipe(
+            map(changes => {
+              return changes.payload.val();
+            })
+          )
           .subscribe(sub => {
             if (sub != null) {
               this.subscriptionStatus = sub.status;
@@ -86,14 +91,16 @@ export class UserManagementComponent implements OnInit {
         return this.db
           .list("/users", ref => ref.orderByChild("email").equalTo(form.email))
           .snapshotChanges()
-          .map(arr => {
-            return arr.map(c => ({
-              key: c.payload.key,
-              email: "",
-              name: "",
-              ...c.payload.val()
-            }));
-          })
+          .pipe(
+            map(arr => {
+              return arr.map(c => ({
+                key: c.payload.key,
+                email: "",
+                name: "",
+                ...c.payload.val()
+              }));
+            })
+          )
           .subscribe(releases => {
             if (releases.length === 0) {
               this.userForm.controls["email"].setErrors({
@@ -160,13 +167,13 @@ export class UserManagementComponent implements OnInit {
     return this.userForm.controls["email"].hasError("required")
       ? "You must enter a value"
       : this.userForm.controls["email"].hasError("email")
-        ? "Not a valid email"
-        : this.userForm.controls["email"].hasError("userDoesNotExists")
-          ? "User does not exist"
-          : this.userForm.controls["email"].hasError("userInList")
-            ? "User already added"
-            : this.userForm.controls["email"].hasError("isNotEligble")
-              ? "You do not have the ability to add any further users"
-              : "";
+      ? "Not a valid email"
+      : this.userForm.controls["email"].hasError("userDoesNotExists")
+      ? "User does not exist"
+      : this.userForm.controls["email"].hasError("userInList")
+      ? "User already added"
+      : this.userForm.controls["email"].hasError("isNotEligble")
+      ? "You do not have the ability to add any further users"
+      : "";
   }
 }

@@ -1,3 +1,4 @@
+import { map } from "rxjs/operators";
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material";
 import { Router } from "@angular/router";
@@ -37,12 +38,14 @@ export class LookupMaintenanceComponent implements OnInit {
         this.lookupService
           .getLookupListbyuid(auth.uid)
           .snapshotChanges()
-          .map(changes => {
-            return changes.map(c => ({
-              key: c.payload.key,
-              ...c.payload.val()
-            }));
-          })
+          .pipe(
+            map(changes => {
+              return changes.map(c => ({
+                key: c.payload.key,
+                ...c.payload.val()
+              }));
+            })
+          )
           .subscribe(customers => {
             this.lookups = customers;
           });

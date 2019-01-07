@@ -2,7 +2,7 @@ import "moment/locale/pt-br";
 
 import { Component, Input, OnInit } from "@angular/core";
 import * as moment from "moment";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { COMMA, ENTER } from "@angular/cdk/keycodes";
 
 import { CalculationError } from "../../shared/models/calculation-error";

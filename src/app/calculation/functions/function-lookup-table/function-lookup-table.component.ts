@@ -1,3 +1,4 @@
+import { map } from "rxjs/operators";
 import "moment/locale/pt-br";
 
 import { Component, Input, OnInit } from "@angular/core";
@@ -100,12 +101,14 @@ export class FunctionLookupTableComponent implements OnInit {
         this.lookupService
           .getLookupListbyuid(auth.uid)
           .snapshotChanges()
-          .map(changes => {
-            return changes.map(c => ({
-              key: c.payload.key,
-              ...c.payload.val()
-            }));
-          })
+          .pipe(
+            map(changes => {
+              return changes.map(c => ({
+                key: c.payload.key,
+                ...c.payload.val()
+              }));
+            })
+          )
           .subscribe(customers => {
             this.lookups = customers;
             if (this.selectedRow[0].lookupTable.TableName !== "") {
@@ -120,12 +123,14 @@ export class FunctionLookupTableComponent implements OnInit {
       this.lookupService
         .getLookup(key)
         .snapshotChanges()
-        .map(changes => {
-          return changes.map(c => ({
-            key: c.payload.key,
-            ...c.payload.val()
-          }));
-        })
+        .pipe(
+          map(changes => {
+            return changes.map(c => ({
+              key: c.payload.key,
+              ...c.payload.val()
+            }));
+          })
+        )
         .subscribe(lookups => {
           this.columnList = [];
           lookups[0].headerRow.forEach(element => {

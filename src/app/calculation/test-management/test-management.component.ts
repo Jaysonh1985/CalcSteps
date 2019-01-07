@@ -1,3 +1,4 @@
+import { map } from "rxjs/operators";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CalculationService } from "../shared/services/calculation.service";
@@ -33,12 +34,14 @@ export class TestManagementComponent implements OnInit {
         this.calcService
           .getCalculation(key)
           .snapshotChanges()
-          .map(changes => {
-            return changes.map(c => ({
-              key: c.payload.key,
-              ...c.payload.val()
-            }));
-          })
+          .pipe(
+            map(changes => {
+              return changes.map(c => ({
+                key: c.payload.key,
+                ...c.payload.val()
+              }));
+            })
+          )
           .subscribe(calculations => {
             this.calculation = calculations[0];
             this.calculationInput = calculations[0].calculationInputs;

@@ -1,3 +1,4 @@
+import { map } from "rxjs/operators";
 import { Component, OnInit } from "@angular/core";
 import { MatDialog, MatSnackBar } from "@angular/material";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -36,12 +37,14 @@ export class LookupComponent implements OnInit {
     this.lookupService
       .getLookup(key)
       .snapshotChanges()
-      .map(changes => {
-        return changes.map(c => ({
-          key: c.payload.key,
-          ...c.payload.val()
-        }));
-      })
+      .pipe(
+        map(changes => {
+          return changes.map(c => ({
+            key: c.payload.key,
+            ...c.payload.val()
+          }));
+        })
+      )
       .subscribe(lookups => {
         this.lookup = lookups[0];
         this.lookupName = lookups[0].name;

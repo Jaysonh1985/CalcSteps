@@ -74,13 +74,13 @@ export class FunctionTextFunctionsComponent implements OnInit {
   }
 
   dropChip(array, field) {
-    if (field === "text1") {
+    if (field === "text1" && array[0].datatype === "Text") {
       this.selectedRow[0].textFunctions.text1 = [];
       this.selectedRow[0].textFunctions.text1 = array;
-    } else if (field === "text2") {
+    } else if (field === "text2" && array[0].datatype === "Text") {
       this.selectedRow[0].textFunctions.text2 = [];
       this.selectedRow[0].textFunctions.text2 = array;
-    } else if (field === "number1") {
+    } else if (field === "number1" && array[0].datatype === "Number") {
       this.selectedRow[0].textFunctions.number1 = [];
       this.selectedRow[0].textFunctions.number1 = array;
     }

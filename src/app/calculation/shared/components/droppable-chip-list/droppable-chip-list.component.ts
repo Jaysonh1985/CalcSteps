@@ -3,6 +3,12 @@ import * as moment from "moment";
 import "moment/locale/pt-br";
 import { COMMA, ENTER } from "@angular/cdk/keycodes";
 import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+  CdkDrag
+} from "@angular/cdk/drag-drop";
+import {
   MAT_MOMENT_DATE_FORMATS,
   MomentDateAdapter
 } from "@angular/material-moment-adapter";
@@ -36,8 +42,8 @@ export class DroppableChipListComponent implements OnInit {
   name: string;
   @Input()
   datatype: string;
-  @Output()
-  dropChip = new EventEmitter();
+  @Input()  Identity: string;
+  @Output() dropChip = new EventEmitter();
   @Output()
   removeChip = new EventEmitter();
   array: any[];
@@ -46,19 +52,28 @@ export class DroppableChipListComponent implements OnInit {
   removable = true;
   addOnBlur = true;
   droppedData: string;
-  constructor() {}
 
-  ngOnInit() {}
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  constructor() {
 
-  onDropChip(data: any) {
-    // Get the dropped data here
+  }
+
+  ngOnInit() {
+    this.Identity = this.name.replace(/\s/g, "");
+    console.log(this.Identity);
+  }
+  drop(event: CdkDragDrop<string[]>) {
     this.array = [];
     this.array.push({
-      name: data.dragData.name,
-      type: data.dragData.type,
-      datatype: data.dragData.datatype
+      name: event.item.data.name,
+      type: event.item.data.type,
+      datatype: event.item.data.datatype
     });
     this.dropChip.emit(this.array);
+  }
+  onDropChip(data: any) {
+    // Get the dropped data here
+
   }
 
   onRemoveChip() {

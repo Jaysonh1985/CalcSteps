@@ -1,20 +1,22 @@
 <p>{{name}}<p>
     <mat-form-field style="width:100%">
       <mat-chip-list #selectedChips1>
-        <mat-chip [color]="primary" [removable]="removable" *ngFor="let chips of chipArray; let i=index" (removed)="onRemoveChip(i)">
+        <mat-chip [color]="'primary'" [removable]="removable" *ngFor="let chips of chipArray; let i=index" (removed)="onRemoveChip(i)">
           {{chips.name}}
           <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
       </mat-chip-list>
-      <div style="width:100%" droppable (onDrop)="onDropChip($event)">
+      <div style="width:100%" cdkDropList id="{{Identity}}" cdkDropListConnectedTo="list-1" (cdkDropListDropped)="drop($event)">
         <div *ngIf="datatype === 'Date'">
-          <div *ngIf="chipArray.length === 0">
+          <div *ngIf="chipArray.length === 0" >
             <input matInput [matDatepicker]="picker" (dateInput)="addDateChip('input', $event)" (dateChange)="addDateChip('change', $event)">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </div>
-          <input [matChipInputFor]="selectedChips1" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" id="dates1"
-            *ngIf="chipArray.length > 0">
+          <div *ngIf="chipArray.length > 0" >
+            <input [matChipInputFor]="selectedChips1" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" id="dates1">
+          </div>
+
         </div>
         <div *ngIf="datatype === 'Number'">
           <div *ngIf="chipArray.length === 0">

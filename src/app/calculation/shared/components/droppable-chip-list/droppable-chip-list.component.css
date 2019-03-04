@@ -1,32 +1,48 @@
 .example-full-width {
     width: 100%;
   }
-  
+
   .draggable {
     cursor: move;
   }
-  
+
   .container {
     flex: 1;
   }
-  
+
   .container:not(:last-child) {
     margin-right: 8px;
   }
-  
+
   /* Droppable */
-  
+
   .drag-hint-border {
     border: #3c763d dashed 2px;
   }
-  
+
   .drag-over-border {
     border: #fbbc05 dashed 2px;
   }
-  
+
   .drag-transit {
     border: #3500FF dashed 2px;
     opacity: 0.8;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
     filter: alpha(opacity=80);
+  }
+
+  .cdk-drag-preview {
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+                0 8px 10px 1px rgba(0, 0, 0, 0.14),
+                0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  }
+
+  .cdk-drag-placeholder {
+    opacity: 0;
+  }
+
+  .cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   }

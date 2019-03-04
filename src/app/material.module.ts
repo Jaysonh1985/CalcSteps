@@ -1,4 +1,5 @@
 import { NgModule } from "@angular/core";
+import { DragDropModule } from "@angular/cdk/drag-drop";
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -65,7 +66,8 @@ import {
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatRadioModule,
-    MatTooltipModule
+    MatTooltipModule,
+    DragDropModule
   ]
 })
 export class MaterialModule {}

@@ -15,12 +15,12 @@
 </mat-form-field>
 <table class="example-full-width" cellspacing="0" *ngIf="selectedRow[0].dateAdjustment.type !== ''">
   <tr>
-    <td *ngIf="selectedRow[0].dateAdjustment.type != 'Today'">
-      <app-droppable-chip-list [chipArray]=selectedRow[0].dateAdjustment.date1 [name]="'Date 1'" [datatype]="'Date'"
+    <td *ngIf="selectedRow[0].dateAdjustment.type != 'Today'" >
+      <app-droppable-chip-list [chipArray]=selectedRow[0].dateAdjustment.date1 [name]="'Date 1'" [datatype]="'Date'" [Identity]="'Date1'"
         (dropChip)="dropChip($event, 'date1')" (removeChip)="removeChip($event, 'date1')"></app-droppable-chip-list>
     </td>
     <td *ngIf="selectedRow[0].dateAdjustment.type == 'Earlier' || selectedRow[0].dateAdjustment.type == 'Later' || selectedRow[0].dateAdjustment.type == 'DatesBetween' || selectedRow[0].dateAdjustment.type== 'MonthsBetween'">
-      <app-droppable-chip-list [chipArray]=selectedRow[0].dateAdjustment.date2 [name]="'Date 2'" [datatype]="'Date'"
+      <app-droppable-chip-list [chipArray]=selectedRow[0].dateAdjustment.date2 [name]="'Date 2'" [datatype]="'Date'" [Identity]="'Date2'"
         (dropChip)="dropChip($event, 'date2')" (removeChip)="removeChip($event, 'date2')"></app-droppable-chip-list>
     </td>
   </tr>
@@ -63,9 +63,9 @@
 </mat-form-field>
 <mat-form-field *ngIf="selectedRow[0].dateAdjustment.type == 'Adjust'|| selectedRow[0].dateAdjustment.type =='AdjustDay' || selectedRow[0].dateAdjustment.type =='DatesBetween' || selectedRow[0].dateAdjustment.type =='MonthsBetween'">
   <input matInput placeholder="Day" [(ngModel)]="selectedRow[0].dateAdjustment.day" style="font-size: small"
-    [matAutocomplete]="auto">
+    [matAutocomplete]="'auto'">
 </mat-form-field>
 <mat-form-field *ngIf="selectedRow[0].dateAdjustment.type == 'Adjust'|| selectedRow[0].dateAdjustment.type =='DatesBetween'">
   <input matInput placeholder="Month" [(ngModel)]="selectedRow[0].dateAdjustment.month" style="font-size: small"
-    [matAutocomplete]="auto">
+    [matAutocomplete]="'auto'">
 </mat-form-field>

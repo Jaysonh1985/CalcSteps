@@ -41,6 +41,7 @@ export class FunctionIfLogicComponent implements OnInit {
   removable = true;
   addOnBlur = true;
   droppedData: string;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   constructor(
     private dragulaService: DragulaService,
     private _autoCompleteService: AutoCompleteService

@@ -53,28 +53,28 @@ export class PaymentsService {
     const url = `${this.api}/charges/`;
     return this.http.get<StripeObject>(url).pipe(map(res => res.data));
   }
-  createCharge(card: any, amount: number): Observable<Charge> {
-    const url = `${this.api}/charges/`;
+  // createCharge(card: any, amount: number): Observable<Charge> {
+  //   const url = `${this.api}/charges/`;
 
-    return fromPromise<Source>(this.stripe.createSource(card)).pipe(
-      switchMap(data => {
-        return this.http.post<Charge>(url, {
-          amount,
-          sourceId: data.source.id
-        });
-      })
-    );
-  }
-  // Saves a payment source to the user account that can be charged later
-  attachSource(card: any): Observable<Source> {
-    const url = `${this.api}/sources/`;
+  //   return fromPromise<Source>(this.stripe.createSource(card)).pipe(
+  //     switchMap(data => {
+  //       return this.http.post<Charge>(url, {
+  //         amount,
+  //         sourceId: data.source.id
+  //       });
+  //     })
+  //   );
+  // }
+  // // Saves a payment source to the user account that can be charged later
+  // attachSource(card: any): Observable<Source> {
+  //   const url = `${this.api}/sources/`;
 
-    return fromPromise<Source>(this.stripe.createSource(card)).pipe(
-      switchMap(data => {
-        return this.http.post<Source>(url, { sourceId: data.source.id });
-      })
-    );
-  }
+  //   return fromPromise<Source>(this.stripe.createSource(card)).pipe(
+  //     switchMap(data => {
+  //       return this.http.post<Source>(url, { sourceId: data.source.id });
+  //     })
+  //   );
+  // }
   ///// SUBSCRIPTION ACTIONS ////
   // Attaches subscription to user (Stripe will charge the source)
   attachSubscription(

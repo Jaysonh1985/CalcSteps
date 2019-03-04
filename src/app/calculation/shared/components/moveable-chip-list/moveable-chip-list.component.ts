@@ -1,6 +1,10 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { DragAndDropModule } from "angular-draggable-droppable";
-
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+  CdkDrag
+} from "@angular/cdk/drag-drop";
 @Component({
   selector: "app-moveable-chip-list",
   templateUrl: "./moveable-chip-list.component.html",
@@ -14,4 +18,12 @@ export class MoveableChipListComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  drop(event: CdkDragDrop<string[]>) {
+    return;
+  }
+  /** Predicate function that only allows even numbers to be dropped into a list. */
+  evenPredicate(item: CdkDrag<number>) {
+    return false;
+  }
 }

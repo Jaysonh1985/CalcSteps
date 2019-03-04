@@ -103,13 +103,13 @@ export class FunctionDateAdjustmentComponent implements OnInit {
     }
   }
   dropChip(array, field) {
-    if (field === "date1") {
+    if (field === "date1" && array[0].datatype === "Date") {
       this.selectedRow[0].dateAdjustment.date1 = [];
       this.selectedRow[0].dateAdjustment.date1 = array;
-    } else if (field === "date2") {
+    } else if (field === "date2" && array[0].datatype === "Date") {
       this.selectedRow[0].dateAdjustment.date2 = [];
       this.selectedRow[0].dateAdjustment.date2 = array;
-    } else if (field === "period") {
+    } else if (field === "period" && array[0].datatype === "Number") {
       this.selectedRow[0].dateAdjustment.period = [];
       this.selectedRow[0].dateAdjustment.period = array;
     }

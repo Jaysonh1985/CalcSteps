@@ -1,10 +1,19 @@
 <mat-form-field style="width:100%">
   <p>{{name}}</p>
-  <mat-chip-list>
-    <mat-chip *ngFor="let chip of chipArray" selected draggable [dragData]="chip" matTooltip="{{chip.value}}"
-      [matTooltipShowDelay]="1000" id="options">
-      {{chip.name}}
+  <div>
+
+  </div>
+  <mat-chip-list cdkDropList id="list-1" [cdkDropListConnectedTo]="['Date','Date1','Date2','Number','Number1','Number2','Text','Text1','Text2', 'LookupValue', 'Period','Origin','Destination']" (cdkDropListDropped)="drop($event)">
+    <mat-chip
+    id="list-1"
+    *ngFor="let chip of chipArray" selected matTooltip="{{chip.value}}"
+      [matTooltipShowDelay]="1000"  [cdkDragData]="chip" cdkDrag>
+          {{chip.name}}
     </mat-chip>
   </mat-chip-list>
   <br>
 </mat-form-field>
+
+<!-- <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let chip of chipArray" cdkDrag>{{chip.name}}</div>
+  </div> -->

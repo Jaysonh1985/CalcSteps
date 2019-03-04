@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { DroppableChipListComponent } from './droppable-chip-list.component';
+import { DroppableChipListComponent } from "./droppable-chip-list.component";
 
-describe('DroppableChipListComponent', () => {
+describe("DroppableChipListComponent", () => {
   let component: DroppableChipListComponent;
   let fixture: ComponentFixture<DroppableChipListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DroppableChipListComponent ]
-    })
-    .compileComponents();
+      declarations: [DroppableChipListComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('DroppableChipListComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

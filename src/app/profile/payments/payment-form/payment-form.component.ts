@@ -60,11 +60,11 @@ export class PaymentFormComponent implements AfterViewInit, OnDestroy {
     this.loading = true;
     let action;
 
-    if (this.totalAmount) {
-      action = this.pmt.createCharge(this.card, this.totalAmount);
-    } else {
-      action = this.pmt.attachSource(this.card);
-    }
+    // if (this.totalAmount) {
+    //   action = this.pmt.createCharge(this.card, this.totalAmount);
+    // } else {
+    //   action = this.pmt.attachSource(this.card);
+    // }
 
     action.subscribe(
       data => {

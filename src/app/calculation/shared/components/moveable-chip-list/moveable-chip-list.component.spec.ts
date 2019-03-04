@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-
 import { MoveableChipListComponent } from "./moveable-chip-list.component";
 
 describe("MoveableChipListComponent", () => {

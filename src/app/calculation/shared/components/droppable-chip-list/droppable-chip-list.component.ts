@@ -60,7 +60,6 @@ export class DroppableChipListComponent implements OnInit {
 
   ngOnInit() {
     this.Identity = this.name.replace(/\s/g, "");
-    console.log(this.Identity);
   }
   drop(event: CdkDragDrop<string[]>) {
     this.array = [];

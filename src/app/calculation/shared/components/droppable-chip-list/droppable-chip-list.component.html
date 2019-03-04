@@ -30,5 +30,6 @@
           <input [matChipInputFor]="selectedChips1" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             (matChipInputTokenEnd)="addTextChip($event)" [matChipInputAddOnBlur]="addOnBlur" [readonly]="chipArray.length > 0">
         </div>
+        <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
       </div>
     </mat-form-field>

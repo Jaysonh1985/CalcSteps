@@ -1,0 +1,6 @@
+  <mat-nav-list>
+    <mat-list-item *ngFor="let nav of sideNav" style="color: white" routerLink="{{nav.routerLink}}">
+      <mat-icon matListIcon>{{nav.icon}}</mat-icon>
+      <h3 matLine> {{nav.name}}</h3>
+    </mat-list-item>
+  </mat-nav-list>

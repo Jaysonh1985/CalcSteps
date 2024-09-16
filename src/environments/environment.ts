@@ -4,5 +4,16 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  stripeKey: "pk_test_hEZwzsEgPukPMJAm1XukHDDt",
+  googleMapsKey: "AIzaSyDzO3msuuB8lAAjsrSfG15Ecw8hSmXKbzQ",
+  firebase: {
+    apiKey: "AIzaSyBM-ns8GzoibvP4ZOVaZ1MgpVLDnaNNw98",
+    authDomain: "calc-steps.firebaseapp.com",
+    databaseURL: "https://calc-steps.firebaseio.com",
+    projectId: "calc-steps",
+    storageBucket: "calc-steps.appspot.com",
+    messagingSenderId: "468301501954"
+  },
+  functionsURL: "https://us-central1-calc-steps.cloudfunctions.net"
 };

@@ -1,0 +1,38 @@
+<app-moveable-chip-list [chipArray]=autoCompleteOptionsDate [name]="'Dates'"></app-moveable-chip-list>
+<mat-form-field>
+  <mat-select [(ngModel)]="selectedRow[0].dateDuration.type" placeholder="Type">
+    <!-- <mat-option value="YearsDays">Years Days</mat-option>
+    <mat-option value="YearsMonths">Years Months</mat-option>
+    <mat-option value="YearsDaysDecimal">Years Days (Decimal 6dp)</mat-option>
+    <mat-option value="YearsMonthsDecimal">Years Months (Decimal 6dp)</mat-option> -->
+    <mat-option value="Years">Years</mat-option>
+    <mat-option value="YearsFrac">Years Fraction</mat-option>
+    <mat-option value="Months">Months</mat-option>
+    <mat-option value="Days">Days</mat-option>
+  </mat-select>
+</mat-form-field>
+<table class="example-full-width" cellspacing="0">
+  <tr>
+    <td>
+      <app-droppable-chip-list [chipArray]=selectedRow[0].dateDuration.date1 [name]="'Date 1'" [datatype]="'Date'"
+        (dropChip)="dropChip($event, 'date1')" (removeChip)="removeChip($event, 'date1')"></app-droppable-chip-list>
+    </td>
+    <td>
+      <app-droppable-chip-list [chipArray]=selectedRow[0].dateDuration.date2 [name]="'Date 2'" [datatype]="'Date'"
+        (dropChip)="dropChip($event, 'date2')" (removeChip)="removeChip($event, 'date2')"></app-droppable-chip-list>
+    </td>
+  </tr>
+</table>
+<!-- <mat-form-field>
+  <mat-select [(ngModel)]="selectedRow[0].dateDuration.inclusive" placeholder="Include Final Day?">
+    <mat-option value="True">True</mat-option>
+    <mat-option value="False">False</mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field>
+  <mat-select [(ngModel)]="selectedRow[0].dateDuration.daysinYear" placeholder="No Days in Year">
+    <mat-option value="365">365</mat-option>
+    <mat-option value="365.25">365.25</mat-option>
+    <mat-option value="366">366</mat-option>
+  </mat-select>
+</mat-form-field> -->

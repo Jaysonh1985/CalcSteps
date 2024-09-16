@@ -1,0 +1,15 @@
+.example-full-width {
+  width: 100%;
+}
+
+.draggable {
+  cursor: move;
+}
+
+.container {
+  flex: 1;
+}
+
+.container:not(:last-child) {
+  margin-right: 8px;
+}

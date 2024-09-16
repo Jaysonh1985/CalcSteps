@@ -1,0 +1,45 @@
+<div *ngIf="selectedRow[0].lookupTable.LookupType !== ''">
+  <div *ngIf="selectedRow[0].lookupTable.LookupType === 'Number'">
+    <app-moveable-chip-list [chipArray]=autoCompleteOptionsNumber [name]="'Number'"></app-moveable-chip-list>
+  </div>
+  <div *ngIf="selectedRow[0].lookupTable.LookupType === 'Date'">
+    <app-moveable-chip-list [chipArray]=autoCompleteOptionsDate [name]="'Date'"></app-moveable-chip-list>
+  </div>
+  <div *ngIf="selectedRow[0].lookupTable.LookupType === 'Text'">
+    <app-moveable-chip-list [chipArray]=autoCompleteOptionsText [name]="'Text'"></app-moveable-chip-list>
+  </div>
+</div>
+
+<mat-form-field>
+  <mat-select placeholder="Table Name" [(ngModel)]="selectedRow[0].lookupTable.TableName" (ngModelChange)="setColumnList(selectedRow[0].lookupTable.TableName)">
+    <mat-option value="">----</mat-option>
+    <mat-option *ngFor="let lookup of lookups " [value]="lookup.key">{{lookup.name}}</mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field>
+  <mat-select placeholder="Lookup Data Type" [(ngModel)]="selectedRow[0].lookupTable.LookupType">
+    <mat-option value="Date">Date</mat-option>
+    <mat-option value="Number">Number</mat-option>
+    <mat-option value="Text">Text</mat-option>
+  </mat-select>
+</mat-form-field>
+<div *ngIf="selectedRow[0].lookupTable.LookupType !== '' && selectedRow[0].lookupTable.TableName !== ''">
+
+  <app-droppable-chip-list [chipArray]=selectedRow[0].lookupTable.LookupValue [name]="'Lookup Value'" [datatype]="selectedRow[0].lookupTable.LookupType"
+    (dropChip)="dropChip($event, 'lookuptype')" (removeChip)="removeChip($event, 'lookuptype')"></app-droppable-chip-list>
+  <br />
+  <br />
+
+</div>
+<mat-form-field *ngIf="selectedRow[0].lookupTable.LookupType !== '' && selectedRow[0].lookupTable.TableName !== ''">
+  <mat-select placeholder="Column" [(ngModel)]="selectedRow[0].lookupTable.ColumnNo">
+    <mat-option *ngFor="let column of columnList" [value]="column.key">{{column.name}}</mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field *ngIf="selectedRow[0].lookupTable.LookupType !== '' && selectedRow[0].lookupTable.TableName !== ''">
+  <mat-select placeholder="Output Data Type" [(ngModel)]="selectedRow[0].lookupTable.OutputType">
+    <mat-option value="Date">Date</mat-option>
+    <mat-option value="Number">Number</mat-option>
+    <mat-option value="Text">Text</mat-option>
+  </mat-select>
+</mat-form-field>

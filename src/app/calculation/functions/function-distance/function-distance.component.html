@@ -1,0 +1,13 @@
+<app-moveable-chip-list [chipArray]=autoCompleteOptionsText [name]="'Text'"></app-moveable-chip-list>
+<table class="example-full-width" cellspacing="0">
+  <tr>
+    <td>
+      <app-droppable-chip-list [chipArray]=selectedRow[0].distance.origin [name]="'Origin'" [datatype]="'Text'"
+        (dropChip)="dropChip($event, 'origin')" (removeChip)="removeChip($event, 'origin')"></app-droppable-chip-list>
+    </td>
+    <td>
+      <app-droppable-chip-list [chipArray]=selectedRow[0].distance.destination [name]="'Destination'" [datatype]="'Text'"
+        (dropChip)="dropChip($event, 'destination')" (removeChip)="removeChip($event, 'destination')"></app-droppable-chip-list>
+    </td>
+  </tr>
+</table>

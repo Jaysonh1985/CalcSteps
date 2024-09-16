@@ -1,0 +1,14 @@
+<div *ngIf="charges$ | async as charges; else loading;">
+  <div *ngIf="charges.length">
+    <mat-list dense>
+      <mat-list-item *ngFor="let charge of charges">
+        Amount: {{ charge.amount}} | Status: {{ charge.status }}
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <div *ngIf="!charges.length">No payments found on this customer account</div>
+</div>
+
+<ng-template #loading>
+  <app-loading-spinner [text]="'loading payments...'"></app-loading-spinner>
+</ng-template>

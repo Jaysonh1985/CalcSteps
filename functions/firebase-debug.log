@@ -1,0 +1,61 @@
+[debug] [2018-07-26T20:56:03.967Z] ----------------------------------------------------------------------
+[debug] [2018-07-26T20:56:03.972Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\jayso\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve --only functions
+[debug] [2018-07-26T20:56:03.973Z] CLI Version:   3.17.7
+[debug] [2018-07-26T20:56:03.973Z] Platform:      win32
+[debug] [2018-07-26T20:56:03.973Z] Node Version:  v8.9.1
+[debug] [2018-07-26T20:56:03.975Z] Time:          Thu Jul 26 2018 21:56:03 GMT+0100 (GMT Summer Time)
+[debug] [2018-07-26T20:56:03.975Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-07-26T20:56:04.002Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-07-26T20:56:04.005Z] > authorizing via signed-in user
+[debug] [2018-07-26T20:56:04.010Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/calc-steps  
+  
+ Thu Jul 26 2018 21:56:04 GMT+0100 (GMT Summer Time)
+[debug] [2018-07-26T20:56:04.633Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-26T20:56:04.634Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/calc-steps/tokens  
+  
+ Thu Jul 26 2018 21:56:04 GMT+0100 (GMT Summer Time)
+[debug] [2018-07-26T20:56:05.301Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-26T20:56:05.301Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/calc-steps  
+  
+ Thu Jul 26 2018 21:56:05 GMT+0100 (GMT Summer Time)
+[debug] [2018-07-26T20:56:06.286Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\CalcSteps\CalcSteps'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-07-26T20:56:07.062Z] Fetching environment
+[debug] [2018-07-26T20:56:07.064Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/468301501954:getServerAppConfig  
+  
+ Thu Jul 26 2018 21:56:07 GMT+0100 (GMT Summer Time)
+[debug] [2018-07-26T20:56:07.542Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-26T20:56:07.542Z] Starting @google-cloud/functions-emulator
+[debug] [2018-07-26T20:56:09.580Z] Parsing function triggers
+[warn] !  functions: Failed to load functions source code. Ensure that you have the latest SDK by running npm i --save firebase-functions inside the functions directory.
+[debug] [2018-07-26T20:56:10.313Z] Error during trigger parsing:  Error occurred while parsing your function triggers.
+
+TypeError: Cannot read property 'secret' of undefined
+    at Object.<anonymous> (C:\CalcSteps\CalcSteps\functions\lib\app\config.js:35:49)
+    at Module._compile (module.js:635:30)
+    at Object.Module._extensions..js (module.js:646:10)
+    at Module.load (module.js:554:32)
+    at tryModuleLoad (module.js:497:12)
+    at Function.Module._load (module.js:489:3)
+    at Module.require (module.js:579:17)
+    at require (internal/module.js:11:18)
+    at Object.<anonymous> (C:\CalcSteps\CalcSteps\functions\lib\index.js:3:1)
+    at Module._compile (module.js:635:30)
+[warn] !  functions: Error from emulator. Error occurred while parsing your function triggers.
+
+TypeError: Cannot read property 'secret' of undefined
+    at Object.<anonymous> (C:\CalcSteps\CalcSteps\functions\lib\app\config.js:35:49)
+    at Module._compile (module.js:635:30)
+    at Object.Module._extensions..js (module.js:646:10)
+    at Module.load (module.js:554:32)
+    at tryModuleLoad (module.js:497:12)
+    at Function.Module._load (module.js:489:3)
+    at Module.require (module.js:579:17)
+    at require (internal/module.js:11:18)
+    at Object.<anonymous> (C:\CalcSteps\CalcSteps\functions\lib\index.js:3:1)
+    at Module._compile (module.js:635:30)
+[debug] [2018-07-26T20:56:10.313Z] 

@@ -1,0 +1,24 @@
+<app-moveable-chip-list [chipArray]=autoCompleteOptions [name]="'Number'"></app-moveable-chip-list>
+<mat-form-field>
+  <mat-select [(ngModel)]="selectedRow[0].numberFunctions.type" placeholder="Type">
+    <mat-option value="Abs">Abs</mat-option>
+    <mat-option value="Ceiling">Ceiling</mat-option>
+    <mat-option value="DecimalPart">Decimal Part</mat-option>
+    <mat-option value="Floor">Floor</mat-option>
+    <mat-option value="Max">Max</mat-option>
+    <mat-option value="Min">Min</mat-option>
+    <mat-option value="Truncate">Truncate</mat-option>
+  </mat-select>
+</mat-form-field>
+<table class="example-full-width" cellspacing="0" *ngIf="selectedRow[0].numberFunctions.type !== ''">
+  <tr>
+    <td>
+      <app-droppable-chip-list [chipArray]=selectedRow[0].numberFunctions.number1 [name]="'Number 1'" [datatype]="'Number'"
+        (dropChip)="dropChip($event, 'number1')" (removeChip)="removeChip($event, 'number1')"></app-droppable-chip-list>
+    </td>
+    <td *ngIf="selectedRow[0].numberFunctions.type === 'Max' || selectedRow[0].numberFunctions.type === 'Min'">
+      <app-droppable-chip-list [chipArray]=selectedRow[0].numberFunctions.number2 [name]="'Number 2'" [datatype]="'Number'"
+        (dropChip)="dropChip($event, 'number2')" (removeChip)="removeChip($event, 'number2')"></app-droppable-chip-list>
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,59 @@
+.example-full-width {
+    width: 100%;
+  }
+
+  .draggable {
+    cursor: move;
+  }
+
+  .container {
+    flex: 1;
+  }
+
+  .container:not(:last-child) {
+    margin-right: 8px;
+  }
+
+  /* Droppable */
+
+  .drag-hint-border {
+    border: #3c763d dashed 2px;
+  }
+
+  .drag-over-border {
+    border: #fbbc05 dashed 2px;
+  }
+
+  .drag-transit {
+    border: #3500FF dashed 2px;
+    opacity: 0.8;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
+  }
+
+  .cdk-drag-preview {
+    transition: box-shadow 280ms cubic-bezier(.4,0,.2,1);
+    display: inline-flex;
+    padding: 7px 12px;
+    border-radius: 16px;
+    align-items: center;
+    cursor: default;
+    min-height: 32px;
+    height: 1px;
+  }
+  .example-custom-placeholder {
+    background: #ccc;
+    border: dotted 3px #999;
+    min-height: 60px;
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+/*
+  .cdk-drop-list-dragging .cdk-drag {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  /* Animate an item that has been dropped. */
+  /* .cdk-drag-animating {
+    transition: transform 300ms cubic-bezier(0, 0, 0.2, 1);
+  } */

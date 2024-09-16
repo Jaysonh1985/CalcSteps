@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Add New Column</h1>
+<div mat-dialog-content>
+  <p>Please name your new column?</p>
+  <mat-form-field>
+    <input placeholder="Name" matInput [(ngModel)]="data.name" required>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial [disabled]="!data.name">OK</button>
+</div>

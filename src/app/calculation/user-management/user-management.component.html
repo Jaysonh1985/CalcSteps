@@ -1,0 +1,35 @@
+<app-toolbar [title]="'User Management'"></app-toolbar>
+<br>
+<div class="container" *ngIf="subscriptionStatus === 'active'">
+  <button mat-raised-button (click)="routerCalculation()">Back to Calculation</button>
+  <h3>Add a New User</h3>
+  <p>Please enter an email below of a user who has an account with CalcSteps.</p>
+  <form [formGroup]="userForm" (ngSubmit)="addUser(userForm.value)" novalidate>
+    <mat-form-field>
+      <input matInput placeholder="Email" type="email" formControlName="email">
+      <mat-error *ngIf="userForm.controls['email'].invalid">{{getEmailErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <br/>
+    <button mat-raised-button type="submit" [disabled]="!userForm.valid">Add User</button>
+  </form>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Email</th>
+        <th scope="col">Name</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of users; let i=index">
+        <td>{{item.email}}</td>
+        <td>{{item.name}}</td>
+        <td> <button mat-raised-button  (click)="deleteUser(i)" *ngIf="item.owner !== true" >Delete User</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="subscriptionStatus !== 'active'">
+  <h3>Please Upgrade</h3>
+  <p>As you currently do not have a subscription please sign up to our premium services to be able to add users to a calculation.</p>
+</div>

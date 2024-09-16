@@ -1,0 +1,30 @@
+<app-moveable-chip-list [chipArray]=autoCompleteOptionsText [name]="'Text'"></app-moveable-chip-list>
+<mat-form-field>
+  <mat-select [(ngModel)]="selectedRow[0].textFunctions.type" placeholder="Type">
+    <mat-option value="AddText">Add Text</mat-option>
+    <mat-option value="Concatenate">Concatenate</mat-option>
+    <mat-option value="Length">Length</mat-option>
+    <mat-option value="Left">Left</mat-option>
+    <mat-option value="Right">Right</mat-option>
+    <mat-option value="StripNumber">Strip Numbers</mat-option>
+    <mat-option value="StripText">Strip Text</mat-option>
+    <mat-option value="Trim">Trim</mat-option>
+  </mat-select>
+</mat-form-field>
+<table class="example-full-width" cellspacing="0" *ngIf="selectedRow[0].textFunctions.type !== ''">
+  <tr>
+    <td>
+      <app-droppable-chip-list [chipArray]=selectedRow[0].textFunctions.text1 [name]="'Text 1'" [datatype]="'Text'"
+        (dropChip)="dropChip($event, 'text1')" (removeChip)="removeChip($event, 'text1')"></app-droppable-chip-list>
+    </td>
+    <td *ngIf="selectedRow[0].textFunctions.type === 'Concatenate'">
+      <app-droppable-chip-list [chipArray]=selectedRow[0].textFunctions.text2 [name]="'Text 2'" [datatype]="'Text'"
+        (dropChip)="dropChip($event, 'text2')" (removeChip)="removeChip($event, 'text2')"></app-droppable-chip-list>
+    </td>
+  </tr>
+  <div *ngIf="selectedRow[0].textFunctions.type === 'Left' || selectedRow[0].textFunctions.type === 'Right'">
+    <app-moveable-chip-list [chipArray]=autoCompleteOptionsNumber [name]="'Number'"></app-moveable-chip-list>
+    <app-droppable-chip-list [chipArray]=selectedRow[0].textFunctions.number1 [name]="'Number 1'" [datatype]="'Number'"
+      (dropChip)="dropChip($event, 'number1')" (removeChip)="removeChip($event, 'number1')"></app-droppable-chip-list>
+  </div>
+</table>

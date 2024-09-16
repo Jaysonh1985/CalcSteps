@@ -1,0 +1,657 @@
+<mat-tab-group>
+  <!-- <mat-tab label="Array">
+    <h3>Overview</h3>
+    <p>
+      This function enables the user to apply various functions to use against Arrays. The first selection box asks for
+      the Incoming Array Data Type.
+      The Array Value is the value of the array that will be passed in this could be hard coded by typing in the arrays
+      or using a variable that contains an array.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>First Date</h3>
+    <p>
+      This will return the first date in the array
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Last Date</h3>
+    <p>
+      This will return the last date in the array
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Count Array Size</h3>
+    <p>
+      Counts the number of items in the array
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Sum</h3>
+    <p>
+      Sums all values in the array
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Product</h3>
+    <p>
+      Multiplies all values in the array
+    </p>
+    <mat-divider></mat-divider>
+    <h3>First Number</h3>
+    <p>
+      This will return the first number in the array
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Last Number</h3>
+    <p>
+      This will return the last number in the array
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Total Period</h3>
+    <p>
+      This add two period values together in the relevant period types
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Sum</h3>
+    <p>
+      Sums all values in the array
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Build Array to Size</h3>
+    <p>
+      Creates an array of a value to the amount of numbers input in the function
+    </p>
+  </mat-tab> -->
+  <!-- <mat-tab label="Comments">
+    <h3>Overview</h3>
+    <p>
+      The comments function allows the user to add comments to the builder, this helps to break down the builder into
+      sub sections by applying a red line and the comment to highlight the comment to the user.
+      To add in a comment there is one box in the function which shows the message which will be displayed in the
+      builder. The variable can’t be used again in the builder this is a cosmetic function only.
+    </p>
+  </mat-tab> -->
+  <!-- <mat-tab label="Data Conversion">
+    <h3>Overview</h3>
+    <p>
+      The Data Conversion function allows the user to take a data type and convert it to another.
+    </p>
+  </mat-tab> -->
+  <mat-tab label="Date Adjustment">
+    <h3>Overview</h3>
+    <p>
+      The Date Adjustment function enables the user to manipulate dates to either add/subtract a period of time or
+      adjust the date to a later or earlier date. The output of this function will be another date.
+    </p>
+    <br />
+    <img class=".header-image" src="../../../../../assets/images/help/functions/Date-Adjustment.JPG" class="center">
+    <br />
+    <mat-divider></mat-divider>
+    <h3>Builder Functions</h3>
+    <p>
+      The user will be presented with a list of chips with the other dates that are output from the calculation, these
+      chips can be dragged into the Date 1 or Date 2 fields when displayed, these will then use the date values stored
+      against these which have been calculated previously.
+      If you do not need to use a previously set value and want to add in a date the user will be shown a calendar icon
+      to set the date you need.
+    </p>
+    <p>
+      The user will be presented with a list of chips with the other Numbers that are output from the calculation,
+      these chips can be dragged into the Period field when displayed, this will add/subtract the relevant period to
+      the date and will use the number previously stored against that variable.
+      If you do not need to use a previously set value and want to add in a number the user will be able to add in a
+      numeric value as an input.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Function Descriptions</h3>
+    <h3> Add/Subtract</h3>
+    <p>
+      The Add and Subtract sub functions allow the user to adjust the date by a period of time. On selecting the
+      Adjustment type as this the user will be shown the below form.
+      The Start Date should be the date to be adjusted, the Period Adjustment section shows what period you would like
+      to adjust date by.
+      Period Type options are below these can be hard coded or a variable previously created for the period which
+      should be a decimal value:
+    </p>
+    <ul>
+      <li>
+        Years Days – This value should be a decimal to 3dp the 3dps equate to the days and the full value is the years.
+      </li>
+      <li>
+        Years Months – This value should be a decimal to 2dp the 2dp equate to the months and the full value is the
+        years.
+      </li>
+      <li>
+        Years – This value should be an integer which will be the years.
+      </li>
+      <li>
+        Months – This value should be an integer which will be the month.
+      </li>
+      <li>
+        Days – This value should be an integer which will be the days.
+      </li>
+    </ul>
+    <mat-divider></mat-divider>
+    <h3>Earlier/Later</h3>
+    <p>
+      The Earlier and Later function will return the earlier/later of the two dates added into the function.
+    </p>
+    <mat-divider></mat-divider>
+    <!-- <h3>Dates Between Two Dates</h3>
+    <p>
+      This function creates an array of the defined date occurrences between two dates. i.e Number of 6th April
+      occurrences between two dates.
+      On selecting this Adjustment Type the below view will be shown, the Start Date and End Date are the criteria of
+      the two dates and Select Day and Select Month will find the dates occurring between these two dates. This will
+      then display an array in the Output on the row as below.
+    </p>
+    <mat-divider></mat-divider> -->
+    <!-- <h3>Months Between Two Dates</h3>
+    <p>
+      This function creates an array of the defined date occurrences between two dates with the day being on the same
+      day for each month in the array. This will count the number of months between the two dates and will create an
+      array value for each of these months.
+    </p> -->
+    <mat-divider></mat-divider>
+    <h3>First Day of Current Month</h3>
+    <p>
+      This function allows the user to return first day of the current month.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Last Day of Current Month</h3>
+    <p>
+      This function allows the user to return last day of the current month.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Today</h3>
+    <p>
+      This function allows the user to return the current date.
+    </p>
+    <!-- <mat-divider></mat-divider>
+    <h3>Adjust Day and Month</h3>
+    <p>
+      This function allows the user to set a date using the day and month to a date nearest to the date input in the
+      direction required.
+    </p>
+    <h3>Adjust Day</h3>
+    <p>
+      This function allows the user to set a date using the day to a date nearest to the date input in the direction
+      required.
+    </p> -->
+  </mat-tab>
+  <mat-tab label="Date Duration">
+    <h3>Overview</h3>
+    <p>
+      This function calculates the period between two dates that have been input into the function. The Adjustment Type
+      can be set to be a specific period to be returned and this function will return a Numeric value.
+    </p>
+    <br />
+    <img class=".header-image" src="../../../../../assets/images/help/functions/Date-Duration.JPG" class="center">
+    <br />
+    <mat-divider></mat-divider>
+    <h3>Builder Functions</h3>
+    <p>
+      The user will be presented with a list of chips with the other dates that are output from the calculation, these
+      chips can be dragged into the Date 1 or Date 2 fields when displayed, these will then use the date values stored
+      against these which have been calculated previously.
+      If you do not need to use a previously set value and want to add in a date the user will be shown a calendar icon
+      to set the date you need.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Function Descriptions</h3>
+    <h3>Types</h3>
+    <p>
+      The following Period Types will be accessible for the user:
+    </p>
+    <ul>
+      <!-- <li>
+          Years Days – This value would return a decimal to 3dps the 3dps equates to the days and the full value is the
+          years
+      </li>
+      <li>
+          Years Months – This value would return a decimal to 2dps the 2dps equates to the months and the full value is the
+          years
+      </li>
+      <li>
+          Years Days (Decimal 6dp) – This value would return a decimal to 6dps which will be days divided by 365
+      </li>
+      <li>
+          Years Months (Decimal 6dp) – This value would return a decimal to 6dps which will be months divided by 12
+      </li> -->
+      <li>
+        Years – This value return an integer which will be the years
+      </li>
+      <li>
+        Years Fraction – This value return an numeric value that provides the full year and days divided by 365,
+        rounded to 2 decimal places
+      </li>
+      <li>
+        Months – This value return an integer which will be the months
+      </li>
+      <li>
+        Days – This value return an integer which will be the days
+      </li>
+    </ul>
+    <!-- <mat-divider></mat-divider>
+    <h3>Rounding</h3>
+    <p>
+      The Rounding and Adjustment Section is used to control the parameters that the calculation requires. Inclusive
+      defines whether to include the last day in the calculation. The Days in Year allows a different number of days in
+      the year to be used as the yearly value options of these are below:
+      365 – 365 days per year
+      365.25 – 365.25 days per year
+      366 – 366 days per year
+    </p> -->
+  </mat-tab>
+  <!-- <mat-tab label="Date Part">
+    <h3>Overview</h3>
+    <p>
+      This function allows the user to get a part of the date.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Year</h3>
+    <p>
+      Returns the Year of the date
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Month</h3>
+    <p>
+      Returns the Month of the date
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Day</h3>
+    <p>
+      Returns the Day of the date
+    </p>
+  </mat-tab> -->
+  <!-- <mat-tab label="Errors/Warnings">
+    <h3>Overview</h3>
+    <p>
+      This function allows the configuration to display error and warning messages that depends on the logic being met.
+      This function requires the logic function on the row being met and should be used for scenarios not being met in
+      the calculation or data not being correct. The message will always be a string that is hard coded in. The Type
+      options are below:
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Error</h3>
+    <p>
+      Displays an Error message for when the calculation data can’t be guaranteed
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Warning</h3>
+    <p>
+      Displays a Warning message to highlight to the user that some information must be checked before accepting the
+      results.
+    </p>
+  </mat-tab> -->
+  <mat-tab label="Distance">
+    <h3>Overview</h3>
+    <p>This function calculates the distance between two places and uses the google maps API to generate miles via
+      roads between two points. The user can find the number of miles between two place names or by post codes. This
+      also accounts for overseas locations however, they need to be accessible by road.
+    </p>
+    <br />
+    <img class=".header-image" src="../../../../../assets/images/help/functions/Distance.JPG" class="center">
+    <br />
+    <mat-divider></mat-divider>
+    <h3>Builder Functions</h3>
+    <p>
+      The user will be presented with a list of chips with the other text values that are output from the calculation,
+      these
+      chips can be dragged into the Origin or Destination fields when displayed, these will then use the text values
+      stored
+      against these which have been calculated previously.
+      If you do not need to use a previously set value and want to add in a text the user can type whatever text in the
+      input box as required.
+    </p>
+  </mat-tab>
+  <mat-tab label="If Logic">
+    <h3>Overview</h3>
+    <p>
+      The If Logic function allows the user to create a formula to determine if a logic is true or false this logical
+      check will provide a true or false response dependant on the formula that has been passed through.
+      This true or false value can then be used on the top of each function in the If Logic input field to determine
+      when to use the function.
+    </p>
+    <br />
+    <img class=".header-image" src="../../../../../assets/images/help/functions/If-Logic.JPG" class="center">
+    <br />
+    <mat-divider></mat-divider>
+    <h3>Builder Functions</h3>
+    <p>
+      An if logic function can only be used on one data type that is passed through so it can only do a logic on for
+      example two Number fields or two Date fields, this is to ensure that the user is comparing to fields in the same
+      data type.
+      So the function requires the user to input the data type that will be used in the drop down field.
+    </p>
+    <p>
+      After the user has selected the relevant data type, the function will present with a list of chips with the other
+      values based on that data type that are output from the calculation, these
+      chips can be dragged into the formula field when displayed for use within the function, these will then use the
+      relevant data fields values stored against these which have been calculated previously.
+      If you do not need to use a previously set value there will be an input field to add the relevant data type to
+      the formula and want to add in a the relevant value that is required.
+    </p>
+    <p>
+      In the formula field the user can move around the various inputs within the formula to reposition them where
+      required, this also works when adding in a chip to the field. If the user is adding in a value that is not a chip
+      this will be added to the end.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Function Descriptions</h3>
+    <h3>Operators</h3>
+    <p>
+      In order to build the formula the function requires various operators in order to determine if the if logic
+      condition is correct, please see below a list of available operators and their function, please note these should
+      be used within the formula in the correct place, in the event that they are not in the correct place the
+      calculation will output false.
+    </p>
+    <ul>
+      <li>
+        == - Equal
+      </li>
+      <li>
+        != - Not Equal
+      </li>
+      <li>
+        > - Greater Than
+      </li>
+      <li>
+        >= - Greater Than or Equal To
+      </li>
+      <li>
+        &lt; - Less Than </li>
+      <li>
+        &lt;= - Less Than or Equal To </li>
+      <li>
+        ( - Open Bracket for Multiple Conditions
+      </li>
+      <li>
+        ) - Close Bracket for Multiple Conditions
+      </li>
+      <li>
+        and - And for Multiple Conditions
+      </li>
+      <li>
+        or - Or for Multiple Conditions
+      </li>
+    </ul>
+  </mat-tab>
+  <mat-tab label="Lookup Table">
+    <h3>Overview</h3>
+    <p>
+      This function enables the calculation to lookup a table from Lookup Maintenance to return a value like the
+      VLOOKUP function in Excel. The Lookup Maintenance function builds the table and stores it against your user
+      profile. The table can then be used in this function by selecting the table required.
+    </p>
+    <br />
+    <img class=".header-image" src="../../../../../assets/images/help/functions/Lookup-Table.JPG" class="center">
+    <br />
+    <mat-divider></mat-divider>
+    <h3>Builder Functions</h3>
+    <p>
+      An if Lookup Table function can only be used on one data type that is passed through so it can do a lookup on for
+      example a Number fields or a Date field, this is to ensure that the function can find the correct value based on
+      the data type.
+      So the function requires the user to input the Lookup Data Type that will be used in the drop down field.
+    </p>
+    <p>
+      After the user has selected the relevant data type, the function will present with a list of chips with the other
+      values based on that data type that are output from the calculation, these
+      chips can be dragged into the Lookup Value field when displayed for use within the function, these will then use
+      the
+      relevant data fields values stored against these which have been calculated previously.
+      If you do not need to use a previously set value there will be an input field to add the relevant data type to
+      the Lookup Value and want to add in a the relevant value that is required.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Function Descriptions</h3>
+    <h3>Table Name</h3>
+    <p>
+      The name of the available Lookup Table names in Lookup Maintentence, see the Lookup Table Maintenance section to
+      find a
+      list of available factor tables to use.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Lookup Data Type</h3>
+    <p>
+      This will be the data type required to do the lookup, this needs to be set to ensure that the function can find
+      the relevant lookup value.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Lookup Value</h3>
+    <p>
+      This is the value that the function will use to lookup the table in lookup maintenance. This will always lookup
+      the first column in the table to find the value.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Columns</h3>
+    <p>
+      This is the column to return from the lookup table, this will be a list of the column names on the Lookup
+      Maintenance Table, please select the column where the value you with to return is held.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Output Data Type</h3>
+    <p>
+      This is the output data type to define the return data type from the factor table which can then be used in other
+      functions. So the user may look up a date in the first column but will return a number against that the number
+      can then be used as that data type else where within the calculation.
+    </p>
+    <mat-divider></mat-divider>
+    <!-- <h3>Row Match Row Number</h3>
+    <p>
+      Defines which row to use to lookup the value to find the column
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Row Match Lookup Type</h3>
+    <p>
+      Defines the data type to lookup the value to find the column
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Row Match Value</h3>
+    <p>
+      Defines the value to lookup to find the column
+    </p> -->
+    <mat-divider></mat-divider>
+  </mat-tab>
+  <!-- <mat-tab label="Function">
+    <h3>Overview</h3>
+    <p>
+      This function enables the user to create a dynamic form in the release environment so that the configuration can
+      be
+      used. It also creates the variables that can be used within the calculation.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Variable</h3>
+    <p>
+      This field is the variable which can be used within the remainder of the calculation and should contain no spaces
+      a
+      validation will be shown if spaces are contained
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Label on Form</h3>
+    <p>
+      This field gives a logical name to the form field for when the configuration has been released so that the end
+      user
+      understands what data is required
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Type</h3>
+    <p>
+      This field assigns a data type to the variable this will be used so that when the variable is referenced it is
+      referenced in the data field on other functions correctly
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Required</h3>
+    <p>
+      This field sets whether the input should always be input into the calculation this is used in both the builder
+      and
+      in the end user form in the released system
+    </p>
+    <mat-divider></mat-divider>
+    <h3>List</h3>
+    <p>
+      This field sets whether the field should be a list or not, if this is selected the field for List in Comma
+      Separated List field should be displayed
+    </p>
+    <mat-divider></mat-divider>
+    <h3> List in Comma Separated List</h3>
+    <p>
+      This field sets this list values that will be displayed to the user If a List is selected then the user will be
+      shown a drop down list of the values in List in Comma Separated List to validate the data so that the user
+      doesn’t
+      input the data in incorrectly, like in the Gender data type.
+    </p>
+    <mat-divider></mat-divider>
+  </mat-tab> -->
+  <mat-tab label="Maths">
+    <h3>Overview</h3>
+    <p>
+      The Maths function allows the user to create a formula to calculate a Number value based.
+    </p>
+    <br />
+    <img class=".header-image" src="../../../../../assets/images/help/functions/Maths.JPG" class="center">
+    <br />
+    <mat-divider></mat-divider>
+    <h3>Builder Functions</h3>
+    <p>
+      The user will be presented with a list of chips with the other Number values that are output from the
+      calculation,
+      these chips can be dragged into the Formula field when displayed, these will then use the Number values
+      stored
+      against these which have been calculated previously.
+      If you do not need to use a previously set value and want to add in a Numeric value in the Add Number input box
+      as required and by clicking away this will add the value into the formula at the end.
+    </p>
+    <p>
+      In the formula field the user can move around the various inputs within the formula to reposition them where
+      required, this also works when adding in a chip to the field. If the user is adding in a value that is not a chip
+      this will be added to the end.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Function Descriptions</h3>
+    <h3>Operators</h3>
+    <p>
+      In order to build the formula the function requires various operators in order to calculate the mathmatical
+      formula, please see below a list of available operators and their function, please note these should
+      be used within the formula in the correct place, in the event that they are not in the correct place the
+      calculation will output 0.
+    </p>
+    <ul>
+      <li>
+        ( - Open Bracket for Multiple Calculations
+      </li>
+      <li>
+        ) - Close Bracket for Multiple Calculations
+      </li>
+      <li>
+        + - Add
+      </li>
+      <li>
+        - - Subtract
+      </li>
+      <li>
+        * - Mulitple
+      </li>
+      <li>
+        / - Divide
+      </li>
+      <li>
+        ^ - Power
+      </li>
+    </ul>
+  </mat-tab>
+  <mat-tab label="Number Functions">
+    <h3>Overview</h3>
+    <p>
+      This function provides an extension to the Maths function to apply to Decimal data types. The function will
+      display
+      with either two available numbers or one available number based upon the Type sub function selected. The types
+      available are outlined below.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Abs</h3>
+    <p>
+      Converts a negative decimal value to a positive
+    </p>
+    <mat-divider></mat-divider>
+    <!-- <h3>Add Period</h3>
+    <p>
+      Returns the added value of two periods (Years Days or Years Months)
+    </p> -->
+    <!-- <mat-divider></mat-divider> -->
+    <h3>Ceiling</h3>
+    <p>
+      Returns the round up to an integer of a value
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Decimal Part</h3>
+    <p>
+      Returns the decimal part of a value
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Floor</h3>
+    <p>
+      Returns the round down to an integer of a value
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Max</h3>
+    <p>
+      Returns the maximum of two values
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Min</h3>
+    <p>
+      Returns the minimum of two values
+    </p>
+    <!-- <mat-divider></mat-divider>
+    <h3>Sum Number Rows Above</h3>
+    <p>
+      Returns the sum of the number rows above based on the number of rows above input by the user, this is good for
+      summing lots of figures in the builder.
+    </p> -->
+    <!-- <mat-divider></mat-divider>
+    <h3>Subtract Period</h3>
+    <p>
+      Returns the subtracted value of two periods (Years Days and Years Months)
+    </p> -->
+    <mat-divider></mat-divider>
+    <h3>Truncate</h3>
+    <p>
+      Returns the integer part of a decimal
+    </p>
+    <mat-divider></mat-divider>
+  </mat-tab>
+  <mat-tab label="Text Functions">
+    <h3>Overview</h3>
+    <p>
+      This function is used to manipulate or analyse a string value. This function accepts hard coded strings or
+      variables that have been used. There is no validation applied on the string field as the string should be open to
+      be manipulated in the event that a hard coded string is being used, although if a variable is set previous with
+      that string value it will take that variable value rather than using the string.
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Add Text</h3>
+    <p>
+      Allows the user to find in a string if text exists and what position in the text it appears
+    </p>
+    <mat-divider></mat-divider>
+    <h3>Concatenate </h3>
+    <p>
+      Allows the user to set a string which combines two string values
+    </p>
+    <mat-divider></mat-divider>
+    <!-- <h3>Left / Right</h3>
+    <p>
+      Returns the part of the string to the left or right of the string by the number set in the number field
+    </p> -->
+    <h3>Length</h3>
+    <p>
+      Returns the length of the string as an integer
+    </p>
+    <mat-divider></mat-divider>
+  </mat-tab> -->
+  <!-- <mat-tab label="Table">
+    <h3>Overview</h3>
+    <p>
+      This function is used to show a data set in a table form the user can select multiple variables and after
+      calculation the table icon will be shown on click the values will appear in table form.
+    </p>
+  </mat-tab> -->
+</mat-tab-group>

@@ -1,0 +1,29 @@
+.formcontainer {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  top: 35%;
+  left: 25%;
+}
+
+.centeredlogo {
+  text-align: center !important;
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  color: white;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  font-size: 25px;
+}
+
+.subheadercentered {
+  text-align: center !important;
+  position: absolute;
+  top: 55%;
+  left: 20%;
+  color: white;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}

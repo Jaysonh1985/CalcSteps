@@ -1,0 +1,57 @@
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start stretch" fxLayoutGap="10px" fxLayoutGap.xs="0" style="height:90%">
+  <div class="item item-1" [style.display]="getCalcStyle()" [@moveIn]="getResultTransition()" fxFlex>
+     <mat-toolbar style="background: darkslateblue;
+    color: white;">
+      <mat-toolbar-row>
+        <h4>{{calculationName}}
+        </h4>
+        <span class="example-spacer"></span>
+        <button mat-raised-button (click)="onCalc()" style="background: darkslateblue;
+        color: white;">Calculate</button>
+        <button mat-raised-button (click)="onReset()" style="background: darkslateblue;
+        color: white;">Reset</button>
+        <!-- <button mat-raised-button (click)="onExit()" style="background: darkslateblue;
+        color: white;">Exit</button> -->
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-progress-bar mode="determinate" value="{{this.loadingProgress}}"></mat-progress-bar>
+    <mat-card>
+      <mat-card-header>
+        <span class="error" *ngIf="errors.length > 0">
+          <h3>Errors</h3>
+          <ul *ngFor="let item of errors">
+            <li>{{item}}</li>
+          </ul>
+        </span>
+      </mat-card-header>
+      <mat-card-content>
+        <div id="left" *ngIf='calculationInput'>
+          <app-calculation-input [calculationInput]="calculationInput" [release]=true></app-calculation-input>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="item item-2" [style.display]="getResultStyle()" [@moveIn]="getResultTransition()" fxFlex>
+      <mat-toolbar style="background: darkslateblue;
+      color: white;">
+        <mat-toolbar-row>
+          <h4>{{calculationName}}
+          </h4>
+          <span class="example-spacer"></span>
+           <button mat-raised-button (click)="routeInput()" style="background: darkslateblue;
+           color: white;">Go Back to Input</button>
+        </mat-toolbar-row>
+      </mat-toolbar>
+    <mat-card>
+      <mat-card-content>
+        <div style="display: none" *ngIf="calculationConfiguration" id="middle">
+          <app-calculation-configuration [calculationConfiguration]="calculationConfiguration">
+          </app-calculation-configuration>
+        </div>
+        <div id="right" *ngIf='calculationOutput'>
+          <app-calculation-output [calculationOutput]="calculationOutput" [release]=true></app-calculation-output>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
